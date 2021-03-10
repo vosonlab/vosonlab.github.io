@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:dc="http://purl.org/dc/elements/1.1/" version="2.0">
+  <channel>
+    <title>VOSON Lab Coding Blog</title>
+    <link>https://vosonlab.github.io/</link>
+    <atom:link href="https://vosonlab.github.io/index.xml" rel="self" type="application/rss+xml"/>
+    <description>Virtual Observatory for the Study of Online Networks (VOSON) Lab, Australian National University
+</description>
+    <generator>Distill</generator>
+    <lastBuildDate>Thu, 11 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Creating Twitter Networks with vosonSML using rtweet Data</title>
+      <dc:creator>Francisca Borquez</dc:creator>
+      <dc:creator>Bryan Gertzel</dc:creator>
+      <link>https://vosonlab.github.io/posts/2021-02-11_twitter_vsml_from_rtweet</link>
+      <description>Simple guide to collecting data with rtweet and generating networks with vosonSML.</description>
+      <category>rstats</category>
+      <category>twitter</category>
+      <category>vosonSML</category>
+      <category>rtweet</category>
+      <category>networks</category>
+      <guid>https://vosonlab.github.io/posts/2021-02-11_twitter_vsml_from_rtweet</guid>
+      <pubDate>Thu, 11 Feb 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://vosonlab.github.io/posts/2021-02-11_twitter_vsml_from_rtweet/rtweet_logo_preview.png" medium="image" type="image/png" width="432" height="499"/>
+    </item>
+    <item>
+      <title>Welcome to the VOSON Lab Coding Blog</title>
+      <dc:creator>VOSONLab</dc:creator>
+      <link>https://vosonlab.github.io/posts/2021-02-05_welcome</link>
+      <description>The coding blog is a space to share tools, methods, tips, examples and code. A place to collect data, construct and analyse online networks.</description>
+      <category>Rstats</category>
+      <category>Social Network Analysis</category>
+      <category>Computational Social Methods</category>
+      <guid>https://vosonlab.github.io/posts/2021-02-05_welcome</guid>
+      <pubDate>Thu, 04 Feb 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://vosonlab.github.io/posts/2021-02-05_welcome/VOSON-tools.png" medium="image" type="image/png" width="800" height="390"/>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,17 @@
+.distill-site-header .logo img {
+    max-height: 35px;
+    margin-bottom: -12px;
+    margin-top: 8px;
+}
+
+.posts-list-caption {
+  margin-top: 0px;
+}
+
+d-title {
+  padding-bottom: 0 !important;
+}
+
+d-byline {
+  padding: 0.2rem 0 !important;
+}

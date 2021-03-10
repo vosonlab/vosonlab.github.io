@@ -1,0 +1,39 @@
+---
+title: "Welcome to the VOSON Lab Coding Blog"
+description: |
+  The coding blog is a space to share tools, methods, tips, examples and code. A place to collect data, construct and analyse online networks.
+author:
+  - name: VOSONLab 
+    url: http://vosonlab.net/
+    affiliation: VOSON Lab, School of Sociology, The Australian National University
+    affiliation_url: http://vosonlab.net/
+date: February 4, 2021
+categories:
+  - Rstats
+  - Social Network Analysis
+  - Computational Social Methods
+preview: VOSON-tools.png
+output:
+  distill::distill_article:
+    self_contained: false
+---
+
+Welcome to the [VOSON Lab](http://vosonlab.net/) Coding Blog! We have created this space to share methods, tips, examples and code. A place to collect data, construct and analyse online networks. 
+
+Most of our posts will cover techniques around the tools we have developed at the Lab: `vosonSML` and `VOSONDash`, which are available on CRAN and Github. In this space, we also plan to cover other complementary R packages and open-source software such as: the Tidyverse, `igraph`, `Shiny` and `gephi`.
+
+### VOSON Lab Open Source Tools
+
+![VOSON Tools](VOSON-tools.png)
+`vosonSML` is a R package for social media data collection (Twitter, YouTube and Reddit) and network generation. `VOSONDash` is a `Shiny` app which integrates tools for visualizing and manipulating network graphs, performing network and text analysis, and a collection interface for `vosonSML`.
+
+More information on these tools can be found on their GitHub pages: [`vosonSML`](https://github.com/vosonlab/vosonSML) and
+[`VOSONDash`](https://github.com/vosonlab/VOSONDash). 
+
+For more detailed information, check the [vosonSML Vignette](https://vosonlab.github.io/vosonSML/articles/Intro-to-vosonSML.html) and the [VOSON Dash Userguide](https://vosonlab.github.io/VOSONDashDocs/). 
+
+We hope you find this information useful!
+
+The VOSON Lab team.
+
+*Virtual Observatory for the Study of Online Networks [VOSON Lab](http://vosonlab.net/), School of Sociology, The Australian National University.*
