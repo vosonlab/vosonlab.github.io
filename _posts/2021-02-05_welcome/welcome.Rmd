@@ -20,7 +20,7 @@ output:
 
 Welcome to the [VOSON Lab](http://vosonlab.net/) Coding Blog! We have created this space to share methods, tips, examples and code. A place to collect data, construct and analyse online networks. 
 
-Most of our posts will cover techniques around the tools we have developed at the Lab: `vosonSML` and `VOSONDash`, which are available on CRAN and Github. In this space, we also plan to cover other complementary R packages and open-source software such as: the Tidyverse, `igraph`, `Shiny` and `gephi`.
+Most of our posts will cover techniques around the tools we have developed at the Lab: `vosonSML` and `VOSONDash`, which are available on CRAN and Github. In this space, we also plan to cover other complementary R packages and open-source software such as within the `Tidyverse`, `Shiny`, `igraph` and `gephi`.
 
 ### VOSON Lab Open Source Tools
 

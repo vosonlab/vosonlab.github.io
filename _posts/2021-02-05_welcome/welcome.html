@@ -1262,7 +1262,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
       // hoverable references
       $('span.citation[data-cites]').each(function() {
-        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        var refs = $(this).attr('data-cites').split(" ");
+        var refHtml = refs.map(function(ref) {
+          return "<p>" + $('#ref-' + ref).html() + "</p>";
+        }).join("\n");
         window.tippy(this, {
           allowHTML: true,
           content: refHtml,
@@ -1483,7 +1486,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-article">
 <p>Welcome to the <a href="http://vosonlab.net/">VOSON Lab</a> Coding Blog! We have created this space to share methods, tips, examples and code. A place to collect data, construct and analyse online networks.</p>
-<p>Most of our posts will cover techniques around the tools we have developed at the Lab: <code>vosonSML</code> and <code>VOSONDash</code>, which are available on CRAN and Github. In this space, we also plan to cover other complementary R packages and open-source software such as: the Tidyverse, <code>igraph</code>, <code>Shiny</code> and <code>gephi</code>.</p>
+<p>Most of our posts will cover techniques around the tools we have developed at the Lab: <code>vosonSML</code> and <code>VOSONDash</code>, which are available on CRAN and Github. In this space, we also plan to cover other complementary R packages and open-source software such as within the <code>Tidyverse</code>, <code>Shiny</code>, <code>igraph</code> and <code>gephi</code>.</p>
 <h3 id="voson-lab-open-source-tools">VOSON Lab Open Source Tools</h3>
 <p><img src="VOSON-tools.png" alt="VOSON Tools" /> <code>vosonSML</code> is a R package for social media data collection (Twitter, YouTube and Reddit) and network generation. <code>VOSONDash</code> is a <code>Shiny</code> app which integrates tools for visualizing and manipulating network graphs, performing network and text analysis, and a collection interface for <code>vosonSML</code>.</p>
 <p>More information on these tools can be found on their GitHub pages: <a href="https://github.com/vosonlab/vosonSML"><code>vosonSML</code></a> and <a href="https://github.com/vosonlab/VOSONDash"><code>VOSONDash</code></a>.</p>

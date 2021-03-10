@@ -1263,7 +1263,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
       // hoverable references
       $('span.citation[data-cites]').each(function() {
-        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        var refs = $(this).attr('data-cites').split(" ");
+        var refHtml = refs.map(function(ref) {
+          return "<p>" + $('#ref-' + ref).html() + "</p>";
+        }).join("\n");
         window.tippy(this, {
           allowHTML: true,
           content: refHtml,
@@ -1592,19 +1595,25 @@ Figure 1: rstats2twitter app authorization
 </div>
 <p>This contains all of the data necessary for <code>vosonSML</code> to construct Twitter networks.</p>
 <h3 id="save-the-data">Save the Data</h3>
-<p>The <code>rtweet</code> package has a method to save Twitter data to file in CSV format with the <code>write_as_csv</code> function.</p>
+<p>There are a few methods of saving data depending on where and how it will be used. Two common methods are to use a text-based file format such as a <a href="https://en.wikipedia.org/wiki/Comma-separated_values">CSV</a>, or alternatively if the data will be used within <code>R</code> we can save the <code>dataframe</code> object to a binary compressed <code>RDS</code> (R data object) file using <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/readRDS.html"><code>saveRDS</code></a> instead. Conveniently, the <code>rtweet</code> package has a method to save Twitter data to file in <code>CSV</code> format with the <a href="https://docs.ropensci.org/rtweet/reference/write_as_csv.html"><code>write_as_csv</code></a> function that takes care of Twitter nested data and conversion issues, and saving an RDS file is also very easy as follows.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='fu'><a href='https://rdrr.io/pkg/rtweet/man/write_as_csv.html'>write_as_csv</a></span><span class='op'>(</span><span class='va'>auspol_tweets</span>, <span class='st'>"auspol_tweets.csv"</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># save data using rtweet write csv</span>
+<span class='fu'><a href='https://rdrr.io/pkg/rtweet/man/write_as_csv.html'>write_as_csv</a></span><span class='op'>(</span><span class='va'>auspol_tweets</span>, <span class='st'>"auspol_tweets.csv"</span><span class='op'>)</span>
+
+<span class='co'># save data to file as an R data object</span>
+<span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>saveRDS</a></span><span class='op'>(</span><span class='va'>auspol_tweets</span>, <span class='st'>"auspol_tweets.rds"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
 <h2 id="creating-networks-with-vosonsml">Creating Networks with vosonSML</h2>
 <h3 id="read-the-data">Read the Data</h3>
-<p>If the data was saved to file with the <code>rtweet</code> function <code>write_as_csv</code> it can be read again using <code>read_twitter_csv</code>.</p>
+<p>If the data was saved to file with the <code>rtweet</code> function <code>write_as_csv</code> it can be read again using <code>read_twitter_csv</code> or <code>readRDS</code> if from an <code>RDS</code> file.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='va'>auspol_tweets</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/rtweet/man/read_twitter_csv.html'>read_twitter_csv</a></span><span class='op'>(</span><span class='st'>"auspol_tweets.csv"</span><span class='op'>)</span>
+
+<span class='va'>auspol_tweets</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='st'>"auspol_tweets.rds"</span><span class='op'>)</span>
 </code></pre>
 </div>
 </div>
@@ -1673,7 +1682,7 @@ Done.</code></pre>
 </div>
 <pre><code>Creating igraph network graph...Done.</code></pre>
 </div>
-<p>The resulting <code>igraph</code> network can then be plotted.</p>
+<p>That’s all there is to it, and now the resulting <code>igraph</code> network can be plotted.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://igraph.org'>igraph</a></span><span class='op'>)</span>
@@ -1693,7 +1702,7 @@ Figure 2: Actor network graph for collected #auspol tweets
 </p>
 </div>
 </div>
-<p>For further information about <code>rtweet</code>, its features and how to use it to collect twitter data please refer to the <a href="https://github.com/ropensci/rtweet">package site</a> and introductory <a href="https://cran.r-project.org/web/packages/rtweet/vignettes/intro.html">rtweet vignette</a>. For creating different types of networks with <code>vosonSML</code> see the introductory <a href="https://cran.r-project.org/web/packages/vosonSML/vignettes/Intro-to-vosonSML.html">vosonSML vignette</a>.</p>
+<p>For further information about <code>rtweet</code>, its features and how to use it to collect twitter data please refer to the <a href="https://github.com/ropensci/rtweet">package site</a> and introductory <a href="https://cran.r-project.org/web/packages/rtweet/vignettes/intro.html">rtweet vignette</a>. For creating different types of networks such as the <code>activity</code>, <code>2-mode</code> and <code>semantic</code> types with <code>vosonSML</code> see the <a href="https://vosonlab.github.io/vosonSML">package documentation</a> and introductory <a href="https://cran.r-project.org/web/packages/vosonSML/vignettes/Intro-to-vosonSML.html">vosonSML vignette</a>.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

@@ -75,20 +75,26 @@ This contains all of the data necessary for `vosonSML` to construct Twitter netw
 
 ### Save the Data
 
-The `rtweet` package has a method to save Twitter data to file in CSV format with the `write_as_csv` function.
+There are a few methods of saving data depending on where and how it will be used. Two common methods are to use a text-based file format such as a [CSV](https://en.wikipedia.org/wiki/Comma-separated_values), or alternatively if the data will be used within `R` we can save the `dataframe` object to a binary compressed `RDS` (R data object) file using [`saveRDS`](https://stat.ethz.ch/R-manual/R-devel/library/base/html/readRDS.html) instead. Conveniently, the `rtweet` package has a method to save Twitter data to file in `CSV` format with the [`write_as_csv`](https://docs.ropensci.org/rtweet/reference/write_as_csv.html) function that takes care of Twitter nested data and conversion issues, and saving an RDS file is also very easy as follows.
 
 ```{r echo=TRUE, eval=TRUE}
+# save data using rtweet write csv
 write_as_csv(auspol_tweets, "auspol_tweets.csv")
+
+# save data to file as an R data object
+saveRDS(auspol_tweets, "auspol_tweets.rds")
 ```
 
 ## Creating Networks with vosonSML
 
 ### Read the Data
 
-If the data was saved to file with the `rtweet` function `write_as_csv` it can be read again using `read_twitter_csv`.
+If the data was saved to file with the `rtweet` function `write_as_csv` it can be read again using `read_twitter_csv` or `readRDS` if from an `RDS` file.
 
 ```{r echo=TRUE, eval=TRUE}
 auspol_tweets <- read_twitter_csv("auspol_tweets.csv")
+
+auspol_tweets <- readRDS("auspol_tweets.rds")
 ```
 
 ### Prepare the Data
@@ -138,7 +144,7 @@ auspol_actor_network <- Create(auspol_tweets, "actor")
 auspol_actor_graph <- Graph(auspol_actor_network)
 ```
 
-The resulting `igraph` network can then be plotted.
+That's all there is to it, and now the resulting `igraph` network can be plotted.
 
 ```{r vsml-actor-graph, echo=TRUE, eval=TRUE, fig.cap="Actor network graph for collected #auspol tweets"}
 library(igraph)
@@ -151,4 +157,4 @@ plot(auspol_actor_graph, layout = layout_with_fr(auspol_actor_graph),
      vertex.label = NA, vertex.size = 6, edge.arrow.size = 0.4)
 ```
 
-For further information about `rtweet`, its features and how to use it to collect twitter data please refer to the [package site](https://github.com/ropensci/rtweet) and introductory [rtweet vignette](https://cran.r-project.org/web/packages/rtweet/vignettes/intro.html). For creating different types of networks with `vosonSML` see the introductory [vosonSML vignette](https://cran.r-project.org/web/packages/vosonSML/vignettes/Intro-to-vosonSML.html). 
+For further information about `rtweet`, its features and how to use it to collect twitter data please refer to the [package site](https://github.com/ropensci/rtweet) and introductory [rtweet vignette](https://cran.r-project.org/web/packages/rtweet/vignettes/intro.html). For creating different types of networks such as the `activity`, `2-mode` and `semantic` types with `vosonSML` see the [package documentation](https://vosonlab.github.io/vosonSML) and introductory [vosonSML vignette](https://cran.r-project.org/web/packages/vosonSML/vignettes/Intro-to-vosonSML.html). 
