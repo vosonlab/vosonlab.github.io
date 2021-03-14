@@ -1,0 +1,23 @@
+---
+title: "Hyperlink Networks with vosonSML"
+description: |
+  An introduction to creating hyperlink networks with vosonSML.
+author:
+  - name: Francisca Borquez
+    affiliation: VOSON Lab
+    affiliation_url: http://vosonlab.net/
+  - name: Bryan Gertzel
+date: 2021-03-15
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+---
+
+## Introduction
+
+With over 3,000 registered users worldwide, a considerable number of academic publications using VOSON, and its high usage rate as an empirical tool for hyperlink and text data collection, we decided to integrate VOSON abilities into our open-source R package: vosonSML. 
+
+## Collect Hyperlinks
+
+## Create a Network
