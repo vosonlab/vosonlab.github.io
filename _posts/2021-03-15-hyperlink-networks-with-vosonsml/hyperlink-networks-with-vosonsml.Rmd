@@ -16,15 +16,15 @@ draft: true
 
 With over 3,000 registered users worldwide, a considerable number of academic publications using `VOSON`, and its high usage rate as an empirical tool for hyperlink and text data collection, we decided to integrate `VOSON` abilities into our open-source R package: `vosonSML`.
 
-Hyperlink collection is available in `voson.sml` development version 0.30.900, on [GitHub](https://github.com/vosonlab/vosonSML).
+Hyperlink collection is now available in `voson.sml` development version 0.30.900, on [GitHub](https://github.com/vosonlab/vosonSML).
 
 
 ## Introduction
 
-The Web 1.0, extensive network of websites, has been widely studied and continue to be relevant for researchers. Some examples of research include studying the Political Blogosphere and the 2004 U.S. Election (Adamic and Glance, 2005), and the online environmental movement (Ackland and O’Neil, 2010). 
+The Web 1.0 -- extensive network of websites- has been widely studied and continue to be relevant for researchers. Some examples of research include studying online social movements (Ackland and O’Neil, 2011; Lusher and Ackland, 2011; McIlwain, 2017), and networks around issue spheres (Adamic and Glance, 2005; Ackland and Evans, 2015). 
 
-![The Online Environmental Movement](OEM.png)
-*Fig. 1: The Online Environmental Movement hyperlink network. Node colour reflect sub-movements: ´Bios´- red diamonds; 'Globals'- blue circles; and 'Toxics' - green square (Ackland and O'Neil, 2010, p.183).* 
+![](OEM.png)
+*Fig. 1: The Online Environmental Movement hyperlink network. Node colour reflect sub-movements: ´Bios´- red diamonds; 'Globals'- blue circles; and 'Toxics' - green square (Ackland and O'Neil, 2011, p.183).* 
 
 From a social science perspective, there is a wide range of tools available for studying hyperlink networks. Some examples are:
 
@@ -54,13 +54,19 @@ Ten years after, we decided to make the ´VOSON´ legacy available via open-sour
 ## References
 [FB- If we agree to keep the citation, we will have to generate a Bibtex file ]
 
+Ackland, R. and Evans, A. (2017), "Using the Web to Examine the Evolution of the Abortion Debate in Australia 2005-2015," in N. Brügger and R. Schroeder (eds), Web as History. London: UCL Press.
+
 Ackland, R., O'Neil, M., Standish, R., & Buchhorn, M. (2006). VOSON: A Web Services Approach for Facilitating Research into Online Networks. In Second International e-Social Science Conference, 28-30 June 2006, Manchester, UK. (pp. 1-12). VOSON Lab. http://vosonlab.net/papers/ncess-conf06-full-paper-final.pdf 
 
 Ackland, R., & O'Neil, M. (2011). Online collective identity: The case of the environmental movement. Social Networks, 33(3), 1-18. https://doi.org/10.1016/j.socnet.2011.03.001 
 
 Adamic, L. A. & Glance, N. (2005). The political blogosphere and the 2004 U.S. election: divided they blog. In Proceedings of the 3rd international workshop on Link discovery (LinkKDD '05). Association for Computing Machinery, New York, NY, USA, 36–43. DOI: https://doi.org/10.1145/1134271.1134277 
 
-JACOMY, M., Girard, P., Ooghe, B., & Venturini, T. (2016). Hyphe, a Curation-Oriented Approach to Web Crawling for the Social Sciences. Köln, Deutschland: Association for the Advancement of Artificial Intelligence, May 2016. 
+Jacomy, M., Girard, P., Ooghe, B., & Venturini, T. (2016). Hyphe, a Curation-Oriented Approach to Web Crawling for the Social Sciences. Köln, Deutschland: Association for the Advancement of Artificial Intelligence, May 2016. 
+
+Lusher, D. and Ackland, R. (2011), A Relational Hyperlink Analysis of an Online Social Movement," Journal of Social Structure, 12(5). Available at: http://www.cmu.edu/joss/content/articles/volume12/Lusher/
+
+McIlwain, C. (2017). Racial formation, inequality and the political economy of web traffic. Information, Communication & Society, 20(7), 1073-1089. doi: 10.1080/1369118X.2016.1206137 (VOSON in use)
 
 Rogers, R. (2013). Mapping Public Web Space with the Issuecrawler. In Digital Cognitive Technologies (eds B. Reber and C. Brossaud). https://doi.org/10.1002/9781118599761.ch6 
 
