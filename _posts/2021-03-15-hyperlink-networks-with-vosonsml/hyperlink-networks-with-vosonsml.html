@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["hyperlink-networks-with-vosonsml_files/anchor-4.2.2/anchor.min.js","hyperlink-networks-with-vosonsml_files/bowser-1.9.3/bowser.min.js","hyperlink-networks-with-vosonsml_files/distill-2.2.21/template.v2.js","hyperlink-networks-with-vosonsml_files/header-attrs-2.7/header-attrs.js","hyperlink-networks-with-vosonsml_files/jquery-1.11.3/jquery.min.js","hyperlink-networks-with-vosonsml_files/popper-2.6.0/popper.min.js","hyperlink-networks-with-vosonsml_files/tippy-6.2.7/tippy-bundle.umd.min.js","hyperlink-networks-with-vosonsml_files/tippy-6.2.7/tippy-light-border.css","hyperlink-networks-with-vosonsml_files/tippy-6.2.7/tippy.css","hyperlink-networks-with-vosonsml_files/tippy-6.2.7/tippy.umd.min.js","hyperlink-networks-with-vosonsml_files/webcomponents-2.0.0/webcomponents.js","OEM.png","vsml_logo.png"]}
+  {"type":"character","attributes":{},"value":["hyperlink-networks-with-vosonsml_files/anchor-4.2.2/anchor.min.js","hyperlink-networks-with-vosonsml_files/bowser-1.9.3/bowser.min.js","hyperlink-networks-with-vosonsml_files/distill-2.2.21/template.v2.js","hyperlink-networks-with-vosonsml_files/header-attrs-2.7/header-attrs.js","hyperlink-networks-with-vosonsml_files/jquery-1.11.3/jquery.min.js","hyperlink-networks-with-vosonsml_files/popper-2.6.0/popper.min.js","hyperlink-networks-with-vosonsml_files/tippy-6.2.7/tippy-bundle.umd.min.js","hyperlink-networks-with-vosonsml_files/tippy-6.2.7/tippy-light-border.css","hyperlink-networks-with-vosonsml_files/tippy-6.2.7/tippy.css","hyperlink-networks-with-vosonsml_files/tippy-6.2.7/tippy.umd.min.js","hyperlink-networks-with-vosonsml_files/webcomponents-2.0.0/webcomponents.js","OEM.png","ul-desktop.png","ul-web.png","VOSON 2.5_0.png","voson-classic.png","vsml_logo.png"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1478,36 +1478,36 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
-<p>With over 3,000 registered users worldwide, a considerable number of academic publications using <code>VOSON</code>, and its high usage rate as an empirical tool for hyperlink and text data collection, we decided to integrate <code>VOSON</code> abilities into our open-source R package: <code>vosonSML</code>.</p>
+<p><img src="vsml_logo.png" alt="vosonSML" style="float:right;width:180px !important;height:208px !important;" />With over 3,000 registered users worldwide, a considerable number of academic publications using <code>VOSON</code>, and its high usage rate as an empirical tool for hyperlink and text data collection, we have decided to integrate <code>VOSON</code> hyperlink collection and network generation abilities into our open-source R package: <code>vosonSML</code>.</p>
 <p>Hyperlink collection is now available in <code>voson.sml</code> development version 0.30.900, on <a href="https://github.com/vosonlab/vosonSML">GitHub</a>.</p>
-<h2 id="introduction">Introduction</h2>
-<p>The Web 1.0 – extensive network of websites- has been widely studied and continue to be relevant for researchers. Some examples of research include studying online social movements (Ackland and O’Neil, 2011; Lusher and Ackland, 2011; McIlwain, 2017), and networks around issue spheres (Adamic and Glance, 2005; Ackland and Evans, 2015).</p>
-<p><img src="OEM.png" /> <em>Fig. 1: The Online Environmental Movement hyperlink network. Node colour reflect sub-movements: ´Bios´- red diamonds; ‘Globals’- blue circles; and ‘Toxics’ - green square (Ackland and O’Neil, 2011, p.183).</em></p>
-<p>From a social science perspective, there is a wide range of tools available for studying hyperlink networks. Some examples are:</p>
-<ul>
-<li><p><a href="https://hyphe.medialab.sciences-po.fr/">Hyphe</a>, a curated-oriented approach to web crawling developed at Sciences Po Paris Médialab (Jacomy et al., 2016).</p></li>
-<li><p><a href="http://www.govcom.org/Issuecrawler_instructions.htm">Issuecrawler</a>, developed at the University of Amsterdam to study issue networks (Rogers, 2013).</p></li>
-<li><p><a href="http://socscibot.wlv.ac.uk/">SocSciBot</a>, developed by the Statistical Cybermetrics Research Group, University of Wolverhampton, to study citation networks (Thelwall, 2001).</p></li>
-<li><p><a href="http://vosonlab.net/VOSON">VOSON</a>, a web-based tool developed at the VOSON Lab to empirically study social hyperlink networks, with a substantive focus on organisational WWW hyperlink networks and blog networks (Ackland et al., 2006).</p></li>
-</ul>
 <h3 id="about-the-voson-software">About the VOSON Software</h3>
-<p><img src="vsml_logo.png" alt="vosonSML" style="float:right;width:180px !important;height:208px !important;" />The ´VOSON´ Software is one output of the Virtual Observatory for the Study of Online Networks [VOSON] Project. The tool integrates data collection features, analysis and visualisation of hyperlink networks.</p>
-<p>The first version of <code>VOSON</code> (or Uberlink, as it was known then) with a graphical user interface was released internally in 2004, as a desktop application built using the <code>Qt</code> cross-platform application framework. A decision was made to port <code>VOSON</code> to a web application version built using the <code>PHP</code> web programming language and associated <code>AJAX</code> libraries. The first version of the web app was internally released in 2005.</p>
-<p>In 2010, under a licensing arrangement with the ANU, <a href="https://www.uberlink.com/">Uberlink Corporation</a> started commercially hosting and developing <code>VOSON</code>, reaching over 3,000 registered users worldwide.</p>
-<p>Ten years after, we decided to make the ´VOSON´ legacy available via open-source R environment (´vosonSML´). Following similar methodological steps, <code>vosonSML</code> crawls websites (internally and/or externally) and, in line with the other data sources (Twitter, Reddit and YouTube), generates two type of networks: <em>actor networks</em> - where pagegroups (websites) are nodes, and <em>activity networks</em> - where single web pages are nodes.</p>
+<p>The <a href="http://vosonlab.net/VOSON">VOSON</a> Software is an early research output of the VOSON Lab. Fifteen years have passed since its inception, even before the surge in popularity of social media. Some examples of research which have actively used <code>VOSON</code> include studying online social movements (Ackland and O’Neil, 2011; Lusher and Ackland, 2011; McIlwain, 2017), and networks around issue spheres (Ackland and Evans, 2015).</p>
+<p><img src="OEM.png" /> <em>Fig. 1: The Online Environmental Movement hyperlink network. Node colour reflect sub-movements: ´Bios´- red diamonds; ‘Globals’- blue circles; and ‘Toxics’ - green square (Ackland and O’Neil, 2011, p.183).</em></p>
+<h3 id="a-brief-history-of-the-voson-software">A brief history of the VOSON Software</h3>
+<p>Full history can be accessed <a href="https://uberlink.com/voson-turns-10">HERE</a></p>
+<p>The first version of <code>VOSON</code> with a graphical user interface was released internally in 2004, as a desktop application built using the <code>Qt</code> cross-platform application framework. A decision was made to port <code>VOSON</code> to a web application version built using the <code>PHP</code> web programming language and associated <code>AJAX</code> libraries. The first version of the web app was internally released in 2005.</p>
+<p>Launched in 2006, the <code>VOSON Classic</code> version was initially hosted at the ANU. In 2010, under a licensing arrangement with the ANU, <a href="https://www.uberlink.com/">Uberlink Corporation</a> started commercially hosting and developing <code>VOSON</code>. The latest version of <code>VOSON</code> (2.5.0) was released in 2017. <img src="voson-classic.png" alt="VOSON Classic, released in 2006" /></p>
+<figure>
+<img src="VOSON%202.5_0.png" alt="VOSON 2.5.0, released in 2017" /><figcaption>VOSON 2.5.0, released in 2017</figcaption>
+</figure>
+<h3 id="hyperlink-collection-in-vosonsml">Hyperlink collection in vosonSML</h3>
+<p><code>vosonSML</code> hyperlink follows similar methodological steps to <code>VOSON</code>; the R package crawls websites (internally and/or externally) and, in line with the other data sources (Twitter, Reddit and YouTube), generates two type of networks: <em>actor networks</em> - where pagegroups (websites) are nodes, and <em>activity networks</em> - where single web pages are nodes.</p>
+<p>The next sections will provide an introduction to collecting hyperlinks and producing networks with <code>vosonSML</code>.</p>
 <h2 id="collect-hyperlinks">Collect Hyperlinks</h2>
 <h2 id="create-a-network">Create a Network</h2>
 <h2 id="references">References</h2>
-<p>[FB- If we agree to keep the citation, we will have to generate a Bibtex file ]</p>
+<p>[FB- If we agree to keep the citations, we will have to generate a Bibtex file]</p>
 <p>Ackland, R. and Evans, A. (2017), “Using the Web to Examine the Evolution of the Abortion Debate in Australia 2005-2015,” in N. Brügger and R. Schroeder (eds), Web as History. London: UCL Press.</p>
-<p>Ackland, R., O’Neil, M., Standish, R., &amp; Buchhorn, M. (2006). VOSON: A Web Services Approach for Facilitating Research into Online Networks. In Second International e-Social Science Conference, 28-30 June 2006, Manchester, UK. (pp. 1-12). VOSON Lab. <a href="http://vosonlab.net/papers/ncess-conf06-full-paper-final.pdf" class="uri">http://vosonlab.net/papers/ncess-conf06-full-paper-final.pdf</a></p>
 <p>Ackland, R., &amp; O’Neil, M. (2011). Online collective identity: The case of the environmental movement. Social Networks, 33(3), 1-18. <a href="https://doi.org/10.1016/j.socnet.2011.03.001" class="uri">https://doi.org/10.1016/j.socnet.2011.03.001</a></p>
-<p>Adamic, L. A. &amp; Glance, N. (2005). The political blogosphere and the 2004 U.S. election: divided they blog. In Proceedings of the 3rd international workshop on Link discovery (LinkKDD ’05). Association for Computing Machinery, New York, NY, USA, 36–43. DOI: <a href="https://doi.org/10.1145/1134271.1134277" class="uri">https://doi.org/10.1145/1134271.1134277</a></p>
-<p>Jacomy, M., Girard, P., Ooghe, B., &amp; Venturini, T. (2016). Hyphe, a Curation-Oriented Approach to Web Crawling for the Social Sciences. Köln, Deutschland: Association for the Advancement of Artificial Intelligence, May 2016.</p>
 <p>Lusher, D. and Ackland, R. (2011), A Relational Hyperlink Analysis of an Online Social Movement,&quot; Journal of Social Structure, 12(5). Available at: <a href="http://www.cmu.edu/joss/content/articles/volume12/Lusher/" class="uri">http://www.cmu.edu/joss/content/articles/volume12/Lusher/</a></p>
 <p>McIlwain, C. (2017). Racial formation, inequality and the political economy of web traffic. Information, Communication &amp; Society, 20(7), 1073-1089. doi: 10.1080/1369118X.2016.1206137 (VOSON in use)</p>
-<p>Rogers, R. (2013). Mapping Public Web Space with the Issuecrawler. In Digital Cognitive Technologies (eds B. Reber and C. Brossaud). <a href="https://doi.org/10.1002/9781118599761.ch6" class="uri">https://doi.org/10.1002/9781118599761.ch6</a></p>
-<p>Thelwall, M. (2001). A web crawler design for data mining. Journal of Information Science 27(5), 319-325.</p>
+<h2 id="other-tools-for-studying-hyperlink-networks">Other tools for studying hyperlink networks</h2>
+<p>From a social science perspective, there is a wide range of tools available for studying hyperlink networks. Some examples are:</p>
+<ul>
+<li><p><a href="https://hyphe.medialab.sciences-po.fr/">Hyphe</a>, a curated-oriented approach to web crawling developed at Sciences Po Paris Médialab.</p></li>
+<li><p><a href="http://www.govcom.org/Issuecrawler_instructions.htm">Issuecrawler</a>, developed at the University of Amsterdam to study issue networks.</p></li>
+<li><p><a href="http://socscibot.wlv.ac.uk/">SocSciBot</a>, developed by the Statistical Cybermetrics Research Group, University of Wolverhampton, to study citation networks.</p></li>
+</ul>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
