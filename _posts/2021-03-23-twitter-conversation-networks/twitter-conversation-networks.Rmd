@@ -1,0 +1,29 @@
+---
+title: "Twitter Conversation Networks"
+description: |
+  Getting started with the voson.tcn package.
+author:
+  - name: Bryan Gertzel
+    affiliation: VOSON Lab
+    affiliation_url: http://vosonlab.net/
+  - name: Francisca Borquez
+date: 2021-03-23
+categories:
+  - rstats
+  - twitter
+  - conversations
+  - voson.tcn
+  - networks
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+draft: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+The VOSON Lab has recently published to github a new open source R package called [voson.tcn](https://vosonlab.github.io/voson.tcn) that uses the Early-Access Twitter API v2 to collect tweets identified as part of specified threaded conversations and generate networks. This is now possible in the v2 API thanks to a new tweet identifier called the `conversation_id` that is common to all tweets that are part of a conversation and can be searched for using the API search end-points. Identifiers and associated metadata for referenced tweets can also be collected during a search for conversation tweets, allowing us to construct twitter networks with rich tweet and user metadata.
