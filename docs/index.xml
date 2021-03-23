@@ -7,7 +7,21 @@
     <description>Virtual Observatory for the Study of Online Networks (VOSON) Lab, Australian National University
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Thu, 11 Feb 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 15 Mar 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Hyperlink Networks with vosonSML</title>
+      <dc:creator>Bryan Gertzel</dc:creator>
+      <dc:creator>Francisca Borquez</dc:creator>
+      <link>https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml</link>
+      <description>An introduction to creating hyperlink networks with vosonSML.</description>
+      <category>rstats</category>
+      <category>hyperlinks</category>
+      <category>vosonSML</category>
+      <category>networks</category>
+      <guid>https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml</guid>
+      <pubDate>Mon, 15 Mar 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml/hyperlink_network.png" medium="image" type="image/png" width="1024" height="1025"/>
+    </item>
     <item>
       <title>Creating Twitter Networks with vosonSML using rtweet Data</title>
       <dc:creator>Francisca Borquez</dc:creator>
