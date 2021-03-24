@@ -31,7 +31,7 @@ The [VOSON](http://vosonlab.net/VOSON) software for hyperlink collection and ana
 
 This simple guide will demonstrate how to use the new features of the `vosonSML` package to perform a hyperlink collection and generate networks for analysis.
 
-![Visualization of Hyperlink Network from previous VOSON v2.5 - features now available in vosonSML R package](voson_25.png){ style='width:837px !important;height:512px !important;' }
+![Visualization of Hyperlink Network from previous VOSON v2.5 - features now available in vosonSML R package](voson_25.png)
  
 ## Introduction
 
