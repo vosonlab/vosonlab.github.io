@@ -118,7 +118,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["biblio.yaml","crawl_depth.png","draft/draft.Rmd","draft/OEM.png","draft/ul-desktop.png","draft/ul-web.png","draft/voson-classic.png","draft/VOSON 2.5_0.png","draft/vsml_logo.png","hyperlink-networks-with-vosonsml_files/anchor-4.2.2/anchor.min.js","hyperlink-networks-with-vosonsml_files/bowser-1.9.3/bowser.min.js","hyperlink-networks-with-vosonsml_files/distill-2.2.21/template.v2.js","hyperlink-networks-with-vosonsml_files/header-attrs-2.7/header-attrs.js","hyperlink-networks-with-vosonsml_files/jquery-1.11.3/jquery.min.js","hyperlink-networks-with-vosonsml_files/popper-2.6.0/popper.min.js","hyperlink-networks-with-vosonsml_files/tippy-6.2.7/tippy-bundle.umd.min.js","hyperlink-networks-with-vosonsml_files/tippy-6.2.7/tippy-light-border.css","hyperlink-networks-with-vosonsml_files/tippy-6.2.7/tippy.css","hyperlink-networks-with-vosonsml_files/tippy-6.2.7/tippy.umd.min.js","hyperlink-networks-with-vosonsml_files/webcomponents-2.0.0/webcomponents.js","hyperlink_network.png","voson_25.png"]}
+  {"type":"character","attributes":{},"value":["biblio.yaml","crawl_depth.png","draft/draft.Rmd","draft/OEM.png","draft/robots.txt","draft/ul-desktop.png","draft/ul-web.png","draft/voson-classic.png","draft/VOSON 2.5_0.png","draft/vsml_logo.png","hyperlink-networks-with-vosonsml_files/anchor-4.2.2/anchor.min.js","hyperlink-networks-with-vosonsml_files/bowser-1.9.3/bowser.min.js","hyperlink-networks-with-vosonsml_files/distill-2.2.21/template.v2.js","hyperlink-networks-with-vosonsml_files/header-attrs-2.7/header-attrs.js","hyperlink-networks-with-vosonsml_files/jquery-1.11.3/jquery.min.js","hyperlink-networks-with-vosonsml_files/popper-2.6.0/popper.min.js","hyperlink-networks-with-vosonsml_files/tippy-6.2.7/tippy-bundle.umd.min.js","hyperlink-networks-with-vosonsml_files/tippy-6.2.7/tippy-light-border.css","hyperlink-networks-with-vosonsml_files/tippy-6.2.7/tippy.css","hyperlink-networks-with-vosonsml_files/tippy-6.2.7/tippy.umd.min.js","hyperlink-networks-with-vosonsml_files/webcomponents-2.0.0/webcomponents.js","hyperlink_network.png","voson_25.png"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1495,20 +1495,55 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#introduction">Introduction</a></li>
-<li><a href="#hyperlink-collection">Hyperlink Collection</a></li>
-<li><a href="#network-creation">Network Creation</a></li>
+<li><a href="#introduction">Introduction</a>
+<ul>
+<li><a href="#installation">Installation</a></li>
+</ul></li>
+<li><a href="#hyperlink-collection">Hyperlink Collection</a>
+<ul>
+<li><a href="#setting-up">Setting Up</a></li>
+<li><a href="#performing-the-collection">Performing the Collection</a></li>
+</ul></li>
+<li><a href="#network-creation">Network Creation</a>
+<ul>
+<li><a href="#networks">Networks</a></li>
+<li><a href="#graphing">Graphing</a></li>
+</ul></li>
 </ul>
 </nav>
 </div>
-<p>The <a href="http://vosonlab.net/VOSON">VOSON</a> software for hyperlink collection and analysis was an early research output of the VOSON Lab. It addressed a need for tools that could study social connections online, even before the rise of social media, and helped researchers gain insights into important phenomena such as online social movements and networks around issue spheres <span class="citation" data-cites="acklandoneil2011">(see <a href="#ref-acklandoneil2011" role="doc-biblioref">Ackland and O’Neil 2011</a>)</span>. After <a href="https://uberlink.com/voson-turns-10">many years and many iterations</a> since its inception in 2004, the canonical VOSON hyperlink collection software is proud to re-introduce itself as part of our open-source toolkit for social media collection the <code>vosonSML</code> R package.</p>
-<p>This simple guide will demonstrate how to use <code>vosonSML</code> to perform a hyperlink collection and generate networks for analysis.</p>
+<p>The <a href="http://vosonlab.net/VOSON">VOSON</a> software for hyperlink collection and analysis was an early research output of the VOSON Lab. It addressed a need for tools that could help study social connections online, even before the rise of social media, and assist researchers gain insights into important phenomena such as online social movements and networks around issue spheres <span class="citation" data-cites="acklandoneil2011">(see <a href="#ref-acklandoneil2011" role="doc-biblioref">Ackland and O’Neil 2011</a>)</span>. After <a href="https://uberlink.com/voson-turns-10">many years and many iterations</a> since its inception in 2004, the canonical VOSON hyperlink collection software is now proud to re-introduce itself as part of our R open-source toolkit for social media collection <code>vosonSML</code>.</p>
+<p>This simple guide will demonstrate how to use the new features of the <code>vosonSML</code> package to perform a hyperlink collection and generate networks for analysis.</p>
 <figure>
-<img src="voson_25.png" style="width:512px !important;height:440px !important;" alt="Visualization of Hyperlink Network from VOSON v2.5" /><figcaption aria-hidden="true">Visualization of Hyperlink Network from VOSON v2.5</figcaption>
+<img src="voson_25.png" style="width:837px !important;height:512px !important;" alt="Visualization of Hyperlink Network from previous VOSON v2.5 - features now available in vosonSML R package" /><figcaption aria-hidden="true">Visualization of Hyperlink Network from previous VOSON v2.5 - features now available in vosonSML R package</figcaption>
 </figure>
 <h2 id="introduction">Introduction</h2>
 <p>The vosonSML hyperlink collection and network creation works similarly to the 3-step process we use with other social media sources using the authenticate, collect and create verb functions. The <code>Authenticate</code> function is first called with the parameter “web” to identify and set up the context for subsequent operations, but does not require any further credentials in this implementation. We are using standard web crawling and text-based page scraping techniques to discover hyperlinks, and as such do not need to access any restricted data API’s as we commonly do with social media.</p>
+<h3 id="installation">Installation</h3>
+<p>The new hyperlink collection and network features are currently only available in the <a href="https://github.com/vosonlab/vosonsml">development version of vosonSML on github</a> but are to soon be released on CRAN. The development version can be installed as follows:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># use the remotes package to install the latest dev version of vosonSML from github</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://remotes.r-lib.org'>remotes</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://remotes.r-lib.org/reference/install_github.html'>install_github</a></span><span class='op'>(</span><span class='st'>"vosonlab/vosonsml"</span><span class='op'>)</span>
+
+<span class='co'># Downloading GitHub repo vosonlab/vosonsml@HEAD</span>
+<span class='co'># √  checking for file</span>
+<span class='co'># -  preparing 'vosonSML':</span>
+<span class='co'># √  checking DESCRIPTION meta-information ... </span>
+<span class='co'># -  checking for LF line-endings in source and make files and shell scripts</span>
+<span class='co'># -  checking for empty or unneeded directories</span>
+<span class='co'># -  building 'vosonSML_0.30.00.9000.tar.gz'</span>
+<span class='co'>#    </span>
+<span class='co'># * installing *source* package 'vosonSML' ...</span>
+<span class='co'># ...</span>
+<span class='co'># * DONE (vosonSML)</span>
+<span class='co'># Making 'packages.html' ... done</span>
+</code></pre>
+</div>
+</div>
 <h2 id="hyperlink-collection">Hyperlink Collection</h2>
+<h3 id="setting-up">Setting Up</h3>
 <p>The web sites or pages to collect hyperlinks from are specified and input to the collect function in a dataframe. As there are page specific options that can be used this format helps us to organize and set the request parameters. The URL’s set in the dataframe for the <code>page</code> column are called seed pages and are the starting points for web crawling. Although not explicitly indicated in the URL’s the seed pages are actually the landing pages or “index” pages of the web sites and a page name can be specified if known or desired.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -1527,6 +1562,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </figure>
 <p>As can be seen, a max depth of 1 directs the crawler to scrape and collect hyperlinks from only seed pages, a max depth of 2 to follow hyperlinks found on the seed pages and collect hyperlinks from those pages as well, and so on radiating outwards. The number of pages and hyperlinks can rise very rapidly so it’s best to keep this number as low as possible. If a greater reach in collection sites is desired this could perhaps more efficiently be achieved by revising and adding more seed pages in the first instance. In the example code the <code>type</code> has been set to “ext” (external) for all three seed sites so as to limit “mapping” of the internal seed web sites and focus on their outward facing connections.</p>
 <p>It should be noted that all hyperlinks found are collected from scraped pages and used to generate networks. The <code>type</code> and <code>max_depth</code> parameters only apply to the web crawling and scraping activity.</p>
+<h3 id="performing-the-collection">Performing the Collection</h3>
 <p>The hyperlink data can now be collected using the <code>Collect</code> function with the <code>pages</code> parameter. This produces a dataframe that contains the hyperlink URL’s found, pages they were found on and other metadata that can be used to help construct networks.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -1575,6 +1611,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <p>A total of 1163 hyperlinks were collected from 38 pages followed from our 3 seed pages. Using this data it’s now possible to generate some hyperlink networks.</p>
 <h2 id="network-creation">Network Creation</h2>
+<h3 id="networks">Networks</h3>
 <p>As with other <code>vosonSML</code> social media there are two standard types of networks we can create. An <code>activity</code> network that produces a more structural representation of the network where nodes are web pages and edges are the hyperlink references between them, and an <code>actor</code> network that instead groups pages into entities based on their domain names.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -1611,6 +1648,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </code></pre>
 </div>
 </div>
+<h3 id="graphing">Graphing</h3>
 <p>Now that the network has been generated we can create a graph and plot it. The <code>Graph</code> function creates an <code>igraph</code> format graph that can be directly plotted or adjusted for presentation using <code>igraph</code> plotting parameters.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -1654,8 +1692,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <figure>
 <img src="hyperlink_network.png" alt="Hyperlink network of actors" /><figcaption aria-hidden="true">Hyperlink network of actors</figcaption>
 </figure>
-<p>We now have a simple graph of the actor hyperlink network. Our seed actors are indicated by blue nodes and sites with an in-degree greater than one indicated in yellow. Node size and label size reflect most linked to nodes or highest in-degree. Perhaps unsurprisingly social media sites and the institutions at which the seed pages are located feature most prominently in the network and provides some context for each actors online presence and connections.</p>
-<p>There is much more network visualization and analysis that could be performed on the <code>vosonSML</code> hyperlink networks. We hope you’ve found this practical introduction to our new tools useful!</p>
+<p>We now have a simple graph of the actor hyperlink network. Our seed actors are indicated by blue nodes and sites with an in-degree greater than one indicated in yellow. Node size and label size reflect most linked to nodes or highest in-degree. Perhaps unsurprisingly social media sites and the institutions at which the seed pages are located feature most prominently in the network, and the graph plot provides us a view of the actors online presence and connections.</p>
+<p>There is much more network visualization and analysis that could be performed on the <code>vosonSML</code> hyperlink networks and we will be working to add more features such as text analysis and network refinements in our near future releases. In the meantime we hope you’ve found this practical introduction to our new tool useful and look forward to your feedback!</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
 <div id="ref-acklandoneil2011" class="csl-entry" role="doc-biblioentry">

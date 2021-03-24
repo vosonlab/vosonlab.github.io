@@ -27,17 +27,42 @@ bibliography: biblio.yaml
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-The [VOSON](http://vosonlab.net/VOSON) software for hyperlink collection and analysis was an early research output of the VOSON Lab. It addressed a need for tools that could study social connections online, even before the rise of social media, and helped researchers gain insights into important phenomena such as online social movements and networks around issue spheres [see @acklandoneil2011]. After [many years and many iterations](https://uberlink.com/voson-turns-10) since its inception in 2004, the canonical VOSON hyperlink collection software is proud to re-introduce itself as part of our open-source toolkit for social media collection the `vosonSML` R package.
+The [VOSON](http://vosonlab.net/VOSON) software for hyperlink collection and analysis was an early research output of the VOSON Lab. It addressed a need for tools that could help study social connections online, even before the rise of social media, and assist researchers gain insights into important phenomena such as online social movements and networks around issue spheres [see @acklandoneil2011]. After [many years and many iterations](https://uberlink.com/voson-turns-10) since its inception in 2004, the canonical VOSON hyperlink collection software is now proud to re-introduce itself as part of our R open-source toolkit for social media collection `vosonSML`.
 
-This simple guide will demonstrate how to use `vosonSML` to perform a hyperlink collection and generate networks for analysis.
+This simple guide will demonstrate how to use the new features of the `vosonSML` package to perform a hyperlink collection and generate networks for analysis.
 
-![Visualization of Hyperlink Network from VOSON v2.5](voson_25.png){ style='width:512px !important;height:440px !important;' }
+![Visualization of Hyperlink Network from previous VOSON v2.5 - features now available in vosonSML R package](voson_25.png){ style='width:837px !important;height:512px !important;' }
  
 ## Introduction
 
 The vosonSML hyperlink collection and network creation works similarly to the 3-step process we use with other social media sources using the authenticate, collect and create verb functions. The `Authenticate` function is first called with the parameter "web" to identify and set up the context for subsequent operations, but does not require any further credentials in this implementation. We are using standard web crawling and text-based page scraping techniques to discover hyperlinks, and as such do not need to access any restricted data API's as we commonly do with social media.
 
+### Installation
+
+The new hyperlink collection and network features are currently only available in the [development version of vosonSML on github](https://github.com/vosonlab/vosonsml) but are to soon be released on CRAN. The development version can be installed as follows:
+
+```{r install, echo=TRUE, eval=FALSE}
+# use the remotes package to install the latest dev version of vosonSML from github
+library(remotes)
+install_github("vosonlab/vosonsml")
+
+# Downloading GitHub repo vosonlab/vosonsml@HEAD
+# √  checking for file
+# -  preparing 'vosonSML':
+# √  checking DESCRIPTION meta-information ... 
+# -  checking for LF line-endings in source and make files and shell scripts
+# -  checking for empty or unneeded directories
+# -  building 'vosonSML_0.30.00.9000.tar.gz'
+#    
+# * installing *source* package 'vosonSML' ...
+# ...
+# * DONE (vosonSML)
+# Making 'packages.html' ... done
+```
+
 ## Hyperlink Collection
+
+### Setting Up
 
 The web sites or pages to collect hyperlinks from are specified and input to the collect function in a dataframe. As there are page specific options that can be used this format helps us to organize and set the request parameters. The URL's set in the dataframe for the `page` column are called seed pages and are the starting points for web crawling. Although not explicitly indicated in the URL's the seed pages are actually the landing pages or "index" pages of the web sites and a page name can be specified if known or desired.  
 
@@ -57,6 +82,8 @@ The example above shows seed pages with some additional per-seed parameters that
 As can be seen, a max depth of 1 directs the crawler to scrape and collect hyperlinks from only seed pages, a max depth of 2 to follow hyperlinks found on the seed pages and collect hyperlinks from those pages as well, and so on radiating outwards. The number of pages and hyperlinks can rise very rapidly so it's best to keep this number as low as possible. If a greater reach in collection sites is desired this could perhaps more efficiently be achieved by revising and adding more seed pages in the first instance. In the example code the `type` has been set to "ext" (external) for all three seed sites so as to limit "mapping" of the internal seed web sites and focus on their outward facing connections.
 
 It should be noted that all hyperlinks found are collected from scraped pages and used to generate networks. The `type` and `max_depth` parameters only apply to the web crawling and scraping activity.
+
+### Performing the Collection
 
 The hyperlink data can now be collected using the `Collect` function with the `pages` parameter. This produces a dataframe that contains the hyperlink URL's found, pages they were found on and other metadata that can be used to help construct networks.
 
@@ -107,6 +134,8 @@ A total of 1163 hyperlinks were collected from 38 pages followed from our 3 seed
 
 ## Network Creation
 
+### Networks
+
 As with other `vosonSML` social media there are two standard types of networks we can create. An `activity` network that produces a more structural representation of the network where nodes are web pages and edges are the hyperlink references between them, and an `actor` network that instead groups pages into entities based on their domain names.
 
 ```{r create, echo=TRUE, eval=FALSE}
@@ -140,6 +169,8 @@ print(as_tibble(actor_net$edges))
 # 3 rsss.anu.edu.au soundcloud.com       1
 # # ... with 223 more rows
 ```
+
+### Graphing
 
 Now that the network has been generated we can create a graph and plot it. The `Graph` function creates an `igraph` format graph that can be directly plotted or adjusted for presentation using `igraph` plotting parameters.
 
@@ -182,6 +213,6 @@ tkplot(simplify(g),
 
 ![Hyperlink network of actors](hyperlink_network.png)
 
-We now have a simple graph of the actor hyperlink network. Our seed actors are indicated by blue nodes and sites with an in-degree greater than one indicated in yellow. Node size and label size reflect most linked to nodes or highest in-degree. Perhaps unsurprisingly social media sites and the institutions at which the seed pages are located feature most prominently in the network and provides some context for each actors online presence and connections.
+We now have a simple graph of the actor hyperlink network. Our seed actors are indicated by blue nodes and sites with an in-degree greater than one indicated in yellow. Node size and label size reflect most linked to nodes or highest in-degree. Perhaps unsurprisingly social media sites and the institutions at which the seed pages are located feature most prominently in the network, and the graph plot provides us a view of the actors online presence and connections.
 
-There is much more network visualization and analysis that could be performed on the `vosonSML` hyperlink networks. We hope you've found this practical introduction to our new tools useful!
+There is much more network visualization and analysis that could be performed on the `vosonSML` hyperlink networks and we will be working to add more features such as text analysis and network refinements in our near future releases. In the meantime we hope you've found this practical introduction to our new tool useful and look forward to your feedback!
