@@ -1490,7 +1490,85 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
-<p>The VOSON Lab has recently published to github a new open source R package called <a href="https://vosonlab.github.io/voson.tcn">voson.tcn</a> that uses the Early-Access Twitter API v2 to collect tweets identified as part of specified threaded conversations and generate networks. This is now possible in the v2 API thanks to a new tweet identifier called the <code>conversation_id</code> that is common to all tweets that are part of a conversation and can be searched for using the API search end-points. Identifiers and associated metadata for referenced tweets can also be collected during a search for conversation tweets, allowing us to construct twitter networks with rich tweet and user metadata.</p>
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#twitter-developer-access">Twitter Developer Access</a></li>
+<li><a href="#authentication">Authentication</a></li>
+<li><a href="#collection">Collection</a></li>
+<li><a href="#network">Network</a>
+<ul>
+<li><a href="#graph">Graph</a></li>
+</ul></li>
+</ul>
+</nav>
+</div>
+<p>The VOSON Lab has recently published to github a new open source R package called <a href="https://vosonlab.github.io/voson.tcn"><code>{voson.tcn}</code></a> that uses the Early-Access Twitter API v2 to collect tweets belonging to specified threaded conversations and generate networks. This is now possible with the v2 API thanks to a new tweet identifier called the <a href="https://developer.twitter.com/en/docs/twitter-api/conversation-id">conversation ID</a>, that is common to all tweets that are part of a conversation, and can be searched for using the API search endpoints. Identifiers and associated metadata for referenced tweets can also be collected in the same search for conversation tweets, allowing us to construct twitter networks with tweet and user metadata whilst minimizing API requests.</p>
+<h2 id="twitter-developer-access">Twitter Developer Access</h2>
+<p>The <code>{voson.tcn}</code> package requires developer app authentication keys or tokens to access the Twitter API v2. These can be either the <code>Access token &amp; secret</code> of an app or its <code>Bearer token</code>.</p>
+<p>To obtain these credentials and use the early-access API you will need to have or apply for a <a href="https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api">Twitter Developer Account</a>, as well as have activated the new <a href="https://developer.twitter.com/content/developer-twitter/en/portal/opt-in">Developer Portal</a>. Once approved you’ll then need to create a development <a href="https://developer.twitter.com/en/docs/projects/overview">project</a>, which is the new management container for apps, and either create a new <a href="https://developer.twitter.com/en/docs/apps/overview">app</a> or associate one of your existing apps with it.</p>
+<p>There are currently two project types available that correspond to Twitter’s developer <a href="https://developer.twitter.com/en/products/twitter-api/early-access/guide">product tracks</a>, a <em>standard</em> and <em>academic</em> type. Academic projects are only available to researchers who have completed and had approved their <a href="https://developer.twitter.com/en/solutions/academic-research/application-info">application for the academic research track</a> for non-commercial research purposes, and standard projects are more general use, including for hobby and educational purposes. The project type features differ in their API access and caps, standard projects can only access the 7-day recent search endpoint whereas an academic project can also access the <a href="https://developer.twitter.com/en/docs/twitter-api/tweets/search/introduction">full-archive search</a> endpoint for historical tweets. There are also rate-limits and monthly tweet caps for API v2 search endpoints, at the time of writing the caps are 500k and 10 million tweets that can be retrieved per month for the standard and academic track projects respectively.</p>
+<p>Please note that there are also <a href="https://developer.twitter.com/en/developer-terms/more-on-restricted-use-cases">terms of use, and restricted use cases</a> that should be considered before applying for access or using the Twitter API.</p>
+<h2 id="authentication">Authentication</h2>
+<p>The <code>{voson.tcn}</code> package only supports app based authentication using <code>OAuth2.0</code> tokens which are also known as <a href="https://developer.twitter.com/en/docs/authentication/oauth-2-0">bearer tokens</a>. We will likely support user based tokens in the future, however at this stage they do not offer any advantages as they have lower rate-limits and we are not using any private metadata of which they permit access (such as user-visible only metrics).</p>
+<p>The token can be created using either your apps <code>access token &amp; secret</code> (also known as consumer keys) or its <code>bearer token</code>. It is recommended that this token is saved for future use, there is no need to perform this step more than once as the token will not change unless it is invalidated or you regenerate keys on the developer portal.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>voson.tcn</span><span class='op'>)</span>
+
+<span class='co'># retrieves a bearer token from the API using the apps consumer keys</span>
+<span class='va'>token</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/voson.tcn/man/tcn_token.html'>tcn_token</a></span><span class='op'>(</span>consumer_key <span class='op'>=</span> <span class='st'>"xxxxxxxx"</span>,
+                   consumer_secret <span class='op'>=</span> <span class='st'>"xxxxxxxx"</span><span class='op'>)</span>
+
+<span class='co'># alternatively if you have a bearer token already you can assign it directly</span>
+<span class='va'>token</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>bearer <span class='op'>=</span> <span class='st'>"xxxxxxxxxxxx"</span><span class='op'>)</span>
+
+<span class='co'># if you save the token to file this step only needs to be done once</span>
+<span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>saveRDS</a></span><span class='op'>(</span><span class='va'>token</span>, <span class='st'>"~/.tcn_token"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h2 id="collection">Collection</h2>
+<p>Collecting conversation tweets requires the tweet ID or URL of a tweet that belongs to each threaded conversation that you are interested in. These are passed to the <code>{voson.tcn}</code> collect function <code>tcn_threads</code> as a vector or list. Conversation ID’s will be tracked by this function to avoid duplication and if tweet ID’s are found to belong to a conversation that has already been collected on then that conversation will be skipped.</p>
+<p>In the following example we are collecting the tweets for two threaded conversations by</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># read token from file</span>
+<span class='va'>token</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='st'>"~/.tcn_token"</span><span class='op'>)</span>
+
+<span class='va'>tweet_ids</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"https://twitter.com/Warcraft/status/1372615159311699970"</span>,
+               <span class='st'>"1372487989385965569"</span><span class='op'>)</span>
+
+<span class='co'># collect the conversation thread tweets for supplied ids           </span>
+<span class='va'>tweets</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/voson.tcn/man/tcn_threads.html'>tcn_threads</a></span><span class='op'>(</span><span class='va'>tweet_ids</span>, <span class='va'>token</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h2 id="network">Network</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>actor_net</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/voson.tcn/man/tcn_network.html'>tcn_network</a></span><span class='op'>(</span><span class='va'>tweets</span>, <span class='st'>"actor"</span><span class='op'>)</span>
+
+<span class='va'>activity_net</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/voson.tcn/man/tcn_network.html'>tcn_network</a></span><span class='op'>(</span><span class='va'>tweets</span>, <span class='st'>"activity"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<h3 id="graph">Graph</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://igraph.org'>igraph</a></span><span class='op'>)</span>
+
+<span class='va'>g</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/graph_from_data_frame.html'>graph_from_data_frame</a></span><span class='op'>(</span><span class='va'>actor_net</span><span class='op'>$</span><span class='va'>edges</span>, vertices <span class='op'>=</span> <span class='va'>actor_net</span><span class='op'>$</span><span class='va'>nodes</span><span class='op'>)</span>
+
+<span class='co'># plot graph</span>
+<span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>g</span>, layout <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/layout_with_fr.html'>layout_with_fr</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span>,
+     vertex.label <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>profile.username</span>,
+     edge.label <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/E.html'>E</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>type</span>,
+     vertex.size <span class='op'>=</span> <span class='fl'>3</span>, edge.arrow.size <span class='op'>=</span> <span class='fl'>0.2</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

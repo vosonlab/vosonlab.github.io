@@ -26,4 +26,73 @@ draft: true
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-The VOSON Lab has recently published to github a new open source R package called [voson.tcn](https://vosonlab.github.io/voson.tcn) that uses the Early-Access Twitter API v2 to collect tweets identified as part of specified threaded conversations and generate networks. This is now possible in the v2 API thanks to a new tweet identifier called the `conversation_id` that is common to all tweets that are part of a conversation and can be searched for using the API search end-points. Identifiers and associated metadata for referenced tweets can also be collected during a search for conversation tweets, allowing us to construct twitter networks with rich tweet and user metadata.
+The VOSON Lab has recently published to github a new open source R package called [`{voson.tcn}`](https://vosonlab.github.io/voson.tcn) that uses the Early-Access Twitter API v2 to collect tweets belonging to specified threaded conversations and generate networks. This is now possible with the v2 API thanks to a new tweet identifier called the [conversation ID](https://developer.twitter.com/en/docs/twitter-api/conversation-id), that is common to all tweets that are part of a conversation, and can be searched for using the API search endpoints. Identifiers and associated metadata for referenced tweets can also be collected in the same search for conversation tweets, allowing us to construct twitter networks with tweet and user metadata whilst minimizing API requests.
+
+## Twitter Developer Access
+
+The `{voson.tcn}` package requires developer app authentication keys or tokens to access the Twitter API v2. These can be either the `Access token & secret` of an app or its `Bearer token`.
+
+To obtain these credentials and use the early-access API you will need to have or apply for a [Twitter Developer Account](https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api), as well as have activated the new [Developer Portal](https://developer.twitter.com/content/developer-twitter/en/portal/opt-in). Once approved you'll then need to create a development [project](https://developer.twitter.com/en/docs/projects/overview), which is the new management container for apps, and either create a new [app](https://developer.twitter.com/en/docs/apps/overview) or associate one of your existing apps with it. 
+
+There are currently two project types available that correspond to Twitter's developer [product tracks](https://developer.twitter.com/en/products/twitter-api/early-access/guide), a *standard* and *academic* type. Academic projects are only available to researchers who have completed and had approved their [application for the academic research track](https://developer.twitter.com/en/solutions/academic-research/application-info) for non-commercial research purposes, and standard projects are more general use, including for hobby and educational purposes. The project type features differ in their API access and caps, standard projects can only access the 7-day recent search endpoint whereas an academic project can also access the [full-archive search](https://developer.twitter.com/en/docs/twitter-api/tweets/search/introduction) endpoint for historical tweets. There are also rate-limits and monthly tweet caps for API v2 search endpoints, at the time of writing the caps are 500k and 10 million tweets that can be retrieved per month for the standard and academic track projects respectively.
+
+Please note that there are also [terms of use, and restricted use cases](https://developer.twitter.com/en/developer-terms/more-on-restricted-use-cases) that should be considered before applying for access or using the Twitter API.
+
+## Authentication
+
+The `{voson.tcn}` package only supports app based authentication using `OAuth2.0` tokens which are also known as [bearer tokens](https://developer.twitter.com/en/docs/authentication/oauth-2-0). We will likely support user based tokens in the future, however at this stage they do not offer any advantages as they have lower rate-limits and we are not using any private metadata of which they permit access (such as user-visible only metrics).
+
+The token can be created using either your apps `access token & secret` (also known as consumer keys) or its `bearer token`. It is recommended that this token is saved for future use, there is no need to perform this step more than once as the token will not change unless it is invalidated or you regenerate keys on the developer portal.
+
+```{r authentication, echo=TRUE, eval=FALSE}
+library(voson.tcn)
+
+# retrieves a bearer token from the API using the apps consumer keys
+token <- tcn_token(consumer_key = "xxxxxxxx",
+                   consumer_secret = "xxxxxxxx")
+
+# alternatively if you have a bearer token already you can assign it directly
+token <- list(bearer = "xxxxxxxxxxxx")
+
+# if you save the token to file this step only needs to be done once
+saveRDS(token, "~/.tcn_token")
+```
+
+## Collection
+
+Collecting conversation tweets requires the tweet ID or URL of a tweet that belongs to each threaded conversation that you are interested in. These are passed to the `{voson.tcn}` collect function `tcn_threads` as a vector or list. Conversation ID's will be tracked by this function to avoid duplication and if tweet ID's are found to belong to a conversation that has already been collected on then that conversation will be skipped.
+
+In the following example we are collecting the tweets for two threaded conversations by 
+
+```{r collection, echo=TRUE, eval=FALSE}
+# read token from file
+token <- readRDS("~/.tcn_token")
+
+tweet_ids <- c("https://twitter.com/Warcraft/status/1372615159311699970",
+               "1372487989385965569")
+
+# collect the conversation thread tweets for supplied ids           
+tweets <- tcn_threads(tweet_ids, token)
+```
+
+## Network
+
+```{r network, echo=TRUE, eval=FALSE}
+actor_net <- tcn_network(tweets, "actor")
+
+activity_net <- tcn_network(tweets, "activity")
+```
+
+### Graph
+
+```{r graph, echo=TRUE, eval=FALSE}
+library(igraph)
+
+g <- graph_from_data_frame(actor_net$edges, vertices = actor_net$nodes)
+
+# plot graph
+plot(g, layout = layout_with_fr(g),
+     vertex.label = V(g)$profile.username,
+     edge.label = E(g)$type,
+     vertex.size = 3, edge.arrow.size = 0.2)
+```

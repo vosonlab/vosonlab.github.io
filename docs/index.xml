@@ -24,8 +24,8 @@
     </item>
     <item>
       <title>Creating Twitter Networks with vosonSML using rtweet Data</title>
-      <dc:creator>Francisca Borquez</dc:creator>
       <dc:creator>Bryan Gertzel</dc:creator>
+      <dc:creator>Francisca Borquez</dc:creator>
       <link>https://vosonlab.github.io/posts/2021-02-11_twitter_vsml_from_rtweet</link>
       <description>Simple guide to collecting data with rtweet and generating networks with vosonSML.</description>
       <category>rstats</category>
@@ -39,15 +39,16 @@
     </item>
     <item>
       <title>Welcome to the VOSON Lab Coding Blog</title>
-      <dc:creator>VOSONLab</dc:creator>
+      <dc:creator>VOSON Lab</dc:creator>
+      <dc:creator/>
       <link>https://vosonlab.github.io/posts/2021-02-05_welcome</link>
-      <description>The coding blog is a space to share tools, methods, tips, examples and code. A place to collect data, construct and analyse online networks.</description>
+      <description>The coding blog is a space to share tools, methods, tips, examples and code. A place to collect data, construct and analyze online networks.</description>
       <category>Rstats</category>
       <category>Social Network Analysis</category>
       <category>Computational Social Methods</category>
       <guid>https://vosonlab.github.io/posts/2021-02-05_welcome</guid>
       <pubDate>Thu, 04 Feb 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://vosonlab.github.io/posts/2021-02-05_welcome/VOSON-tools.png" medium="image" type="image/png" width="800" height="390"/>
+      <media:content url="https://vosonlab.github.io/posts/2021-02-05_welcome/square-cards.png" medium="image" type="image/png" width="800" height="640"/>
     </item>
   </channel>
 </rss>
