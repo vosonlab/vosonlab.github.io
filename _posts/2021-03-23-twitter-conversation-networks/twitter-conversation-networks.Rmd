@@ -62,17 +62,22 @@ saveRDS(token, "~/.tcn_token")
 
 Collecting conversation tweets requires the tweet ID or URL of a tweet that belongs to each threaded conversation that you are interested in. These are passed to the `{voson.tcn}` collect function `tcn_threads` as a vector or list. Conversation ID's will be tracked by this function to avoid duplication and if tweet ID's are found to belong to a conversation that has already been collected on then that conversation will be skipped.
 
-In the following example we are collecting the tweets for two threaded conversations by 
+In the following example we are collecting the tweets for a threaded conversation belonging to a public lockdown announcement following a COVID19 outbreak in Brisbane, Queensland Australia that took place in March 2021. The tweet URL or ID (number following the status in the URL) can be passed directly to the collection function.
+
+![Public announcement tweet regarding a COVID19 lockdown of Brisbane from the Queensland Premier](example_tweet.png)
 
 ```{r collection, echo=TRUE, eval=FALSE}
 # read token from file
 token <- readRDS("~/.tcn_token")
 
-tweet_ids <- c("https://twitter.com/Warcraft/status/1372615159311699970",
-               "1372487989385965569")
-
 # collect the conversation thread tweets for supplied ids           
-tweets <- tcn_threads(tweet_ids, token)
+tweets <- tcn_threads("https://twitter.com/AnnastaciaMP/status/1376311897624956929", token)
+```
+
+When completed a list of named dataframes will be returned, `tweets` containing all of the tweets and their metadata and `users` with all of the referenced users in the tweets and their metadata.
+
+```{r collection-data, echo=TRUE, eval=FALSE}
+
 ```
 
 ## Network
@@ -87,12 +92,43 @@ activity_net <- tcn_network(tweets, "activity")
 
 ```{r graph, echo=TRUE, eval=FALSE}
 library(igraph)
+library(RColorBrewer)
 
-g <- graph_from_data_frame(actor_net$edges, vertices = actor_net$nodes)
+g <- graph_from_data_frame(activity_net$edges, vertices = activity_net$nodes)
 
-# plot graph
-plot(g, layout = layout_with_fr(g),
-     vertex.label = V(g)$profile.username,
-     edge.label = E(g)$type,
-     vertex.size = 3, edge.arrow.size = 0.2)
+# change likes to log scale
+like_count <- V(g)$public_metrics.like_count
+like_count[is.na(like_count)] <- 0
+ln_like_count <- log(like_count)
+ln_like_count[!is.finite(ln_like_count)] <- 0
+
+# set node size based on likes, min size 4
+size <- ln_like_count * 2
+V(g)$size <- ifelse(size > 0, size + 8, 4)
+
+# set node label if number of likes >= 2
+V(g)$label <- ifelse(like_count >= 2, like_count, NA)
+V(g)$label.color <- "black"
+
+# set node colors based on number of retweets
+# low to high is yellow to green
+# set tweets with no retweets to grey
+rt_count <- V(g)$public_metrics.retweet_count
+rt_count[is.na(rt_count)] <- 0
+cols <- colorRampPalette(c("yellow1", "green3"))
+cols <- cols(max(rt_count) + 1)
+V(g)$color <- cols[rt_count + 1]
+V(g)$color[which(rt_count < 1)] <- "lightgrey"
+
+# set edge color to orange if tweet quoted another tweet
+E(g)$color <- ifelse(E(g)$type == "quoted", "orange", "grey")
+
+set.seed(200)
+tkplot(g,
+       canvas.width = 1024, canvas.height = 1024,
+       layout = layout_with_fr(g),
+       edge.arrow.size = 0.5,
+       edge.width = 2)
 ```
+
+![Conversation activity network](activity_network.png)
