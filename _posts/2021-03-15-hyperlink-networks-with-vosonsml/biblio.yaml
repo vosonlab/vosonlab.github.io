@@ -19,4 +19,26 @@ references:
   page: 1-18
   DOI: 10.1016/j.socnet.2011.03.001
   language: en-GB
+  
+- type: Book
+  id: Ackland2013
+  author:
+  - family: Ackland
+    given: R.J.
+  issued: 2013
+  title: 'Web Social Science: Concepts, Data and Tools for Social Scientists in the Digital Age'
+  publisher: SAGE Publications
+  address: London
+
+- type: Incollection
+  id: Ackland2010
+  author:
+  - family: Ackland
+    given: R.
+  issued: 2010
+  title: 'WWW Hyperlink Networks'
+  booktitle: 'Analyzing Social Media Networks with NodeXL: Insights from a Connected World'
+  editor: D. L. Hansen and B. Shneiderman and M. A. Smith
+  publisher: Morgan-Kaufmann
+  address: Burlington, MA
 ---
