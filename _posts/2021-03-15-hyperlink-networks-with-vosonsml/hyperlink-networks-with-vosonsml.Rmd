@@ -29,9 +29,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The [VOSON](http://vosonlab.net/VOSON) software for hyperlink collection and analysis was an early research output of the VOSON Lab [@Ackland2010]. It addressed a need for tools that could help study online social networks, even before the rise of social media, and assisted researchers gain insights into important phenomena such as networks around issue spheres and online social movements [see [@acklandoneil2011] and [@Ackland2013]]. After [many years and many iterations](http://vosonlab.net/content/voson-turns-10) since its inception in 2004, the VOSON Lab is happy to reintroduce the canonical VOSON hyperlink collection software as part of our R open-source toolkit for social media collection: `vosonSML`.
 
-
 This simple guide will demonstrate how to use the new features of the `vosonSML` package to perform a hyperlink collection and generate networks for analysis.
-
  
 ## Introduction
 

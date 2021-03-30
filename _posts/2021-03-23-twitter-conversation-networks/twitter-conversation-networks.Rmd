@@ -88,14 +88,18 @@ actor_net <- tcn_network(tweets, "actor")
 activity_net <- tcn_network(tweets, "activity")
 ```
 
-### Graph
+## Graphs
+
+### Activity Network
 
 ```{r graph, echo=TRUE, eval=FALSE}
 library(igraph)
 library(RColorBrewer)
 
 g <- graph_from_data_frame(activity_net$edges, vertices = activity_net$nodes)
+```
 
+```{r graph1, echo=TRUE, eval=FALSE, code_folding=TRUE}
 # change likes to log scale
 like_count <- V(g)$public_metrics.like_count
 like_count[is.na(like_count)] <- 0
@@ -110,8 +114,7 @@ V(g)$size <- ifelse(size > 0, size + 8, 4)
 V(g)$label <- ifelse(like_count >= 2, like_count, NA)
 V(g)$label.color <- "black"
 
-# set node colors based on number of retweets
-# low to high is yellow to green
+# set node colors based on number of retweets low to high is yellow to green
 # set tweets with no retweets to grey
 rt_count <- V(g)$public_metrics.retweet_count
 rt_count[is.na(rt_count)] <- 0
@@ -122,7 +125,10 @@ V(g)$color[which(rt_count < 1)] <- "lightgrey"
 
 # set edge color to orange if tweet quoted another tweet
 E(g)$color <- ifelse(E(g)$type == "quoted", "orange", "grey")
+```
 
+```{r graph2, echo=TRUE, eval=FALSE}
+# plot the graph using fruchterman reingold layout
 set.seed(200)
 tkplot(g,
        canvas.width = 1024, canvas.height = 1024,
@@ -131,4 +137,71 @@ tkplot(g,
        edge.width = 2)
 ```
 
-![Conversation activity network](activity_network.png)
+![Conversation activity network - Node size and label represent number of tweet likes, color scale is indicating low to high number of retweets (yellow to green). Orange coloured edges are quoting linked tweet.](activity_network.png)
+
+### Actor Network
+
+```{r graph3, echo=TRUE, eval=FALSE}
+library(dplyr)
+library(magrittr)
+library(stringr)
+
+regex_ic <- function(x) regex(x, ignore_case = TRUE)
+
+# best effort set the node colour attribute based on presence of city, state,
+# or country in the actors profile location field
+nodes <- actor_net$nodes %>%
+  mutate(color = case_when(
+    str_detect(profile.location, regex_ic("brisbane|bris")) ~ "orange",
+    str_detect(profile.location, regex_ic("queensland|qld")) ~ "gold",
+    str_detect(profile.location, regex_ic("australia|aus")) ~ "yellow",
+    TRUE ~ "lightgrey"))
+
+g2 <- graph_from_data_frame(actor_net$edges, vertices = nodes)
+```
+
+```{r graph4, echo=TRUE, eval=FALSE, code_folding=TRUE}
+# this de-clutters the actor network by removing some nodes that are not
+# part of conversation chains and are stand-alone replies to the initial
+# thread tweet
+
+# get the author of the initial thread tweet using the conversation id
+conversation_ids <- c("1376311897624956929")
+thread_authors <- activity_net$nodes %>%
+  filter(tweet_id %in% conversation_ids) %>% select(user_id)
+
+# remove actors replying to the initial tweet that have a degree of 1
+thread_spokes <- unlist(
+  incident_edges(g2, V(g2)[which(V(g2)$name %in% thread_authors$user_id)],
+                 "in"))
+spokes_tail_nodes <- V(g2)[tail_of(g2, thread_spokes)]$name
+g2 <- delete_vertices(g2, degree(g2) == 1 & V(g2)$name %in% spokes_tail_nodes)
+
+# simplify the graph and collapse edges into an edge weight value
+E(g2)$weight <- 1
+g2 <- as.undirected(simplify(g2, edge.attr.comb = list(weight = "sum")))
+g2 <- delete_vertices(g2, degree(g2) == 0)
+
+# use edge weight for graph edge width
+E(g2)$width <- ifelse(E(g2)$weight > 1, E(g2)$weight + 1, 1)
+
+# use the actors followers count for node size 
+followers_count <- log(V(g2)$profile.public_metrics.followers_count)
+followers_count[!is.finite(followers_count)] <- 0
+size <- followers_count * 3
+V(g2)$size <- ifelse(size < 6, 6, size)
+V(g2)$label <- ifelse(followers_count > 0,
+                      V(g2)$profile.public_metrics.followers_count, NA)
+```
+
+```{r graph5, echo=TRUE, eval=FALSE}
+# plot the graph using automatically chosen layout
+set.seed(201)
+tkplot(g2,
+       canvas.width = 1024, canvas.height = 1024,
+       layout = layout_nicely(g2),
+       vertex.label.cex = 0.8,
+       vertex.label.color = "black")
+```
+
+![Conversation actor network - Node size and label represent users follower counts. Node color indicates user self-reported location. Edge width represents number of collapsed edges.](actor_network.png)

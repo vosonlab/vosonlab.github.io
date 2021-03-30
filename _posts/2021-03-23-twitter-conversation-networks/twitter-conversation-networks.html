@@ -116,7 +116,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["activity_network.png","example_tweet.png","twitter-conversation-networks_files/anchor-4.2.2/anchor.min.js","twitter-conversation-networks_files/bowser-1.9.3/bowser.min.js","twitter-conversation-networks_files/distill-2.2.21/template.v2.js","twitter-conversation-networks_files/header-attrs-2.7/header-attrs.js","twitter-conversation-networks_files/jquery-1.11.3/jquery.min.js","twitter-conversation-networks_files/popper-2.6.0/popper.min.js","twitter-conversation-networks_files/tippy-6.2.7/tippy-bundle.umd.min.js","twitter-conversation-networks_files/tippy-6.2.7/tippy-light-border.css","twitter-conversation-networks_files/tippy-6.2.7/tippy.css","twitter-conversation-networks_files/tippy-6.2.7/tippy.umd.min.js","twitter-conversation-networks_files/webcomponents-2.0.0/webcomponents.js"]}
+  {"type":"character","attributes":{},"value":["activity_network.png","actor_network.png","example_tweet.png","twitter-conversation-networks_files/anchor-4.2.2/anchor.min.js","twitter-conversation-networks_files/bowser-1.9.3/bowser.min.js","twitter-conversation-networks_files/distill-2.2.21/template.v2.js","twitter-conversation-networks_files/header-attrs-2.7/header-attrs.js","twitter-conversation-networks_files/jquery-1.11.3/jquery.min.js","twitter-conversation-networks_files/popper-2.6.0/popper.min.js","twitter-conversation-networks_files/tippy-6.2.7/tippy-bundle.umd.min.js","twitter-conversation-networks_files/tippy-6.2.7/tippy-light-border.css","twitter-conversation-networks_files/tippy-6.2.7/tippy.css","twitter-conversation-networks_files/tippy-6.2.7/tippy.umd.min.js","twitter-conversation-networks_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1497,9 +1497,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <li><a href="#twitter-developer-access">Twitter Developer Access</a></li>
 <li><a href="#authentication">Authentication</a></li>
 <li><a href="#collection">Collection</a></li>
-<li><a href="#network">Network</a>
+<li><a href="#network">Network</a></li>
+<li><a href="#graphs">Graphs</a>
 <ul>
-<li><a href="#graph">Graph</a></li>
+<li><a href="#activity-network">Activity Network</a></li>
+<li><a href="#actor-network">Actor Network</a></li>
 </ul></li>
 </ul>
 </nav>
@@ -1558,15 +1560,24 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </code></pre>
 </div>
 </div>
-<h3 id="graph">Graph</h3>
+<h2 id="graphs">Graphs</h2>
+<h3 id="activity-network">Activity Network</h3>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://igraph.org'>igraph</a></span><span class='op'>)</span>
 <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>RColorBrewer</span><span class='op'>)</span>
 
 <span class='va'>g</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/graph_from_data_frame.html'>graph_from_data_frame</a></span><span class='op'>(</span><span class='va'>activity_net</span><span class='op'>$</span><span class='va'>edges</span>, vertices <span class='op'>=</span> <span class='va'>activity_net</span><span class='op'>$</span><span class='va'>nodes</span><span class='op'>)</span>
-
-<span class='co'># change likes to log scale</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># change likes to log scale</span>
 <span class='va'>like_count</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>public_metrics.like_count</span>
 <span class='va'>like_count</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>like_count</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
 <span class='va'>ln_like_count</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='va'>like_count</span><span class='op'>)</span>
@@ -1580,8 +1591,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>label</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>like_count</span> <span class='op'>&gt;=</span> <span class='fl'>2</span>, <span class='va'>like_count</span>, <span class='cn'>NA</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>label.color</span> <span class='op'>&lt;-</span> <span class='st'>"black"</span>
 
-<span class='co'># set node colors based on number of retweets</span>
-<span class='co'># low to high is yellow to green</span>
+<span class='co'># set node colors based on number of retweets low to high is yellow to green</span>
 <span class='co'># set tweets with no retweets to grey</span>
 <span class='va'>rt_count</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>public_metrics.retweet_count</span>
 <span class='va'>rt_count</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>rt_count</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
@@ -1592,7 +1602,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <span class='co'># set edge color to orange if tweet quoted another tweet</span>
 <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/E.html'>E</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>color</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/E.html'>E</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>type</span> <span class='op'>==</span> <span class='st'>"quoted"</span>, <span class='st'>"orange"</span>, <span class='st'>"grey"</span><span class='op'>)</span>
-
+</code></pre>
+</div>
+</details>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># plot the graph using fruchterman reingold layout</span>
 <span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>200</span><span class='op'>)</span>
 <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/tkplot.html'>tkplot</a></span><span class='op'>(</span><span class='va'>g</span>,
        canvas.width <span class='op'>=</span> <span class='fl'>1024</span>, canvas.height <span class='op'>=</span> <span class='fl'>1024</span>,
@@ -1603,7 +1619,85 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 </div>
 <figure>
-<img src="activity_network.png" alt="Conversation activity network" /><figcaption aria-hidden="true">Conversation activity network</figcaption>
+<img src="activity_network.png" alt="Conversation activity network - Node size and label represent number of tweet likes, color scale is indicating low to high number of retweets (yellow to green). Orange coloured edges are quoting linked tweet." /><figcaption aria-hidden="true">Conversation activity network - Node size and label represent number of tweet likes, color scale is indicating low to high number of retweets (yellow to green). Orange coloured edges are quoting linked tweet.</figcaption>
+</figure>
+<h3 id="actor-network">Actor Network</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://magrittr.tidyverse.org'>magrittr</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://stringr.tidyverse.org'>stringr</a></span><span class='op'>)</span>
+
+<span class='va'>regex_ic</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://stringr.tidyverse.org/reference/modifiers.html'>regex</a></span><span class='op'>(</span><span class='va'>x</span>, ignore_case <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+
+<span class='co'># best effort set the node colour attribute based on presence of city, state,</span>
+<span class='co'># or country in the actors profile location field</span>
+<span class='va'>nodes</span> <span class='op'>&lt;-</span> <span class='va'>actor_net</span><span class='op'>$</span><span class='va'>nodes</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span>
+    <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_detect.html'>str_detect</a></span><span class='op'>(</span><span class='va'>profile.location</span>, <span class='fu'>regex_ic</span><span class='op'>(</span><span class='st'>"brisbane|bris"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>~</span> <span class='st'>"orange"</span>,
+    <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_detect.html'>str_detect</a></span><span class='op'>(</span><span class='va'>profile.location</span>, <span class='fu'>regex_ic</span><span class='op'>(</span><span class='st'>"queensland|qld"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>~</span> <span class='st'>"gold"</span>,
+    <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_detect.html'>str_detect</a></span><span class='op'>(</span><span class='va'>profile.location</span>, <span class='fu'>regex_ic</span><span class='op'>(</span><span class='st'>"australia|aus"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>~</span> <span class='st'>"yellow"</span>,
+    <span class='cn'>TRUE</span> <span class='op'>~</span> <span class='st'>"lightgrey"</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>g2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/graph_from_data_frame.html'>graph_from_data_frame</a></span><span class='op'>(</span><span class='va'>actor_net</span><span class='op'>$</span><span class='va'>edges</span>, vertices <span class='op'>=</span> <span class='va'>nodes</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<details>
+<summary>
+Show code
+</summary>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># this de-clutters the actor network by removing some nodes that are not</span>
+<span class='co'># part of conversation chains and are stand-alone replies to the initial</span>
+<span class='co'># thread tweet</span>
+
+<span class='co'># get the author of the initial thread tweet using the conversation id</span>
+<span class='va'>conversation_ids</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"1376311897624956929"</span><span class='op'>)</span>
+<span class='va'>thread_authors</span> <span class='op'>&lt;-</span> <span class='va'>activity_net</span><span class='op'>$</span><span class='va'>nodes</span> <span class='op'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>tweet_id</span> <span class='op'>%in%</span> <span class='va'>conversation_ids</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>user_id</span><span class='op'>)</span>
+
+<span class='co'># remove actors replying to the initial tweet that have a degree of 1</span>
+<span class='va'>thread_spokes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span><span class='op'>(</span>
+  <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/incident_edges.html'>incident_edges</a></span><span class='op'>(</span><span class='va'>g2</span>, <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>name</span> <span class='op'>%in%</span> <span class='va'>thread_authors</span><span class='op'>$</span><span class='va'>user_id</span><span class='op'>)</span><span class='op'>]</span>,
+                 <span class='st'>"in"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>spokes_tail_nodes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/tail_of.html'>tail_of</a></span><span class='op'>(</span><span class='va'>g2</span>, <span class='va'>thread_spokes</span><span class='op'>)</span><span class='op'>]</span><span class='op'>$</span><span class='va'>name</span>
+<span class='va'>g2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/delete_vertices.html'>delete_vertices</a></span><span class='op'>(</span><span class='va'>g2</span>, <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/degree.html'>degree</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span> <span class='op'>==</span> <span class='fl'>1</span> <span class='op'>&amp;</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>name</span> <span class='op'>%in%</span> <span class='va'>spokes_tail_nodes</span><span class='op'>)</span>
+
+<span class='co'># simplify the graph and collapse edges into an edge weight value</span>
+<span class='fu'><a href='https://rdrr.io/pkg/igraph/man/E.html'>E</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>weight</span> <span class='op'>&lt;-</span> <span class='fl'>1</span>
+<span class='va'>g2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/as.directed.html'>as.undirected</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/simplify.html'>simplify</a></span><span class='op'>(</span><span class='va'>g2</span>, edge.attr.comb <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>weight <span class='op'>=</span> <span class='st'>"sum"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>g2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/delete_vertices.html'>delete_vertices</a></span><span class='op'>(</span><span class='va'>g2</span>, <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/degree.html'>degree</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span> <span class='op'>==</span> <span class='fl'>0</span><span class='op'>)</span>
+
+<span class='co'># use edge weight for graph edge width</span>
+<span class='fu'><a href='https://rdrr.io/pkg/igraph/man/E.html'>E</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>width</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/E.html'>E</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>weight</span> <span class='op'>&gt;</span> <span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/E.html'>E</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>weight</span> <span class='op'>+</span> <span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span>
+
+<span class='co'># use the actors followers count for node size </span>
+<span class='va'>followers_count</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>profile.public_metrics.followers_count</span><span class='op'>)</span>
+<span class='va'>followers_count</span><span class='op'>[</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/is.finite.html'>is.finite</a></span><span class='op'>(</span><span class='va'>followers_count</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='fl'>0</span>
+<span class='va'>size</span> <span class='op'>&lt;-</span> <span class='va'>followers_count</span> <span class='op'>*</span> <span class='fl'>3</span>
+<span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>size</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>size</span> <span class='op'>&lt;</span> <span class='fl'>6</span>, <span class='fl'>6</span>, <span class='va'>size</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>label</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>followers_count</span> <span class='op'>&gt;</span> <span class='fl'>0</span>,
+                      <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>profile.public_metrics.followers_count</span>, <span class='cn'>NA</span><span class='op'>)</span>
+</code></pre>
+</div>
+</details>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># plot the graph using automatically chosen layout</span>
+<span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>201</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/igraph/man/tkplot.html'>tkplot</a></span><span class='op'>(</span><span class='va'>g2</span>,
+       canvas.width <span class='op'>=</span> <span class='fl'>1024</span>, canvas.height <span class='op'>=</span> <span class='fl'>1024</span>,
+       layout <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/layout_nicely.html'>layout_nicely</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span>,
+       vertex.label.cex <span class='op'>=</span> <span class='fl'>0.8</span>,
+       vertex.label.color <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<figure>
+<img src="actor_network.png" alt="Conversation actor network - Node size and label represent users follower counts. Node color indicates user self-reported location. Edge width represents number of collapsed edges." /><figcaption aria-hidden="true">Conversation actor network - Node size and label represent users follower counts. Node color indicates user self-reported location. Edge width represents number of collapsed edges.</figcaption>
 </figure>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
