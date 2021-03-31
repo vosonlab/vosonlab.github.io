@@ -23,7 +23,6 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -122,7 +121,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <!--/radix_placeholder_meta_tags-->
   
-  <meta name="citation_reference" content="citation_title=Online collective identity: The case of the environmental movement;citation_publication_date=2011;citation_volume=3;citation_doi=10.1016/j.socnet.2011.03.001;citation_author=R. Ackland;citation_author=M. Oâ€™Neil"/>
+  <meta name="citation_reference" content="citation_title=Online collective identity: The case of the environmental movement;citation_publication_date=2011;citation_volume=33;citation_doi=10.1016/j.socnet.2011.03.001;citation_author=R. Ackland;citation_author=M. Oâ€™Neil"/>
   <meta name="citation_reference" content="citation_title=Web Social Science: Concepts, Data and Tools for Social Scientists in the Digital Age;citation_publication_date=2013;citation_publisher=SAGE Publications;citation_author=R. Ackland"/>
   <meta name="citation_reference" content="citation_title=WWW Hyperlink Networks;citation_publication_date=2010;citation_publisher=Morgan-Kaufmann;citation_author=R. Ackland"/>
   <!--radix_placeholder_rmarkdown_metadata-->
@@ -1886,7 +1885,10 @@ function init_distill() {
 
     // hoverable references
     $('span.citation[data-cites]').each(function() {
-      var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+      var refs = $(this).attr('data-cites').split(" ");
+      var refHtml = refs.map(function(ref) {
+        return "<p>" + $('#ref-' + ref).html() + "</p>";
+      }).join("\n");
       window.tippy(this, {
         allowHTML: true,
         content: refHtml,
@@ -2200,17 +2202,17 @@ d-byline {
 <li><a href="#network-creation">Network Creation</a>
 <ul>
 <li><a href="#networks">Networks</a></li>
-<li><a href="#graphing">Graphing</a></li>
+<li><a href="#plot-a-graph">Plot a Graph</a></li>
 </ul></li>
 </ul>
 </nav>
 </div>
-<p>The <a href="http://vosonlab.net/VOSON">VOSON</a> software for hyperlink collection and analysis was an early research output of the VOSON Lab <span class="citation" data-cites="Ackland2010">(<a href="#ref-Ackland2010" role="doc-biblioref">Ackland 2010</a>)</span>. It addressed a need for tools that could help study online social networks, even before the rise of social media, and assisted researchers gain insights into important phenomena such as networks around issue spheres and online social movements [see <span class="citation" data-cites="acklandoneil2011">(<a href="#ref-acklandoneil2011" role="doc-biblioref">Ackland and O’Neil 2011</a>)</span> and <span class="citation" data-cites="Ackland2013">(<a href="#ref-Ackland2013" role="doc-biblioref">Ackland 2013</a>)</span>]. After <a href="http://vosonlab.net/content/voson-turns-10">many years and many iterations</a> since its inception in 2004, the VOSON Lab is happy to reintroduce the canonical VOSON hyperlink collection software as part of our R open-source toolkit for social media collection: <code>vosonSML</code>.</p>
+<p>The <a href="http://vosonlab.net/VOSON">VOSON</a> software for hyperlink collection and analysis was an early research output of the VOSON Lab <span class="citation" data-cites="ackland2010">(<a href="#ref-ackland2010" role="doc-biblioref">Ackland 2010</a>)</span>. It addressed a need for tools that could help study online social networks, even before the rise of social media, and assisted researchers gain insights into important phenomena such as networks around issue spheres and online social movements [see <span class="citation" data-cites="acklandoneil2011">(<a href="#ref-acklandoneil2011" role="doc-biblioref">Ackland and O’Neil 2011</a>)</span> and <span class="citation" data-cites="ackland2013">(<a href="#ref-ackland2013" role="doc-biblioref">Ackland 2013</a>)</span>]. After <a href="http://vosonlab.net/content/voson-turns-10">many years and many iterations</a> since its inception in 2004, the VOSON Lab is happy to reintroduce the canonical VOSON hyperlink collection software as part of our R open-source toolkit for social media collection: <code>vosonSML</code>.</p>
 <p>This simple guide will demonstrate how to use the new features of the <code>vosonSML</code> package to perform a hyperlink collection and generate networks for analysis.</p>
 <h2 id="introduction">Introduction</h2>
 <p>The <code>vosonSML</code> hyperlink collection and network creation works similarly to the 3-step process we use with other social media sources: the <code>Authenticate</code>, <code>Collect</code> and <code>Create</code> verb functions. The <code>Authenticate</code> function is first called with the parameter “web” to identify and set up the context for subsequent operations, but it does not require any further credentials in this implementation. <code>vosonSML</code> uses standard web crawling and text-based page scraping techniques to discover hyperlinks and, as such, there is no need to access any restricted data API’s as we commonly do with social media.</p>
 <h3 id="installation">Installation</h3>
-<p>The new hyperlink collection and network features are currently available in the <a href="https://github.com/vosonlab/vosonsml">development version of vosonSML on GitHub</a>, and are to soon be released on CRAN. The development version can be installed as follows:</p>
+<p>The new hyperlink collection and network features are currently available in the development version of <a href="https://github.com/vosonlab/vosonsml">vosonSML on GitHub</a>, and are to soon be released on CRAN. The development version can be installed as follows:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># use the remotes package to install the latest dev version of vosonSML from github</span>
@@ -2218,9 +2220,9 @@ d-byline {
 <span class='fu'><a href='https://remotes.r-lib.org/reference/install_github.html'>install_github</a></span><span class='op'>(</span><span class='st'>"vosonlab/vosonsml"</span><span class='op'>)</span>
 
 <span class='co'># Downloading GitHub repo vosonlab/vosonsml@HEAD</span>
-<span class='co'># v  checking for file</span>
+<span class='co'># √  checking for file</span>
 <span class='co'># -  preparing 'vosonSML':</span>
-<span class='co'># v  checking DESCRIPTION meta-information ... </span>
+<span class='co'># √  checking DESCRIPTION meta-information ... </span>
 <span class='co'># -  checking for LF line-endings in source and make files and shell scripts</span>
 <span class='co'># -  checking for empty or unneeded directories</span>
 <span class='co'># -  building 'vosonSML_0.30.00.9000.tar.gz'</span>
@@ -2248,7 +2250,7 @@ d-byline {
 </div>
 <p>The example above shows seed pages with some additional per-seed parameters that are used to control the web crawling. The <code>type</code> parameter can be set to a value of either <code>int</code>, <code>ext</code> or <code>all</code>, which correspond to following only internal, external or following all hyperlinks found on a seeded web page and subsequent pages discovered from that particular seed. How a hyperlink is classified is determined by the seed domain name, for example, if the seed page is <code>https://vosonlab.net</code> a type of <code>ext</code> will follow hyperlinks from that page that do not have a domain name of “vosonlab.net.” A type of <code>int</code> will follow only hyperlinks that match a domain of “vosonlab.net,” and a type of <code>all</code> will follow all hyperlinks found irrespective of their domain. The final parameter <code>max_depth</code> refers to how many levels of pages to follow from the seed page. In the diagram below, the green dots are pages scraped by the web crawler and the blue dots links are the hyperlinks collected from them for a max depth of 1,2 and 3.</p>
 <figure>
-<img src="crawl_depth.png" alt="Scope of hyperlinks collected using the max_depth parameter" /><figcaption aria-hidden="true">Scope of hyperlinks collected using the max_depth parameter</figcaption>
+<img src="crawl_depth.png" alt="Figure 1: Scope of hyperlinks collected using the max_depth parameter" /><figcaption aria-hidden="true">Figure 1: Scope of hyperlinks collected using the max_depth parameter</figcaption>
 </figure>
 <p>As can be seen, a max depth of 1 directs the crawler to scrape and collect hyperlinks from only seed pages, a max depth of 2 to follow hyperlinks found on the seed pages and collect hyperlinks from those pages as well, and so on radiating outwards. The number of pages and hyperlinks can rise very rapidly so it is best to keep this number as low as possible. If a greater reach in collection sites is desired, this could perhaps more efficiently be achieved by revising and adding more seed pages in the first instance. In the example code the <code>type</code> has been set to “ext” (external) for all three seed sites, so as to limit “mapping” of the internal seed web sites and focus on their outward facing connections. Depth of crawl was set to 2.</p>
 <p>It should be noted that all hyperlinks found are collected from scraped pages and used to generate networks. The <code>type</code> and <code>max_depth</code> parameters only apply to the web crawling and scraping activity.</p>
@@ -2338,7 +2340,7 @@ d-byline {
 </code></pre>
 </div>
 </div>
-<h3 id="graphing">Graphing</h3>
+<h3 id="plot-a-graph">Plot a Graph</h3>
 <p>Now that the network has been generated, we can create a graph and plot it. The <code>Graph</code> function creates an <code>igraph</code> format object that can be directly plotted or adjusted for presentation using <code>igraph</code> plotting parameters.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2380,18 +2382,18 @@ d-byline {
 </div>
 </div>
 <figure>
-<img src="hyperlink_network.png" alt="Hyperlink network of actors" /><figcaption aria-hidden="true">Hyperlink network of actors</figcaption>
+<img src="hyperlink_network.png" alt="Figure 2: Hyperlink network of actors" /><figcaption aria-hidden="true">Figure 2: Hyperlink network of actors</figcaption>
 </figure>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
-<div id="ref-Ackland2010" class="csl-entry" role="doc-biblioentry">
+<div id="ref-ackland2010" class="csl-entry" role="doc-biblioentry">
 Ackland, R. 2010. <span>“WWW Hyperlink Networks.”</span> Edited by D. L. Hansen and B. Shneiderman and M. A. Smith. Morgan-Kaufmann.
 </div>
-<div id="ref-Ackland2013" class="csl-entry" role="doc-biblioentry">
-———. 2013. <span>“Web Social Science: Concepts, Data and Tools for Social Scientists in the Digital Age.”</span> SAGE Publications.
+<div id="ref-ackland2013" class="csl-entry" role="doc-biblioentry">
+———. 2013. <em>Web Social Science: Concepts, Data and Tools for Social Scientists in the Digital Age</em>. SAGE Publications.
 </div>
 <div id="ref-acklandoneil2011" class="csl-entry" role="doc-biblioentry">
-Ackland, R., and M. O’Neil. 2011. <span>“Online Collective Identity: The Case of the Environmental Movement.”</span> <em>Social Networks</em> 3 (3): 1–18. <a href="https://doi.org/10.1016/j.socnet.2011.03.001">https://doi.org/10.1016/j.socnet.2011.03.001</a>.
+Ackland, R., and M. O’Neil. 2011. <span>“Online Collective Identity: The Case of the Environmental Movement.”</span> <em>Social Networks</em> 33 (3): 177–90. <a href="https://doi.org/10.1016/j.socnet.2011.03.001">https://doi.org/10.1016/j.socnet.2011.03.001</a>.
 </div>
 </div>
 <!--radix_placeholder_article_footer-->

@@ -27,7 +27,7 @@ bibliography: biblio.yaml
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-The [VOSON](http://vosonlab.net/VOSON) software for hyperlink collection and analysis was an early research output of the VOSON Lab [@Ackland2010]. It addressed a need for tools that could help study online social networks, even before the rise of social media, and assisted researchers gain insights into important phenomena such as networks around issue spheres and online social movements [see [@acklandoneil2011] and [@Ackland2013]]. After [many years and many iterations](http://vosonlab.net/content/voson-turns-10) since its inception in 2004, the VOSON Lab is happy to reintroduce the canonical VOSON hyperlink collection software as part of our R open-source toolkit for social media collection: `vosonSML`.
+The [VOSON](http://vosonlab.net/VOSON) software for hyperlink collection and analysis was an early research output of the VOSON Lab [@ackland2010]. It addressed a need for tools that could help study online social networks, even before the rise of social media, and assisted researchers gain insights into important phenomena such as networks around issue spheres and online social movements [see [@acklandoneil2011] and [@ackland2013]]. After [many years and many iterations](http://vosonlab.net/content/voson-turns-10) since its inception in 2004, the VOSON Lab is happy to reintroduce the canonical VOSON hyperlink collection software as part of our R open-source toolkit for social media collection: `vosonSML`.
 
 This simple guide will demonstrate how to use the new features of the `vosonSML` package to perform a hyperlink collection and generate networks for analysis.
  
@@ -37,7 +37,7 @@ The `vosonSML` hyperlink collection and network creation works similarly to the 
 
 ### Installation
 
-The new hyperlink collection and network features are currently available in the [development version of vosonSML on GitHub](https://github.com/vosonlab/vosonsml), and are to soon be released on CRAN. The development version can be installed as follows:
+The new hyperlink collection and network features are currently available in the development version of [vosonSML on GitHub](https://github.com/vosonlab/vosonsml), and are to soon be released on CRAN. The development version can be installed as follows:
 
 ```{r install, echo=TRUE, eval=FALSE}
 # use the remotes package to install the latest dev version of vosonSML from github
@@ -75,7 +75,7 @@ pages <- data.frame(page = c("http://vosonlab.net",
 
 The example above shows seed pages with some additional per-seed parameters that are used to control the web crawling. The `type` parameter can be set to a value of either `int`, `ext` or `all`, which correspond to following only internal, external or following all hyperlinks found on a seeded web page and subsequent pages discovered from that particular seed. How a hyperlink is classified is determined by the seed domain name, for example, if the seed page is `https://vosonlab.net` a type of `ext` will follow hyperlinks from that page that do not have a domain name of "vosonlab.net". A type of `int` will follow only hyperlinks that match a domain of "vosonlab.net", and a type of `all` will follow all hyperlinks found irrespective of their domain. The final parameter `max_depth` refers to how many levels of pages to follow from the seed page. In the diagram below, the green dots are pages scraped by the web crawler and the blue dots links are the hyperlinks collected from them for a max depth of 1,2 and 3. 
 
-![Scope of hyperlinks collected using the max_depth parameter](crawl_depth.png)
+![Figure 1: Scope of hyperlinks collected using the max_depth parameter](crawl_depth.png)
 
 As can be seen, a max depth of 1 directs the crawler to scrape and collect hyperlinks from only seed pages, a max depth of 2 to follow hyperlinks found on the seed pages and collect hyperlinks from those pages as well, and so on radiating outwards. The number of pages and hyperlinks can rise very rapidly so it is best to keep this number as low as possible. If a greater reach in collection sites is desired, this could perhaps more efficiently be achieved by revising and adding more seed pages in the first instance. In the example code the `type` has been set to "ext" (external) for all three seed sites, so as to limit "mapping" of the internal seed web sites and focus on their outward facing connections. Depth of crawl was set to 2.
 
@@ -168,7 +168,7 @@ print(as_tibble(actor_net$edges))
 # # ... with 223 more rows
 ```
 
-### Graphing
+### Plot a Graph
 
 Now that the network has been generated, we can create a graph and plot it. The `Graph` function creates an `igraph` format object that can be directly plotted or adjusted for presentation using `igraph` plotting parameters.
 
@@ -209,4 +209,4 @@ tkplot(simplify(g),
        edge.width = 1 + log(E(g)$weight))
 ```
 
-![Hyperlink network of actors](hyperlink_network.png)
+![Figure 2: Hyperlink network of actors](hyperlink_network.png)

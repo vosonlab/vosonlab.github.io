@@ -2196,6 +2196,7 @@ function init_posts_list() {
 
       // mark posts that match the category visible
       var page_category = window.location.hash.replace(/^#category:/, "");
+      page_category = decodeURIComponent(page_category)
       var posts = $('.post-metadata').map(function(idx, script) {
         var metadata = $.parseJSON($(script).html());
         var post = null;
@@ -2211,7 +2212,7 @@ function init_posts_list() {
       set_posts_visible(posts, true);
 
       // mark the hash active
-      $('.categories li>a[href="' + window.location.hash + '"]').addClass('active');
+      $('.categories li>a[href="' + decodeURIComponent(window.location.hash) + '"]').addClass('active');
 
       // update the list_caption
       var list_caption = $('.posts-list-caption');
@@ -2274,10 +2275,34 @@ function init_posts_list() {
 <div class="posts-container posts-with-sidebar posts-apply-limit l-screen-inset">
 <div class="posts-list">
 <h1 class="posts-list-caption" data-caption="VOSON Coding Blog">VOSON Coding Blog</h1>
+<a href="posts/2021-03-23-twitter-conversation-networks/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":["rstats","twitter","conversations","voson.tcn","networks"]}</script>
+<div class="metadata">
+<div class="publishedDate">March 23, 2021</div>
+<div class="dt-authors">
+<div class="dt-author">Bryan Gertzel</div>
+<div class="dt-author">Francisca Borquez</div>
+</div>
+</div>
+<div class="thumbnail">
+<img src="posts/2021-03-23-twitter-conversation-networks/activity_network.png"/>
+</div>
+<div class="description">
+<h2>Twitter Conversation Networks</h2>
+<div class="dt-tags">
+<div class="dt-tag">rstats</div>
+<div class="dt-tag">twitter</div>
+<div class="dt-tag">conversations</div>
+<div class="dt-tag">voson.tcn</div>
+<div class="dt-tag">networks</div>
+</div>
+<p>Getting started with the voson.tcn package.</p>
+</div>
+</a>
 <a href="posts/2021-03-15-hyperlink-networks-with-vosonsml/" class="post-preview">
 <script class="post-metadata" type="text/json">{"categories":["rstats","hyperlinks","vosonSML","networks"]}</script>
 <div class="metadata">
-<div class="publishedDate">March 14, 2021</div>
+<div class="publishedDate">March 15, 2021</div>
 <div class="dt-authors">
 <div class="dt-author">Bryan Gertzel</div>
 <div class="dt-author">Francisca Borquez</div>
@@ -2300,7 +2325,7 @@ function init_posts_list() {
 <a href="posts/2021-02-11_twitter_vsml_from_rtweet/" class="post-preview">
 <script class="post-metadata" type="text/json">{"categories":["rstats","twitter","vosonSML","rtweet","networks"]}</script>
 <div class="metadata">
-<div class="publishedDate">Feb. 11, 2021</div>
+<div class="publishedDate">Feb. 10, 2021</div>
 <div class="dt-authors">
 <div class="dt-author">Bryan Gertzel</div>
 <div class="dt-author">Francisca Borquez</div>
@@ -2367,10 +2392,14 @@ function init_posts_list() {
 <ul>
 <li>
 <a href="#category:Articles">Articles</a>
-<span class="category-count">(3)</span>
+<span class="category-count">(4)</span>
 </li>
 <li>
 <a href="#category:Computational_Social_Methods">Computational Social Methods</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:conversations">conversations</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
@@ -2379,11 +2408,11 @@ function init_posts_list() {
 </li>
 <li>
 <a href="#category:networks">networks</a>
-<span class="category-count">(2)</span>
+<span class="category-count">(3)</span>
 </li>
 <li>
 <a href="#category:rstats">rstats</a>
-<span class="category-count">(2)</span>
+<span class="category-count">(3)</span>
 </li>
 <li>
 <a href="#category:Rstats">Rstats</a>
@@ -2399,6 +2428,10 @@ function init_posts_list() {
 </li>
 <li>
 <a href="#category:twitter">twitter</a>
+<span class="category-count">(2)</span>
+</li>
+<li>
+<a href="#category:voson.tcn">voson.tcn</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
@@ -2412,7 +2445,7 @@ function init_posts_list() {
 <a href="#">More articles &raquo;</a>
 </div>
 </div>
-<!--/radix_placeholder_article_listing-->
+<!--/radix_placeholder_article_listing-->
 
 <div class="d-title">
 <h1>VOSON Coding Blog</h1>

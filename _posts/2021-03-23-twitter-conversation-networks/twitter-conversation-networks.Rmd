@@ -14,12 +14,13 @@ categories:
   - conversations
   - voson.tcn
   - networks
+preview: activity_network.png
 output:
   distill::distill_article:
     self_contained: false
     toc: true
     toc_depth: 3
-draft: true
+draft: false
 ---
 
 ```{r setup, include=FALSE}
@@ -28,7 +29,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 The VOSON Lab has recently published to github a new open source R package called [`{voson.tcn}`](https://vosonlab.github.io/voson.tcn) that uses the Early-Access Twitter API v2 to collect tweets belonging to specified threaded conversations and generate networks. This is now possible with the v2 API thanks to a new tweet identifier called the [conversation ID](https://developer.twitter.com/en/docs/twitter-api/conversation-id), that is common to all tweets that are part of a conversation, and can be searched for using the API search endpoints. Identifiers and associated metadata for referenced tweets can also be collected in the same search for conversation tweets, allowing us to construct twitter networks with tweet and user metadata whilst minimizing API requests.
 
-## Twitter Developer Access
+### Twitter Developer Access
 
 The `{voson.tcn}` package requires developer app authentication keys or tokens to access the Twitter API v2. These can be either the `Access token & secret` of an app or its `Bearer token`.
 
@@ -37,6 +38,29 @@ To obtain these credentials and use the early-access API you will need to have o
 There are currently two project types available that correspond to Twitter's developer [product tracks](https://developer.twitter.com/en/products/twitter-api/early-access/guide), a *standard* and *academic* type. Academic projects are only available to researchers who have completed and had approved their [application for the academic research track](https://developer.twitter.com/en/solutions/academic-research/application-info) for non-commercial research purposes, and standard projects are more general use, including for hobby and educational purposes. The project type features differ in their API access and caps, standard projects can only access the 7-day recent search endpoint whereas an academic project can also access the [full-archive search](https://developer.twitter.com/en/docs/twitter-api/tweets/search/introduction) endpoint for historical tweets. There are also rate-limits and monthly tweet caps for API v2 search endpoints, at the time of writing the caps are 500k and 10 million tweets that can be retrieved per month for the standard and academic track projects respectively.
 
 Please note that there are also [terms of use, and restricted use cases](https://developer.twitter.com/en/developer-terms/more-on-restricted-use-cases) that should be considered before applying for access or using the Twitter API.
+
+### Installation
+
+The `{voson.tcn}` R package is in development and currently only available on [GitHub](https://vosonlab.github.io/voson.tcn). It can be installed as follows:
+
+```{r install, echo=TRUE, eval=FALSE}
+# use the remotes package to install the latest dev version of voson.tcn from github
+library(remotes)
+install_github("vosonlab/voson.tcn")
+
+# Downloading GitHub repo vosonlab/voson.tcn@HEAD
+# √  checking for file
+# -  preparing 'voson.tcn':
+# √  checking DESCRIPTION meta-information ... 
+# -  checking for LF line-endings in source and make files and shell scripts
+# -  checking for empty or unneeded directories
+# -  building 'voson.tcn_0.1.6.9000.tar.gz'
+#    
+# * installing *source* package 'voson.tcn' ...
+# ...
+# * DONE (voson.tcn)
+# Making 'packages.html' ... done
+```
 
 ## Authentication
 
@@ -64,7 +88,7 @@ Collecting conversation tweets requires the tweet ID or URL of a tweet that belo
 
 In the following example we are collecting the tweets for a threaded conversation belonging to a public lockdown announcement following a COVID19 outbreak in Brisbane, Queensland Australia that took place in March 2021. The tweet URL or ID (number following the status in the URL) can be passed directly to the collection function.
 
-![Public announcement tweet regarding a COVID19 lockdown of Brisbane from the Queensland Premier](example_tweet.png)
+![Figure 1: Public announcement tweet regarding a COVID19 lockdown of Brisbane from the Queensland Premier](example_tweet.png)
 
 ```{r collection, echo=TRUE, eval=FALSE}
 # read token from file
@@ -74,32 +98,129 @@ token <- readRDS("~/.tcn_token")
 tweets <- tcn_threads("https://twitter.com/AnnastaciaMP/status/1376311897624956929", token)
 ```
 
-When completed a list of named dataframes will be returned, `tweets` containing all of the tweets and their metadata and `users` with all of the referenced users in the tweets and their metadata.
+When completed a list of named dataframes will be returned, `tweets` containing all of the tweets and their metadata and `users` with all of the referenced users in the tweets and their metadata. In our example 286 tweets were collected with 180 associated users public metadata. The collection of a threaded tweet conversation is a snapshot of the state of the conversation at a point in time. Metrics and networks produced from our data will not completely match subsequent collections of the same conversation as it will have likely cumulatively expanded over time.
 
 ```{r collection-data, echo=TRUE, eval=FALSE}
+# collected tweets
+print(tweets$tweets, n = 3)
+# # A tibble: 286 x 14
+#   in_reply_to_user~ conversation_id  source  author_id  tweet_id  ref_tweet_type
+#   <chr>             <chr>            <chr>   <chr>      <chr>     <chr>         
+# 1 15999~            137631189762495~ Twitte~ 134852208~ 13763373~ replied_to    
+# 2 1142316897985163~ 137631189762495~ Twitte~ 126908387~ 13763373~ replied_to    
+# 3 25683~            137631189762495~ Twitte~ 137503906~ 13763371~ replied_to    
+# # ... with 283 more rows, and 8 more variables: ref_tweet_id <chr>, text <chr>,
+# #   created_at <chr>, includes <chr>, public_metrics.retweet_count <int>,
+# #   public_metrics.reply_count <int>, public_metrics.like_count <int>,
+# #   public_metrics.quote_count <int>
 
+# users metadata
+print(tweets$users, n = 3)
+# # A tibble: 180 x 12
+#   profile.username profile.created_~ profile.profile_~ user_id profile.descript~
+#   <chr>            <chr>             <chr>             <chr>   <chr>            
+# 1 MSMW~            2013-03-30T06:48~ https://pbs.twim~ 131592~ "Fact checking i~
+# 2 bpro~            2012-12-04T02:07~ https://pbs.twim~ 987844~ "Only way to get~
+# 3 scre~            2009-10-22T22:56~ https://pbs.twim~ 844463~ "I'm a  creative~
+# # ... with 177 more rows, and 7 more variables: profile.name <chr>,
+# #   profile.verified <lgl>, profile.location <chr>,
+# #   profile.public_metrics.followers_count <int>,
+# #   profile.public_metrics.following_count <int>,
+# #   profile.public_metrics.tweet_count <int>,
+# #   profile.public_metrics.listed_count <int>
 ```
 
-## Network
+Note: If interested in text analysis the tweet text is found in the `text` column of the `tweets` dataframe and user profile descriptions in `profile.description` of the `users` dataframe.
 
-```{r network, echo=TRUE, eval=FALSE}
-actor_net <- tcn_network(tweets, "actor")
+Public metrics for `tweets` and `users` are found in dataframe columns prefixed with `public_metrics` and `profile.public_metrics` respectively.
 
-activity_net <- tcn_network(tweets, "activity")
+```{r collection-data-metrics, echo=TRUE, eval=FALSE}
+library(dplyr)
+
+names(select(tweets$tweets, starts_with("public_metrics")))
+# [1] "public_metrics.retweet_count" "public_metrics.reply_count"
+# [3] "public_metrics.like_count" "public_metrics.quote_count"
+
+names(select(tweets$users, starts_with("profile.public_metrics")))
+# [1] "profile.public_metrics.followers_count"
+# [2] "profile.public_metrics.following_count"
+# [3] "profile.public_metrics.tweet_count"
+# [4] "profile.public_metrics.listed_count"
 ```
 
-## Graphs
+## Network Creation
+
+There are two types of networks that can be generated using `{voson.tcn}`, an `activity` and `actor` network. These differ by the type of node and resulting structure of the networks.
 
 ### Activity Network
 
-```{r graph, echo=TRUE, eval=FALSE}
+An `activity` network is a representation of the conversation as seen on Twitter, nodes are tweets and the edges are how they are related. Tweets or nodes are identified by their unique identifier formerly `Status ID`, but now known as `Tweet ID` in API v2. In a Twitter threaded conversation there are only two types of connections or edges between tweets and these are `replied_to` and `quoted`.
+
+Replies are made when a user chooses the *reply* option and publishes a tweet response to the tweet they are replying to. Quotes are a little different in that the user has included a link to or *quoted* another tweet in the body of their tweet. In Twitter conversation networks it's common to *quote* a tweet as part of a *reply* tweet, generating in the activity network a `replied_to` and `quoted` edge from the same node.
+ 
+```{r network-actor, echo=TRUE, eval=FALSE}
+# generate an activity network
+activity_net <- tcn_network(tweets, "activity")
+
+# number of nodes
+nrow(activity_net$nodes)
+# [1] 279
+
+# number of edges
+print(activity_net$edges, n = 3)
+# # A tibble: 281 x 3
+#   from                to                  type      
+#   <chr>               <chr>               <chr>     
+# 1 1376337359126495232 1376328523518898176 replied_to
+# 2 1376337350163267584 1376325216658317315 replied_to
+# 3 1376337128016113665 1376311897624956929 replied_to
+# # ... with 278 more rows
+
+unique(activity_net$edges$type)
+# [1] "replied_to" "quoted"
+```
+
+### Actor Network
+
+An `actor` network represents the interactions between users in the conversation. Nodes are the users and edges are their connections, as in the `activity` network edges are either a `reply` or a `quote` but represent the classification of a tweet connecting users rather than the activity. Users or nodes are identified by their unique Twitter `User ID`. In the `actor` network interactions between users are more apparent and can be measured by the frequency (and direction) of edges between them.
+
+```{r network-activity, echo=TRUE, eval=FALSE}
+# generate an actor network
+actor_net <- tcn_network(tweets, "actor")
+
+# number of nodes or actors
+nrow(actor_net$nodes)
+# [1] 180
+
+print(actor_net$edges, n = 3)
+# # A tibble: 286 x 6
+#   from      to        type  tweet_id     created_at    text                     
+#   <chr>     <chr>     <chr> <chr>        <chr>         <chr>                    
+# 1 13485220~ 15999128~ reply 13763373591~ 2021-03-29T0~ "@Ther~ @Scott~
+# 2 12690838~ 11423168~ reply 13763373501~ 2021-03-29T0~ "@Luke~ @Annas~
+# 3 13750390~ 25683344~ reply 13763371280~ 2021-03-29T0~ "@AnnastaciaMP You do un~
+# # ... with 283 more rows
+
+unique(actor_net$edges$type)
+# [1] "reply" "quote" "tweet"
+```
+
+Note that there is an additional edge type `tweet`, this is assigned to a self-loop edge created for the threads initial tweet. This is a technique used in the `actor` network to retain the initial tweets metadata as edge attributes comparable to other edges in the network. For example, this allows the text of the initial tweet to be included in any actor network tweet text analysis. It would not usually be included in the edge list as the initial conversation tweet is not directed at another user, and hence no edge to attach metadata is naturally found in this type of network.
+
+## Plot Graphs
+
+### Activity Network
+
+Visualization of the `activity` network produced with `{igraph}`.
+
+```{r graph-activity-1, echo=TRUE, eval=FALSE}
 library(igraph)
 library(RColorBrewer)
 
 g <- graph_from_data_frame(activity_net$edges, vertices = activity_net$nodes)
 ```
 
-```{r graph1, echo=TRUE, eval=FALSE, code_folding=TRUE}
+```{r graph-activity-2, echo=TRUE, eval=FALSE, code_folding=TRUE}
 # change likes to log scale
 like_count <- V(g)$public_metrics.like_count
 like_count[is.na(like_count)] <- 0
@@ -127,7 +248,7 @@ V(g)$color[which(rt_count < 1)] <- "lightgrey"
 E(g)$color <- ifelse(E(g)$type == "quoted", "orange", "grey")
 ```
 
-```{r graph2, echo=TRUE, eval=FALSE}
+```{r graph-activity-3, echo=TRUE, eval=FALSE}
 # plot the graph using fruchterman reingold layout
 set.seed(200)
 tkplot(g,
@@ -137,11 +258,17 @@ tkplot(g,
        edge.width = 2)
 ```
 
-![Conversation activity network - Node size and label represent number of tweet likes, color scale is indicating low to high number of retweets (yellow to green). Orange coloured edges are quoting linked tweet.](activity_network.png)
+![Figure 2: Conversation activity network - Node size and label represent number of tweet likes, color scale is indicating low to high number of retweets (yellow to green). Orange coloured edges are quoting linked tweet.](activity_network.png)
+
+`{voson.tcn}` collects tweets that are all linked to each other via the conversation ID. This means that in a tweet network generated from this data, such as the activity network, all of the nodes should be connected in a single component per conversation ID. If multiple conversation ID's were collected on then it's also possible to have one component because of *quote* edges. These edges joining conversations occur when a tweet in one conversation has quoted a tweet in another that you have collected.
+
+In the example activity network above there are two components even though only one conversation ID was collected on. Multiple components are usually due to a missing conversation tweet not able to be retrieved from the API and producing a broken reply chain. This can often occur if a tweet has been deleted, or the tweet or user flagged or suspended in some way restricting public availability.
 
 ### Actor Network
 
-```{r graph3, echo=TRUE, eval=FALSE}
+Visualization of the `actor` network produced with `{igraph}`.
+
+```{r graph-actor-1, echo=TRUE, eval=FALSE}
 library(dplyr)
 library(magrittr)
 library(stringr)
@@ -160,10 +287,10 @@ nodes <- actor_net$nodes %>%
 g2 <- graph_from_data_frame(actor_net$edges, vertices = nodes)
 ```
 
-```{r graph4, echo=TRUE, eval=FALSE, code_folding=TRUE}
-# this de-clutters the actor network by removing some nodes that are not
-# part of conversation chains and are stand-alone replies to the initial
-# thread tweet
+```{r graph-actor-2, echo=TRUE, eval=FALSE, code_folding=TRUE}
+# the following code de-clutters the actor network by removing some nodes
+# that are not part of conversation chains and are stand-alone replies to
+# the initial thread tweet
 
 # get the author of the initial thread tweet using the conversation id
 conversation_ids <- c("1376311897624956929")
@@ -177,6 +304,7 @@ thread_spokes <- unlist(
 spokes_tail_nodes <- V(g2)[tail_of(g2, thread_spokes)]$name
 g2 <- delete_vertices(g2, degree(g2) == 1 & V(g2)$name %in% spokes_tail_nodes)
 
+# convert the graph to undirected
 # simplify the graph and collapse edges into an edge weight value
 E(g2)$weight <- 1
 g2 <- as.undirected(simplify(g2, edge.attr.comb = list(weight = "sum")))
@@ -194,7 +322,7 @@ V(g2)$label <- ifelse(followers_count > 0,
                       V(g2)$profile.public_metrics.followers_count, NA)
 ```
 
-```{r graph5, echo=TRUE, eval=FALSE}
+```{r graph-actor-3, echo=TRUE, eval=FALSE}
 # plot the graph using automatically chosen layout
 set.seed(201)
 tkplot(g2,
@@ -204,4 +332,4 @@ tkplot(g2,
        vertex.label.color = "black")
 ```
 
-![Conversation actor network - Node size and label represent users follower counts. Node color indicates user self-reported location. Edge width represents number of collapsed edges.](actor_network.png)
+![Figure 3: Conversation actor network - Node size and label represent users follower counts. Node color indicates user self-reported location. Edge width represents number of collapsed edges.](actor_network.png)

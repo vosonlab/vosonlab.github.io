@@ -7,7 +7,22 @@
     <description>Virtual Observatory for the Study of Online Networks (VOSON) Lab, Australian National University
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Sun, 14 Mar 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 23 Mar 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Twitter Conversation Networks</title>
+      <dc:creator>Bryan Gertzel</dc:creator>
+      <dc:creator>Francisca Borquez</dc:creator>
+      <link>https://vosonlab.github.io/posts/2021-03-23-twitter-conversation-networks</link>
+      <description>Getting started with the voson.tcn package.</description>
+      <category>rstats</category>
+      <category>twitter</category>
+      <category>conversations</category>
+      <category>voson.tcn</category>
+      <category>networks</category>
+      <guid>https://vosonlab.github.io/posts/2021-03-23-twitter-conversation-networks</guid>
+      <pubDate>Tue, 23 Mar 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://vosonlab.github.io/posts/2021-03-23-twitter-conversation-networks/activity_network.png" medium="image" type="image/png" width="1024" height="1025"/>
+    </item>
     <item>
       <title>Hyperlink Networks with vosonSML</title>
       <dc:creator>Bryan Gertzel</dc:creator>
@@ -19,7 +34,7 @@
       <category>vosonSML</category>
       <category>networks</category>
       <guid>https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml</guid>
-      <pubDate>Sun, 14 Mar 2021 00:00:00 +0000</pubDate>
+      <pubDate>Mon, 15 Mar 2021 00:00:00 +0000</pubDate>
       <media:content url="https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml/hyperlink_network.png" medium="image" type="image/png" width="1024" height="1025"/>
     </item>
     <item>
@@ -34,7 +49,7 @@
       <category>rtweet</category>
       <category>networks</category>
       <guid>https://vosonlab.github.io/posts/2021-02-11_twitter_vsml_from_rtweet</guid>
-      <pubDate>Thu, 11 Feb 2021 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 10 Feb 2021 00:00:00 +0000</pubDate>
       <media:content url="https://vosonlab.github.io/posts/2021-02-11_twitter_vsml_from_rtweet/rtweet_logo_preview.png" medium="image" type="image/png" width="432" height="499"/>
     </item>
     <item>
