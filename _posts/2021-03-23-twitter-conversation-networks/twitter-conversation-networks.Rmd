@@ -26,7 +26,7 @@ draft: false
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
-
+![voson.tcn](voson.tcn.png){ style='float:right;width:180px !important;height:208px !important;' }
 The VOSON Lab has recently published to GitHub a new open source R package called [`{voson.tcn}`](https://vosonlab.github.io/voson.tcn). The package uses the Early-Access Twitter API v2, to collect tweets belonging to specified threaded conversations and generate networks. The Twitter API v2 provides a new tweet identifier: the [conversation ID](https://developer.twitter.com/en/docs/twitter-api/conversation-id), that is common to all tweets that are part of a conversation, and can be searched for using the API search endpoints. Identifiers and associated metadata for referenced tweets can also be collected in the same search for conversation tweets, allowing us to construct twitter networks with tweet and user metadata whilst minimising API requests.
 
 ### Twitter Developer Access
