@@ -7,7 +7,7 @@
     <description>Virtual Observatory for the Study of Online Networks (VOSON) Lab, Australian National University
 </description>
     <generator>Distill</generator>
-    <lastBuildDate>Mon, 22 Mar 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 23 Mar 2021 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Twitter Conversation Networks</title>
       <dc:creator>Bryan Gertzel</dc:creator>
@@ -20,7 +20,7 @@
       <category>voson.tcn</category>
       <category>networks</category>
       <guid>https://vosonlab.github.io/posts/2021-03-23-twitter-conversation-networks</guid>
-      <pubDate>Mon, 22 Mar 2021 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 23 Mar 2021 00:00:00 +0000</pubDate>
       <media:content url="https://vosonlab.github.io/posts/2021-03-23-twitter-conversation-networks/activity_network.png" medium="image" type="image/png" width="1024" height="1025"/>
     </item>
     <item>
@@ -34,7 +34,7 @@
       <category>vosonSML</category>
       <category>networks</category>
       <guid>https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml</guid>
-      <pubDate>Mon, 15 Mar 2021 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 14 Mar 2021 00:00:00 +0000</pubDate>
       <media:content url="https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml/hyperlink_network.png" medium="image" type="image/png" width="1024" height="1025"/>
     </item>
     <item>

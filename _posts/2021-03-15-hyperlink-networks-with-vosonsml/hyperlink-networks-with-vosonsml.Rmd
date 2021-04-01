@@ -210,3 +210,7 @@ tkplot(simplify(g),
 ```
 
 ![Figure 2: Hyperlink network of actors](hyperlink_network.png)
+
+We now have a simple graph of the actor hyperlink network. Our seed actors are indicated by blue nodes and sites with an in-degree greater than one indicated in yellow. Node size and label size reflect most linked to nodes or highest in-degree. Perhaps unsurprisingly, social media sites and the institutions at which the seed pages are located feature most prominently in the network, and the graph plot provides us a view of the actors online presence and connections.
+
+There is much more network visualisation and analysis that could be performed on the `{vosonSML}` hyperlink networks and we will be working to add more features such as text analysis and network refinements in our near future releases. In the meantime, we hope you have found this practical introduction to our new tool useful and look forward to your feedback!
