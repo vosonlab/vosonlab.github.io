@@ -23,6 +23,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -1881,10 +1882,7 @@ function init_distill() {
 
     // hoverable references
     $('span.citation[data-cites]').each(function() {
-      var refs = $(this).attr('data-cites').split(" ");
-      var refHtml = refs.map(function(ref) {
-        return "<p>" + $('#ref-' + ref).html() + "</p>";
-      }).join("\n");
+      var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
       window.tippy(this, {
         allowHTML: true,
         content: refHtml,
@@ -2204,12 +2202,12 @@ d-byline {
 </ul>
 </nav>
 </div>
-<p>The VOSON Lab has recently published to github a new open source R package called <a href="https://vosonlab.github.io/voson.tcn"><code>{voson.tcn}</code></a> that uses the Early-Access Twitter API v2 to collect tweets belonging to specified threaded conversations and generate networks. This is now possible with the v2 API thanks to a new tweet identifier called the <a href="https://developer.twitter.com/en/docs/twitter-api/conversation-id">conversation ID</a>, that is common to all tweets that are part of a conversation, and can be searched for using the API search endpoints. Identifiers and associated metadata for referenced tweets can also be collected in the same search for conversation tweets, allowing us to construct twitter networks with tweet and user metadata whilst minimizing API requests.</p>
+<p>The VOSON Lab has recently published to GitHub a new open source R package called <a href="https://vosonlab.github.io/voson.tcn"><code>{voson.tcn}</code></a>. The package uses the Early-Access Twitter API v2, to collect tweets belonging to specified threaded conversations and generate networks. The Twitter API v2 provides a new tweet identifier: the <a href="https://developer.twitter.com/en/docs/twitter-api/conversation-id">conversation ID</a>, that is common to all tweets that are part of a conversation, and can be searched for using the API search endpoints. Identifiers and associated metadata for referenced tweets can also be collected in the same search for conversation tweets, allowing us to construct twitter networks with tweet and user metadata whilst minimising API requests.</p>
 <h3 id="twitter-developer-access">Twitter Developer Access</h3>
 <p>The <code>{voson.tcn}</code> package requires developer app authentication keys or tokens to access the Twitter API v2. These can be either the <code>Access token &amp; secret</code> of an app or its <code>Bearer token</code>.</p>
-<p>To obtain these credentials and use the early-access API you will need to have or apply for a <a href="https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api">Twitter Developer Account</a>, as well as have activated the new <a href="https://developer.twitter.com/content/developer-twitter/en/portal/opt-in">Developer Portal</a>. Once approved you’ll then need to create a development <a href="https://developer.twitter.com/en/docs/projects/overview">project</a>, which is the new management container for apps, and either create a new <a href="https://developer.twitter.com/en/docs/apps/overview">app</a> or associate one of your existing apps with it.</p>
-<p>There are currently two project types available that correspond to Twitter’s developer <a href="https://developer.twitter.com/en/products/twitter-api/early-access/guide">product tracks</a>, a <em>standard</em> and <em>academic</em> type. Academic projects are only available to researchers who have completed and had approved their <a href="https://developer.twitter.com/en/solutions/academic-research/application-info">application for the academic research track</a> for non-commercial research purposes, and standard projects are more general use, including for hobby and educational purposes. The project type features differ in their API access and caps, standard projects can only access the 7-day recent search endpoint whereas an academic project can also access the <a href="https://developer.twitter.com/en/docs/twitter-api/tweets/search/introduction">full-archive search</a> endpoint for historical tweets. There are also rate-limits and monthly tweet caps for API v2 search endpoints, at the time of writing the caps are 500k and 10 million tweets that can be retrieved per month for the standard and academic track projects respectively.</p>
-<p>Please note that there are also <a href="https://developer.twitter.com/en/developer-terms/more-on-restricted-use-cases">terms of use, and restricted use cases</a> that should be considered before applying for access or using the Twitter API.</p>
+<p>To obtain these credentials and use the early-access API you will need to have or apply for a <a href="https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api">Twitter Developer Account</a>, as well as have activated the new <a href="https://developer.twitter.com/content/developer-twitter/en/portal/opt-in">Developer Portal</a>. Once approved you will then need to create a development <a href="https://developer.twitter.com/en/docs/projects/overview">project</a>, which is the new management container for apps, and either create a new <a href="https://developer.twitter.com/en/docs/apps/overview">app</a> or associate one of your existing apps with it.</p>
+<p>There are currently two project types available that correspond to Twitter’s developer <a href="https://developer.twitter.com/en/products/twitter-api/early-access/guide">product tracks</a>, a <em>standard</em> and <em>academic</em> type. <em>Academic</em> projects are only available to researchers who have completed and have had their <a href="https://developer.twitter.com/en/solutions/academic-research/application-info">application for the academic research track</a> approved for non-commercial research purposes. <em>Standard</em> projects are for more general use, including hobby and educational purposes. The project type features differ in their API access and caps; <em>standard</em> projects can only access the 7-day recent search endpoint whereas an <em>academic</em> project can access the <a href="https://developer.twitter.com/en/docs/twitter-api/tweets/search/introduction">full-archive search</a> endpoint for historical tweets. There are also rate-limits and monthly tweet caps for API v2 search endpoints. At the time of writing, the caps are 500k and 10 million tweets that can be retrieved per month for the <em>standard</em> and <em>academic</em> track projects respectively.</p>
+<p>Please note that there are also <a href="https://developer.twitter.com/en/developer-terms/more-on-restricted-use-cases">terms of use and restricted use cases</a> that should be considered before applying for access or using the Twitter API.</p>
 <h3 id="installation">Installation</h3>
 <p>The <code>{voson.tcn}</code> R package is in development and currently only available on <a href="https://vosonlab.github.io/voson.tcn">GitHub</a>. It can be installed as follows:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2219,9 +2217,9 @@ d-byline {
 <span class='fu'><a href='https://remotes.r-lib.org/reference/install_github.html'>install_github</a></span><span class='op'>(</span><span class='st'>"vosonlab/voson.tcn"</span><span class='op'>)</span>
 
 <span class='co'># Downloading GitHub repo vosonlab/voson.tcn@HEAD</span>
-<span class='co'># √  checking for file</span>
+<span class='co'># v  checking for file</span>
 <span class='co'># -  preparing 'voson.tcn':</span>
-<span class='co'># √  checking DESCRIPTION meta-information ... </span>
+<span class='co'># v  checking DESCRIPTION meta-information ... </span>
 <span class='co'># -  checking for LF line-endings in source and make files and shell scripts</span>
 <span class='co'># -  checking for empty or unneeded directories</span>
 <span class='co'># -  building 'voson.tcn_0.1.6.9000.tar.gz'</span>
@@ -2235,7 +2233,7 @@ d-byline {
 </div>
 <h2 id="authentication">Authentication</h2>
 <p>The <code>{voson.tcn}</code> package only supports app based authentication using <code>OAuth2.0</code> tokens which are also known as <a href="https://developer.twitter.com/en/docs/authentication/oauth-2-0">bearer tokens</a>. We will likely support user based tokens in the future, however at this stage they do not offer any advantages as they have lower rate-limits and we are not using any private metadata of which they permit access (such as user-visible only metrics).</p>
-<p>The token can be created using either your apps <code>access token &amp; secret</code> (also known as consumer keys) or its <code>bearer token</code>. It is recommended that this token is saved for future use, there is no need to perform this step more than once as the token will not change unless it is invalidated or you regenerate keys on the developer portal.</p>
+<p>The token can be created using either your apps <code>access token &amp; secret</code> (also known as consumer keys) or its <code>bearer token</code>. It is recommended that this token is saved for future use; there is no need to perform this step more than once as the token will not change unless it is invalidated or you regenerate keys on the developer portal.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>voson.tcn</span><span class='op'>)</span>
@@ -2253,10 +2251,10 @@ d-byline {
 </div>
 </div>
 <h2 id="collection">Collection</h2>
-<p>Collecting conversation tweets requires the tweet ID or URL of a tweet that belongs to each threaded conversation that you are interested in. These are passed to the <code>{voson.tcn}</code> collect function <code>tcn_threads</code> as a vector or list. Conversation ID’s will be tracked by this function to avoid duplication and if tweet ID’s are found to belong to a conversation that has already been collected on then that conversation will be skipped.</p>
-<p>In the following example we are collecting the tweets for a threaded conversation belonging to a public lockdown announcement following a COVID19 outbreak in Brisbane, Queensland Australia that took place in March 2021. The tweet URL or ID (number following the status in the URL) can be passed directly to the collection function.</p>
+<p>Collecting conversation tweets requires the tweet ID or URL of a tweet that belongs to each threaded conversation that you are interested in. These are passed to the <code>{voson.tcn}</code> collect function <code>tcn_threads</code> as a vector or list. Conversation IDs will be tracked by this function to avoid duplication and, if tweet IDs are found to belong to a conversation that has already been collected on, then that conversation will be skipped.</p>
+<p>In the following example, we are collecting the tweets for a threaded conversation belonging to a public lockdown announcement following a COVID-19 outbreak in Brisbane, Queensland, Australia, that took place on March, 29, 2021. The tweet URL or ID (number following the status in the URL) can be passed directly to the collection function.</p>
 <figure>
-<img src="example_tweet.png" alt="Figure 1: Public announcement tweet regarding a COVID19 lockdown of Brisbane from the Queensland Premier" /><figcaption aria-hidden="true">Figure 1: Public announcement tweet regarding a COVID19 lockdown of Brisbane from the Queensland Premier</figcaption>
+<img src="example_tweet.png" alt="Figure 1: Public announcement tweet regarding a COVID-19 lockdown of Brisbane, from the Queensland Premier" /><figcaption aria-hidden="true">Figure 1: Public announcement tweet regarding a COVID-19 lockdown of Brisbane, from the Queensland Premier</figcaption>
 </figure>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2268,7 +2266,8 @@ d-byline {
 </code></pre>
 </div>
 </div>
-<p>When completed a list of named dataframes will be returned, <code>tweets</code> containing all of the tweets and their metadata and <code>users</code> with all of the referenced users in the tweets and their metadata. In our example 286 tweets were collected with 180 associated users public metadata. The collection of a threaded tweet conversation is a snapshot of the state of the conversation at a point in time. Metrics and networks produced from our data will not completely match subsequent collections of the same conversation as it will have likely cumulatively expanded over time.</p>
+<p>When completed, a list of named dataframes will be returned, with <code>tweets</code> containing all of the tweets and their metadata, and <code>users</code> containing all of the referenced users in the tweets and their metadata. In our example, 286 tweets were collected with 180 associated users public metadata.</p>
+<p>Note that the collection of a threaded tweet conversation is a snapshot of the state of the conversation at a point in time. Metrics and networks produced from our data will not completely match subsequent collections of the same conversation, as it will have likely cumulatively expanded over time.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># collected tweets</span>
@@ -2301,8 +2300,8 @@ d-byline {
 </code></pre>
 </div>
 </div>
-<p>Note: If interested in text analysis the tweet text is found in the <code>text</code> column of the <code>tweets</code> dataframe and user profile descriptions in <code>profile.description</code> of the <code>users</code> dataframe.</p>
-<p>Public metrics for <code>tweets</code> and <code>users</code> are found in dataframe columns prefixed with <code>public_metrics</code> and <code>profile.public_metrics</code> respectively.</p>
+<p>If interested in text analysis, the tweet text can be found in the <code>text</code> column of the <code>tweets</code> dataframe and user profile descriptions in <code>profile.description</code> of the <code>users</code> dataframe.</p>
+<p>Public metrics for <code>tweets</code> and <code>users</code> are found in dataframe columns prefixed, with <code>public_metrics</code> and <code>profile.public_metrics</code> respectively.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
@@ -2320,10 +2319,10 @@ d-byline {
 </div>
 </div>
 <h2 id="network-creation">Network Creation</h2>
-<p>There are two types of networks that can be generated using <code>{voson.tcn}</code>, an <code>activity</code> and <code>actor</code> network. These differ by the type of node and resulting structure of the networks.</p>
+<p>There are two types of networks that can be generated using <code>{voson.tcn}</code>: <code>activity</code> and <code>actor</code> network. These differ by the type of node and resulting structure of the networks.</p>
 <h3 id="activity-network">Activity Network</h3>
-<p>An <code>activity</code> network is a representation of the conversation as seen on Twitter, nodes are tweets and the edges are how they are related. Tweets or nodes are identified by their unique identifier formerly <code>Status ID</code>, but now known as <code>Tweet ID</code> in API v2. In a Twitter threaded conversation there are only two types of connections or edges between tweets and these are <code>replied_to</code> and <code>quoted</code>.</p>
-<p>Replies are made when a user chooses the <em>reply</em> option and publishes a tweet response to the tweet they are replying to. Quotes are a little different in that the user has included a link to or <em>quoted</em> another tweet in the body of their tweet. In Twitter conversation networks it’s common to <em>quote</em> a tweet as part of a <em>reply</em> tweet, generating in the activity network a <code>replied_to</code> and <code>quoted</code> edge from the same node.</p>
+<p>An <code>activity</code> network is a representation of the conversation as seen on Twitter: nodes are tweets and the edges are how they are related. Tweets (or nodes) are identified by their unique identifier <code>Tweet ID</code> (formerly <code>Status ID</code>). In a Twitter threaded conversation, there are only two types of connections or edges between tweets and these are <code>replied_to</code> and <code>quoted</code>.</p>
+<p>Replies are made when a user chooses the <em>reply</em> option and publishes a tweet response to the tweet they are replying to. Quotes are a little different in that the user has included a link to or <em>quoted</em> another tweet in the body of their tweet. In Twitter conversation networks, it is common to <em>quote</em> a tweet as part of a <em>reply</em> tweet, generating in the activity network a <code>replied_to</code> and <code>quoted</code> edge from the same node.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># generate an activity network</span>
@@ -2349,7 +2348,7 @@ d-byline {
 </div>
 </div>
 <h3 id="actor-network">Actor Network</h3>
-<p>An <code>actor</code> network represents the interactions between users in the conversation. Nodes are the users and edges are their connections, as in the <code>activity</code> network edges are either a <code>reply</code> or a <code>quote</code> but represent the classification of a tweet connecting users rather than the activity. Users or nodes are identified by their unique Twitter <code>User ID</code>. In the <code>actor</code> network interactions between users are more apparent and can be measured by the frequency (and direction) of edges between them.</p>
+<p>An <code>actor</code> network represents the interactions between Twitter users in the conversation: nodes are the users and edges are their connections. As in the <code>activity</code> network, edges are either a <code>reply</code> or a <code>quote</code> but edges represent the classification of a tweet connecting users rather than the activity. Users (or nodes) are identified by their unique Twitter <code>User ID</code>. In the <code>actor</code> network, interactions between users are more apparent and can be measured by the frequency (and direction) of edges between them.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># generate an actor network</span>
@@ -2373,10 +2372,11 @@ d-byline {
 </code></pre>
 </div>
 </div>
-<p>Note that there is an additional edge type <code>tweet</code>, this is assigned to a self-loop edge created for the threads initial tweet. This is a technique used in the <code>actor</code> network to retain the initial tweets metadata as edge attributes comparable to other edges in the network. For example, this allows the text of the initial tweet to be included in any actor network tweet text analysis. It would not usually be included in the edge list as the initial conversation tweet is not directed at another user, and hence no edge to attach metadata is naturally found in this type of network.</p>
+<p>Note that in the <code>actor</code> network there is an additional edge type: <code>tweet</code>, which is assigned to a self-loop edge created for the thread’s initial tweet. This is a technique used to retain the initial tweet’s metadata as edge attributes comparable to other edges in the network.</p>
+<p>The initial conversation tweet would not usually be included in the edge list, as the initial conversation tweet is not directed at another user, and hence no edge to attach metadata.For example, this allows the text of the initial tweet to be included in any actor network tweet text analysis. It would not usually be included in the edge list as the initial conversation tweet is not directed at another user, and hence no edge to attach metadata is naturally found in this type of network.</p>
 <h2 id="plot-graphs">Plot Graphs</h2>
 <h3 id="activity-network-1">Activity Network</h3>
-<p>Visualization of the <code>activity</code> network produced with <code>{igraph}</code>.</p>
+<p>Visualisation of the <code>activity</code> network produced with <code>{igraph}</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://igraph.org'>igraph</a></span><span class='op'>)</span>
@@ -2436,10 +2436,10 @@ Show code
 <figure>
 <img src="activity_network.png" alt="Figure 2: Conversation activity network - Node size and label represent number of tweet likes, color scale is indicating low to high number of retweets (yellow to green). Orange coloured edges are quoting linked tweet." /><figcaption aria-hidden="true">Figure 2: Conversation activity network - Node size and label represent number of tweet likes, color scale is indicating low to high number of retweets (yellow to green). Orange coloured edges are quoting linked tweet.</figcaption>
 </figure>
-<p><code>{voson.tcn}</code> collects tweets that are all linked to each other via the conversation ID. This means that in a tweet network generated from this data, such as the activity network, all of the nodes should be connected in a single component per conversation ID. If multiple conversation ID’s were collected on then it’s also possible to have one component because of <em>quote</em> edges. These edges joining conversations occur when a tweet in one conversation has quoted a tweet in another that you have collected.</p>
-<p>In the example activity network above there are two components even though only one conversation ID was collected on. Multiple components are usually due to a missing conversation tweet not able to be retrieved from the API and producing a broken reply chain. This can often occur if a tweet has been deleted, or the tweet or user flagged or suspended in some way restricting public availability.</p>
+<p><code>{voson.tcn}</code> collects tweets that are all linked to each other via the <code>conversation ID</code>. This means that in a network generated from this data, such as the activity network, all of the nodes (tweets) should be connected in a single component per <code>conversation ID</code>. If multiple <code>conversation ID</code>s were collected on then, it is also possible to have one component because of <em>quote</em> edges. These edges joining conversations occur when a tweet in one conversation has quoted a tweet in another that you have collected.</p>
+<p>In the example activity network above, there are two components even though only one <code>conversation ID</code> was collected on. Multiple components are usually due to a missing conversation tweet not able to be retrieved from the API and producing a broken reply chain. This can often occur if, for example, a tweet has been deleted, or the tweet or user flagged or suspended in some way restricting public availability.</p>
 <h3 id="actor-network-1">Actor Network</h3>
-<p>Visualization of the <code>actor</code> network produced with <code>{igraph}</code>.</p>
+<p>Visualisation of the <code>actor</code> network produced with <code>{igraph}</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
