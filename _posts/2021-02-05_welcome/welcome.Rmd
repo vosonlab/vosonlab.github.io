@@ -1,7 +1,7 @@
 ---
-title: "Welcome to the VOSON Lab Coding Blog"
+title: "Welcome to the VOSON Lab Code Blog"
 description: |
-  The coding blog is a space to share tools, methods, tips, examples and code. A place to collect data, construct and analyze online networks.
+  The code blog is a space to share tools, methods, tips, examples and code. A place to collect data, construct and analyze online networks.
 author:
   - name: VOSON Lab 
     url: http://vosonlab.net/
@@ -20,7 +20,7 @@ output:
     self_contained: false
 ---
 
-Welcome to the [VOSON Lab](http://vosonlab.net/) Coding Blog! We have created this space to share methods, tips, examples and code. It's also a place where we will demonstrate constructing and analyzing networks from various API and other online data sources. 
+Welcome to the [VOSON Lab](http://vosonlab.net/) Code Blog! We have created this space to share methods, tips, examples and code. It's also a place where we will demonstrate constructing and analyzing networks from various API and other online data sources. 
 
 Most of our posts will cover techniques around the tools we have developed at the Lab: `vosonSML`, `VOSONDash` and `voson.tcn`, which are available on both [CRAN](https://cran.r-project.org/package=vosonSML) and [GitHub](https://github.com/vosonlab). But we also plan to use this space to cover other complementary R packages and open-source software, such as fantastic R packages within the [`tidyverse`](https://www.tidyverse.org/), RStudio's [`shiny`](https://www.rstudio.com/products/shiny/) for web apps, and visualization tools such as [`igraph`](https://igraph.org/r/) and [`Gephi`](https://gephi.org/).
 

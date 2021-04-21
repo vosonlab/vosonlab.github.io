@@ -1,5 +1,5 @@
 ---
-title: "VOSON Coding Blog"
+title: "Articles"
 site: distill::distill_website
 listing: posts
 ---

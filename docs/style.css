@@ -8,6 +8,15 @@
   margin-top: 0px;
 }
 
+d-article p code {
+    color: #383838;
+    background: rgba(54, 215, 130, 0.15);
+    /*
+    font-weight: 400;
+    font-size: 0.9em;
+    */
+}
+
 d-title {
   padding-bottom: 0 !important;
 }

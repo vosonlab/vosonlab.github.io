@@ -27,11 +27,11 @@ draft: false
 knitr::opts_chunk$set(echo = FALSE)
 ```
 ![voson.tcn](voson.tcn.png){ style='float:right;width:180px !important;height:208px !important;' }
-The VOSON Lab has recently published to GitHub a new open source R package called [`{voson.tcn}`](https://vosonlab.github.io/voson.tcn). The package uses the Early-Access Twitter API v2, to collect tweets belonging to specified threaded conversations and generate networks. The Twitter API v2 provides a new tweet identifier: the [conversation ID](https://developer.twitter.com/en/docs/twitter-api/conversation-id), that is common to all tweets that are part of a conversation, and can be searched for using the API search endpoints. Identifiers and associated metadata for referenced tweets can also be collected in the same search for conversation tweets, allowing us to construct twitter networks with tweet and user metadata whilst minimising API requests.
+The VOSON Lab has recently published to GitHub a new open source R package called [`voson.tcn`](https://vosonlab.github.io/voson.tcn). The package uses the Early-Access Twitter API v2, to collect tweets belonging to specified threaded conversations and generate networks. The Twitter API v2 provides a new tweet identifier: the [conversation ID](https://developer.twitter.com/en/docs/twitter-api/conversation-id), that is common to all tweets that are part of a conversation, and can be searched for using the API search endpoints. Identifiers and associated metadata for referenced tweets can also be collected in the same search for conversation tweets, allowing us to construct twitter networks with tweet and user metadata whilst minimising API requests.
 
 ### Twitter Developer Access
 
-The `{voson.tcn}` package requires developer app authentication keys or tokens to access the Twitter API v2. These can be either the `Access token & secret` of an app or its `Bearer token`.
+The `voson.tcn` package requires developer app authentication keys or tokens to access the Twitter API v2. These can be either the `Access token & secret` of an app or its `Bearer token`.
 
 To obtain these credentials and use the early-access API you will need to have or apply for a [Twitter Developer Account](https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api), as well as have activated the new [Developer Portal](https://developer.twitter.com/content/developer-twitter/en/portal/opt-in). Once approved you will then need to create a development [project](https://developer.twitter.com/en/docs/projects/overview), which is the new management container for apps, and either create a new [app](https://developer.twitter.com/en/docs/apps/overview) or associate one of your existing apps with it. 
 
@@ -41,7 +41,7 @@ Please note that there are also [terms of use and restricted use cases](https://
 
 ### Installation
 
-The `{voson.tcn}` R package is in development and currently only available on [GitHub](https://vosonlab.github.io/voson.tcn). It can be installed as follows:
+The `voson.tcn` R package is in development and currently only available on [GitHub](https://vosonlab.github.io/voson.tcn). It can be installed as follows:
 
 ```{r install, echo=TRUE, eval=FALSE}
 # use the remotes package to install the latest dev version of voson.tcn from github
@@ -64,7 +64,7 @@ install_github("vosonlab/voson.tcn")
 
 ## Authentication
 
-The `{voson.tcn}` package only supports app based authentication using `OAuth2.0` tokens which are also known as [bearer tokens](https://developer.twitter.com/en/docs/authentication/oauth-2-0). We will likely support user based tokens in the future, however at this stage they do not offer any advantages as they have lower rate-limits and we are not using any private metadata of which they permit access (such as user-visible only metrics).
+The `voson.tcn` package only supports app based authentication using `OAuth2.0` tokens which are also known as [bearer tokens](https://developer.twitter.com/en/docs/authentication/oauth-2-0). We will likely support user based tokens in the future, however at this stage they do not offer any advantages as they have lower rate-limits and we are not using any private metadata of which they permit access (such as user-visible only metrics).
 
 The token can be created using either your apps `access token & secret` (also known as consumer keys) or its `bearer token`. It is recommended that this token is saved for future use; there is no need to perform this step more than once as the token will not change unless it is invalidated or you regenerate keys on the developer portal.
 
@@ -84,7 +84,7 @@ saveRDS(token, "~/.tcn_token")
 
 ## Collection
 
-Collecting conversation tweets requires the tweet ID or URL of a tweet that belongs to each threaded conversation that you are interested in. These are passed to the `{voson.tcn}` collect function `tcn_threads` as a vector or list. Conversation IDs will be tracked by this function to avoid duplication and, if tweet IDs are found to belong to a conversation that has already been collected on, then that conversation will be skipped.
+Collecting conversation tweets requires the tweet ID or URL of a tweet that belongs to each threaded conversation that you are interested in. These are passed to the `voson.tcn` collect function `tcn_threads` as a vector or list. Conversation IDs will be tracked by this function to avoid duplication and, if tweet IDs are found to belong to a conversation that has already been collected on, then that conversation will be skipped.
 
 In the following example, we are collecting the tweets for a threaded conversation belonging to a public lockdown announcement following a COVID-19 outbreak in Brisbane, Queensland, Australia, that took place on March, 29, 2021. The tweet URL or ID (number following the status in the URL) can be passed directly to the collection function.
 
@@ -152,7 +152,7 @@ names(select(tweets$users, starts_with("profile.public_metrics")))
 
 ## Network Creation
 
-There are two types of networks that can be generated using `{voson.tcn}`: `activity` and `actor` network. These differ by the type of node and resulting structure of the networks.
+There are two types of networks that can be generated using `voson.tcn`: `activity` and `actor` network. These differ by the type of node and resulting structure of the networks.
 
 ### Activity Network
 
@@ -216,7 +216,7 @@ The initial conversation tweet would not usually be included in the edge list, a
 
 ### Activity Network
 
-Visualisation of the `activity` network produced with `{igraph}`.
+Visualisation of the `activity` network produced with `igraph`.
 
 ```{r graph-activity-1, echo=TRUE, eval=FALSE}
 library(igraph)
@@ -265,13 +265,13 @@ tkplot(g,
 
 ![Figure 2: Conversation activity network - Node size and label represent number of tweet likes, color scale is indicating low to high number of retweets (yellow to green). Orange coloured edges are quoting linked tweet.](activity_network.png)
 
-`{voson.tcn}` collects tweets that are all linked to each other via the `conversation ID`. This means that in a network generated from this data, such as the activity network, all of the nodes (tweets) should be connected in a single component per `conversation ID`. If multiple `conversation ID`s were collected on then, it is also possible to have one component because of *quote* edges. These edges joining conversations occur when a tweet in one conversation has quoted a tweet in another that you have collected.
+`voson.tcn` collects tweets that are all linked to each other via the `conversation ID`. This means that in a network generated from this data, such as the activity network, all of the nodes (tweets) should be connected in a single component per `conversation ID`. If multiple `conversation ID`s were collected on then, it is also possible to have one component because of *quote* edges. These edges joining conversations occur when a tweet in one conversation has quoted a tweet in another that you have collected.
 
 In the example activity network above, there are two components even though only one `conversation ID` was collected on. Multiple components are usually due to a missing conversation tweet not able to be retrieved from the API and producing a broken reply chain. This can often occur if, for example, a tweet has been deleted, or the tweet or user flagged or suspended in some way restricting public availability.
 
 ### Actor Network
 
-Visualisation of the `actor` network produced with `{igraph}`.
+Visualisation of the `actor` network produced with `igraph`.
 
 ```{r graph-actor-1, echo=TRUE, eval=FALSE}
 library(dplyr)
@@ -282,11 +282,12 @@ regex_ic <- function(x) regex(x, ignore_case = TRUE)
 
 # best effort set the node colour attribute based on presence of city, state,
 # or country in the actors profile location field
+# value assigned from first match
 nodes <- actor_net$nodes %>%
   mutate(color = case_when(
     str_detect(profile.location, regex_ic("brisbane|bris")) ~ "orange",
     str_detect(profile.location, regex_ic("queensland|qld")) ~ "gold",
-    str_detect(profile.location, regex_ic("australia|aus")) ~ "yellow",
+    str_detect(profile.location, regex_ic("australia|oz")) ~ "yellow",
     TRUE ~ "lightgrey"))
 
 g2 <- graph_from_data_frame(actor_net$edges, vertices = nodes)

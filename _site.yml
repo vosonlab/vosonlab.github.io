@@ -1,9 +1,10 @@
 name: "vosonlab.github.io"
-title: "VOSON Lab Coding Blog"
+title: "VOSON Lab Code Blog"
 description: |
   Virtual Observatory for the Study of Online Networks (VOSON) Lab, Australian National University
 output_dir: "docs"
 base_url: https://vosonlab.github.io/
+favicon: images/favicon.png
 collections:
   posts:
     share: [twitter, facebook]
@@ -14,6 +15,8 @@ navbar:
   right:
     - text: "Home"
       href: index.html
+    - icon: fa fa-flask
+      href: http://vosonlab.net/
     - icon: fa fa-twitter
       href: https://twitter.com/vosonlab
     - icon: fa fa-github
@@ -26,8 +29,7 @@ output:
     includes:
       in_header: _utterances.html
 twitter:
-  site: ""
-  creator: ""
+  site: "@vosonlab"
 rss:
   full_content: false
-  
+creative_commons: CC BY

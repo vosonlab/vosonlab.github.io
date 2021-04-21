@@ -1517,7 +1517,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <p><img src="rtweet_logo.png" style="float:right;width:180px !important;height:208px !important;" alt="rtweet" />There have been many pieces of software developed across programming languages and environments to access the <a href="https://developer.twitter.com/en/products/twitter-api">Twitter API</a>. Within the R ecosystem the most comprehensive and well supported of Twitter packages is <a href="https://cran.r-project.org/web/packages/rtweet">rtweet</a> developed by Michael Kearney and part of the <a href="https://ropensci.org/">rOpenSci</a> initiative. The <code>rtweet</code> package provides R functions to both authenticate and collect timelines, tweets and other metadata using Twitter’s v1.1 standard and premium API’s.</p>
 <p><img src="vsml_logo.png" style="float:right;width:180px !important;height:208px !important;" alt="vosonSML" />The <a href="http://vosonlab.net">VOSON Lab</a> develops and maintains the open source R packages <code>vosonSML</code> and <code>VOSONDash</code>. These were created to integrate online data collection, network generation and analysis into a consistent and easy to use work flow across many popular web and social media platforms. For Twitter, the <code>vosonSML</code> package provides an interface to rtweet’s collection features through which tweets can be searched for and retrieved, and then uses this data to produce networks. There may be cases however, such as in the collection of streaming data or analysis of previously collected twitter data where you haven’t used vosonSML’s collection function but instead simply wish to produce <code>vosonSML</code> generated networks from your <code>rtweet</code> data. Because <code>vosonSML</code> uses <code>rtweet</code> this is easily achievable and with minimal R coding.</p>
 <h3 id="api-authentication">API Authentication</h3>
-<p>Accessing the Twitter API to collect tweets requires authentication via a Twitter app. There are generally two ways this can be achieved, you can apply for a Twitter Developer account and create your own app (and access keys) or you can authorize another persons app to access the API on your behalf (using their keys). The latter still requires your own Twitter user account but you do not need to go through the Developer application or app creation process. The <code>{vosonSML}</code> package requires users to create their own app and use their own keys but the <code>rtweet</code> package supports both methods, and you can collect tweets after a simple one-time web authorization step of their embedded <code>rstats2twitter</code> app.</p>
+<p>Accessing the Twitter API to collect tweets requires authentication via a Twitter app. There are generally two ways this can be achieved, you can apply for a Twitter Developer account and create your own app (and access keys) or you can authorize another persons app to access the API on your behalf (using their keys). The latter still requires your own Twitter user account but you do not need to go through the Developer application or app creation process. The <code>vosonSML</code> package requires users to create their own app and use their own keys but the <code>rtweet</code> package supports both methods, and you can collect tweets after a simple one-time web authorization step of their embedded <code>rstats2twitter</code> app.</p>
 <h2 id="twitter-data-collection-with-rtweet">Twitter Data Collection with rtweet</h2>
 <p>The following simple example will demonstrate how to use the <code>rtweet</code> package to collect some tweet data using built-in authentication via the <code>rtweet</code> app.</p>
 <h3 id="search-collection">Search Collection</h3>
@@ -1604,7 +1604,7 @@ Show additional columns
 </div>
 </details>
 </div>
-<p>This contains all of the data necessary for <code>{vosonSML}</code> to construct Twitter networks.</p>
+<p>This contains all of the data necessary for <code>vosonSML</code> to construct Twitter networks.</p>
 <h3 id="save-the-data">Save the Data</h3>
 <p>There are a few methods of saving data depending on where and how it will be used. Two common methods are to use a text-based file format such as a <a href="https://en.wikipedia.org/wiki/Comma-separated_values">CSV</a>, or alternatively if the data will be used within <code>R</code> we can save the <code>dataframe</code> object to a binary compressed <code>RDS</code> (R data object) file using <a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/readRDS.html"><code>saveRDS</code></a> instead. Conveniently, the <code>rtweet</code> package has a method to save Twitter data to file in <code>CSV</code> format with the <a href="https://docs.ropensci.org/rtweet/reference/write_as_csv.html"><code>write_as_csv</code></a> function that takes care of Twitter nested data and conversion issues, and saving an RDS file is also very easy as follows.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1629,7 +1629,7 @@ Show additional columns
 </div>
 </div>
 <h3 id="prepare-the-data">Prepare the Data</h3>
-<p>For <code>{vosonSML}</code> to recognize the previously collected data as a Twitter data source and be able to internally route it to the appropriate network functions a minor change needs to be made to the data frame first. This involves adding two attributes <code>datasource</code> and <code>twitter</code> to the class list of the <code>auspol_tweets</code> data frame object as follows:</p>
+<p>For <code>vosonSML</code> to recognize the previously collected data as a Twitter data source and be able to internally route it to the appropriate network functions a minor change needs to be made to the data frame first. This involves adding two attributes <code>datasource</code> and <code>twitter</code> to the class list of the <code>auspol_tweets</code> data frame object as follows:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># original class list</span>
@@ -1647,8 +1647,8 @@ Show additional columns
 </div>
 <pre><code>[1] &quot;datasource&quot; &quot;twitter&quot;    &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</code></pre>
 </div>
-<p>The order of classes is important and for the data frame to be compatible with <a href="https://dplyr.tidyverse.org/">dplyr</a> - a very common data manipulation package in R, and subsequently usable in the <a href="https://www.tidyverse.org/">tidyverse</a> and <code>{vosonSML}</code>, then the new attributes need to be added to the beginning of the list.</p>
-<p>For versions of <code>{vosonSML}</code> more recent than <code>0.29.13</code> this can now all be managed by using the <code>ImportData</code> function. This method is preferable as it is easier, works for both files and data frames, and will support any future updates to <code>{vosonSML}</code> without breaking your code.</p>
+<p>The order of classes is important and for the data frame to be compatible with <a href="https://dplyr.tidyverse.org/">dplyr</a> - a very common data manipulation package in R, and subsequently usable in the <a href="https://www.tidyverse.org/">tidyverse</a> and <code>vosonSML</code>, then the new attributes need to be added to the beginning of the list.</p>
+<p>For versions of <code>vosonSML</code> more recent than <code>0.29.13</code> this can now all be managed by using the <code>ImportData</code> function. This method is preferable as it is easier, works for both files and data frames, and will support any future updates to <code>vosonSML</code> without breaking your code.</p>
 <div class="layout-chunk" data-layout="l-body">
 
 </div>
@@ -1661,10 +1661,10 @@ Show additional columns
 </code></pre>
 </div>
 </div>
-<p>Please note that modifying data frame attributes or importing data is only required for <code>rtweet</code> data and not a necessary step for Twitter data collected using the <code>{vosonSML}</code> Twitter <code>Collect</code> function.</p>
-<p>Object classes in R are a more advanced topic and not required knowledge to use <code>{vosonSML}</code> but if you would like to learn more a good introduction can be found in the <a href="https://adv-r.hadley.nz/oo.html">Object-oriented programming chapter</a> of Advanced R by Hadley Wickham.</p>
+<p>Please note that modifying data frame attributes or importing data is only required for <code>rtweet</code> data and not a necessary step for Twitter data collected using the <code>vosonSML</code> Twitter <code>Collect</code> function.</p>
+<p>Object classes in R are a more advanced topic and not required knowledge to use <code>vosonSML</code> but if you would like to learn more a good introduction can be found in the <a href="https://adv-r.hadley.nz/oo.html">Object-oriented programming chapter</a> of Advanced R by Hadley Wickham.</p>
 <h3 id="create-the-network">Create the Network</h3>
-<p>The tweet data can now be used to create the nodes and edges network data, and a graph by using the <code>{vosonSML}</code> <code>Create</code> and <code>Graph</code> functions:</p>
+<p>The tweet data can now be used to create the nodes and edges network data, and a graph by using the <code>vosonSML</code> <code>Create</code> and <code>Graph</code> functions:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># create the network data</span>
@@ -1713,7 +1713,7 @@ Figure 2: Actor network graph for collected #auspol tweets
 </p>
 </div>
 </div>
-<p>For further information about <code>rtweet</code>, its features and how to use it to collect twitter data please refer to the <a href="https://github.com/ropensci/rtweet">package site</a> and introductory <a href="https://cran.r-project.org/web/packages/rtweet/vignettes/intro.html">rtweet vignette</a>. For creating different types of networks such as the <code>activity</code>, <code>2-mode</code> and <code>semantic</code> types with <code>{vosonSML}</code> see the <a href="https://vosonlab.github.io/vosonSML">package documentation</a> and introductory <a href="https://cran.r-project.org/web/packages/vosonSML/vignettes/Intro-to-vosonSML.html">vosonSML vignette</a>.</p>
+<p>For further information about <code>rtweet</code>, its features and how to use it to collect twitter data please refer to the <a href="https://github.com/ropensci/rtweet">package site</a> and introductory <a href="https://cran.r-project.org/web/packages/rtweet/vignettes/intro.html">rtweet vignette</a>. For creating different types of networks such as the <code>activity</code>, <code>2-mode</code> and <code>semantic</code> types with <code>vosonSML</code> see the <a href="https://vosonlab.github.io/vosonSML">package documentation</a> and introductory <a href="https://cran.r-project.org/web/packages/vosonSML/vignettes/Intro-to-vosonSML.html">vosonSML vignette</a>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->

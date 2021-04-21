@@ -31,7 +31,8 @@ Social media platforms are a rich resource for Social Network data. Twitter is a
 ![vosonSML](vsml_logo.png){ style='float:right;width:180px !important;height:208px !important;' }The [VOSON Lab](http://vosonlab.net) develops and maintains the open source R packages `vosonSML` and `VOSONDash`. These were created to integrate online data collection, network generation and analysis into a consistent and easy to use work flow across many popular web and social media platforms. For Twitter, the `vosonSML` package provides an interface to rtweet's collection features through which tweets can be searched for and retrieved, and then uses this data to produce networks. There may be cases however, such as in the collection of streaming data or analysis of previously collected twitter data where you haven't used vosonSML's collection function but instead simply wish to produce `vosonSML` generated networks from your `rtweet` data. Because `vosonSML` uses `rtweet` this is easily achievable and with minimal R coding.
 
 ### API Authentication
-Accessing the Twitter API to collect tweets requires authentication via a Twitter app. There are generally two ways this can be achieved, you can apply for a Twitter Developer account and create your own app (and access keys) or you can authorize another persons app to access the API on your behalf (using their keys). The latter still requires your own Twitter user account but you do not need to go through the Developer application or app creation process. The `{vosonSML}` package requires users to create their own app and use their own keys but the `rtweet` package supports both methods, and you can collect tweets after a simple one-time web authorization step of their embedded `rstats2twitter` app.
+
+Accessing the Twitter API to collect tweets requires authentication via a Twitter app. There are generally two ways this can be achieved, you can apply for a Twitter Developer account and create your own app (and access keys) or you can authorize another persons app to access the API on your behalf (using their keys). The latter still requires your own Twitter user account but you do not need to go through the Developer application or app creation process. The `vosonSML` package requires users to create their own app and use their own keys but the `rtweet` package supports both methods, and you can collect tweets after a simple one-time web authorization step of their embedded `rstats2twitter` app.
 
 ## Twitter Data Collection with rtweet
 
@@ -49,7 +50,7 @@ library(rtweet)
 # auspol_tweets <- search_tweets("#auspol", n = 100, include_rts = FALSE, token = token)
 # saveRDS(auspol_tweets, "./rtweet_tweets.rds")
 
-auspol_tweets <- readRDS("./rtweet_tweets.rds")
+auspol_tweets <- readRDS("./auspol_tweets.rds")
 ```
 ```{r echo=TRUE, eval=FALSE}
 library(rtweet)
@@ -115,7 +116,7 @@ print(auspol_tweets, n = 2)
 # #   profile_background_url <chr>, profile_image_url <chr>
 ```
 
-This contains all of the data necessary for `{vosonSML}` to construct Twitter networks.
+This contains all of the data necessary for `vosonSML` to construct Twitter networks.
 
 ### Save the Data
 
@@ -143,7 +144,7 @@ auspol_tweets <- readRDS("auspol_tweets.rds")
 
 ### Prepare the Data
 
-For `{vosonSML}` to recognize the previously collected data as a Twitter data source and be able to internally route it to the appropriate network functions a minor change needs to be made to the data frame first. This involves adding two attributes `datasource` and `twitter` to the class list of the `auspol_tweets` data frame object as follows:
+For `vosonSML` to recognize the previously collected data as a Twitter data source and be able to internally route it to the appropriate network functions a minor change needs to be made to the data frame first. This involves adding two attributes `datasource` and `twitter` to the class list of the `auspol_tweets` data frame object as follows:
 
 ```{r echo=TRUE, eval=TRUE}
 # original class list
@@ -156,12 +157,12 @@ class(auspol_tweets) <- append(c("datasource", "twitter"), class(auspol_tweets))
 class(auspol_tweets)
 ```
 
-The order of classes is important and for the data frame to be compatible with [dplyr](https://dplyr.tidyverse.org/) - a very common data manipulation package in R, and subsequently usable in the [tidyverse](https://www.tidyverse.org/) and `{vosonSML}`, then the new attributes need to be added to the beginning of the list.
+The order of classes is important and for the data frame to be compatible with [dplyr](https://dplyr.tidyverse.org/) - a very common data manipulation package in R, and subsequently usable in the [tidyverse](https://www.tidyverse.org/) and `vosonSML`, then the new attributes need to be added to the beginning of the list.
 
-For versions of `{vosonSML}` more recent than `0.29.13` this can now all be managed by using the `ImportData` function. This method is preferable as it is easier, works for both files and data frames, and will support any future updates to `{vosonSML}` without breaking your code.
+For versions of `vosonSML` more recent than `0.29.13` this can now all be managed by using the `ImportData` function. This method is preferable as it is easier, works for both files and data frames, and will support any future updates to `vosonSML` without breaking your code.
 
 ```{r echo=FALSE, eval=TRUE}
-auspol_tweets <- readRDS("./rtweet_tweets.rds")
+auspol_tweets <- readRDS("./auspol_tweets.rds")
 ```
 ```{r echo=TRUE, eval=TRUE}
 library(vosonSML)
@@ -170,13 +171,13 @@ library(vosonSML)
 auspol_tweets <- ImportData(auspol_tweets, "twitter")
 ```
 
-Please note that modifying data frame attributes or importing data is only required for `rtweet` data and not a necessary step for Twitter data collected using the `{vosonSML}` Twitter `Collect` function. 
+Please note that modifying data frame attributes or importing data is only required for `rtweet` data and not a necessary step for Twitter data collected using the `vosonSML` Twitter `Collect` function. 
 
-Object classes in R are a more advanced topic and not required knowledge to use `{vosonSML}` but if you would like to learn more a good introduction can be found in the [Object-oriented programming chapter](https://adv-r.hadley.nz/oo.html) of Advanced R by Hadley Wickham.
+Object classes in R are a more advanced topic and not required knowledge to use `vosonSML` but if you would like to learn more a good introduction can be found in the [Object-oriented programming chapter](https://adv-r.hadley.nz/oo.html) of Advanced R by Hadley Wickham.
 
 ### Create the Network
 
-The tweet data can now be used to create the nodes and edges network data, and a graph by using the `{vosonSML}` `Create` and `Graph` functions:
+The tweet data can now be used to create the nodes and edges network data, and a graph by using the `vosonSML` `Create` and `Graph` functions:
 
 ```{r echo=TRUE, eval=TRUE}
 # create the network data
@@ -201,4 +202,4 @@ plot(auspol_actor_graph, layout = layout_with_fr(auspol_actor_graph),
      vertex.label = NA, vertex.size = 6, edge.arrow.size = 0.4)
 ```
 
-For further information about `rtweet`, its features and how to use it to collect twitter data please refer to the [package site](https://github.com/ropensci/rtweet) and introductory [rtweet vignette](https://cran.r-project.org/web/packages/rtweet/vignettes/intro.html). For creating different types of networks such as the `activity`, `2-mode` and `semantic` types with `{vosonSML}` see the [package documentation](https://vosonlab.github.io/vosonSML) and introductory [vosonSML vignette](https://cran.r-project.org/web/packages/vosonSML/vignettes/Intro-to-vosonSML.html). 
+For further information about `rtweet`, its features and how to use it to collect twitter data please refer to the [package site](https://github.com/ropensci/rtweet) and introductory [rtweet vignette](https://cran.r-project.org/web/packages/rtweet/vignettes/intro.html). For creating different types of networks such as the `activity`, `2-mode` and `semantic` types with `vosonSML` see the [package documentation](https://vosonlab.github.io/vosonSML) and introductory [vosonSML vignette](https://cran.r-project.org/web/packages/vosonSML/vignettes/Intro-to-vosonSML.html). 
