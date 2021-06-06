@@ -1886,10 +1886,7 @@ function init_distill() {
 
     // hoverable references
     $('span.citation[data-cites]').each(function() {
-      var refs = $(this).attr('data-cites').split(" ");
-      var refHtml = refs.map(function(ref) {
-        return "<p>" + $('#ref-' + ref).html() + "</p>";
-      }).join("\n");
+      var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
       window.tippy(this, {
         allowHTML: true,
         content: refHtml,
@@ -2141,7 +2138,7 @@ d-byline {
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Hyperlink Networks with vosonSML","description":"An introduction to creating hyperlink networks with vosonSML.","authors":[{"author":"Bryan Gertzel","authorURL":"#","affiliation":"VOSON Lab","affiliationURL":"http://vosonlab.net/","orcidID":""},{"author":"Francisca Borquez","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-03-15T00:00:00.000+11:00","citationText":"Gertzel & Borquez, 2021"}
+{"title":"Hyperlink Networks with vosonSML","description":"An introduction to creating hyperlink networks with vosonSML.","authors":[{"author":"Bryan Gertzel","authorURL":"#","affiliation":"VOSON Lab","affiliationURL":"http://vosonlab.net/","orcidID":""},{"author":"Francisca Borquez","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-03-15T00:00:00.000+00:00","citationText":"Gertzel & Borquez, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
