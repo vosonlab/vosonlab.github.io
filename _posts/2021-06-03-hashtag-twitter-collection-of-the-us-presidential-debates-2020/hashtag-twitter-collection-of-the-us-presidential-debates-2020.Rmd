@@ -1,5 +1,5 @@
 ---
-title: "Debate Night 2020: Hashtag Twitter Collection of the US Presidential Debates"
+title: "#DebateNight 2020: Hashtag Twitter Collection of the US Presidential Debates"
 description: |
   Methodology for the bulk collection of tweets containing key hashtags for the US Presidential Debates and generation of Networks for Analysis.
 draft: false
@@ -16,6 +16,7 @@ categories:
   - networks
   - election
   - debate
+preview: debate_preview.png
 output:
   distill::distill_article:
     self_contained: false
@@ -33,7 +34,7 @@ The R packages `rtweet` and `vosonSML`, the latter of which wraps the functional
 
 Two US Presidential debates took place between Donald Trump and Joe Biden on September 29th and October 22nd, with one debate scheduled for October 15th cancelled due to COVID-19 concerns. One VP debate between Kamala Harris and Mike Pence took place on October 7th. This article will focus on the datasets collected for the first debate, widely reported as ["pure chaos"](https://theconversation.com/the-first-us-presidential-debate-was-pure-chaos-heres-what-our-experts-thought-147178) and ["90 minutes of insult and interjection"](https://www.abc.net.au/news/2020-10-01/us-election-debate-became-little-more-than-shouting-trump-biden/12718458) by commentators, to demonstrate our collection methodology and some simple network analysis.
 
-![Figure 1: Next day headlines - September 30, 2020](debate_headlines.png){width="512"}
+![Figure 1: Next day headlines, tweet from https://twitter.com/oliverdarcy](debate_headlines.png){width=512 .external}
 
 ## Collection Strategy
 
