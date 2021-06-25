@@ -23,6 +23,7 @@
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -2057,7 +2058,7 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <!--/radix_placeholder_distill-->
-  <script src="../../site_libs/header-attrs-2.7/header-attrs.js"></script>
+  <script src="../../site_libs/header-attrs-2.9/header-attrs.js"></script>
   <script src="../../site_libs/jquery-1.11.3/jquery.min.js"></script>
   <script src="../../site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="../../site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -2110,14 +2111,15 @@ script developed by @MilesMcBainon github
   margin-top: 0px;
 }
 
+/*
 d-article p code {
     color: #383838;
     background: rgba(54, 215, 130, 0.15);
-    /*
-    font-weight: 400;
-    font-size: 0.9em;
-    */
+    //font-weight: 400;
+    //font-size: 0.9em;
+    
 }
+*/
 
 d-title {
   padding-bottom: 0 !important;
@@ -2127,6 +2129,18 @@ d-byline {
   padding: 0.2rem 0 !important;
 }
 
+d-article p code {
+    font-size: .875rem;
+    line-height: 1.5;
+    font-family: "Lucida Console",Monaco,monospace;
+    font-weight: normal;
+    color: #333;
+    background-color: #f8f8f8;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #dfdfdf;
+    padding: .125rem .3125rem .0625rem;
+}
 </style>
 <!--/radix_placeholder_site_in_header-->
 
@@ -2226,8 +2240,8 @@ d-byline {
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># use the remotes package to install the latest dev version of vosonSML from github</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://remotes.r-lib.org'>remotes</a></span><span class='op'>)</span>
-<span class='fu'><a href='https://remotes.r-lib.org/reference/install_github.html'>install_github</a></span><span class='op'>(</span><span class='st'>"vosonlab/vosonsml"</span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>remotes</span><span class='op'>)</span>
+<span class='fu'>install_github</span><span class='op'>(</span><span class='st'>"vosonlab/vosonsml"</span><span class='op'>)</span>
 
 <span class='co'># Downloading GitHub repo vosonlab/vosonsml@HEAD</span>
 <span class='co'># √  checking for file</span>
@@ -2361,12 +2375,12 @@ d-byline {
 
 <span class='co'># identify the seed pages and set a node attribute</span>
 <span class='va'>seed_pages</span> <span class='op'>&lt;-</span> <span class='va'>pages</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>page <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/stringr/man/str_remove.html'>str_remove</a></span><span class='op'>(</span><span class='va'>page</span>, <span class='st'>"^http[s]?://"</span><span class='op'>)</span>, seed <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>page <span class='op'>=</span> <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_remove.html'>str_remove</a></span><span class='op'>(</span><span class='va'>page</span>, <span class='st'>"^http[s]?://"</span><span class='op'>)</span>, seed <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 <span class='va'>actor_net</span><span class='op'>$</span><span class='va'>nodes</span> <span class='op'>&lt;-</span> <span class='va'>actor_net</span><span class='op'>$</span><span class='va'>nodes</span> <span class='op'>%&gt;%</span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>seed_pages</span>, by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"id"</span> <span class='op'>=</span> <span class='st'>"page"</span><span class='op'>)</span><span class='op'>)</span>
 
 <span class='co'># create an igraph from the network</span>
-<span class='va'>g</span> <span class='op'>&lt;-</span> <span class='va'>actor_net</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/vosonSML/man/vosonSML-colon-colon-Graph.html'>Graph</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>g</span> <span class='op'>&lt;-</span> <span class='va'>actor_net</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://rdrr.io/pkg/vosonSML/man/Graph.html'>Graph</a></span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='co'># set node colours</span>
 <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>color</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/degree.html'>degree</a></span><span class='op'>(</span><span class='va'>g</span>, mode <span class='op'>=</span> <span class='st'>"in"</span><span class='op'>)</span> <span class='op'>&gt;</span> <span class='fl'>1</span>, <span class='st'>"yellow"</span>, <span class='st'>"grey"</span><span class='op'>)</span>
