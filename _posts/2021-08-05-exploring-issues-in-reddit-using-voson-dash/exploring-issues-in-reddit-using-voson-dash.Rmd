@@ -1,0 +1,91 @@
+---
+title: "Exploring issues in Reddit using VOSON Dash"
+description: |
+ An easy guide to exploring issues in Redddit using VOSONDash, a R/Shiny dashobard app developed at the VOSON Lab, and constructing networks for analysis.
+author:
+  - name: Francisca Borquez
+    affiliation: VOSON Lab
+    affiliation_url: http://vosonlab.net/
+  - name: Robert Ackland
+    url: {https://orcid.org/0000-0002-0008-1766}
+date: 08-05-2021
+categories:
+  - rstats
+  - SNA  
+  - VOSONDash
+  - networks
+  - Text analysis
+  - Reddit
+preview: hyperlink_network.png
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+The following guide, provides a practical demonstration to studying online networks of Reddit data, using VOSON Lab's interactive R/Shiny app `VOSONDash`.
+
+ 
+## Exloring an issue in Reddit
+
+Reddit is a social news aggregation, web content rating, and discussion website. Posts,are organised by subject into user-created boards called "communities" or "subreddits", which cover a variety of topics such as news, politics, religion, science, movies, video games, music, books, sports, fitness, cooking, pets, and image-sharing. Reddit provides the opportunity for researchers to access themed-based online discussion data, and to understand the dynamics of these conversations. 
+
+### SNA approach to studying online networks
+
+`VOSONDash` and `vosonSML` method for network construction is based on [Ackland and Zhu]'s approach, whereby edges in Reddit networks are *implicitly directed ties*, representing exchange of opinion between users, but not necessarily an explicit social relationship, such as friendship. Reddit conversations threads can be analysed as networks and `VOSONDash` provides two approaches to constructing networks:
+
+*Actor networks -- where nodes represent users have posted original posts and comments, and edges are the comment interactions between users.
+
+*Activity networks -- where nodes are comments or initial thread posts and edges represent either replies to the original post, or replies to comments.
+
+### methodology
+In this demonstration, we will collect data from a Reddit post relating to the COVID-19 lockdown in Sydney, Australia, and proceed to use `VOSONDash` features to demonstrate the data outputs and analysis tools.
+
+The post titled [*Sydney’s lockdown extended by 4 weeks*](https://www.reddit.com/r/australia/comments/osjreh/sydneys_lockdown_extended_by_4_weeks/) was created on July, 21, 2021, and by the time of data collection (August, 08, 2021) it had attracted 420 comments.
+
+
+## Starting VOSON Dash
+
+The GitHub page provides instructions to install `VOSONDash`. Once the package is installed run `VOSONDash` from the RStudio console entering the following code:
+
+```{r pages, echo=TRUE, eval=FALSE}
+library(VOSONDash)
+runVOSONDash()
+```
+
+VOSONDash will open in a web browser. More detail on features can be accessed in the [`VOSONDash` Userguide](https://vosonlab.github.io/VOSONDashDocs/)
+
+
+## Collecting Reddit data
+Simply go to the Reddit view, enter the URL, and click on `Collect Threads`. The output of the collection is presented in the right pane (Figure 1). In this example, 411 comments were collected. At this stage, the data can be saved as `.rds` dataframe.
+[difference 420, no new comments added?]
+
+![Figure 1: VOSONDash interface](Interface.png)
+
+## Creating Reddit activity networks with VOSONDash 
+
+This type of network represents the three-like structure of conversations, with nodes being comments or the initial post, and edges being replies to comments or replies to initial post. In this example, we selected the `Add text` option, so the `.graphml` file contains text data.
+
+The console displays the output of the activity network (Figure 2). The *Activity network* has 412 nodes (including the initial post), and 411 edges (comments). The network can be saved ad `.graphml`, if you prefer to use a different tool for analysis. 
+
+![Figure 2: Reddit Activity network](Collection.png)
+
+## Creating Reddit activity networks with VOSONDash 
+
+Activity networks represent the actual conversation interaction between Reddit users, where nodes represent users and edges are comments. Similarly, we selected `Activity network` and , `Add text` options. Figure 3 presents a visualisation of the network we just generated, with node size by indegree and directional tie.
+
+![Figure 3: Reddit Activity network](Activity_network.png)
+## Creating Reddit actor networks with VOSONDash
+
+In a similar workflow, we can use the data we just collected to create *Actor networks*, to observe Reddit users interactions. As mentioned earlier, in *Actor networks*, nodes are comments or initial thread posts, and edges represent either replies to the original post, or replies to comments. Again, the `Add text` option was selected, for the `.graphml` file to contain text data.
+
+The console displays the output of the activity network once the network is created. Figure 4 presents the network visualisation pane (eye icon), The *Activity network* has 247 nodes, and 405 edges. Node size by indegree.
+
+![Figure 4: Reddit Actor network](Actor_network.png)
+
+
+
+

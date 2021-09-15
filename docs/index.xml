@@ -12,7 +12,21 @@
       <link>https://vosonlab.github.io/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Thu, 03 Jun 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 08 Sep 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Analysing online networks with VOSONDash</title>
+      <dc:creator>Francisca Borquez</dc:creator>
+      <link>https://vosonlab.github.io/posts/2021-08-06-analysing-online-networks-with-vosondash</link>
+      <description>A quick introduction to VOSONDash network and text analysis features.</description>
+      <category>rstats</category>
+      <category>SNA</category>
+      <category>VOSONDash</category>
+      <category>networks</category>
+      <category>Text analysis</category>
+      <category>Visualisation</category>
+      <guid>https://vosonlab.github.io/posts/2021-08-06-analysing-online-networks-with-vosondash</guid>
+      <pubDate>Wed, 08 Sep 2021 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>#DebateNight 2020: Hashtag Twitter Collection of the US Presidential Debates</title>
       <dc:creator>Bryan Gertzel</dc:creator>
