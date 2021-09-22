@@ -1,14 +1,12 @@
 ---
 title: "Exploring issues in Reddit using VOSON Dash"
 description: |
- An easy guide to exploring issues in Redddit using VOSONDash, a R/Shiny dashobard app developed at the VOSON Lab, and constructing networks for analysis.
+ An easy guide to exploring issues in Redddit using VOSONDash and constructing networks for analysis.
 author:
   - name: Francisca Borquez
     affiliation: VOSON Lab
     affiliation_url: http://vosonlab.net/
-  - name: Robert Ackland
-    url: {https://orcid.org/0000-0002-0008-1766}
-date: 08-05-2021
+date: 16-09-2021
 categories:
   - rstats
   - SNA  
@@ -26,37 +24,26 @@ draft: true
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
-The following guide, provides a practical demonstration to studying online networks of Reddit data, using VOSON Lab's interactive R/Shiny app `VOSONDash`.
-
- 
-## Exloring an issue in Reddit
-
-Reddit is a social news aggregation, web content rating, and discussion website. Posts,are organised by subject into user-created boards called "communities" or "subreddits", which cover a variety of topics such as news, politics, religion, science, movies, video games, music, books, sports, fitness, cooking, pets, and image-sharing. Reddit provides the opportunity for researchers to access themed-based online discussion data, and to understand the dynamics of these conversations. 
+The following guide provides a practical demonstration to studying online networks of Reddit data, using VOSON Lab's interactive R/Shiny app `VOSONDash`. [Reddit](https://www.reddit.com/) is a social news aggregation, web content rating, and discussion website. Registered users post content in "subreddits"-- online boards which cover a variety of topics including, politics, religion, science, movies, and video games, among many others. Reddit provides the opportunity for researchers to access themed-based online discussion data, and to understand the dynamics of these conversations. 
 
 ### SNA approach to studying online networks
 
-`VOSONDash` and `vosonSML` method for network construction is based on [Ackland and Zhu]'s approach, whereby edges in Reddit networks are *implicitly directed ties*, representing exchange of opinion between users, but not necessarily an explicit social relationship, such as friendship. Reddit conversations threads can be analysed as networks and `VOSONDash` provides two approaches to constructing networks:
+`VOSONDash` and `vosonSML` method for network construction is based on [Ackland and Zhu]'s approach, whereby edges in Reddit networks are *implicitly directed ties*, representing exchange of opinion between users, but not necessarily an explicit social relationship, such as friendship. Conversations threads can be analysed as networks and `VOSONDash` provides two approaches to constructing Reddit networks:
 
-*Actor networks -- where nodes represent users have posted original posts and comments, and edges are the comment interactions between users.
+- *Actor networks* -- where nodes represent users who have posted original posts and comments, and edges are the comment interactions between users.
 
-*Activity networks -- where nodes are comments or initial thread posts and edges represent either replies to the original post, or replies to comments.
+- *Activity networks* -- where nodes are comments or initial thread posts and edges represent either replies to the original post, or replies to comments.
 
-### methodology
-In this demonstration, we will collect data from a Reddit post relating to the COVID-19 lockdown in Sydney, Australia, and proceed to use `VOSONDash` features to demonstrate the data outputs and analysis tools.
+### Methodology
 
-The post titled [*Sydney’s lockdown extended by 4 weeks*](https://www.reddit.com/r/australia/comments/osjreh/sydneys_lockdown_extended_by_4_weeks/) was created on July, 21, 2021, and by the time of data collection (August, 08, 2021) it had attracted 420 comments.
+In this post, we will collect data from a Reddit post relating to the COVID-19 lockdown in Sydney, Australia, and proceed to use `VOSONDash` features to demonstrate the data outputs and analysis tools.
+
+The post titled [*Sydney Lockdown extended until the end of September*](https://www.reddit.com/r/sydney/comments/p7s5s6/sydney_lockdown_extended_until_the_end_of/) was created on 20 August 2021, and by the time of data collection (September, 16, 2021) it had attracted 566 comments.
 
 
-## Starting VOSON Dash
+## Starting VOSONDash
 
-The GitHub page provides instructions to install `VOSONDash`. Once the package is installed run `VOSONDash` from the RStudio console entering the following code:
-
-```{r pages, echo=TRUE, eval=FALSE}
-library(VOSONDash)
-runVOSONDash()
-```
-
-VOSONDash will open in a web browser. More detail on features can be accessed in the [`VOSONDash` Userguide](https://vosonlab.github.io/VOSONDashDocs/)
+The GitHub page provides instructions to install and run `VOSONDash`. 
 
 
 ## Collecting Reddit data

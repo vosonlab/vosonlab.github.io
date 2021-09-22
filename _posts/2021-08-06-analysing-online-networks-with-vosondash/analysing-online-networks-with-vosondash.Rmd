@@ -48,15 +48,15 @@ runVOSONDash()
 
 ### Network data
 
-With VOSONDash, users can either collect their own data -- which will be covered in detail in the following posts - or upload an existing `graphml` file. To ease replication, we will use the `EnviroActivistsWebsite_2006` demo dataset, which is provided in the package. The dataset is a hyperlink network collected with [VOSON](http://vosonlab.net/VOSON) in 2006, as part of a research piece [@acklandoneil2011]. The network has 161 nodes (websites representing environmental organisations) and 1,444 edges representing hyperlinks between these organisations. In this dataset, text data is stored as node attribute and categorical values are assigned depending on type environmental of organisations (Bios, Globals, and Toxics). 
+To ease replication, in this example we will use the `EnviroActivistsWebsite_2006` demo dataset which is provided in the package. The dataset is a hyperlink network collected with [VOSON](http://vosonlab.net/VOSON) in 2006, as part of a research piece [@acklandoneil2011]. The network has 161 nodes (websites representing environmental organisations) and 1,444 edges representing hyperlinks between these organisations. In this dataset, text data is stored as node attribute and categorical values are assigned depending on type of environmental organisations (Bios, Globals, and Toxics). 
 
 ## Network analysis using VOSONDash
 
-There are three main approaches to analysing online networks with VOSONDash: Network graph, Network (SNA) metrics, and Text analysis. More information on features can be accessed in the [VOSONDash Userguide](https://vosonlab.github.io/VOSONDashDocs/).
+There are three main approaches to analysing online networks with VOSONDash: Network graph, Network metrics (SNA), and Text analysis. More information on features can be accessed in the [VOSONDash Userguide](https://vosonlab.github.io/VOSONDashDocs/).
 
 ### Network graph
  
-Via the `Network graph` option data can be explored as network graphs created with igraph and [visNetwork](https://github.com/datastorm-open/visNetwork), and as tabulations for nodes and edges. The `Network graph` pane provides the following options for manipulating the network:
+In `Network graph` provides two options to explore networks: network visualisation via igraph and [visNetwork](https://github.com/datastorm-open/visNetwork); and tabulations for nodes and edges. The `Network graph` pane provides the following options for manipulating the network:
 
 - Labels -- to display or not labels.
 - Graph Filters -- to display or not multiple edges, loops, and isolates.
@@ -71,9 +71,9 @@ Via the `Network graph` option data can be explored as network graphs created wi
 
 ### Network metrics
 
-Via the `Network metrics` pane, we can observe basic SNA metrics, including network level and node level metrics (e.g. centralisation). Metrics reflect the applied filters for the visualisation; in this example we removed isolates (3), so network size is 158 and the Component distribution is 1 (one connected component). Degree distribution is only available for undirected networks; Indegree distribution and Outdegree distribution charts are available for directed networks, like this example. Accordingly, in this network, there are 15 nodes receiving one hyperlink, and three nodes receiving 35 hyperlinks. While 19 nodes link out to only one other site, there are two organisations in this network that link out to 50 sites.
+Via the `Network metrics` pane, we can observe basic SNA metrics, including network level and node level metrics (e.g. centralisation). `Network metrics` reflect the applied filters for the visualisation; in this example we removed isolates (3 nodes), so network size is 158 and the Component distribution is 1 (one connected component). `Degree distribution` is only available for undirected networks; `Indegree distribution` and `Outdegree distribution` charts are available for directed networks, like this example. Accordingly, in this network, there are 15 nodes receiving one hyperlink, and three nodes receiving 35 hyperlinks. While 19 nodes link out to only one other site, there are two organisations in this network that link out to 50 sites.
 
-Assortativity metrics (Homogeneity and Homophily indexes, including mixing matrix and population share) are presented for networks with categorical node attributes. In this example, we have selected the categorical attribute `Type`. The mixing matrix table presents links across the three types of organisations Globals, Bios and Toxics. The Bios and Globals sub-movements show a strong tendency towards linking to their own type. Population shares, Homogeneity indexes and Homophily indexes are presented by type. Controlling for group size, Globals are the group more biased towards its own type, where 53% of their ties to other Global organisations can be explained by homophily.
+`Assortativity metrics` (Homogeneity and Homophily indexes, including mixing matrix and population share) are presented for networks with categorical node attributes. In this example, we have selected the categorical attribute `Type`. The mixing matrix table presents links across the three types of organisations Globals, Bios and Toxics. The Bios and Globals sub-movements show a strong tendency towards linking to their own type. Population shares, Homogeneity indexes and Homophily indexes are presented by type. Controlling for group size, Globals are the group more biased towards its own type, where 53% of their ties to other Global organisations can be explained by homophily.
 
 ![Figure 2: SNA and Assortativity metrics](SNAmetrics.gif)
 
@@ -86,17 +86,17 @@ For a network with text data stored as either node or edge attribute, it is poss
 - create own stopword list in `User-Defined Stopwords`, 
 - reduce words to their stems with `Apply word stemming`, 
 - remove URLs, numbers, or punctuation, based on user's specifications.
-- Word lenght, if need to specify number of characters.
+- `Word lenght`, if need to specify number of characters.
 - `Advanced options` provide `HTML Decode` and `iconv UTF8`, specially useful for social media as text often contains encoded characters.
 - For Twitter networks, two other options become available: `Remove Twitter hashtags` and `Remove Twitter Usernames`.
 
 There are three methods available to visualise text: 
 
-- Word frequency bar charts, where further parameters can be applied such as to define the number of results displayed, and frequency to define a min frequency, for the text to appear.
+- `Word frequency` bar charts, where further parameters can be applied such as to define the number of results displayed, and frequency to define `Minimum frequency`, for the text to appear.
  
-- Word clouds  where users can adjust `Minimum frequency` (how many times a word needs to have been used in order for it to feature in the visualisation); `Maximum words` to control for the number of words appearing in the graph; percentage of vertical words can be set for legibility; and random colours can be assigned to the visualisation. Comparison clouds are only available for datasets with categorical data, like this example where colour represents the  node attribute type (Bios, Globals or Toxics).
+- `Word clouds`  where users can adjust `Minimum frequency` (how many times a word needs to have been used in order for it to feature in the visualisation); `Maximum words` to control for the number of words appearing in the graph; percentage of vertical words can be set for legibility; and random colours can be assigned to the visualisation. `Comparison clouds` are only available for datasets with categorical data, like this example where colour represents the  node attribute type (Bios, Globals or Toxics).
 
-- The Sentiment analysis function uses the [Syuzhet](https://cran.r-project.org/web/packages/syuzhet/vignettes/syuzhet-vignette.html) package and classifies words based on the NRC Emotion Lexicon, which is a list of English words and their associations with eight basic emotions (anger, fear, anticipation, trust, surprise, sadness, joy, and disgust) and two sentiments (negative and positive).
+- The `Sentiment analysis` function uses the [Syuzhet](https://cran.r-project.org/web/packages/syuzhet/vignettes/syuzhet-vignette.html) package and classifies words based on the NRC Emotion Lexicon, which is a list of English words and their associations with eight basic emotions (anger, fear, anticipation, trust, surprise, sadness, joy, and disgust) and two sentiments (negative and positive).
 
 
 ![Figure 3: Text analysi](textanalysis.gif)
