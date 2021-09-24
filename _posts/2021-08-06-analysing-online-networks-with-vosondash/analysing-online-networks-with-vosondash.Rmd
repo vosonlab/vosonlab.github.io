@@ -4,7 +4,8 @@ description: |
   A quick introduction to VOSONDash network and text analysis features.
 author:
   - name: Francisca Borquez
-    url: {http://vosonlab.net/}
+    affiliation: VOSON Lab, School of Sociology, Australian National University
+    affiliation_url: {http://vosonlab.net/}
 
 date: 09-09-2021
 categories:
