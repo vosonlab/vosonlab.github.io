@@ -25,11 +25,11 @@ bibliography: paper.bib
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
-The following guide provides a practical demonstration for collecting [Reddit](https://www.reddit.com/) data and constructing networks, using VOSON Lab's interactive [R/Shiny](https://shiny.rstudio.com/) app [VOSONDash](http://vosonlab.net/voson-dashboard). Reddit -- a social news aggregation, content rating, and discussion website - provides the opportunity for researchers to access a wide range of themed-based online discussion data, and to understand the dynamics of these conversations. 
+The following guide provides a practical demonstration for collecting [Reddit](https://www.reddit.com/) data and constructing networks, using VOSON Lab's interactive [R/Shiny](https://shiny.rstudio.com/) app [VOSONDash](http://vosonlab.net/voson-dashboard). Reddit -- a social news aggregation, content rating, and discussion website -- provides the opportunity for researchers to access a wide range of themed-based online discussion data, and to understand the dynamics of these conversations. 
 
 ### SNA approach to studying online networks
 
-VOSONDash (and `vosonSML`) method for network construction is based on @AcklandZhu2015's approach, whereby edges in Reddit networks represent *implicitly directed ties*, i.e.  reflecting exchange of opinion between users rather than an explicit social relationship. Conversations threads can be analysed as networks and VOSONDash provides two approaches to constructing Reddit networks:
+VOSONDash (and `vosonSML`) method for network construction is based on @AcklandZhu2015 approach, whereby edges in Reddit networks represent *implicitly directed ties*, i.e.  reflecting exchange of opinion between users rather than an explicit social relationship. Conversations threads can be analysed as networks and VOSONDash provides two approaches to constructing Reddit networks:
 
 - *Actor networks* -- where nodes represent users who have posted original posts and comments, and edges are the comment interactions between users.
 

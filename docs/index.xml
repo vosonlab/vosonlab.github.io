@@ -12,7 +12,21 @@
       <link>https://vosonlab.github.io/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Wed, 08 Sep 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 22 Sep 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Exploring issues in Reddit using VOSON Dash</title>
+      <dc:creator>Francisca Borquez</dc:creator>
+      <link>https://vosonlab.github.io/posts/2021-08-05-exploring-issues-in-reddit-using-voson-dash</link>
+      <description>An easy guide to explore issues in Redddit using VOSONDash and construct networks for analysis.</description>
+      <category>rstats</category>
+      <category>SNA</category>
+      <category>VOSONDash</category>
+      <category>networks</category>
+      <category>Text analysis</category>
+      <category>Reddit</category>
+      <guid>https://vosonlab.github.io/posts/2021-08-05-exploring-issues-in-reddit-using-voson-dash</guid>
+      <pubDate>Wed, 22 Sep 2021 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>Analysing online networks with VOSONDash</title>
       <dc:creator>Francisca Borquez</dc:creator>
@@ -25,7 +39,7 @@
       <category>Text analysis</category>
       <category>Visualisation</category>
       <guid>https://vosonlab.github.io/posts/2021-08-06-analysing-online-networks-with-vosondash</guid>
-      <pubDate>Wed, 08 Sep 2021 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 09 Sep 2021 00:00:00 +0000</pubDate>
       <media:content url="https://vosonlab.github.io/posts/2021-08-06-analysing-online-networks-with-vosondash/VOSONDash.png" medium="image" type="image/png" width="341" height="394"/>
     </item>
     <item>
