@@ -1,7 +1,7 @@
 ---
 title: "Exploring issues in Reddit using VOSON Dash"
 description: |
- An easy guide to explore issues in Redddit using VOSONDash and construct networks for analysis.
+ An easy guide to explore issues in Redddit and construct networks for analysis using VOSONDash.
 author:
   - name: Francisca Borquez
     affiliation: VOSON Lab, School of Sociology, Australian National University
@@ -14,7 +14,7 @@ categories:
   - networks
   - Text analysis
   - Reddit
-preview: 
+preview: preview.png
 output:
   distill::distill_article:
     self_contained: false
