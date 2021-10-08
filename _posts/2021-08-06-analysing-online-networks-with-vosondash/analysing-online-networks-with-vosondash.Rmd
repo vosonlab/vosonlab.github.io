@@ -33,7 +33,7 @@ This post introduces VOSONDash network analysis tools, which include network vis
 
 ### About VOSONDash
 
-VOSONDash is an output of computational social methods research, designed to be a "Swiss Army knife" for studying online networks. The [R/Shiny](https://shiny.rstudio.com/) dashboard tool enables online data collection, and network and text analysis (including visualisation) within the same environment. VOSONDash builds on a number of R packages, in particular [vosonSML](http://vosonlab.net/SocialMediaLab) for data collection and network generation, and [igraph](https://igraph.org/) for network analysis. The package provides a graphical user interface which does not require users to have R programming skills and it is available on [CRAN](https://CRAN.R-project.org/package=VOSONDash) and [GitHub](https://github.com/vosonlab/VOSONDash).
+VOSONDash is an output of computational social methods research, designed to be a "Swiss Army knife" for studying online networks. The [R/Shiny](https://shiny.rstudio.com/) dashboard tool enables online data collection, and network and text analysis (including visualisation) within the same environment. VOSONDash builds on a number of R packages, in particular [vosonSML](http://vosonlab.net/SocialMediaLab) for data collection and network generation, and [igraph](https://igraph.org/) for network analysis. The package provides a graphical user interface which does not require users to have R programming skills and it is available on [CRAN](https://CRAN.R-project.org/package=VOSONDash) and [GitHub](https://github.com/vosonlab/VOSONDash). Bryan Gertzel is the lead developer and maintainer of VOSONDash.
 
 ### Starting VOSONDash
 

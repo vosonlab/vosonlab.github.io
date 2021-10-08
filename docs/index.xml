@@ -17,7 +17,7 @@
       <title>Exploring issues in Reddit using VOSON Dash</title>
       <dc:creator>Francisca Borquez</dc:creator>
       <link>https://vosonlab.github.io/posts/2021-08-05-exploring-issues-in-reddit-using-voson-dash</link>
-      <description>An easy guide to explore issues in Redddit using VOSONDash and construct networks for analysis.</description>
+      <description>An easy guide to explore issues in Redddit and construct networks for analysis using VOSONDash.</description>
       <category>rstats</category>
       <category>SNA</category>
       <category>VOSONDash</category>
@@ -26,6 +26,7 @@
       <category>Reddit</category>
       <guid>https://vosonlab.github.io/posts/2021-08-05-exploring-issues-in-reddit-using-voson-dash</guid>
       <pubDate>Wed, 22 Sep 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://vosonlab.github.io/posts/2021-08-05-exploring-issues-in-reddit-using-voson-dash/preview.png" medium="image" type="image/png" width="1266" height="700"/>
     </item>
     <item>
       <title>Analysing online networks with VOSONDash</title>
