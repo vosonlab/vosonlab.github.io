@@ -12,7 +12,16 @@
       <link>https://vosonlab.github.io/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Wed, 22 Sep 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 07 Oct 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Testing the Bot status via Botometer, in Twitter networks collected via vosonSML</title>
+      <dc:creator>Professor Robert Ackland</dc:creator>
+      <dc:creator>Francisca Borquez</dc:creator>
+      <link>https://vosonlab.github.io/posts/2021-10-01-testing-the-bot-status-via-botometer-of-users-in-twitter-networks-collected-via-vosonsml</link>
+      <description>Testing the Bot status via Botometer, in Twitter networks collected via vosonSML</description>
+      <guid>https://vosonlab.github.io/posts/2021-10-01-testing-the-bot-status-via-botometer-of-users-in-twitter-networks-collected-via-vosonsml</guid>
+      <pubDate>Thu, 07 Oct 2021 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>Exploring issues in Reddit using VOSON Dash</title>
       <dc:creator>Francisca Borquez</dc:creator>
@@ -25,7 +34,7 @@
       <category>Text analysis</category>
       <category>Reddit</category>
       <guid>https://vosonlab.github.io/posts/2021-08-05-exploring-issues-in-reddit-using-voson-dash</guid>
-      <pubDate>Wed, 22 Sep 2021 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 23 Sep 2021 00:00:00 +0000</pubDate>
       <media:content url="https://vosonlab.github.io/posts/2021-08-05-exploring-issues-in-reddit-using-voson-dash/preview.png" medium="image" type="image/png" width="1266" height="700"/>
     </item>
     <item>
