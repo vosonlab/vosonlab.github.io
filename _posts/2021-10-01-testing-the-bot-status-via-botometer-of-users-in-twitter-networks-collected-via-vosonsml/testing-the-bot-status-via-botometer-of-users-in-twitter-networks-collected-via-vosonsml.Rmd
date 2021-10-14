@@ -10,6 +10,14 @@ author:
   - name: Francisca Borquez
   
 date: 10-08-2021
+categories:
+  - rstats
+  - python
+  - SNA  
+  - vosonSML
+  - networks
+  - Botometer
+  - Bot detection
 output:
   distill::distill_article:
     self_contained: false
@@ -24,14 +32,14 @@ knitr::opts_chunk$set(echo = FALSE)
 
 ## Introduction
 
-As social media platforms like Twitter become important spaces for information diffusion, discussion and opinion formation, serious concerns have been raised about the role of malicious *socialbots* in manipulating and influencing public opinion [see @RizoiuEtal2018]. While there are many types of *socialbots*, malicious accounts aim to interfere with and even manipulate ongoing communication and opinion formation [@BadawyEtal2018]. Their detection and the understanding of consequent dynamics of behaviour are relevant to researchers and it is central to the research collaboration the VOSON Lab is involved in [see @Volkswagen2020]. 
+As social media platforms like Twitter become important spaces for information diffusion, discussion and opinion formation, serious concerns have been raised about the role of malicious *socialbots* in interfering, manipulating and influencing communication and public opinion [see @RizoiuEtal2018 and @BadawyEtal2018]. Their detection and the understanding of consequent dynamics of behaviour are relevant to researchers and it is central to the research collaboration the VOSON Lab is involved in [see @Volkswagen2020]. 
 
-In this post we will use `vosonSML` to collect data via the Twitter API and construct a network represented as an `igraph` graph object in `R`. Then, we will identify a subset of users and test their bot status using `Botometer`^[`Botometer` is a joint project of the Observatory on Social Media (OSoMe) and the Network Science Institute (IUNI) at Indiana University, USA] (in python) and include the bot scores as node attributes in the network graph in `R`.
+In this post we will use `vosonSML` to collect data via the Twitter API and construct a network represented as an `igraph` graph object in R. Then, we will identify a subset of users and test their bot status using `Botometer`^[`Botometer` is a joint project of the Observatory on Social Media (OSoMe) and the Network Science Institute (IUNI) at Indiana University, USA] (in python) and include the bot scores as node attributes in the network graph in R.
 
 
 ## Collecting the Twitter network using `vosonSML` in R
 
-The [vosonSML vignette](https://vosonlab.github.io/vosonSML/articles/Intro-to-vosonSML.html) [@vosonSML2020-M] provides comprehensive instructions on how to use `vosonSML`. In this post, we are going to focus on the essential steps for Twitter collection and network generation via `voson.sml`. The first step involves loading the `vosonSML` package into the R session, and use the `Web Auth` approach to create a Twitter API access token:
+The [vosonSML vignette](https://vosonlab.github.io/vosonSML/articles/Intro-to-vosonSML.html) [@vosonSML2020-M] provides comprehensive instructions on how to use `vosonSML`. In this post, we are going to focus on the essential steps for Twitter collection and network generation via `vosonSML`. The first step involves loading the `vosonSML` package into the R session, and use the `Web Auth` approach to create a Twitter API access token:
 
 ```{r echo=TRUE, eval=FALSE}
 library(magrittr)
@@ -71,7 +79,7 @@ twitterData <- ImportData("2021-09-30_182359-TwitterData.rds", "twitter")
 
 And now we use the `vosonSML` functions `Create("actor")` to create an Actor network and `Graph()` to create an `igraph` graph object `g`.
 
-The `Create("actor")` function generates a named list containing two dataframes named *nodes* and *edges*. In this *Actor network* nodes are users who have either tweeted using the search term *#auspol*, or else are mentioned or replied to in tweets featuring the search terms. Edges represent interactions between Twitter users, and an edge attribute indicates whether the interaction is a mention, reply, retweet, quoted retweet or self-loop.
+The `Create("actor")` function generates a named list containing two dataframes named *nodes* and *edges*. In this Actor network nodes are users who have either tweeted using the search term *#auspol*, or else are mentioned or replied to in tweets featuring the search terms. Edges represent interactions between Twitter users, and an edge attribute indicates whether the interaction is a mention, reply, retweet, quoted retweet or self-loop.
 
 ```{r echo=TRUE, eval=FALSE}
 actorNetwork <- twitterData %>% Create("actor", vertbose=TRUE)
@@ -135,7 +143,7 @@ Given this network was created using tweets that contain the *#auspol* hashtag, 
 [1] "ScottMorrisonMP" "DanielAndrewsMP" "JoshFrydenberg"  "GladysB"         "bruce_haigh"```  
 ```
 
-Since we are going to access the `Botometer` API via `python`, first we need to print the Twitter handles we want to check (5) with `Botometer` to a `.csv` file.
+Since we are going to access the `Botometer` API via Python, first we need to print the Twitter handles we want to check (5) with `Botometer` to a `.csv` file.
 
 ```{r echo=TRUE, eval=FALSE}
 write.csv(data.frame(user=V(g)$screen_name[order(degree(g, mode="in"), decreasing=TRUE)][1:5]), "top-5_auspol.csv", row.names=FALSE)
