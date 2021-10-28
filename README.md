@@ -35,4 +35,4 @@ In the `_posts` folder, there will be individual folders containing post materia
 Markdown.
 
 ## Bibliography
-Add the field `bibliography: paper.bib` to the metadata (yml section) and save a `.bib` or `.yaml` file to the folder containing the `.Rmd` file.
+Add the field `bibliography: paper.bib` to the metadata (yml section) and save a `.bib` or `.yaml` file with the references to the folder containing the `.Rmd` file.
