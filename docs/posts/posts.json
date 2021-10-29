@@ -205,12 +205,12 @@
     "date": "2021-02-04",
     "categories": [
       "rstats",
-      "Social Network Analysis",
-      "Computational Social Sciences"
+      "SNA",
+      "Computational Social Science"
     ],
     "contents": "\nWelcome to the VOSON Lab Code Blog! We have created this space to share methods, tips, examples and code. It’s also a place where we will demonstrate constructing and analyzing networks from various API and other online data sources.\nMost of our posts will cover techniques around the tools we have developed at the Lab: vosonSML, VOSONDash and voson.tcn, which are available on both CRAN and GitHub. But we also plan to use this space to cover other complementary R packages and open-source software, such as fantastic R packages within the tidyverse, RStudio’s shiny for web apps, and visualization tools such as igraph and Gephi.\nVOSON Lab R Packages - Hex stickersVOSON Lab Open Source Tools\nvosonSML is a R package for social media data collection (currently twitter, youtube, and reddit), hyperlink collection and network generation. VOSONDash is a Shiny app that integrates tools for visualizing and manipulating network graphs, performing network and text analysis, as well as an interface for collecting data with vosonSML.\nMore information on these packages, their development and code can be found on our vosonSML, VOSONDash and voson.tcn github pages.\nWe also have some other guides for using the packages. Check the vosonSML Vignette and the VOSON Dash Userguide for some practical examples and feature reference.\nWe hope you find this content useful!\nThe VOSON Lab team.\nVirtual Observatory for the Study of Online Networks VOSON Lab, School of Sociology, The Australian National University.\n\n\n\n",
     "preview": "posts/2021-02-05_welcome/square-cards.png",
-    "last_modified": "2021-10-29T13:14:32+11:00",
+    "last_modified": "2021-10-29T13:23:38+11:00",
     "input_file": "welcome.knit.md",
     "preview_width": 800,
     "preview_height": 640

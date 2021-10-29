@@ -12,8 +12,8 @@ author:
 date: February 4, 2021
 categories:
   - rstats
-  - Social Network Analysis
-  - Computational Social Sciences
+  - SNA
+  - Computational Social Science
 preview: square-cards.png
 output:
   distill::distill_article:
