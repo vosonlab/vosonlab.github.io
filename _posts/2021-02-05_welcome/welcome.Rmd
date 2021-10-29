@@ -11,9 +11,9 @@ author:
     affiliation: Australian National University
 date: February 4, 2021
 categories:
-  - Rstats
+  - rstats
   - Social Network Analysis
-  - Computational Social Methods
+  - Computational Social Sciences
 preview: square-cards.png
 output:
   distill::distill_article:
