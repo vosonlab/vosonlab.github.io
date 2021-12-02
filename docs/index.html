@@ -2174,7 +2174,7 @@ function init_posts_list() {
     var src = $(img).attr('data-src');
     if (src) {
       $(img).attr('src', src);
-      $(img).load(function() {
+      $(img).on("load", function() {
         img.removeAttribute('data-src');
       });
     }
@@ -2220,6 +2220,7 @@ function init_posts_list() {
 
       // mark posts that match the category visible
       var page_category = window.location.hash.replace(/^#category:/, "");
+      page_category = decodeURIComponent(page_category)
       var posts = $('.post-metadata').map(function(idx, script) {
         var metadata = $.parseJSON($(script).html());
         var post = null;
@@ -2235,7 +2236,7 @@ function init_posts_list() {
       set_posts_visible(posts, true);
 
       // mark the hash active
-      $('.categories li>a[href="' + window.location.hash + '"]').addClass('active');
+      $('.categories li>a[href="' + decodeURIComponent(window.location.hash) + '"]').addClass('active');
 
       // update the list_caption
       var list_caption = $('.posts-list-caption');
@@ -2299,7 +2300,7 @@ function init_posts_list() {
 <div class="posts-list">
 <h1 class="posts-list-caption" data-caption="Articles">Articles</h1>
 <a href="posts/2021-10-01-testing-the-bot-status-via-botometer-of-users-in-twitter-networks-collected-via-vosonsml/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":[]}</script>
+<script class="post-metadata" type="text/json">{"categories":["rstats","python","SNA","vosonSML","networks","Botometer","Bot detection"]}</script>
 <div class="metadata">
 <div class="publishedDate">Oct. 7, 2021</div>
 <div class="dt-authors">
@@ -2307,10 +2308,20 @@ function init_posts_list() {
 <div class="dt-author">Francisca Borquez</div>
 </div>
 </div>
-<div class="thumbnail"></div>
+<div class="thumbnail">
+<img src="posts/2021-10-01-testing-the-bot-status-via-botometer-of-users-in-twitter-networks-collected-via-vosonsml/bot.png"/>
+</div>
 <div class="description">
 <h2>Testing the Bot status via Botometer, in Twitter networks collected via vosonSML</h2>
-<div class="dt-tags"></div>
+<div class="dt-tags">
+<div class="dt-tag">rstats</div>
+<div class="dt-tag">python</div>
+<div class="dt-tag">SNA</div>
+<div class="dt-tag">vosonSML</div>
+<div class="dt-tag">networks</div>
+<div class="dt-tag">Botometer</div>
+<div class="dt-tag">Bot detection</div>
+</div>
 <p></p>
 </div>
 </a>
@@ -2347,7 +2358,7 @@ function init_posts_list() {
 </div>
 </div>
 <div class="thumbnail">
-<img src="posts/2021-08-06-analysing-online-networks-with-vosondash/VOSONDash.png"/>
+<img/>
 </div>
 <div class="description">
 <h2>Analysing online networks with VOSONDash</h2>
@@ -2359,7 +2370,7 @@ function init_posts_list() {
 <div class="dt-tag">Text analysis</div>
 <div class="dt-tag">Visualisation</div>
 </div>
-<p>A quick introduction to VOSONDash network and text analysis features.</p>
+<p>A quick introduction to VOSONDash network and text analysis features</p>
 </div>
 </a>
 <a href="posts/2021-06-03-hashtag-twitter-collection-of-the-us-presidential-debates-2020/" class="post-preview">
@@ -2459,7 +2470,7 @@ function init_posts_list() {
 </div>
 </a>
 <a href="posts/2021-02-05_welcome/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":["Rstats","Social Network Analysis","Computational Social Methods"]}</script>
+<script class="post-metadata" type="text/json">{"categories":["rstats","SNA","Computational Social Science"]}</script>
 <div class="metadata">
 <div class="publishedDate">Feb. 4, 2021</div>
 <div class="dt-authors">
@@ -2473,9 +2484,9 @@ function init_posts_list() {
 <div class="description">
 <h2>Welcome to the VOSON Lab Code Blog</h2>
 <div class="dt-tags">
-<div class="dt-tag">Rstats</div>
-<div class="dt-tag">Social Network Analysis</div>
-<div class="dt-tag">Computational Social Methods</div>
+<div class="dt-tag">rstats</div>
+<div class="dt-tag">SNA</div>
+<div class="dt-tag">Computational Social Science</div>
 </div>
 <p>The code blog is a space to share tools, methods, tips, examples and code. A place to collect data, construct and analyze online networks.</p>
 </div>
@@ -2509,7 +2520,15 @@ function init_posts_list() {
 <span class="category-count">(8)</span>
 </li>
 <li>
-<a href="#category:Computational_Social_Methods">Computational Social Methods</a>
+<a href="#category:Bot_detection">Bot detection</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:Botometer">Botometer</a>
+<span class="category-count">(1)</span>
+</li>
+<li>
+<a href="#category:Computational_Social_Science">Computational Social Science</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
@@ -2534,7 +2553,11 @@ function init_posts_list() {
 </li>
 <li>
 <a href="#category:networks">networks</a>
-<span class="category-count">(6)</span>
+<span class="category-count">(7)</span>
+</li>
+<li>
+<a href="#category:python">python</a>
+<span class="category-count">(1)</span>
 </li>
 <li>
 <a href="#category:Reddit">Reddit</a>
@@ -2542,11 +2565,7 @@ function init_posts_list() {
 </li>
 <li>
 <a href="#category:rstats">rstats</a>
-<span class="category-count">(6)</span>
-</li>
-<li>
-<a href="#category:Rstats">Rstats</a>
-<span class="category-count">(1)</span>
+<span class="category-count">(8)</span>
 </li>
 <li>
 <a href="#category:rtweet">rtweet</a>
@@ -2554,11 +2573,7 @@ function init_posts_list() {
 </li>
 <li>
 <a href="#category:SNA">SNA</a>
-<span class="category-count">(2)</span>
-</li>
-<li>
-<a href="#category:Social_Network_Analysis">Social Network Analysis</a>
-<span class="category-count">(1)</span>
+<span class="category-count">(4)</span>
 </li>
 <li>
 <a href="#category:Text_analysis">Text analysis</a>
@@ -2582,7 +2597,7 @@ function init_posts_list() {
 </li>
 <li>
 <a href="#category:vosonSML">vosonSML</a>
-<span class="category-count">(2)</span>
+<span class="category-count">(3)</span>
 </li>
 </ul>
 </div>

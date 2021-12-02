@@ -2,12 +2,12 @@
 title: "Analysing online networks with VOSONDash"
 description: |
   A quick introduction to VOSONDash network and text analysis features
+draft: false
 author:
   - name: Francisca Borquez
     affiliation: VOSON Lab, School of Sociology, Australian National University
-    affiliation_url: {http://vosonlab.net/}
-
-date: 09-09-2021
+    affiliation_url: http://vosonlab.net/
+date: 2021-09-09
 categories:
   - rstats
   - SNA  
@@ -15,11 +15,11 @@ categories:
   - networks
   - Text analysis
   - Visualisation
-preview: 
+preview: Actor_network.png
 output:
   distill::distill_article:
     self_contained: false
-draft: false
+
 bibliography: paper.bib
 ---
 
