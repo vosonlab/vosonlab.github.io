@@ -15,11 +15,10 @@ categories:
   - networks
   - Text analysis
   - Visualisation
-preview: Actor_network.png
+preview: Actor_net.png
 output:
   distill::distill_article:
     self_contained: false
-
 bibliography: paper.bib
 ---
 
