@@ -1,11 +1,11 @@
 ---
 title: "Collecting Twitter data with VOSONDash"
 description: |
-  A short guide to collecting Twitter data and constructing networks for analysis
+  A short guide to collecting Twitter data and constructing networks for analysis with VOSONDash
 author:
   - name: Francisca Borquez
     affiliation: VOSON Lab, School of Sociology, Australian National University
-    affiliation_url: {http://vosonlab.net/}
+    affiliation_url: http://vosonlab.net/
       
 date: 11-25-2021
 categories:
@@ -15,57 +15,50 @@ categories:
   - networks
   - twitter
   - Visualisation
+preview: VOSONDash-t.png
 output:
   distill::distill_article:
     self_contained: false
-draft: true
+draft: false
 ---
 
-This guide provides a practical demonstration for collecting [Twitter](https://twitter.com/home) data and constructing networks, using VOSON Lab's interactive [R/Shiny](https://shiny.rstudio.com/) app [VOSONDash](http://vosonlab.net/voson-dashboard). The VOSON Lab tools -- VOSONDash and vosonSML-- provide a common methodology for collecting data across all data sources. In this post, we will collect data from a Twitter hashtag relating to Australian politics #auspol and proceed to use VOSONDash features to demonstrate the data outputs, create different Twitter networks for analysis, and provide a quick overview of analysis tools. 
-
-The [GitHub page](https://github.com/vosonlab/VOSONDash) provides instructions to install and run VOSONDash. More information on features can be accessed in the [VOSONDash Userguide](https://vosonlab.github.io/VOSONDashDocs/)[@VOSONDash2020-M].
-
-## Collecting Twitter data
-
-Twitter collection require authentication with API keys. Simply, enter the fields in the “API Keys” window. The token can be saved to disk for future use. 
-
-In VOSONDash, it is possible to search for terms including hashtags, account names and words; and/or to search for tweets authored by or directed to a particular user.
-
-In this example, we are going to collect 100 recent tweets including the hashtags #auspol and #COVID-19. The output of the collection is presented in the right pane (Figure 1). In this example, XXX comments were collected. At this stage, the data can be saved as `.rds` dataframe.
-
-
-### SNA approach to studying online networks
-
-VOSONDash (and `vosonSML`) provides four types of Twitter networks for analysis:
-
-- *Actor networks* -- where nodes represent users who have tweeted, or else are mentioned or replied to in tweets. Edges represent interactions between Twitter users, and an edge attribute indicates whether the interaction is a mention, reply, retweet, quoted retweet or self-loop. 
-
-- *Activity networks* -- where nodes represent tweets and edge types are: replies, retweets and quoted retweets.
-
-- *Two-mode networks* -- is a bimodela networ where the two types of nodes are actors (Twitter users) and hashtags. There is an edge from user i to hashtag j if user i authored a tweet containing hashtag j.
-
-- *Semantic networks* -- where nodes represent entities extracted from the tweet text: common words, hashtags and usernames. Edges reflect co-occurrence of terms. 
-
-
-
-
-
-
-The post titled [*Sydney Lockdown extended until the end of September*](https://www.reddit.com/r/sydney/comments/p7s5s6/sydney_lockdown_extended_until_the_end_of/) was created on 20 August 2021, and by the time of data collection (23 September 2021) it had attracted 557 comments.
-
-The [GitHub page](https://github.com/vosonlab/VOSONDash) provides instructions to install and run VOSONDash. More information on features can be accessed in the [VOSONDash Userguide](https://vosonlab.github.io/VOSONDashDocs/)[@VOSONDash2020-M].
-
-## Collecting Reddit data
-
-Reddit collection does not require API authentication. Simply go to the Reddit view, enter the URL, and click on `Collect Threads`. The output of the collection is presented in the right pane (Figure 1). In this example, 494 comments were collected. At this stage, the data can be saved as `.rds` dataframe.
-
-
-![Figure 1: VOSONDash -- Reddit collection](Reddit-collection.gif)
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
+
+This guide provides a practical demonstration for collecting [Twitter](https://twitter.com/home) data and constructing networks, using VOSON Lab's interactive [R/Shiny](https://shiny.rstudio.com/) app [VOSONDash](http://vosonlab.net/voson-dashboard). 
+
+The [GitHub page](https://github.com/vosonlab/VOSONDash) provides instructions to install and run VOSONDash. More information on features can be accessed in the [VOSONDash Userguide](https://vosonlab.github.io/VOSONDashDocs/)[@VOSONDash2020-M].
+
+## Collecting Twitter data
+
+Twitter collection require authentication with `OAuth1.0` API keys, provided via Twitter Developer account. Simply, enter the fields in the `API Keys` window in VOSONDash. The token can be saved to disk for future use. 
+
+In this example, data were collected on 6 December 2021 and include 200 recent tweets with the hashtags #auspol and #COVID-19 (Fig. 1). 
+
+
+## Twitter networks
+
+VOSONDash (via `vosonSML`) provides four types of Twitter networks for analysis:
+
+- *Activity networks* -- where nodes represent tweets and edge types are: replies, retweets and quoted retweets. In this example, there are 225 nodes (excluding isolates) and 200 edges (including multiple edges and loops).
+
+- *Actor networks* -- where nodes represent users who have tweeted, or else are mentioned or replied to in tweets. Edges represent interactions between Twitter users, and an edge attribute indicates whether the interaction is a mention, reply, retweet, quoted retweet or self-loop. In this example, there are 212 nodes and 213 edges (including multiple edges and loops).
+
+![Figure 1: VOSONDash -- Twitter collection, Activity and Actor   networks](Collect-activity-actor.gif)
+
+
+- *Two-mode networks* -- where nodes are actors (Twitter users) and hashtags, and there is an edge from user i to hashtag j if user i authored a tweet containing hashtag j. In this example, we have removed the hashtags we used in our collection #auspol and #COVID-19. The resulting network has 242 nodes and 213 edges. When clicking on `Label attribute`, we can observe hashtags and handles used in those tweets.
+
+![Figure 2: VOSONDash -- Two-mode network](two-mode.gif)
+
+- *Semantic networks* -- where nodes represent entities extracted from the tweet text: common words, hashtags and usernames. Edges reflect co-occurrence of terms. In this example, we have removed the terms #auspol and #COVID-19, and set the parameters to include 5% most frequent words and 50% most frequent hashtags. The resulting network has 55 nodes (excluding isolates), and 127 edges. `Label attribute` option displays terms in network visualisation.
+
+![Figure 3: VOSONDash -- Semantic network](semantic.gif)
+
+To learn more about VOSONDash network and text analysis features, see our previous post [Analysing online networks with VOSONDash](https://vosonlab.github.io/posts/2021-08-06-analysing-online-networks-with-vosondash/).
 
 
 
