@@ -85,11 +85,32 @@ code span.vs { color: #20794d; } /* VerbatimString */
 code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
+<style>
+  div.csl-bib-body { }
+  div.csl-entry {
+    clear: both;
+    }
+  .hanging div.csl-entry {
+    margin-left:2em;
+    text-indent:-2em;
+  }
+  div.csl-left-margin {
+    min-width:2em;
+    float:left;
+  }
+  div.csl-right-inline {
+    margin-left:2em;
+    padding-left:1em;
+  }
+  div.csl-indent {
+    margin-left: 2em;
+  }
+</style>
 
   <!--radix_placeholder_meta_tags-->
   <title>Collecting Twitter data with VOSONDash</title>
 
-  <meta property="description" itemprop="description" content="A short guide to collecting Twitter data and constructing networks for analysis with VOSONDash"/>
+  <meta property="description" itemprop="description" content="A short guide to collecting Twitter data and constructing networks for analysis with VOSONDash."/>
 
 
   <!--  https://schema.org/Article -->
@@ -100,24 +121,26 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Collecting Twitter data with VOSONDash"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="A short guide to collecting Twitter data and constructing networks for analysis with VOSONDash"/>
+  <meta property="og:description" content="A short guide to collecting Twitter data and constructing networks for analysis with VOSONDash."/>
   <meta property="og:locale" content="en_US"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
   <meta property="twitter:title" content="Collecting Twitter data with VOSONDash"/>
-  <meta property="twitter:description" content="A short guide to collecting Twitter data and constructing networks for analysis with VOSONDash"/>
+  <meta property="twitter:description" content="A short guide to collecting Twitter data and constructing networks for analysis with VOSONDash."/>
 
   <!--/radix_placeholder_meta_tags-->
+  
+  <meta name="citation_reference" content="citation_title=VOSON dashboard userguide;citation_publication_date=2020;citation_publisher=VOSON Lab, Australian National University;citation_author=F. Borquez;citation_author=B. Gertzel;citation_author=X. Cai;citation_author=R. Ackland"/>
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","categories","preview","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["Collecting Twitter data with VOSONDash"]},{"type":"character","attributes":{},"value":["A short guide to collecting Twitter data and constructing networks for analysis with VOSONDash\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Francisca Borquez"]},{"type":"character","attributes":{},"value":["VOSON Lab, School of Sociology, Australian National University"]},{"type":"character","attributes":{},"value":["http://vosonlab.net/"]}]}]},{"type":"character","attributes":{},"value":["11-25-2021"]},{"type":"character","attributes":{},"value":["rstats","SNA","VOSONDash","networks","twitter","Visualisation"]},{"type":"character","attributes":{},"value":["VOSONDash-t.png"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","categories","preview","output","draft","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["Collecting Twitter data with VOSONDash"]},{"type":"character","attributes":{},"value":["A short guide to collecting Twitter data and constructing networks for analysis with VOSONDash.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Francisca Borquez"]},{"type":"character","attributes":{},"value":["VOSON Lab, School of Sociology, Australian National University"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["http://vosonlab.net/"]}},"value":[{"type":"NULL"}]}]}]},{"type":"character","attributes":{},"value":["11-25-2021"]},{"type":"character","attributes":{},"value":["rstats","SNA","VOSONDash","networks","twitter","Visualisation"]},{"type":"character","attributes":{},"value":["VOSONDash-t.png"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["paper.bib"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["Collect-activity-actor.gif","collecting-twitter-data-with-vosondash_files/anchor-4.2.2/anchor.min.js","collecting-twitter-data-with-vosondash_files/bowser-1.9.3/bowser.min.js","collecting-twitter-data-with-vosondash_files/distill-2.2.21/template.v2.js","collecting-twitter-data-with-vosondash_files/header-attrs-2.11/header-attrs.js","collecting-twitter-data-with-vosondash_files/jquery-3.6.0/jquery-3.6.0.js","collecting-twitter-data-with-vosondash_files/jquery-3.6.0/jquery-3.6.0.min.js","collecting-twitter-data-with-vosondash_files/jquery-3.6.0/jquery-3.6.0.min.map","collecting-twitter-data-with-vosondash_files/popper-2.6.0/popper.min.js","collecting-twitter-data-with-vosondash_files/tippy-6.2.7/tippy-bundle.umd.min.js","collecting-twitter-data-with-vosondash_files/tippy-6.2.7/tippy-light-border.css","collecting-twitter-data-with-vosondash_files/tippy-6.2.7/tippy.css","collecting-twitter-data-with-vosondash_files/tippy-6.2.7/tippy.umd.min.js","collecting-twitter-data-with-vosondash_files/webcomponents-2.0.0/webcomponents.js","semantic.gif","two-mode.gif","VOSONDash-t.png"]}
+  {"type":"character","attributes":{},"value":["Collect-activity-actor.gif","collecting-twitter-data-with-vosondash_files/anchor-4.2.2/anchor.min.js","collecting-twitter-data-with-vosondash_files/bowser-1.9.3/bowser.min.js","collecting-twitter-data-with-vosondash_files/distill-2.2.21/template.v2.js","collecting-twitter-data-with-vosondash_files/header-attrs-2.11/header-attrs.js","collecting-twitter-data-with-vosondash_files/jquery-3.6.0/jquery-3.6.0.js","collecting-twitter-data-with-vosondash_files/jquery-3.6.0/jquery-3.6.0.min.js","collecting-twitter-data-with-vosondash_files/jquery-3.6.0/jquery-3.6.0.min.map","collecting-twitter-data-with-vosondash_files/popper-2.6.0/popper.min.js","collecting-twitter-data-with-vosondash_files/tippy-6.2.7/tippy-bundle.umd.min.js","collecting-twitter-data-with-vosondash_files/tippy-6.2.7/tippy-light-border.css","collecting-twitter-data-with-vosondash_files/tippy-6.2.7/tippy.css","collecting-twitter-data-with-vosondash_files/tippy-6.2.7/tippy.umd.min.js","collecting-twitter-data-with-vosondash_files/webcomponents-2.0.0/webcomponents.js","paper.bib","semantic.gif","two-mode.gif","VOSONDash-t.png"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1459,7 +1482,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Collecting Twitter data with VOSONDash","description":"A short guide to collecting Twitter data and constructing networks for analysis with VOSONDash","authors":[{"author":"Francisca Borquez","authorURL":"#","affiliation":"VOSON Lab, School of Sociology, Australian National University","affiliationURL":"http://vosonlab.net/","orcidID":""}],"publishedDate":"2021-11-25T00:00:00.000+11:00","citationText":"Borquez, 2021"}
+{"title":"Collecting Twitter data with VOSONDash","description":"A short guide to collecting Twitter data and constructing networks for analysis with VOSONDash.","authors":[{"author":"Francisca Borquez","authorURL":"#","affiliation":"VOSON Lab, School of Sociology, Australian National University","affiliationURL":{"http://vosonlab.net/":{}},"orcidID":""}],"publishedDate":"2021-11-25T00:00:00.000+11:00","citationText":"Borquez, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1480,18 +1503,18 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="dt=tag">Visualisation</div>
 </div>
 <!--/radix_placeholder_categories-->
-<p><p>A short guide to collecting Twitter data and constructing networks for analysis with VOSONDash</p></p>
+<p><p>A short guide to collecting Twitter data and constructing networks for analysis with VOSONDash.</p></p>
 </div>
 
 <div class="d-byline">
-  Francisca Borquez  (VOSON Lab, School of Sociology, Australian National University)<a href="http://vosonlab.net/" class="uri">http://vosonlab.net/</a>
+  Francisca Borquez  (VOSON Lab, School of Sociology, Australian National University)true
   
 <br/>11-25-2021
 </div>
 
 <div class="d-article">
 <p>This guide provides a practical demonstration for collecting <a href="https://twitter.com/home">Twitter</a> data and constructing networks, using VOSON Lab’s interactive <a href="https://shiny.rstudio.com/">R/Shiny</a> app <a href="http://vosonlab.net/voson-dashboard">VOSONDash</a>.</p>
-<p>The <a href="https://github.com/vosonlab/VOSONDash">GitHub page</a> provides instructions to install and run VOSONDash. More information on features can be accessed in the <a href="https://vosonlab.github.io/VOSONDashDocs/">VOSONDash Userguide</a><span class="citation" data-cites="VOSONDash2020-M">[@VOSONDash2020-M]</span>.</p>
+<p>The <a href="https://github.com/vosonlab/VOSONDash">GitHub page</a> provides instructions to install and run VOSONDash. More information on features can be accessed in the <a href="https://vosonlab.github.io/VOSONDashDocs/">VOSONDash Userguide</a><span class="citation" data-cites="VOSONDash2020-M">(<a href="#ref-VOSONDash2020-M" role="doc-biblioref">Borquez et al. 2020</a>)</span>.</p>
 <h2 id="collecting-twitter-data">Collecting Twitter data</h2>
 <p>Twitter collection require authentication with <code>OAuth1.0</code> API keys, provided via Twitter Developer account. Simply, enter the fields in the <code>API Keys</code> window in VOSONDash. The token can be saved to disk for future use.</p>
 <p>In this example, data were collected on 6 December 2021 and include 200 recent tweets with the hashtags #auspol and #COVID-19 (Fig. 1).</p>
@@ -1513,8 +1536,16 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <ul>
 <li><em>Semantic networks</em> – where nodes represent entities extracted from the tweet text: common words, hashtags and usernames. Edges reflect co-occurrence of terms. In this example, we have removed the terms #auspol and #COVID-19, and set the parameters to include 5% most frequent words and 50% most frequent hashtags. The resulting network has 55 nodes (excluding isolates), and 127 edges. <code>Label attribute</code> option displays terms in network visualisation.</li>
 </ul>
-<p><img src="semantic.gif" alt="Figure 3: VOSONDash – Semantic network" /> To learn more about VOSONDash network and text analysis features, see our previous post <a href="https://vosonlab.github.io/posts/2021-08-06-analysing-online-networks-with-vosondash/">Analysing online networks with VOSONDash</a>.</p>
+<figure>
+<img src="semantic.gif" alt="Figure 3: VOSONDash – Semantic network" /><figcaption aria-hidden="true">Figure 3: VOSONDash – Semantic network</figcaption>
+</figure>
+<p>To learn more about VOSONDash network and text analysis features, see our previous post <a href="https://vosonlab.github.io/posts/2021-08-06-analysing-online-networks-with-vosondash/">Analysing online networks with VOSONDash</a>.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-VOSONDash2020-M" class="csl-entry" role="doc-biblioentry">
+Borquez, F., B. Gertzel, X. Cai, and R. Ackland. 2020. <em>VOSON Dashboard Userguide</em>. Canberra, Australia: VOSON Lab, Australian National University. <a href="https://vosonlab.github.io/VOSONDashDocs/">https://vosonlab.github.io/VOSONDashDocs/</a>.
+</div>
+</div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -1526,7 +1557,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
-<div class="appendix-bottom"></div>
+<div class="appendix-bottom">
+<h3 id="references">References</h3>
+<div id="references-listing"></div>
+</div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <!--/radix_placeholder_navigation_after_body-->

@@ -1,0 +1,48 @@
+---
+title: "Collecting YouTube comments with VOSONDash"
+description: |
+  Aneasy guide to collect YouTube comments and create networks for analysis with VOSONDash
+author:
+  - name: Francisca Borquez
+    affiliation: VOSON Lab, School of Sociology, Australian National University
+    affiliation_url: {http://vosonlab.net/}
+date: 2021-12-06
+categories:
+  - rstats
+  - SNA  
+  - VOSONDash
+  - networks
+  - YouTube
+  - Visualisation
+preview: VOSONDash-y.png
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+This guide provides a practical demonstration for collecting comments from YouTube videos, and constructing networks, using the VOSON Lab's interactive [R/Shiny](https://shiny.rstudio.com/) app [VOSONDash](http://vosonlab.net/voson-dashboard). 
+
+The [GitHub page](https://github.com/vosonlab/VOSONDash) provides instructions to install and run VOSONDash. More information on features can be accessed in the [VOSONDash Userguide](https://vosonlab.github.io/VOSONDashDocs/)[@VOSONDash2020-M].
+
+## Collecting YouTube data
+
+As for Twitter, YouTube collection requires API keys, which are provided via the Google APIs console. Similarly, we enter the fields in the `API Keys -- YouTube` window in VOSONDash. The token can be saved to disk for future use. 
+
+In this example, we are collecting comments from a YouTube video titled [*Update on reinfection caused by Omicron variant*](https://www.youtube.com/watch?v=qwUF-n3lJOc), which was uploaded by the World Health Organization (WHO) on 5th December 2021 and had attracted 175 comments at the time of data collection (6 December 2021).
+
+## YouTube networks
+
+VOSONDash (via `vosonSML`) provides two types of YouTube networks:
+
+- *Activity networks* -- where nodes represent tweets and edge types are: replies, retweets and quoted retweets. In this example, there are 225 nodes (excluding isolates) and 200 edges (including multiple edges and loops).
+
+- *Actor networks* -- nodes are users who have commented on videos (and the videos themselves are included in the network as special nodes), and the edges are the interactions between users in the comments.Edges represent interactions between Twitter users, and an edge attribute indicates whether the interaction is a mention, reply, retweet, quoted retweet or self-loop. In this example, there are 212 nodes and 213 edges (including multiple edges and loops).
+
+![Figure 1: VOSONDash -- Twitter collection, Activity and Actor   networks](Collect-activity-actor.gif)
+
+

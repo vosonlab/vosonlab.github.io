@@ -1,12 +1,11 @@
 ---
 title: "Collecting Twitter data with VOSONDash"
 description: |
-  A short guide to collecting Twitter data and constructing networks for analysis with VOSONDash
+  A short guide to collecting Twitter data and constructing networks for analysis with VOSONDash.
 author:
   - name: Francisca Borquez
     affiliation: VOSON Lab, School of Sociology, Australian National University
-    affiliation_url: http://vosonlab.net/
-      
+    affiliation_url: {http://vosonlab.net/}
 date: 11-25-2021
 categories:
   - rstats
@@ -20,6 +19,7 @@ output:
   distill::distill_article:
     self_contained: false
 draft: false
+bibliography: paper.bib
 ---
 
 
