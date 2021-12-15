@@ -41,7 +41,7 @@ In this example, data were collected on 6 December 2021 and include 200 recent t
 
 ## Twitter networks
 
-VOSONDash (via `vosonSML`) provides four types of Twitter networks for analysis:
+VOSONDash -- via `vosonSML`-- provides four types of Twitter networks for analysis:
 
 - *Activity networks* -- where nodes represent tweets and edge types are: replies, retweets and quoted retweets. In this example, there are 225 nodes (excluding isolates) and 200 edges (including multiple edges and loops).
 

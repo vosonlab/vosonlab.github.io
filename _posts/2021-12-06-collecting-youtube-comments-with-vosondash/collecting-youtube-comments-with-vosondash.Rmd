@@ -35,6 +35,8 @@ As for Twitter, YouTube collection requires API keys, which are provided via the
 
 In this example, we are collecting comments from a YouTube video titled [*Update on reinfection caused by Omicron variant*](https://www.youtube.com/watch?v=qwUF-n3lJOc), which was uploaded by the World Health Organization (WHO) on 5th December 2021 and had attracted 175 comments at the time of data collection (6 December 2021).
 
+Sin
+
 ## YouTube networks
 
 VOSONDash (via `vosonSML`) provides two types of YouTube networks:
