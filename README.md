@@ -29,6 +29,9 @@ You work on blog posts independent of the enclosing website (use Knit to render 
 
 In the `_posts` folder, there will be individual folders containing post materials, such as `.rmd` master file, images, etc. To edit an existing post, simply edit the `.rmd` file. Knit the file to see a preview, save a copy and push it to the GitHub repo. Changes may take some time to refresh.
 
+After knitting a post, should also re-build site (to update meta data).
+
+Note: for time being we are committing everything in `docs/` and `_posts/`
 
 ## Style
 
