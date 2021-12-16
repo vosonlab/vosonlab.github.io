@@ -12,7 +12,7 @@ categories:
   - SNA  
   - VOSONDash
   - networks
-  - Text analysis
+  - text analysis
   - Reddit
 preview: preview.png
 output:

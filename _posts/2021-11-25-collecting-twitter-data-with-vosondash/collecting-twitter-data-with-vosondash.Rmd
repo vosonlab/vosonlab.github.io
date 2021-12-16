@@ -13,7 +13,7 @@ categories:
   - VOSONDash
   - networks
   - twitter
-  - Visualisation
+  - visualisation
 preview: VOSONDash-t.png
 output:
   distill::distill_article:

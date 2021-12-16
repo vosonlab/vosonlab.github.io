@@ -1,0 +1,21 @@
+---
+references:
+- type: article-journal
+  id: acklandoneil2011
+  author:
+  - family: Ackland
+    given: R.
+  - family: O'Neil
+    given: M.
+  issued:
+    year: 2011
+  title: 'Online collective identity: The case of the environmental movement'
+  container-title: Social Networks
+  volume: 33
+  issue: 3
+  page: 177-190
+  DOI: 10.1016/j.socnet.2011.03.001
+  language: en-GB
+  
+---
+

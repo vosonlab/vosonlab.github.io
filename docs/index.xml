@@ -12,23 +12,38 @@
       <link>https://vosonlab.github.io/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Thu, 07 Oct 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 25 Nov 2021 00:00:00 +0000</lastBuildDate>
     <item>
-      <title>Testing the Bot status via Botometer, in Twitter networks collected via vosonSML</title>
-      <dc:creator>Professor Robert Ackland</dc:creator>
+      <title>Collecting Twitter data with VOSONDash</title>
       <dc:creator>Francisca Borquez</dc:creator>
-      <link>https://vosonlab.github.io/posts/2021-10-01-testing-the-bot-status-via-botometer-of-users-in-twitter-networks-collected-via-vosonsml</link>
-      <description>Testing the Bot status via Botometer, in Twitter networks collected via vosonSML</description>
+      <link>https://vosonlab.github.io/posts/2021-11-25-collecting-twitter-data-with-vosondash</link>
+      <description>A short guide to collecting Twitter data and constructing networks for analysis with VOSONDash.</description>
+      <category>rstats</category>
+      <category>SNA</category>
+      <category>VOSONDash</category>
+      <category>networks</category>
+      <category>twitter</category>
+      <category>visualisation</category>
+      <guid>https://vosonlab.github.io/posts/2021-11-25-collecting-twitter-data-with-vosondash</guid>
+      <pubDate>Thu, 25 Nov 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://vosonlab.github.io/posts/2021-11-25-collecting-twitter-data-with-vosondash/VOSONDash-t.png" medium="image" type="image/png" width="1366" height="768"/>
+    </item>
+    <item>
+      <title>Testing the bot status via Botometer of users in Twitter networks collected via vosonSML</title>
+      <dc:creator>Robert Ackland</dc:creator>
+      <dc:creator>Francisca Borquez</dc:creator>
+      <link>https://vosonlab.github.io/posts/2021-10-01-testing-bot-status-of-Twitter-users</link>
+      <description>We use vosonSML to collect Twitter data and then use Botometer to test the bot status of a subset of Twitter users.</description>
       <category>rstats</category>
       <category>python</category>
       <category>SNA</category>
       <category>vosonSML</category>
       <category>networks</category>
       <category>Botometer</category>
-      <category>Bot detection</category>
-      <guid>https://vosonlab.github.io/posts/2021-10-01-testing-the-bot-status-via-botometer-of-users-in-twitter-networks-collected-via-vosonsml</guid>
-      <pubDate>Thu, 07 Oct 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://vosonlab.github.io/posts/2021-10-01-testing-the-bot-status-via-botometer-of-users-in-twitter-networks-collected-via-vosonsml/bot.png" medium="image" type="image/png" width="1260" height="600"/>
+      <category>bot detection</category>
+      <guid>https://vosonlab.github.io/posts/2021-10-01-testing-bot-status-of-Twitter-users</guid>
+      <pubDate>Fri, 08 Oct 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://vosonlab.github.io/posts/2021-10-01-testing-bot-status-of-Twitter-users/bot.png" medium="image" type="image/png" width="1260" height="600"/>
     </item>
     <item>
       <title>Exploring issues in Reddit using VOSON Dash</title>
@@ -39,7 +54,7 @@
       <category>SNA</category>
       <category>VOSONDash</category>
       <category>networks</category>
-      <category>Text analysis</category>
+      <category>text analysis</category>
       <category>Reddit</category>
       <guid>https://vosonlab.github.io/posts/2021-08-05-exploring-issues-in-reddit-using-voson-dash</guid>
       <pubDate>Thu, 23 Sep 2021 00:00:00 +0000</pubDate>
@@ -54,16 +69,17 @@
       <category>SNA</category>
       <category>VOSONDash</category>
       <category>networks</category>
-      <category>Text analysis</category>
-      <category>Visualisation</category>
+      <category>text analysis</category>
+      <category>visualisation</category>
       <guid>https://vosonlab.github.io/posts/2021-08-06-analysing-online-networks-with-vosondash</guid>
       <pubDate>Thu, 09 Sep 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://vosonlab.github.io/posts/2021-08-06-analysing-online-networks-with-vosondash/Actor_net.png" medium="image" type="image/png" width="1282" height="670"/>
     </item>
     <item>
       <title>#DebateNight 2020: Hashtag Twitter Collection of the US Presidential Debates</title>
       <dc:creator>Bryan Gertzel</dc:creator>
       <dc:creator>Robert Ackland</dc:creator>
-      <link>https://vosonlab.github.io/posts/2021-06-03-hashtag-twitter-collection-of-the-us-presidential-debates-2020</link>
+      <link>https://vosonlab.github.io/posts/2021-06-03-us-presidential-debates-2020-twitter-collection</link>
       <description>Methodology for the bulk collection of tweets containing key hashtags for the US Presidential Debates and generation of Networks for Analysis.</description>
       <category>rstats</category>
       <category>twitter</category>
@@ -71,9 +87,9 @@
       <category>networks</category>
       <category>election</category>
       <category>debate</category>
-      <guid>https://vosonlab.github.io/posts/2021-06-03-hashtag-twitter-collection-of-the-us-presidential-debates-2020</guid>
+      <guid>https://vosonlab.github.io/posts/2021-06-03-us-presidential-debates-2020-twitter-collection</guid>
       <pubDate>Thu, 03 Jun 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://vosonlab.github.io/posts/2021-06-03-hashtag-twitter-collection-of-the-us-presidential-debates-2020/debate_preview.png" medium="image" type="image/png" width="1024" height="1024"/>
+      <media:content url="https://vosonlab.github.io/posts/2021-06-03-us-presidential-debates-2020-twitter-collection/debate_preview.png" medium="image" type="image/png" width="1024" height="1024"/>
     </item>
     <item>
       <title>Twitter Conversation Networks</title>

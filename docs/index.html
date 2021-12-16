@@ -57,7 +57,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 code span.al { color: #ad0000; } /* Alert */
 code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { color: #20794d; } /* Attribute */
+code span.at { } /* Attribute */
 code span.bn { color: #ad0000; } /* BaseN */
 code span.bu { } /* BuiltIn */
 code span.cf { color: #007ba5; } /* ControlFlow */
@@ -78,13 +78,14 @@ code span.kw { color: #007ba5; } /* Keyword */
 code span.op { color: #5e5e5e; } /* Operator */
 code span.ot { color: #007ba5; } /* Other */
 code span.pp { color: #ad0000; } /* Preprocessor */
-code span.sc { color: #20794d; } /* SpecialChar */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
 code span.ss { color: #20794d; } /* SpecialString */
 code span.st { color: #20794d; } /* String */
 code span.va { color: #111111; } /* Variable */
 code span.vs { color: #20794d; } /* VerbatimString */
 code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
+
 
   <!--radix_placeholder_meta_tags-->
   <title>VOSON Lab Code Blog: Articles</title>
@@ -456,7 +457,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
   </style>
 
-  <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+  <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet"/>
   <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet"/>
   <script src="site_libs/headroom-0.9.4/headroom.min.js"></script>
@@ -1863,7 +1864,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
       // hoverable references
       $('span.citation[data-cites]').each(function() {
-        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        var refs = $(this).attr('data-cites').split(" ");
+        var refHtml = refs.map(function(ref) {
+          return "<p>" + $('#ref-' + ref).html() + "</p>";
+        }).join("\n");
         window.tippy(this, {
           allowHTML: true,
           content: refHtml,
@@ -2034,7 +2038,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+  <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2299,20 +2303,44 @@ function init_posts_list() {
 <div class="posts-container posts-with-sidebar posts-apply-limit l-screen-inset">
 <div class="posts-list">
 <h1 class="posts-list-caption" data-caption="Articles">Articles</h1>
-<a href="posts/2021-10-01-testing-the-bot-status-via-botometer-of-users-in-twitter-networks-collected-via-vosonsml/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":["rstats","python","SNA","vosonSML","networks","Botometer","Bot detection"]}</script>
+<a href="posts/2021-11-25-collecting-twitter-data-with-vosondash/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":["rstats","SNA","VOSONDash","networks","twitter","visualisation"]}</script>
 <div class="metadata">
-<div class="publishedDate">Oct. 7, 2021</div>
+<div class="publishedDate">Nov. 25, 2021</div>
 <div class="dt-authors">
-<div class="dt-author">Professor Robert Ackland</div>
 <div class="dt-author">Francisca Borquez</div>
 </div>
 </div>
 <div class="thumbnail">
-<img src="posts/2021-10-01-testing-the-bot-status-via-botometer-of-users-in-twitter-networks-collected-via-vosonsml/bot.png"/>
+<img src="posts/2021-11-25-collecting-twitter-data-with-vosondash/VOSONDash-t.png"/>
 </div>
 <div class="description">
-<h2>Testing the Bot status via Botometer, in Twitter networks collected via vosonSML</h2>
+<h2>Collecting Twitter data with VOSONDash</h2>
+<div class="dt-tags">
+<div class="dt-tag">rstats</div>
+<div class="dt-tag">SNA</div>
+<div class="dt-tag">VOSONDash</div>
+<div class="dt-tag">networks</div>
+<div class="dt-tag">twitter</div>
+<div class="dt-tag">visualisation</div>
+</div>
+<p>A short guide to collecting Twitter data and constructing networks for analysis with VOSONDash.</p>
+</div>
+</a>
+<a href="posts/2021-10-01-testing-bot-status-of-Twitter-users/" class="post-preview">
+<script class="post-metadata" type="text/json">{"categories":["rstats","python","SNA","vosonSML","networks","Botometer","bot detection"]}</script>
+<div class="metadata">
+<div class="publishedDate">Oct. 8, 2021</div>
+<div class="dt-authors">
+<div class="dt-author">Robert Ackland</div>
+<div class="dt-author">Francisca Borquez</div>
+</div>
+</div>
+<div class="thumbnail">
+<img src="posts/2021-10-01-testing-bot-status-of-Twitter-users/bot.png"/>
+</div>
+<div class="description">
+<h2>Testing the bot status via Botometer of users in Twitter networks collected via vosonSML</h2>
 <div class="dt-tags">
 <div class="dt-tag">rstats</div>
 <div class="dt-tag">python</div>
@@ -2320,13 +2348,13 @@ function init_posts_list() {
 <div class="dt-tag">vosonSML</div>
 <div class="dt-tag">networks</div>
 <div class="dt-tag">Botometer</div>
-<div class="dt-tag">Bot detection</div>
+<div class="dt-tag">bot detection</div>
 </div>
-<p></p>
+<p>We use vosonSML to collect Twitter data and then use Botometer to test the bot status of a subset of Twitter users.</p>
 </div>
 </a>
 <a href="posts/2021-08-05-exploring-issues-in-reddit-using-voson-dash/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":["rstats","SNA","VOSONDash","networks","Text analysis","Reddit"]}</script>
+<script class="post-metadata" type="text/json">{"categories":["rstats","SNA","VOSONDash","networks","text analysis","Reddit"]}</script>
 <div class="metadata">
 <div class="publishedDate">Sept. 23, 2021</div>
 <div class="dt-authors">
@@ -2343,14 +2371,14 @@ function init_posts_list() {
 <div class="dt-tag">SNA</div>
 <div class="dt-tag">VOSONDash</div>
 <div class="dt-tag">networks</div>
-<div class="dt-tag">Text analysis</div>
+<div class="dt-tag">text analysis</div>
 <div class="dt-tag">Reddit</div>
 </div>
 <p>An easy guide to explore issues in Redddit and construct networks for analysis using VOSONDash.</p>
 </div>
 </a>
 <a href="posts/2021-08-06-analysing-online-networks-with-vosondash/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":["rstats","SNA","VOSONDash","networks","Text analysis","Visualisation"]}</script>
+<script class="post-metadata" type="text/json">{"categories":["rstats","SNA","VOSONDash","networks","text analysis","visualisation"]}</script>
 <div class="metadata">
 <div class="publishedDate">Sept. 9, 2021</div>
 <div class="dt-authors">
@@ -2358,7 +2386,7 @@ function init_posts_list() {
 </div>
 </div>
 <div class="thumbnail">
-<img/>
+<img src="posts/2021-08-06-analysing-online-networks-with-vosondash/Actor_net.png"/>
 </div>
 <div class="description">
 <h2>Analysing online networks with VOSONDash</h2>
@@ -2367,13 +2395,13 @@ function init_posts_list() {
 <div class="dt-tag">SNA</div>
 <div class="dt-tag">VOSONDash</div>
 <div class="dt-tag">networks</div>
-<div class="dt-tag">Text analysis</div>
-<div class="dt-tag">Visualisation</div>
+<div class="dt-tag">text analysis</div>
+<div class="dt-tag">visualisation</div>
 </div>
 <p>A quick introduction to VOSONDash network and text analysis features</p>
 </div>
 </a>
-<a href="posts/2021-06-03-hashtag-twitter-collection-of-the-us-presidential-debates-2020/" class="post-preview">
+<a href="posts/2021-06-03-us-presidential-debates-2020-twitter-collection/" class="post-preview">
 <script class="post-metadata" type="text/json">{"categories":["rstats","twitter","hashtags","networks","election","debate"]}</script>
 <div class="metadata">
 <div class="publishedDate">June 3, 2021</div>
@@ -2383,7 +2411,7 @@ function init_posts_list() {
 </div>
 </div>
 <div class="thumbnail">
-<img src="posts/2021-06-03-hashtag-twitter-collection-of-the-us-presidential-debates-2020/debate_preview.png"/>
+<img src="posts/2021-06-03-us-presidential-debates-2020-twitter-collection/debate_preview.png"/>
 </div>
 <div class="description">
 <h2>#DebateNight 2020: Hashtag Twitter Collection of the US Presidential Debates</h2>
@@ -2408,7 +2436,7 @@ function init_posts_list() {
 </div>
 </div>
 <div class="thumbnail">
-<img src="posts/2021-03-23-twitter-conversation-networks/activity_network.png"/>
+<img data-src="posts/2021-03-23-twitter-conversation-networks/activity_network.png"/>
 </div>
 <div class="description">
 <h2>Twitter Conversation Networks</h2>
@@ -2517,10 +2545,10 @@ function init_posts_list() {
 <ul>
 <li>
 <a href="#category:Articles">Articles</a>
-<span class="category-count">(8)</span>
+<span class="category-count">(9)</span>
 </li>
 <li>
-<a href="#category:Bot_detection">Bot detection</a>
+<a href="#category:bot_detection">bot detection</a>
 <span class="category-count">(1)</span>
 </li>
 <li>
@@ -2553,7 +2581,7 @@ function init_posts_list() {
 </li>
 <li>
 <a href="#category:networks">networks</a>
-<span class="category-count">(7)</span>
+<span class="category-count">(8)</span>
 </li>
 <li>
 <a href="#category:python">python</a>
@@ -2565,7 +2593,7 @@ function init_posts_list() {
 </li>
 <li>
 <a href="#category:rstats">rstats</a>
-<span class="category-count">(8)</span>
+<span class="category-count">(9)</span>
 </li>
 <li>
 <a href="#category:rtweet">rtweet</a>
@@ -2573,19 +2601,19 @@ function init_posts_list() {
 </li>
 <li>
 <a href="#category:SNA">SNA</a>
-<span class="category-count">(4)</span>
+<span class="category-count">(5)</span>
 </li>
 <li>
-<a href="#category:Text_analysis">Text analysis</a>
+<a href="#category:text_analysis">text analysis</a>
 <span class="category-count">(2)</span>
 </li>
 <li>
 <a href="#category:twitter">twitter</a>
-<span class="category-count">(3)</span>
+<span class="category-count">(4)</span>
 </li>
 <li>
-<a href="#category:Visualisation">Visualisation</a>
-<span class="category-count">(1)</span>
+<a href="#category:visualisation">visualisation</a>
+<span class="category-count">(2)</span>
 </li>
 <li>
 <a href="#category:voson.tcn">voson.tcn</a>
@@ -2593,7 +2621,7 @@ function init_posts_list() {
 </li>
 <li>
 <a href="#category:VOSONDash">VOSONDash</a>
-<span class="category-count">(2)</span>
+<span class="category-count">(3)</span>
 </li>
 <li>
 <a href="#category:vosonSML">vosonSML</a>

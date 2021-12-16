@@ -13,7 +13,7 @@ categories:
   - VOSONDash
   - networks
   - YouTube
-  - Visualisation
+  - visualisation
 preview: VOSONDash-y.png
 output:
   distill::distill_article:

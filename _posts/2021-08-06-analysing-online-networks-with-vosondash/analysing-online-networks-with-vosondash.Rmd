@@ -13,8 +13,8 @@ categories:
   - SNA  
   - VOSONDash
   - networks
-  - Text analysis
-  - Visualisation
+  - text analysis
+  - visualisation
 preview: Actor_net.png
 output:
   distill::distill_article:
