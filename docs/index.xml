@@ -29,10 +29,10 @@
       <media:content url="https://vosonlab.github.io/posts/2021-11-25-collecting-twitter-data-with-vosondash/VOSONDash-t.png" medium="image" type="image/png" width="1366" height="768"/>
     </item>
     <item>
-      <title>Testing the bot status via Botometer of users in Twitter networks collected via vosonSML</title>
+      <title>Testing the bot status of users in Twitter networks collected via vosonSML</title>
       <dc:creator>Robert Ackland</dc:creator>
       <dc:creator>Francisca Borquez</dc:creator>
-      <link>https://vosonlab.github.io/posts/2021-10-01-testing-bot-status-of-Twitter-users</link>
+      <link>https://vosonlab.github.io/posts/2021-10-01-testing-bot-status-of-twitter-users</link>
       <description>We use vosonSML to collect Twitter data and then use Botometer to test the bot status of a subset of Twitter users.</description>
       <category>rstats</category>
       <category>python</category>
@@ -41,9 +41,9 @@
       <category>networks</category>
       <category>Botometer</category>
       <category>bot detection</category>
-      <guid>https://vosonlab.github.io/posts/2021-10-01-testing-bot-status-of-Twitter-users</guid>
+      <guid>https://vosonlab.github.io/posts/2021-10-01-testing-bot-status-of-twitter-users</guid>
       <pubDate>Fri, 08 Oct 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://vosonlab.github.io/posts/2021-10-01-testing-bot-status-of-Twitter-users/bot.png" medium="image" type="image/png" width="1260" height="600"/>
+      <media:content url="https://vosonlab.github.io/posts/2021-10-01-testing-bot-status-of-twitter-users/bot.png" medium="image" type="image/png" width="1260" height="600"/>
     </item>
     <item>
       <title>Exploring issues in Reddit using VOSON Dash</title>
@@ -124,16 +124,16 @@
       <title>Creating Twitter Networks with vosonSML using rtweet Data</title>
       <dc:creator>Bryan Gertzel</dc:creator>
       <dc:creator>Francisca Borquez</dc:creator>
-      <link>https://vosonlab.github.io/posts/2021-02-11_twitter_vsml_from_rtweet</link>
+      <link>https://vosonlab.github.io/posts/2021-02-11_twitter_vosonsml_from_rtweet</link>
       <description>Simple guide to collecting data with rtweet and generating networks with vosonSML.</description>
       <category>rstats</category>
       <category>twitter</category>
       <category>vosonSML</category>
       <category>rtweet</category>
       <category>networks</category>
-      <guid>https://vosonlab.github.io/posts/2021-02-11_twitter_vsml_from_rtweet</guid>
+      <guid>https://vosonlab.github.io/posts/2021-02-11_twitter_vosonsml_from_rtweet</guid>
       <pubDate>Thu, 11 Feb 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://vosonlab.github.io/posts/2021-02-11_twitter_vsml_from_rtweet/rtweet_logo_preview.png" medium="image" type="image/png" width="432" height="499"/>
+      <media:content url="https://vosonlab.github.io/posts/2021-02-11_twitter_vosonsml_from_rtweet/rtweet_logo_preview.png" medium="image" type="image/png" width="432" height="499"/>
     </item>
     <item>
       <title>Welcome to the VOSON Lab Code Blog</title>
