@@ -27,7 +27,6 @@ bibliography: paper.bib
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-
 This guide provides a practical demonstration for collecting [Twitter](https://twitter.com/home) data and constructing networks, using VOSON Lab's interactive [R/Shiny](https://shiny.rstudio.com/) app [VOSONDash](http://vosonlab.net/voson-dashboard). 
 
 The [GitHub page](https://github.com/vosonlab/VOSONDash) provides instructions to install and run VOSONDash. More information on features can be accessed in the [VOSONDash Userguide](https://vosonlab.github.io/VOSONDashDocs/)[@VOSONDash2020-M].

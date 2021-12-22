@@ -17,7 +17,7 @@
       <title>Collecting YouTube comments with VOSONDash</title>
       <dc:creator>Francisca Borquez</dc:creator>
       <link>https://vosonlab.github.io/posts/2021-12-06-collecting-youtube-comments-with-vosondash</link>
-      <description>Aneasy guide to collect YouTube comments and create networks for analysis with VOSONDash</description>
+      <description>Collect YouTube comments and create networks for analysis with VOSONDash</description>
       <category>rstats</category>
       <category>SNA</category>
       <category>VOSONDash</category>
@@ -26,6 +26,7 @@
       <category>visualisation</category>
       <guid>https://vosonlab.github.io/posts/2021-12-06-collecting-youtube-comments-with-vosondash</guid>
       <pubDate>Sun, 05 Dec 2021 00:00:00 +0000</pubDate>
+      <media:content url="https://vosonlab.github.io/posts/2021-12-06-collecting-youtube-comments-with-vosondash/youtube.png" medium="image" type="image/png" width="1283" height="635"/>
     </item>
     <item>
       <title>Collecting Twitter data with VOSONDash</title>

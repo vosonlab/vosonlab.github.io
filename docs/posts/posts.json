@@ -2,7 +2,7 @@
   {
     "path": "posts/2021-12-06-collecting-youtube-comments-with-vosondash/",
     "title": "Collecting YouTube comments with VOSONDash",
-    "description": "Aneasy guide to collect YouTube comments and create networks for analysis with VOSONDash",
+    "description": "Collect YouTube comments and create networks for analysis with VOSONDash",
     "author": [
       {
         "name": "Francisca Borquez",
@@ -18,10 +18,12 @@
       "YouTube",
       "visualisation"
     ],
-    "contents": "\nThis guide provides a practical demonstration for collecting comments from YouTube videos, and constructing networks, using the VOSON Lab’s interactive R/Shiny app VOSONDash.\nThe GitHub page provides instructions to install and run VOSONDash. More information on features can be accessed in the VOSONDash Userguide(Borquez et al. 2020).\nCollecting YouTube data\nAs for Twitter, YouTube collection requires API keys, which are provided via the Google API console. Similarly, we enter the key in the API Keys window, YouTube tab in VOSONDash and the token can be saved to disk for future use.\nIn this example, we are collecting comments from a YouTube video titled Update on reinfection caused by Omicron variant, which was uploaded by the World Health Organization (WHO) on 5th December 2021 and had attracted 182 comments at the time of data collection (17 December 2021).\nYouTube networks\nVOSONDash (via vosonSML) provides two types of YouTube networks:\nActivity networks – nodes are either comments or videos (videos represent a starting comment), and edges are interactions between comments. In this example, there are 81 nodes and 119 edges. The most central node is the initial post, which receives 100 comments.\nActor networks – nodes are users who have commented on videos and the videos themselves are included in the network as special nodes. Edges are the interactions between users in the comments. We can distinguish a top-level comment, which is a reply to the initial post (video), and “reply to a reply,” when users mention the username of the person that they are replying to. The most central node is the initial post, which receives 110 comments.\nFigure 1: VOSONDash – YouTube collection, Activity and Actor networks\n\n\nBorquez, F., B. Gertzel, X. Cai, and R. Ackland. 2020. VOSON Dashboard Userguide. Canberra, Australia: VOSON Lab, Australian National University. https://vosonlab.github.io/VOSONDashDocs/.\n\n\n\n\n",
-    "preview": {},
-    "last_modified": "2021-12-23T10:25:03+11:00",
-    "input_file": "collecting-youtube-comments-with-vosondash.knit.md"
+    "contents": "\nThis guide provides a practical demonstration for collecting comments from YouTube videos, and constructing networks, using the VOSON Lab’s interactive R/Shiny app VOSONDash.\nThe GitHub page provides instructions to install and run VOSONDash. More information on features can be accessed in the VOSONDash Userguide(Borquez et al. 2020).\nCollecting YouTube data\nAs for Twitter, YouTube collection requires API keys, which are provided via the Google API console. Similarly, we enter the key in the API Keys window, YouTube tab in VOSONDash and the token can be saved to disk for future use.\nIn this example, we are collecting comments from a YouTube video titled Update on reinfection caused by Omicron variant, which was uploaded by the World Health Organization (WHO) on 5th December 2021 and had attracted 182 comments at the time of data collection (17 December 2021).\nYouTube networks\nVOSONDash (via vosonSML) provides two types of YouTube networks:\nActivity networks – nodes are either comments or videos (videos represent a starting comment), and edges are interactions between comments. In this example, there are 81 nodes and 119 edges. The most central node is the initial post, which receives 100 comments.\nActor networks – nodes are users who have commented on videos and the videos themselves are included in the network as special nodes. Edges are the interactions between users in the comments. We can distinguish a top-level comment, which is a reply to the initial post (video), and “reply to a reply,” when users mention the username of the person that they are replying to. The most central node is the initial post, which receives 110 comments.\nFigure 1: VOSONDash – YouTube collection, Activity and Actor networksThe Blog post Analysing online networks with VOSONDash provides more detail into features for network analysis, network visualisation and text analysis.\n\n\n\nBorquez, F., B. Gertzel, X. Cai, and R. Ackland. 2020. VOSON Dashboard Userguide. Canberra, Australia: VOSON Lab, Australian National University. https://vosonlab.github.io/VOSONDashDocs/.\n\n\n\n\n",
+    "preview": "posts/2021-12-06-collecting-youtube-comments-with-vosondash/youtube.png",
+    "last_modified": "2021-12-23T10:45:35+11:00",
+    "input_file": "collecting-youtube-comments-with-vosondash.knit.md",
+    "preview_width": 1283,
+    "preview_height": 635
   },
   {
     "path": "posts/2021-11-25-collecting-twitter-data-with-vosondash/",

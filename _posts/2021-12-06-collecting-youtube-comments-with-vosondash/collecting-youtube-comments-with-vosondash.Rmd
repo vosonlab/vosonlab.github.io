@@ -1,7 +1,7 @@
 ---
 title: "Collecting YouTube comments with VOSONDash"
 description: |
-  Aneasy guide to collect YouTube comments and create networks for analysis with VOSONDash
+  Collect YouTube comments and create networks for analysis with VOSONDash
 author:
   - name: Francisca Borquez
     affiliation: VOSON Lab, School of Sociology, Australian National University
@@ -45,3 +45,5 @@ VOSONDash (via `vosonSML`) provides two types of YouTube networks:
 - *Actor networks* -- nodes are users who have commented on videos and the videos themselves are included in the network as special nodes. Edges are the interactions between users in the comments. We can distinguish a top-level comment, which is a reply to the initial post (video), and  “reply to a reply”, when users mention the username of the person that they are replying to. The most central node is the initial post, which receives 110 comments.
 
 ![Figure 1: VOSONDash -- YouTube collection, Activity and Actor   networks](Youtube-collect.gif)
+
+The Blog post [*Analysing online networks with VOSONDash*](https://vosonlab.github.io/posts/2021-08-06-analysing-online-networks-with-vosondash/) provides more detail into features for network analysis, network visualisation and text analysis.
