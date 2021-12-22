@@ -12,7 +12,21 @@
       <link>https://vosonlab.github.io/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Wed, 24 Nov 2021 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 05 Dec 2021 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Collecting YouTube comments with VOSONDash</title>
+      <dc:creator>Francisca Borquez</dc:creator>
+      <link>https://vosonlab.github.io/posts/2021-12-06-collecting-youtube-comments-with-vosondash</link>
+      <description>Aneasy guide to collect YouTube comments and create networks for analysis with VOSONDash</description>
+      <category>rstats</category>
+      <category>SNA</category>
+      <category>VOSONDash</category>
+      <category>networks</category>
+      <category>YouTube</category>
+      <category>visualisation</category>
+      <guid>https://vosonlab.github.io/posts/2021-12-06-collecting-youtube-comments-with-vosondash</guid>
+      <pubDate>Sun, 05 Dec 2021 00:00:00 +0000</pubDate>
+    </item>
     <item>
       <title>Collecting Twitter data with VOSONDash</title>
       <dc:creator>Francisca Borquez</dc:creator>
@@ -25,7 +39,7 @@
       <category>twitter</category>
       <category>visualisation</category>
       <guid>https://vosonlab.github.io/posts/2021-11-25-collecting-twitter-data-with-vosondash</guid>
-      <pubDate>Wed, 24 Nov 2021 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 25 Nov 2021 00:00:00 +0000</pubDate>
       <media:content url="https://vosonlab.github.io/posts/2021-11-25-collecting-twitter-data-with-vosondash/VOSONDash-t.png" medium="image" type="image/png" width="1366" height="768"/>
     </item>
     <item>
