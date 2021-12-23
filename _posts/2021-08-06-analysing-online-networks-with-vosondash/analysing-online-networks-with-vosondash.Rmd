@@ -28,7 +28,12 @@ knitr::opts_chunk$set(echo = FALSE)
 
 This post introduces VOSONDash network analysis tools, which include network visualisation, network metrics, and text analysis. Users can analyse different networks including those collected with VOSONDash (Twitter, YouTube and Reddit), or import `graphml` files collected elsewhere. 
 
-*Analysing online networks with VOSONDash* is the first of a series of posts where we will cover VOSONDash features. 
+*Analysing online networks with VOSONDash* is the first of a series of posts where we will cover VOSONDash features. Data collection with VOSONDash is covered in the following posts:
+
+- Twitter -- [*Collecting Twitter data with VOSONDash*](https://vosonlab.github.io/posts/2021-11-25-collecting-twitter-data-with-vosondash/)
+- Reddit -- [*Exploring issues in Reddit using VOSON Dash*](https://vosonlab.github.io/posts/2021-08-05-exploring-issues-in-reddit-using-voson-dash/)
+- YouTube -- [*Collecting YouTube comments with VOSONDash*](https://vosonlab.github.io/posts/2021-12-06-collecting-youtube-comments-with-vosondash/)
+
 
 ### About VOSONDash
 
@@ -99,7 +104,4 @@ There are three methods available to visualise text:
 
 ![Figure 3: Text analysis](textanalysis.gif)
 
-
-We hope this guide has been useful and easy to follow. In the next post, we will cover Reddit data collection with VOSONDash.
-
-
+We hope this guide is useful and easy to follow. 

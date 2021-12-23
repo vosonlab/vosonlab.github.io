@@ -2232,7 +2232,7 @@ d-article p code {
 </div>
 
 <div class="d-article">
-<p>This guide provides a practical demonstration for collecting comments from YouTube videos, and constructing networks, using the VOSON Lab’s interactive <a href="https://shiny.rstudio.com/">R/Shiny</a> app <a href="http://vosonlab.net/voson-dashboard">VOSONDash</a>.</p>
+<p>This guide provides a practical demonstration for collecting comments from YouTube videos and constructing networks, using the VOSON Lab’s interactive <a href="https://shiny.rstudio.com/">R/Shiny</a> app <a href="http://vosonlab.net/voson-dashboard">VOSONDash</a>.</p>
 <p>The <a href="https://github.com/vosonlab/VOSONDash">GitHub page</a> provides instructions to install and run VOSONDash. More information on features can be accessed in the <a href="https://vosonlab.github.io/VOSONDashDocs/">VOSONDash Userguide</a><span class="citation" data-cites="VOSONDash2020-M">(<a href="#ref-VOSONDash2020-M" role="doc-biblioref">Borquez et al. 2020</a>)</span>.</p>
 <h2 id="collecting-youtube-data">Collecting YouTube data</h2>
 <p>As for Twitter, YouTube collection requires API keys, which are provided via the Google API console. Similarly, we enter the key in the <code>API Keys</code> window, <code>YouTube</code> tab in VOSONDash and the token can be saved to disk for future use.</p>
@@ -2240,8 +2240,8 @@ d-article p code {
 <h2 id="youtube-networks">YouTube networks</h2>
 <p>VOSONDash (via <code>vosonSML</code>) provides two types of YouTube networks:</p>
 <ul>
-<li><p><em>Activity networks</em> – nodes are either comments or videos (videos represent a starting comment), and edges are interactions between comments. In this example, there are 81 nodes and 119 edges. The most central node is the initial post, which receives 100 comments.</p></li>
-<li><p><em>Actor networks</em> – nodes are users who have commented on videos and the videos themselves are included in the network as special nodes. Edges are the interactions between users in the comments. We can distinguish a top-level comment, which is a reply to the initial post (video), and “reply to a reply,” when users mention the username of the person that they are replying to. The most central node is the initial post, which receives 110 comments.</p></li>
+<li><p><em>Activity networks</em> – nodes are either comments or videos (videos represent a starting comment), and edges are interactions between comments. In this example, there are 119 nodes and 118 edges. The most central node is the initial post, which receives 100 comments.</p></li>
+<li><p><em>Actor networks</em> – nodes are users who have commented on videos and the videos themselves are included in the network as special nodes. Edges are the interactions between users in the comments. We can distinguish two types of edges “top-level comment,” which is a reply to the initial post (video), and “reply to a reply,” when users mention the username of the person they are replying to. In this example, there are 81 nodes and 119 edges. The most central node is the initial post, which receives 110 comments.</p></li>
 </ul>
 <figure>
 <img src="Youtube-collect.gif" alt="Figure 1: VOSONDash – YouTube collection, Activity and Actor networks" /><figcaption aria-hidden="true">Figure 1: VOSONDash – YouTube collection, Activity and Actor networks</figcaption>

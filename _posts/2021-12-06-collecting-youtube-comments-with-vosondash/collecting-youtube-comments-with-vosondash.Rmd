@@ -26,7 +26,7 @@ bibliography: paper.bib
 knitr::opts_chunk$set(echo = FALSE)
 ```
 
-This guide provides a practical demonstration for collecting comments from YouTube videos, and constructing networks, using the VOSON Lab's interactive [R/Shiny](https://shiny.rstudio.com/) app [VOSONDash](http://vosonlab.net/voson-dashboard). 
+This guide provides a practical demonstration for collecting comments from YouTube videos and constructing networks, using the VOSON Lab's interactive [R/Shiny](https://shiny.rstudio.com/) app [VOSONDash](http://vosonlab.net/voson-dashboard). 
 
 The [GitHub page](https://github.com/vosonlab/VOSONDash) provides instructions to install and run VOSONDash. More information on features can be accessed in the [VOSONDash Userguide](https://vosonlab.github.io/VOSONDashDocs/)[@VOSONDash2020-M].
 
@@ -40,10 +40,11 @@ In this example, we are collecting comments from a YouTube video titled [*Update
 
 VOSONDash (via `vosonSML`) provides two types of YouTube networks:
 
-- *Activity networks* -- nodes are either comments or videos (videos represent a starting comment), and edges are interactions between comments. In this example, there are 81 nodes and 119 edges. The most central node is the initial post, which receives 100 comments.
+- *Activity networks* -- nodes are either comments or videos (videos represent a starting comment), and edges are interactions between comments. In this example, there are 119 nodes and 118 edges. The most central node is the initial post, which receives 100 comments.
 
-- *Actor networks* -- nodes are users who have commented on videos and the videos themselves are included in the network as special nodes. Edges are the interactions between users in the comments. We can distinguish a top-level comment, which is a reply to the initial post (video), and  “reply to a reply”, when users mention the username of the person that they are replying to. The most central node is the initial post, which receives 110 comments.
+- *Actor networks* -- nodes are users who have commented on videos and the videos themselves are included in the network as special nodes. Edges are the interactions between users in the comments. We can distinguish two types of edges "top-level comment", which is a reply to the initial post (video), and  “reply to a reply”, when users mention the username of the person they are replying to. In this example, there are 81 nodes and 119 edges. The most central node is the initial post, which receives 110 comments.
 
 ![Figure 1: VOSONDash -- YouTube collection, Activity and Actor   networks](Youtube-collect.gif)
 
 The Blog post [*Analysing online networks with VOSONDash*](https://vosonlab.github.io/posts/2021-08-06-analysing-online-networks-with-vosondash/) provides more detail into features for network analysis, network visualisation and text analysis.
+
