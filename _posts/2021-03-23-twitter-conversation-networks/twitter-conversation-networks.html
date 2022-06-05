@@ -50,16 +50,17 @@ pre.numberSource code > span > a:first-child::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {   }
+  { color: #00769e; background-color: #f1f3f5; }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
+code span { color: #00769e; } /* Normal */
 code span.al { color: #ad0000; } /* Alert */
 code span.an { color: #5e5e5e; } /* Annotation */
-code span.at { color: #20794d; } /* Attribute */
+code span.at { color: #657422; } /* Attribute */
 code span.bn { color: #ad0000; } /* BaseN */
 code span.bu { } /* BuiltIn */
-code span.cf { color: #007ba5; } /* ControlFlow */
+code span.cf { color: #00769e; } /* ControlFlow */
 code span.ch { color: #20794d; } /* Char */
 code span.cn { color: #8f5902; } /* Constant */
 code span.co { color: #5e5e5e; } /* Comment */
@@ -73,17 +74,18 @@ code span.fl { color: #ad0000; } /* Float */
 code span.fu { color: #4758ab; } /* Function */
 code span.im { } /* Import */
 code span.in { color: #5e5e5e; } /* Information */
-code span.kw { color: #007ba5; } /* Keyword */
+code span.kw { color: #00769e; } /* Keyword */
 code span.op { color: #5e5e5e; } /* Operator */
-code span.ot { color: #007ba5; } /* Other */
+code span.ot { color: #00769e; } /* Other */
 code span.pp { color: #ad0000; } /* Preprocessor */
-code span.sc { color: #20794d; } /* SpecialChar */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
 code span.ss { color: #20794d; } /* SpecialString */
 code span.st { color: #20794d; } /* String */
 code span.va { color: #111111; } /* Variable */
 code span.vs { color: #20794d; } /* VerbatimString */
 code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
+
 
   <!--radix_placeholder_meta_tags-->
   <title>Twitter Conversation Networks</title>
@@ -95,7 +97,6 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <meta property="article:published" itemprop="datePublished" content="2021-03-23"/>
   <meta property="article:created" itemprop="dateCreated" content="2021-03-23"/>
   <meta name="article:author" content="Bryan Gertzel"/>
-  <meta name="article:author" content="Francisca Borquez"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Twitter Conversation Networks"/>
@@ -112,12 +113,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","categories","preview","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["Twitter Conversation Networks"]},{"type":"character","attributes":{},"value":["Getting started with the voson.tcn package.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Bryan Gertzel"]},{"type":"character","attributes":{},"value":["VOSON Lab"]},{"type":"character","attributes":{},"value":["http://vosonlab.net/"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Francisca Borquez"]}]}]},{"type":"character","attributes":{},"value":["2021-03-23"]},{"type":"character","attributes":{},"value":["rstats","twitter","conversations","voson.tcn","networks"]},{"type":"character","attributes":{},"value":["activity_network.png"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"logical","attributes":{},"value":[false]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","categories","preview","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["Twitter Conversation Networks"]},{"type":"character","attributes":{},"value":["Getting started with the voson.tcn package.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Bryan Gertzel"]},{"type":"character","attributes":{},"value":["VOSON Lab"]},{"type":"character","attributes":{},"value":["http://vosonlab.net/"]}]}]},{"type":"character","attributes":{},"value":["2021-03-23"]},{"type":"character","attributes":{},"value":["rstats","twitter","conversations","voson.tcn","networks"]},{"type":"character","attributes":{},"value":["activity_network.png"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"logical","attributes":{},"value":[false]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["activity_network.png","actor_network.png","example_tweet.png","twitter-conversation-networks_files/anchor-4.2.2/anchor.min.js","twitter-conversation-networks_files/bowser-1.9.3/bowser.min.js","twitter-conversation-networks_files/distill-2.2.21/template.v2.js","twitter-conversation-networks_files/header-attrs-2.7/header-attrs.js","twitter-conversation-networks_files/jquery-1.11.3/jquery.min.js","twitter-conversation-networks_files/popper-2.6.0/popper.min.js","twitter-conversation-networks_files/tippy-6.2.7/tippy-bundle.umd.min.js","twitter-conversation-networks_files/tippy-6.2.7/tippy-light-border.css","twitter-conversation-networks_files/tippy-6.2.7/tippy.css","twitter-conversation-networks_files/tippy-6.2.7/tippy.umd.min.js","twitter-conversation-networks_files/webcomponents-2.0.0/webcomponents.js","voson.tcn.png"]}
+  {"type":"character","attributes":{},"value":["activity_network.png","actor_network.png","example_tweet.png","voson.tcn.png"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -429,10 +430,6 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     position: relative;
     margin-bottom: 2.5em;
     margin-top: 1.5em;
-  }
-
-  .figure img {
-    width: 100%;
   }
 
   .figure .caption {
@@ -1264,7 +1261,16 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
       // hoverable references
       $('span.citation[data-cites]').each(function() {
-        var refHtml = $('#ref-' + $(this).attr('data-cites')).html();
+        if ($(this).children()[0].nodeName == "D-FOOTNOTE") {
+          var fn = $(this).children()[0]
+          $(this).html(fn.shadowRoot.querySelector("sup"))
+          $(this).id = fn.id
+          fn.remove()
+        }
+        var refs = $(this).attr('data-cites').split(" ");
+        var refHtml = refs.map(function(ref) {
+          return "<p>" + $('#ref-' + ref).html() + "</p>";
+        }).join("\n");
         window.tippy(this, {
           allowHTML: true,
           content: refHtml,
@@ -1275,6 +1281,31 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
           placement: 'bottom-start'
         });
       });
+
+      // fix footnotes in tables (#411)
+      // replacing broken distill.pub feature
+      $('table d-footnote').each(function() {
+        // we replace internal showAtNode methode which is triggered when hovering a footnote
+        this.hoverBox.showAtNode = function(node) {
+          // ported from https://github.com/distillpub/template/pull/105/files
+          calcOffset = function(elem) {
+              let x = elem.offsetLeft;
+              let y = elem.offsetTop;
+              // Traverse upwards until an `absolute` element is found or `elem`
+              // becomes null.
+              while (elem = elem.offsetParent && elem.style.position != 'absolute') {
+                  x += elem.offsetLeft;
+                  y += elem.offsetTop;
+              }
+
+              return { left: x, top: y };
+          }
+          // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
+          const bbox = node.getBoundingClientRect();
+          const offset = calcOffset(node);
+          this.show([offset.left + bbox.width, offset.top + bbox.height]);
+        }
+      })
 
       // clear polling timer
       clearInterval(tid);
@@ -1374,6 +1405,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     // mark non-body figures created by knitr chunks as 100% width
     $('.layout-chunk').each(function(i, val) {
       var figures = $(this).find('img, .html-widget');
+      // ignore leaflet img layers (#106)
+      figures = figures.filter(':not(img[class*="leaflet"])')
       if ($(this).attr('data-layout') !== "l-body") {
         figures.css('width', '100%');
       } else {
@@ -1396,7 +1429,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     // get rid of index.html references in header
     if (window.location.protocol !== "file:") {
       $('.distill-site-header a[href]').each(function(i,val) {
-        $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+        $(this).attr('href', $(this).attr('href').replace(/^index[.]html/, "./"));
       });
     }
 
@@ -1435,8 +1468,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="twitter-conversation-networks_files/header-attrs-2.9/header-attrs.js"></script>
-  <script src="twitter-conversation-networks_files/jquery-1.11.3/jquery.min.js"></script>
+  <script src="twitter-conversation-networks_files/header-attrs-2.14/header-attrs.js"></script>
+  <script src="twitter-conversation-networks_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="twitter-conversation-networks_files/popper-2.6.0/popper.min.js"></script>
   <link href="twitter-conversation-networks_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="twitter-conversation-networks_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -1456,7 +1489,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Twitter Conversation Networks","description":"Getting started with the voson.tcn package.","authors":[{"author":"Bryan Gertzel","authorURL":"#","affiliation":"VOSON Lab","affiliationURL":"http://vosonlab.net/","orcidID":""},{"author":"Francisca Borquez","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-03-23T00:00:00.000+11:00","citationText":"Gertzel & Borquez, 2021"}
+{"title":"Twitter Conversation Networks","description":"Getting started with the voson.tcn package.","authors":[{"author":"Bryan Gertzel","authorURL":"#","affiliation":"VOSON Lab","affiliationURL":"http://vosonlab.net/","orcidID":""}],"publishedDate":"2021-03-23T00:00:00.000+11:00","citationText":"Gertzel, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1469,20 +1502,19 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <h1>Twitter Conversation Networks</h1>
 <!--radix_placeholder_categories-->
 <div class="dt-tags">
-<div class="dt=tag">rstats</div>
-<div class="dt=tag">twitter</div>
-<div class="dt=tag">conversations</div>
-<div class="dt=tag">voson.tcn</div>
-<div class="dt=tag">networks</div>
+<div class="dt-tag">rstats</div>
+<div class="dt-tag">twitter</div>
+<div class="dt-tag">conversations</div>
+<div class="dt-tag">voson.tcn</div>
+<div class="dt-tag">networks</div>
 </div>
 <!--/radix_placeholder_categories-->
 <p><p>Getting started with the voson.tcn package.</p></p>
 </div>
 
 <div class="d-byline">
-  Bryan Gertzel  (VOSON Lab)<a href="http://vosonlab.net/" class="uri">http://vosonlab.net/</a>
-  
-,   Francisca Borquez  
+  Bryan Gertzel  (VOSON Lab)<a href="http://vosonlab.net/"
+class="uri">http://vosonlab.net/</a>
   
 <br/>2021-03-23
 </div>
@@ -1492,7 +1524,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#twitter-developer-access">Twitter Developer Access</a></li>
+<li><a href="#twitter-developer-access">Twitter Developer
+Access</a></li>
 <li><a href="#installation">Installation</a></li>
 <li><a href="#authentication">Authentication</a></li>
 <li><a href="#collection">Collection</a></li>
@@ -1509,19 +1542,69 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </ul>
 </nav>
 </div>
-<p><img src="voson.tcn.png" style="float:right;width:180px !important;height:208px !important;" alt="voson.tcn" /> The VOSON Lab has recently published to GitHub a new open source R package called <a href="https://vosonlab.github.io/voson.tcn"><code>voson.tcn</code></a>. The package uses the Early-Access Twitter API v2, to collect tweets belonging to specified threaded conversations and generate networks. The Twitter API v2 provides a new tweet identifier: the <a href="https://developer.twitter.com/en/docs/twitter-api/conversation-id">conversation ID</a>, that is common to all tweets that are part of a conversation, and can be searched for using the API search endpoints. Identifiers and associated metadata for referenced tweets can also be collected in the same search for conversation tweets, allowing us to construct twitter networks with tweet and user metadata whilst minimising API requests.</p>
+<p><img src="voson.tcn.png"
+style="float:right;width:180px !important;height:208px !important;"
+alt="voson.tcn" /> The VOSON Lab has recently published to GitHub a new
+open source R package called <a
+href="https://vosonlab.github.io/voson.tcn"><code>voson.tcn</code></a>.
+The package uses the Early-Access Twitter API v2, to collect tweets
+belonging to specified threaded conversations and generate networks. The
+Twitter API v2 provides a new tweet identifier: the <a
+href="https://developer.twitter.com/en/docs/twitter-api/conversation-id">conversation
+ID</a>, that is common to all tweets that are part of a conversation,
+and can be searched for using the API search endpoints. Identifiers and
+associated metadata for referenced tweets can also be collected in the
+same search for conversation tweets, allowing us to construct twitter
+networks with tweet and user metadata whilst minimising API
+requests.</p>
 <h3 id="twitter-developer-access">Twitter Developer Access</h3>
-<p>The <code>voson.tcn</code> package requires developer app authentication keys or tokens to access the Twitter API v2. These can be either the <code>Access token &amp; secret</code> of an app or its <code>Bearer token</code>.</p>
-<p>To obtain these credentials and use the early-access API you will need to have or apply for a <a href="https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api">Twitter Developer Account</a>, as well as have activated the new <a href="https://developer.twitter.com/content/developer-twitter/en/portal/opt-in">Developer Portal</a>. Once approved you will then need to create a development <a href="https://developer.twitter.com/en/docs/projects/overview">project</a>, which is the new management container for apps, and either create a new <a href="https://developer.twitter.com/en/docs/apps/overview">app</a> or associate one of your existing apps with it.</p>
-<p>There are currently two project types available that correspond to Twitter’s developer <a href="https://developer.twitter.com/en/products/twitter-api/early-access/guide">product tracks</a>, a <em>standard</em> and <em>academic</em> type. <em>Academic</em> projects are only available to researchers who have completed and have had their <a href="https://developer.twitter.com/en/solutions/academic-research/application-info">application for the academic research track</a> approved for non-commercial research purposes. <em>Standard</em> projects are for more general use, including hobby and educational purposes. The project type features differ in their API access and caps; <em>standard</em> projects can only access the 7-day recent search endpoint whereas an <em>academic</em> project can access the <a href="https://developer.twitter.com/en/docs/twitter-api/tweets/search/introduction">full-archive search</a> endpoint for historical tweets. There are also rate-limits and monthly tweet caps for API v2 search endpoints. At the time of writing, the caps are 500k and 10 million tweets that can be retrieved per month for the <em>standard</em> and <em>academic</em> track projects respectively.</p>
-<p>Please note that there are also <a href="https://developer.twitter.com/en/developer-terms/more-on-restricted-use-cases">terms of use and restricted use cases</a> that should be considered before applying for access or using the Twitter API.</p>
+<p>The <code>voson.tcn</code> package requires developer app
+authentication keys or tokens to access the Twitter API v2. These can be
+either the <code>Access token &amp; secret</code> of an app or its
+<code>Bearer token</code>.</p>
+<p>To obtain these credentials and use the early-access API you will
+need to have or apply for a <a
+href="https://developer.twitter.com/en/docs/twitter-api/getting-started/getting-access-to-the-twitter-api">Twitter
+Developer Account</a>, as well as have activated the new <a
+href="https://developer.twitter.com/content/developer-twitter/en/portal/opt-in">Developer
+Portal</a>. Once approved you will then need to create a development <a
+href="https://developer.twitter.com/en/docs/projects/overview">project</a>,
+which is the new management container for apps, and either create a new
+<a href="https://developer.twitter.com/en/docs/apps/overview">app</a> or
+associate one of your existing apps with it.</p>
+<p>There are currently two project types available that correspond to
+Twitter’s developer <a
+href="https://developer.twitter.com/en/products/twitter-api/early-access/guide">product
+tracks</a>, a <em>standard</em> and <em>academic</em> type.
+<em>Academic</em> projects are only available to researchers who have
+completed and have had their <a
+href="https://developer.twitter.com/en/solutions/academic-research/application-info">application
+for the academic research track</a> approved for non-commercial research
+purposes. <em>Standard</em> projects are for more general use, including
+hobby and educational purposes. The project type features differ in
+their API access and caps; <em>standard</em> projects can only access
+the 7-day recent search endpoint whereas an <em>academic</em> project
+can access the <a
+href="https://developer.twitter.com/en/docs/twitter-api/tweets/search/introduction">full-archive
+search</a> endpoint for historical tweets. There are also rate-limits
+and monthly tweet caps for API v2 search endpoints. At the time of
+writing, the caps are 500k and 10 million tweets that can be retrieved
+per month for the <em>standard</em> and <em>academic</em> track projects
+respectively.</p>
+<p>Please note that there are also <a
+href="https://developer.twitter.com/en/developer-terms/more-on-restricted-use-cases">terms
+of use and restricted use cases</a> that should be considered before
+applying for access or using the Twitter API.</p>
 <h3 id="installation">Installation</h3>
-<p>The <code>voson.tcn</code> R package is in development and currently only available on <a href="https://vosonlab.github.io/voson.tcn">GitHub</a>. It can be installed as follows:</p>
+<p>The <code>voson.tcn</code> R package is in development and currently
+only available on <a
+href="https://vosonlab.github.io/voson.tcn">GitHub</a>. It can be
+installed as follows:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># use the remotes package to install the latest dev version of voson.tcn from github</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>remotes</span><span class='op'>)</span>
-<span class='fu'>install_github</span><span class='op'>(</span><span class='st'>"vosonlab/voson.tcn"</span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://remotes.r-lib.org'>remotes</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://remotes.r-lib.org/reference/install_github.html'>install_github</a></span><span class='op'>(</span><span class='st'>"vosonlab/voson.tcn"</span><span class='op'>)</span>
 
 <span class='co'># Downloading GitHub repo vosonlab/voson.tcn@HEAD</span>
 <span class='co'># √  checking for file</span>
@@ -1539,11 +1622,23 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 </div>
 <h2 id="authentication">Authentication</h2>
-<p>The <code>voson.tcn</code> package only supports app based authentication using <code>OAuth2.0</code> tokens which are also known as <a href="https://developer.twitter.com/en/docs/authentication/oauth-2-0">bearer tokens</a>. We will likely support user based tokens in the future, however at this stage they do not offer any advantages as they have lower rate-limits and we are not using any private metadata of which they permit access (such as user-visible only metrics).</p>
-<p>The token can be created using either your apps <code>access token &amp; secret</code> (also known as consumer keys) or its <code>bearer token</code>. It is recommended that this token is saved for future use; there is no need to perform this step more than once as the token will not change unless it is invalidated or you regenerate keys on the developer portal.</p>
+<p>The <code>voson.tcn</code> package only supports app based
+authentication using <code>OAuth2.0</code> tokens which are also known
+as <a
+href="https://developer.twitter.com/en/docs/authentication/oauth-2-0">bearer
+tokens</a>. We will likely support user based tokens in the future,
+however at this stage they do not offer any advantages as they have
+lower rate-limits and we are not using any private metadata of which
+they permit access (such as user-visible only metrics).</p>
+<p>The token can be created using either your apps
+<code>access token &amp; secret</code> (also known as consumer keys) or
+its <code>bearer token</code>. It is recommended that this token is
+saved for future use; there is no need to perform this step more than
+once as the token will not change unless it is invalidated or you
+regenerate keys on the developer portal.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>voson.tcn</span><span class='op'>)</span>
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/vosonlab/voson.tcn'>voson.tcn</a></span><span class='op'>)</span>
 
 <span class='co'># retrieves a bearer token from the API using the apps consumer keys</span>
 <span class='va'>token</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/voson.tcn/man/tcn_token.html'>tcn_token</a></span><span class='op'>(</span>consumer_key <span class='op'>=</span> <span class='st'>"xxxxxxxx"</span>,
@@ -1558,10 +1653,24 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 </div>
 <h2 id="collection">Collection</h2>
-<p>Collecting conversation tweets requires the tweet ID or URL of a tweet that belongs to each threaded conversation that you are interested in. These are passed to the <code>voson.tcn</code> collect function <code>tcn_threads</code> as a vector or list. Conversation IDs will be tracked by this function to avoid duplication and, if tweet IDs are found to belong to a conversation that has already been collected on, then that conversation will be skipped.</p>
-<p>In the following example, we are collecting the tweets for a threaded conversation belonging to a public lockdown announcement following a COVID-19 outbreak in Brisbane, Queensland, Australia, that took place on March, 29, 2021. The tweet URL or ID (number following the status in the URL) can be passed directly to the collection function.</p>
+<p>Collecting conversation tweets requires the tweet ID or URL of a
+tweet that belongs to each threaded conversation that you are interested
+in. These are passed to the <code>voson.tcn</code> collect function
+<code>tcn_threads</code> as a vector or list. Conversation IDs will be
+tracked by this function to avoid duplication and, if tweet IDs are
+found to belong to a conversation that has already been collected on,
+then that conversation will be skipped.</p>
+<p>In the following example, we are collecting the tweets for a threaded
+conversation belonging to a public lockdown announcement following a
+COVID-19 outbreak in Brisbane, Queensland, Australia, that took place on
+March, 29, 2021. The tweet URL or ID (number following the status in the
+URL) can be passed directly to the collection function.</p>
 <figure>
-<img src="example_tweet.png" alt="Figure 1: Public announcement tweet regarding a COVID-19 lockdown of Brisbane, from the Queensland Premier" /><figcaption aria-hidden="true">Figure 1: Public announcement tweet regarding a COVID-19 lockdown of Brisbane, from the Queensland Premier</figcaption>
+<img src="example_tweet.png"
+alt="Figure 1: Public announcement tweet regarding a COVID-19 lockdown of Brisbane, from the Queensland Premier. Embedded tweet sourced from Twitter." />
+<figcaption aria-hidden="true">Figure 1: Public announcement tweet
+regarding a COVID-19 lockdown of Brisbane, from the Queensland Premier.
+Embedded tweet sourced from Twitter.</figcaption>
 </figure>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -1573,8 +1682,16 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </code></pre>
 </div>
 </div>
-<p>When completed, a list of named dataframes will be returned, with <code>tweets</code> containing all of the tweets and their metadata, and <code>users</code> containing all of the referenced users in the tweets and their metadata. In our example, 286 tweets were collected with 180 associated users public metadata.</p>
-<p>Note that the collection of a threaded tweet conversation is a snapshot of the state of the conversation at a point in time. Metrics and networks produced from our data will not completely match subsequent collections of the same conversation, as it will have likely cumulatively expanded over time.</p>
+<p>When completed, a list of named dataframes will be returned, with
+<code>tweets</code> containing all of the tweets and their metadata, and
+<code>users</code> containing all of the referenced users in the tweets
+and their metadata. In our example, 286 tweets were collected with 180
+associated users public metadata.</p>
+<p>Note that the collection of a threaded tweet conversation is a
+snapshot of the state of the conversation at a point in time. Metrics
+and networks produced from our data will not completely match subsequent
+collections of the same conversation, as it will have likely
+cumulatively expanded over time.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># collected tweets</span>
@@ -1607,8 +1724,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </code></pre>
 </div>
 </div>
-<p>If interested in text analysis, the tweet text can be found in the <code>text</code> column of the <code>tweets</code> dataframe and user profile descriptions in <code>profile.description</code> of the <code>users</code> dataframe.</p>
-<p>Public metrics for <code>tweets</code> and <code>users</code> are found in dataframe columns prefixed, with <code>public_metrics</code> and <code>profile.public_metrics</code> respectively.</p>
+<p>If interested in text analysis, the tweet text can be found in the
+<code>text</code> column of the <code>tweets</code> dataframe and user
+profile descriptions in <code>profile.description</code> of the
+<code>users</code> dataframe.</p>
+<p>Public metrics for <code>tweets</code> and <code>users</code> are
+found in dataframe columns prefixed, with <code>public_metrics</code>
+and <code>profile.public_metrics</code> respectively.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
@@ -1626,10 +1748,26 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 </div>
 <h2 id="network-creation">Network Creation</h2>
-<p>There are two types of networks that can be generated using <code>voson.tcn</code>: <code>activity</code> and <code>actor</code> network. These differ by the type of node and resulting structure of the networks.</p>
+<p>There are two types of networks that can be generated using
+<code>voson.tcn</code>: <code>activity</code> and <code>actor</code>
+network. These differ by the type of node and resulting structure of the
+networks.</p>
 <h3 id="activity-network">Activity Network</h3>
-<p>An <code>activity</code> network is a representation of the conversation as seen on Twitter: nodes are tweets and the edges are how they are related. Tweets (or nodes) are identified by their unique identifier <code>Tweet ID</code> (formerly <code>Status ID</code>). In a Twitter threaded conversation, there are only two types of connections or edges between tweets and these are <code>replied_to</code> and <code>quoted</code>.</p>
-<p>Replies are made when a user chooses the <em>reply</em> option and publishes a tweet response to the tweet they are replying to. Quotes are a little different in that the user has included a link to or <em>quoted</em> another tweet in the body of their tweet. In Twitter conversation networks, it is common to <em>quote</em> a tweet as part of a <em>reply</em> tweet, generating in the activity network a <code>replied_to</code> and <code>quoted</code> edge from the same node.</p>
+<p>An <code>activity</code> network is a representation of the
+conversation as seen on Twitter: nodes are tweets and the edges are how
+they are related. Tweets (or nodes) are identified by their unique
+identifier <code>Tweet ID</code> (formerly <code>Status ID</code>). In a
+Twitter threaded conversation, there are only two types of connections
+or edges between tweets and these are <code>replied_to</code> and
+<code>quoted</code>.</p>
+<p>Replies are made when a user chooses the <em>reply</em> option and
+publishes a tweet response to the tweet they are replying to. Quotes are
+a little different in that the user has included a link to or
+<em>quoted</em> another tweet in the body of their tweet. In Twitter
+conversation networks, it is common to <em>quote</em> a tweet as part of
+a <em>reply</em> tweet, generating in the activity network a
+<code>replied_to</code> and <code>quoted</code> edge from the same
+node.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># generate an activity network</span>
@@ -1655,7 +1793,15 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 </div>
 <h3 id="actor-network">Actor Network</h3>
-<p>An <code>actor</code> network represents the interactions between Twitter users in the conversation: nodes are the users and edges are their connections. As in the <code>activity</code> network, edges are either a <code>reply</code> or a <code>quote</code> but edges represent the classification of a tweet connecting users rather than the activity. Users (or nodes) are identified by their unique Twitter <code>User ID</code>. In the <code>actor</code> network, interactions between users are more apparent and can be measured by the frequency (and direction) of edges between them.</p>
+<p>An <code>actor</code> network represents the interactions between
+Twitter users in the conversation: nodes are the users and edges are
+their connections. As in the <code>activity</code> network, edges are
+either a <code>reply</code> or a <code>quote</code> but edges represent
+the classification of a tweet connecting users rather than the activity.
+Users (or nodes) are identified by their unique Twitter
+<code>User ID</code>. In the <code>actor</code> network, interactions
+between users are more apparent and can be measured by the frequency
+(and direction) of edges between them.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='co'># generate an actor network</span>
@@ -1679,11 +1825,22 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </code></pre>
 </div>
 </div>
-<p>Note that in the <code>actor</code> network there is an additional edge type: <code>tweet</code>, which is assigned to a self-loop edge created for the thread’s initial tweet. This is a technique used to retain the initial tweet’s metadata as edge attributes comparable to other edges in the network.</p>
-<p>The initial conversation tweet would not usually be included in the edge list, as the initial conversation tweet is not directed at another user, and hence no edge to attach metadata.For example, this allows the text of the initial tweet to be included in any actor network tweet text analysis. It would not usually be included in the edge list as the initial conversation tweet is not directed at another user, and hence no edge to attach metadata is naturally found in this type of network.</p>
+<p>Note that in the <code>actor</code> network there is an additional
+edge type: <code>tweet</code>, which is assigned to a self-loop edge
+created for the thread’s initial tweet. This is a technique used to
+retain the initial tweet’s metadata as edge attributes comparable to
+other edges in the network.</p>
+<p>The initial conversation tweet would not usually be included in the
+edge list, as the initial conversation tweet is not directed at another
+user, and hence no edge to attach metadata.For example, this allows the
+text of the initial tweet to be included in any actor network tweet text
+analysis. It would not usually be included in the edge list as the
+initial conversation tweet is not directed at another user, and hence no
+edge to attach metadata is naturally found in this type of network.</p>
 <h2 id="plot-graphs">Plot Graphs</h2>
 <h3 id="activity-network-1">Activity Network</h3>
-<p>Visualisation of the <code>activity</code> network produced with <code>igraph</code>.</p>
+<p>Visualisation of the <code>activity</code> network produced with
+<code>igraph</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://igraph.org'>igraph</a></span><span class='op'>)</span>
@@ -1741,12 +1898,32 @@ Show code
 </div>
 </div>
 <figure>
-<img src="activity_network.png" alt="Figure 2: Conversation activity network - Node size and label represent number of tweet likes, color scale is indicating low to high number of retweets (yellow to green). Orange coloured edges are quoting linked tweet." /><figcaption aria-hidden="true">Figure 2: Conversation activity network - Node size and label represent number of tweet likes, color scale is indicating low to high number of retweets (yellow to green). Orange coloured edges are quoting linked tweet.</figcaption>
+<img src="activity_network.png"
+alt="Figure 2: Conversation activity network - Node size and label represent number of tweet likes, color scale is indicating low to high number of retweets (yellow to green). Orange coloured edges are quoting linked tweet." />
+<figcaption aria-hidden="true">Figure 2: Conversation activity network -
+Node size and label represent number of tweet likes, color scale is
+indicating low to high number of retweets (yellow to green). Orange
+coloured edges are quoting linked tweet.</figcaption>
 </figure>
-<p><code>voson.tcn</code> collects tweets that are all linked to each other via the <code>conversation ID</code>. This means that in a network generated from this data, such as the activity network, all of the nodes (tweets) should be connected in a single component per <code>conversation ID</code>. If multiple <code>conversation ID</code>s were collected on then, it is also possible to have one component because of <em>quote</em> edges. These edges joining conversations occur when a tweet in one conversation has quoted a tweet in another that you have collected.</p>
-<p>In the example activity network above, there are two components even though only one <code>conversation ID</code> was collected on. Multiple components are usually due to a missing conversation tweet not able to be retrieved from the API and producing a broken reply chain. This can often occur if, for example, a tweet has been deleted, or the tweet or user flagged or suspended in some way restricting public availability.</p>
+<p><code>voson.tcn</code> collects tweets that are all linked to each
+other via the <code>conversation ID</code>. This means that in a network
+generated from this data, such as the activity network, all of the nodes
+(tweets) should be connected in a single component per
+<code>conversation ID</code>. If multiple <code>conversation ID</code>s
+were collected on then, it is also possible to have one component
+because of <em>quote</em> edges. These edges joining conversations occur
+when a tweet in one conversation has quoted a tweet in another that you
+have collected.</p>
+<p>In the example activity network above, there are two components even
+though only one <code>conversation ID</code> was collected on. Multiple
+components are usually due to a missing conversation tweet not able to
+be retrieved from the API and producing a broken reply chain. This can
+often occur if, for example, a tweet has been deleted, or the tweet or
+user flagged or suspended in some way restricting public
+availability.</p>
 <h3 id="actor-network-1">Actor Network</h3>
-<p>Visualisation of the <code>actor</code> network produced with <code>igraph</code>.</p>
+<p>Visualisation of the <code>actor</code> network produced with
+<code>igraph</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
@@ -1758,7 +1935,7 @@ Show code
 <span class='co'># best effort set the node colour attribute based on presence of city, state,</span>
 <span class='co'># or country in the actors profile location field</span>
 <span class='co'># value assigned from first match</span>
-<span class='va'>nodes</span> <span class='op'>&lt;-</span> <span class='va'>actor_net</span><span class='op'>$</span><span class='va'>nodes</span> <span class='op'>%&gt;%</span>
+<span class='va'>nodes</span> <span class='op'>&lt;-</span> <span class='va'>actor_net</span><span class='op'>$</span><span class='va'>nodes</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
   <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span>
     <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_detect.html'>str_detect</a></span><span class='op'>(</span><span class='va'>profile.location</span>, <span class='fu'>regex_ic</span><span class='op'>(</span><span class='st'>"brisbane|bris"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>~</span> <span class='st'>"orange"</span>,
     <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_detect.html'>str_detect</a></span><span class='op'>(</span><span class='va'>profile.location</span>, <span class='fu'>regex_ic</span><span class='op'>(</span><span class='st'>"queensland|qld"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>~</span> <span class='st'>"gold"</span>,
@@ -1781,15 +1958,15 @@ Show code
 
 <span class='co'># get the author of the initial thread tweet using the conversation id</span>
 <span class='va'>conversation_ids</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"1376311897624956929"</span><span class='op'>)</span>
-<span class='va'>thread_authors</span> <span class='op'>&lt;-</span> <span class='va'>activity_net</span><span class='op'>$</span><span class='va'>nodes</span> <span class='op'>%&gt;%</span>
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>tweet_id</span> <span class='op'>%in%</span> <span class='va'>conversation_ids</span><span class='op'>)</span> <span class='op'>%&gt;%</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>user_id</span><span class='op'>)</span>
+<span class='va'>thread_authors</span> <span class='op'>&lt;-</span> <span class='va'>activity_net</span><span class='op'>$</span><span class='va'>nodes</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>tweet_id</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>conversation_ids</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>user_id</span><span class='op'>)</span>
 
 <span class='co'># remove actors replying to the initial tweet that have a degree of 1</span>
 <span class='va'>thread_spokes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/unlist.html'>unlist</a></span><span class='op'>(</span>
-  <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/incident_edges.html'>incident_edges</a></span><span class='op'>(</span><span class='va'>g2</span>, <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>name</span> <span class='op'>%in%</span> <span class='va'>thread_authors</span><span class='op'>$</span><span class='va'>user_id</span><span class='op'>)</span><span class='op'>]</span>,
+  <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/incident_edges.html'>incident_edges</a></span><span class='op'>(</span><span class='va'>g2</span>, <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>name</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>thread_authors</span><span class='op'>$</span><span class='va'>user_id</span><span class='op'>)</span><span class='op'>]</span>,
                  <span class='st'>"in"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='va'>spokes_tail_nodes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/tail_of.html'>tail_of</a></span><span class='op'>(</span><span class='va'>g2</span>, <span class='va'>thread_spokes</span><span class='op'>)</span><span class='op'>]</span><span class='op'>$</span><span class='va'>name</span>
-<span class='va'>g2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/delete_vertices.html'>delete_vertices</a></span><span class='op'>(</span><span class='va'>g2</span>, <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/degree.html'>degree</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span> <span class='op'>==</span> <span class='fl'>1</span> <span class='op'>&amp;</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>name</span> <span class='op'>%in%</span> <span class='va'>spokes_tail_nodes</span><span class='op'>)</span>
+<span class='va'>g2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/delete_vertices.html'>delete_vertices</a></span><span class='op'>(</span><span class='va'>g2</span>, <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/degree.html'>degree</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span> <span class='op'>==</span> <span class='fl'>1</span> <span class='op'>&amp;</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>name</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>spokes_tail_nodes</span><span class='op'>)</span>
 
 <span class='co'># convert the graph to undirected</span>
 <span class='co'># simplify the graph and collapse edges into an edge weight value</span>
@@ -1824,9 +2001,15 @@ Show code
 </div>
 </div>
 <figure>
-<img src="actor_network.png" alt="Figure 3: Conversation actor network - Node size and label represent users follower counts. Node color indicates user self-reported location. Edge width represents number of collapsed edges." /><figcaption aria-hidden="true">Figure 3: Conversation actor network - Node size and label represent users follower counts. Node color indicates user self-reported location. Edge width represents number of collapsed edges.</figcaption>
+<img src="actor_network.png"
+alt="Figure 3: Conversation actor network - Node size and label represent users follower counts. Node color indicates user self-reported location. Edge width represents number of collapsed edges." />
+<figcaption aria-hidden="true">Figure 3: Conversation actor network -
+Node size and label represent users follower counts. Node color
+indicates user self-reported location. Edge width represents number of
+collapsed edges.</figcaption>
 </figure>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

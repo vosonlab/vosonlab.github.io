@@ -2,46 +2,46 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://vosonlab.github.io/</loc>
-    <lastmod>2021-12-17T08:51:37+11:00</lastmod>
+    <lastmod>2021-06-17T02:02:52+10:00</lastmod>
   </url>
   <url>
     <loc>https://vosonlab.github.io/posts/2021-12-06-collecting-youtube-comments-with-vosondash/</loc>
-    <lastmod>2021-12-23T11:05:31+11:00</lastmod>
+    <lastmod>2021-12-24T04:16:23+11:00</lastmod>
   </url>
   <url>
     <loc>https://vosonlab.github.io/posts/2021-11-25-collecting-twitter-data-with-vosondash/</loc>
-    <lastmod>2021-12-17T14:46:36+11:00</lastmod>
+    <lastmod>2021-12-20T17:56:48+11:00</lastmod>
   </url>
   <url>
     <loc>https://vosonlab.github.io/posts/2021-10-01-testing-bot-status-of-twitter-users/</loc>
-    <lastmod>2021-12-16T23:58:11+11:00</lastmod>
+    <lastmod>2021-12-20T17:56:48+11:00</lastmod>
   </url>
   <url>
     <loc>https://vosonlab.github.io/posts/2021-08-05-exploring-issues-in-reddit-using-voson-dash/</loc>
-    <lastmod>2021-12-16T23:46:43+11:00</lastmod>
+    <lastmod>2021-12-20T17:56:48+11:00</lastmod>
   </url>
   <url>
     <loc>https://vosonlab.github.io/posts/2021-08-06-analysing-online-networks-with-vosondash/</loc>
-    <lastmod>2021-12-23T11:26:08+11:00</lastmod>
+    <lastmod>2021-12-24T04:16:23+11:00</lastmod>
   </url>
   <url>
     <loc>https://vosonlab.github.io/posts/2021-06-03-us-presidential-debates-2020-twitter-collection/</loc>
-    <lastmod>2021-12-16T23:55:23+11:00</lastmod>
+    <lastmod>2022-06-04T19:34:50+10:00</lastmod>
   </url>
   <url>
     <loc>https://vosonlab.github.io/posts/2021-03-23-twitter-conversation-networks/</loc>
-    <lastmod>2021-12-16T23:03:50+11:00</lastmod>
+    <lastmod>2022-06-04T19:34:39+10:00</lastmod>
   </url>
   <url>
     <loc>https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml/</loc>
-    <lastmod>2021-12-16T23:03:50+11:00</lastmod>
+    <lastmod>2022-06-04T18:58:12+10:00</lastmod>
   </url>
   <url>
-    <loc>https://vosonlab.github.io/posts/2021-02-11_twitter_vosonsml_from_rtweet/</loc>
-    <lastmod>2021-12-17T00:01:05+11:00</lastmod>
+    <loc>https://vosonlab.github.io/posts/2021-02-11-twitter-vosonsml-from-rtweet/</loc>
+    <lastmod>2022-06-04T18:39:18+10:00</lastmod>
   </url>
   <url>
     <loc>https://vosonlab.github.io/posts/2021-02-05_welcome/</loc>
-    <lastmod>2021-12-16T23:03:50+11:00</lastmod>
+    <lastmod>2021-12-08T12:12:04+11:00</lastmod>
   </url>
 </urlset>

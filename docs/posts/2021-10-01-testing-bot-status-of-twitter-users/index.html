@@ -1076,10 +1076,6 @@ figure img.external {
   margin-top: 1.5em;
 }
 
-.figure img {
-  width: 100%;
-}
-
 .figure .caption {
   color: rgba(0, 0, 0, 0.6);
   font-size: 12px;
@@ -1909,6 +1905,12 @@ function init_distill() {
 
     // hoverable references
     $('span.citation[data-cites]').each(function() {
+      if ($(this).children()[0].nodeName == "D-FOOTNOTE") {
+        var fn = $(this).children()[0]
+        $(this).html(fn.shadowRoot.querySelector("sup"))
+        $(this).id = fn.id
+        fn.remove()
+      }
       var refs = $(this).attr('data-cites').split(" ");
       var refHtml = refs.map(function(ref) {
         return "<p>" + $('#ref-' + ref).html() + "</p>";
@@ -1923,6 +1925,31 @@ function init_distill() {
         placement: 'bottom-start'
       });
     });
+
+    // fix footnotes in tables (#411)
+    // replacing broken distill.pub feature
+    $('table d-footnote').each(function() {
+      // we replace internal showAtNode methode which is triggered when hovering a footnote
+      this.hoverBox.showAtNode = function(node) {
+        // ported from https://github.com/distillpub/template/pull/105/files
+        calcOffset = function(elem) {
+            let x = elem.offsetLeft;
+            let y = elem.offsetTop;
+            // Traverse upwards until an `absolute` element is found or `elem`
+            // becomes null.
+            while (elem = elem.offsetParent && elem.style.position != 'absolute') {
+                x += elem.offsetLeft;
+                y += elem.offsetTop;
+            }
+
+            return { left: x, top: y };
+        }
+        // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
+        const bbox = node.getBoundingClientRect();
+        const offset = calcOffset(node);
+        this.show([offset.left + bbox.width, offset.top + bbox.height]);
+      }
+    })
 
     // clear polling timer
     clearInterval(tid);
@@ -2022,6 +2049,8 @@ function init_common() {
   // mark non-body figures created by knitr chunks as 100% width
   $('.layout-chunk').each(function(i, val) {
     var figures = $(this).find('img, .html-widget');
+    // ignore leaflet img layers (#106)
+    figures = figures.filter(':not(img[class*="leaflet"])')
     if ($(this).attr('data-layout') !== "l-body") {
       figures.css('width', '100%');
     } else {
@@ -2044,7 +2073,7 @@ function init_common() {
   // get rid of index.html references in header
   if (window.location.protocol !== "file:") {
     $('.distill-site-header a[href]').each(function(i,val) {
-      $(this).attr('href', $(this).attr('href').replace("index.html", "./"));
+      $(this).attr('href', $(this).attr('href').replace(/^index[.]html/, "./"));
     });
   }
 
@@ -2136,16 +2165,6 @@ script developed by @MilesMcBainon github
   margin-top: 0px;
 }
 
-/*
-d-article p code {
-    color: #383838;
-    background: rgba(54, 215, 130, 0.15);
-    //font-weight: 400;
-    //font-size: 0.9em;
-    
-}
-*/
-
 d-title {
   padding-bottom: 0 !important;
 }
@@ -2154,18 +2173,6 @@ d-byline {
   padding: 0.2rem 0 !important;
 }
 
-d-article p code {
-    font-size: .875rem;
-    line-height: 1.5;
-    font-family: "Lucida Console",Monaco,monospace;
-    font-weight: normal;
-    color: #333;
-    background-color: #f8f8f8;
-    border-width: 1px;
-    border-style: solid;
-    border-color: #dfdfdf;
-    padding: .125rem .3125rem .0625rem;
-}
 </style>
 <!--/radix_placeholder_site_in_header-->
 
@@ -2535,11 +2542,11 @@ Rizoiu, M-A., T. Graham, R. Zhang, Y. Zhang, R. Ackland, and L. Xie. 2018. <span
   <p class="social_footer">
     <span class="article-sharing">
       Share: &nbsp;
-      <a href="https://twitter.com/share?text=Testing%20the%20bot%20status%20of%20users%20in%20Twitter%20networks%20collected%20via%20vosonSML&amp;url=https%3A%2F%2Fvosonlab.github.io%2Fposts%2F2021-10-01-testing-bot-status-of-twitter-users%2F">
-        <i class="fab fa-twitter"></i>
+      <a href="https://twitter.com/share?text=Testing%20the%20bot%20status%20of%20users%20in%20Twitter%20networks%20collected%20via%20vosonSML&amp;url=https%3A%2F%2Fvosonlab.github.io%2Fposts%2F2021-10-01-testing-bot-status-of-twitter-users%2F" aria-label="share on twitter">
+        <i class="fab fa-twitter" aria-hidden="true"></i>
       </a>
-      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fvosonlab.github.io%2Fposts%2F2021-10-01-testing-bot-status-of-twitter-users%2F">
-        <i class="fab fa-facebook"></i>
+      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fvosonlab.github.io%2Fposts%2F2021-10-01-testing-bot-status-of-twitter-users%2F" aria-label="share on facebook">
+        <i class="fab fa-facebook" aria-hidden="true"></i>
       </a>
     </span>
   </p>

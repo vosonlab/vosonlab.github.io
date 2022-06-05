@@ -87,13 +87,12 @@
       <category>text analysis</category>
       <category>visualisation</category>
       <guid>https://vosonlab.github.io/posts/2021-08-06-analysing-online-networks-with-vosondash</guid>
-      <pubDate>Wed, 08 Sep 2021 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 09 Sep 2021 00:00:00 +0000</pubDate>
       <media:content url="https://vosonlab.github.io/posts/2021-08-06-analysing-online-networks-with-vosondash/Actor_net.png" medium="image" type="image/png" width="1282" height="670"/>
     </item>
     <item>
       <title>#DebateNight 2020: Hashtag Twitter Collection of the US Presidential Debates</title>
       <dc:creator>Bryan Gertzel</dc:creator>
-      <dc:creator>Robert Ackland</dc:creator>
       <link>https://vosonlab.github.io/posts/2021-06-03-us-presidential-debates-2020-twitter-collection</link>
       <description>Methodology for the bulk collection of tweets containing key hashtags for the US Presidential Debates and generation of Networks for Analysis.</description>
       <category>rstats</category>
@@ -109,7 +108,6 @@
     <item>
       <title>Twitter Conversation Networks</title>
       <dc:creator>Bryan Gertzel</dc:creator>
-      <dc:creator>Francisca Borquez</dc:creator>
       <link>https://vosonlab.github.io/posts/2021-03-23-twitter-conversation-networks</link>
       <description>Getting started with the voson.tcn package.</description>
       <category>rstats</category>
@@ -124,7 +122,6 @@
     <item>
       <title>Hyperlink Networks with vosonSML</title>
       <dc:creator>Bryan Gertzel</dc:creator>
-      <dc:creator>Francisca Borquez</dc:creator>
       <link>https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml</link>
       <description>An introduction to creating hyperlink networks with vosonSML.</description>
       <category>rstats</category>
@@ -138,17 +135,16 @@
     <item>
       <title>Creating Twitter Networks with vosonSML using rtweet Data</title>
       <dc:creator>Bryan Gertzel</dc:creator>
-      <dc:creator>Francisca Borquez</dc:creator>
-      <link>https://vosonlab.github.io/posts/2021-02-11_twitter_vosonsml_from_rtweet</link>
+      <link>https://vosonlab.github.io/posts/2021-02-11-twitter-vosonsml-from-rtweet</link>
       <description>Simple guide to collecting data with rtweet and generating networks with vosonSML.</description>
       <category>rstats</category>
       <category>twitter</category>
       <category>vosonSML</category>
       <category>rtweet</category>
       <category>networks</category>
-      <guid>https://vosonlab.github.io/posts/2021-02-11_twitter_vosonsml_from_rtweet</guid>
+      <guid>https://vosonlab.github.io/posts/2021-02-11-twitter-vosonsml-from-rtweet</guid>
       <pubDate>Thu, 11 Feb 2021 00:00:00 +0000</pubDate>
-      <media:content url="https://vosonlab.github.io/posts/2021-02-11_twitter_vosonsml_from_rtweet/rtweet_logo_preview.png" medium="image" type="image/png" width="432" height="499"/>
+      <media:content url="https://vosonlab.github.io/posts/2021-02-11-twitter-vosonsml-from-rtweet/rtweet_logo_preview.png" medium="image" type="image/png" width="432" height="499"/>
     </item>
     <item>
       <title>Welcome to the VOSON Lab Code Blog</title>

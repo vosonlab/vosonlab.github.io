@@ -1,0 +1,1848 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { color: #00769e; background-color: #f1f3f5; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #00769e; } /* Normal */
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #657422; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #00769e; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #00769e; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #00769e; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Egocentric Networks from Twitter timelines</title>
+
+  <meta property="description" itemprop="description" content="Demonstration of how to use rtweet and vosonSML to construct an ego net from Twitter users timelines."/>
+
+
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2022-06-05"/>
+  <meta property="article:created" itemprop="dateCreated" content="2022-06-05"/>
+  <meta name="article:author" content="Bryan Gertzel"/>
+
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Egocentric Networks from Twitter timelines"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="Demonstration of how to use rtweet and vosonSML to construct an ego net from Twitter users timelines."/>
+  <meta property="og:locale" content="en_US"/>
+
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Egocentric Networks from Twitter timelines"/>
+  <meta property="twitter:description" content="Demonstration of how to use rtweet and vosonSML to construct an ego net from Twitter users timelines."/>
+
+  <!--/radix_placeholder_meta_tags-->
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","categories","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["Egocentric Networks from Twitter timelines"]},{"type":"character","attributes":{},"value":["Demonstration of how to use rtweet and vosonSML to construct an ego net from Twitter users timelines.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Bryan Gertzel"]},{"type":"character","attributes":{},"value":["VOSON Lab"]},{"type":"character","attributes":{},"value":["http://vosonlab.net/"]}]}]},{"type":"character","attributes":{},"value":["2022-06-05"]},{"type":"character","attributes":{},"value":["rstats","twitter","networks","egocentric","rtweet","vosonsml","timeline"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"logical","attributes":{},"value":[true]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["egocentric-networks-from-twitter-timelines_files/anchor-4.2.2/anchor.min.js","egocentric-networks-from-twitter-timelines_files/bowser-1.9.3/bowser.min.js","egocentric-networks-from-twitter-timelines_files/core-js-2.5.3/LICENSE","egocentric-networks-from-twitter-timelines_files/core-js-2.5.3/package.json","egocentric-networks-from-twitter-timelines_files/core-js-2.5.3/shim.min.js","egocentric-networks-from-twitter-timelines_files/crosstalk-1.2.0/css/crosstalk.min.css","egocentric-networks-from-twitter-timelines_files/crosstalk-1.2.0/js/crosstalk.js","egocentric-networks-from-twitter-timelines_files/crosstalk-1.2.0/js/crosstalk.js.map","egocentric-networks-from-twitter-timelines_files/crosstalk-1.2.0/js/crosstalk.min.js","egocentric-networks-from-twitter-timelines_files/crosstalk-1.2.0/js/crosstalk.min.js.map","egocentric-networks-from-twitter-timelines_files/crosstalk-1.2.0/scss/crosstalk.scss","egocentric-networks-from-twitter-timelines_files/datatables-binding-0.23/datatables.js","egocentric-networks-from-twitter-timelines_files/datatables-css-0.0.0/datatables-crosstalk.css","egocentric-networks-from-twitter-timelines_files/distill-2.2.21/template.v2.js","egocentric-networks-from-twitter-timelines_files/dt-core-1.11.3/css/jquery.dataTables.extra.css","egocentric-networks-from-twitter-timelines_files/dt-core-1.11.3/css/jquery.dataTables.min.css","egocentric-networks-from-twitter-timelines_files/dt-core-1.11.3/js/jquery.dataTables.min.js","egocentric-networks-from-twitter-timelines_files/header-attrs-2.14/header-attrs.js","egocentric-networks-from-twitter-timelines_files/htmlwidgets-1.5.4/htmlwidgets.js","egocentric-networks-from-twitter-timelines_files/jquery-3.6.0/jquery-3.6.0.js","egocentric-networks-from-twitter-timelines_files/jquery-3.6.0/jquery-3.6.0.min.js","egocentric-networks-from-twitter-timelines_files/jquery-3.6.0/jquery-3.6.0.min.map","egocentric-networks-from-twitter-timelines_files/popper-2.6.0/popper.min.js","egocentric-networks-from-twitter-timelines_files/react-17.0.0/AUTHORS","egocentric-networks-from-twitter-timelines_files/react-17.0.0/LICENSE.txt","egocentric-networks-from-twitter-timelines_files/react-17.0.0/react-dom.min.js","egocentric-networks-from-twitter-timelines_files/react-17.0.0/react.min.js","egocentric-networks-from-twitter-timelines_files/reactable-binding-0.3.0/reactable.js","egocentric-networks-from-twitter-timelines_files/reactwidget-1.0.0/react-tools.js","egocentric-networks-from-twitter-timelines_files/reactwidget-1.0.0/react-tools.js.map","egocentric-networks-from-twitter-timelines_files/tippy-6.2.7/tippy-bundle.umd.min.js","egocentric-networks-from-twitter-timelines_files/tippy-6.2.7/tippy-light-border.css","egocentric-networks-from-twitter-timelines_files/tippy-6.2.7/tippy.css","egocentric-networks-from-twitter-timelines_files/tippy-6.2.7/tippy.umd.min.js","egocentric-networks-from-twitter-timelines_files/vis-9.1.0/add_css.txt","egocentric-networks-from-twitter-timelines_files/vis-9.1.0/img/network/acceptDeleteIcon.png","egocentric-networks-from-twitter-timelines_files/vis-9.1.0/img/network/addNodeIcon.png","egocentric-networks-from-twitter-timelines_files/vis-9.1.0/img/network/backIcon.png","egocentric-networks-from-twitter-timelines_files/vis-9.1.0/img/network/connectIcon.png","egocentric-networks-from-twitter-timelines_files/vis-9.1.0/img/network/cross.png","egocentric-networks-from-twitter-timelines_files/vis-9.1.0/img/network/cross2.png","egocentric-networks-from-twitter-timelines_files/vis-9.1.0/img/network/deleteIcon.png","egocentric-networks-from-twitter-timelines_files/vis-9.1.0/img/network/downArrow.png","egocentric-networks-from-twitter-timelines_files/vis-9.1.0/img/network/editIcon.png","egocentric-networks-from-twitter-timelines_files/vis-9.1.0/img/network/leftArrow.png","egocentric-networks-from-twitter-timelines_files/vis-9.1.0/img/network/minus.png","egocentric-networks-from-twitter-timelines_files/vis-9.1.0/img/network/plus.png","egocentric-networks-from-twitter-timelines_files/vis-9.1.0/img/network/rightArrow.png","egocentric-networks-from-twitter-timelines_files/vis-9.1.0/img/network/upArrow.png","egocentric-networks-from-twitter-timelines_files/vis-9.1.0/img/network/zoomExtends.png","egocentric-networks-from-twitter-timelines_files/vis-9.1.0/vis-network.min.css","egocentric-networks-from-twitter-timelines_files/vis-9.1.0/vis-network.min.js","egocentric-networks-from-twitter-timelines_files/visNetwork-binding-2.1.0/visNetwork.js","egocentric-networks-from-twitter-timelines_files/webcomponents-2.0.0/webcomponents.js"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+  <style type="text/css">
+
+  body {
+    background-color: white;
+  }
+
+  .pandoc-table {
+    width: 100%;
+  }
+
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
+  }
+
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .shaded-content {
+    background: white;
+  }
+
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  d-article {
+    padding-top: 2.5rem;
+    padding-bottom: 30px;
+  }
+
+  d-appendix {
+    padding-top: 30px;
+  }
+
+  d-article>p>img {
+    width: 100%;
+  }
+
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+
+  /* Tweak code blocks */
+
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
+  }
+
+  d-article div.sourceCode {
+    background-color: white;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+
+  d-article pre {
+    font-size: 12px;
+    color: black;
+    background: none;
+    margin-top: 0;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  d-article pre a {
+    border-bottom: none;
+  }
+
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+
+  @media(min-width: 768px) {
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 18px;
+    font-size: 14px;
+  }
+
+  d-article pre {
+    font-size: 14px;
+  }
+
+  }
+
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  /* CSS for d-contents */
+
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  .d-contents li {
+    list-style-type: none
+  }
+
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+
+  .d-contents ul {
+    padding-left: 1em
+  }
+
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+
+
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+
+
+  /* Figure */
+
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+
+  /* Citations */
+
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+
+  /* Citation hover box */
+
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
+
+
+  /* Tweak 1000px media break to show more text */
+
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+
+    .grid {
+      grid-column-gap: 16px;
+    }
+
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+
+
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* Include appendix styles here so they can be overridden */
+
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  d-appendix > * {
+    grid-column: text;
+  }
+
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+
+  /* Include footnote styles here so they can be overridden */
+
+  d-footnote-list {
+    contain: layout style;
+  }
+
+  d-footnote-list > * {
+    grid-column: text;
+  }
+
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+
+
+
+  /* Anchor.js */
+
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  /* Social footer */
+
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+
+  .disqus-comments {
+    margin-right: 30px;
+  }
+
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+
+  #disqus_thread {
+    margin-top: 30px;
+  }
+
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+
+
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+
+
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+
+  /* Styles for posts lists (not auto-injected) */
+
+
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .posts-list img {
+    opacity: 1;
+  }
+
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+
+  .posts-more {
+    clear: both;
+  }
+
+
+  .posts-sidebar {
+    font-size: 16px;
+  }
+
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+
+  .categories li>a {
+    border-bottom: none;
+  }
+
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .categories .active {
+    font-weight: 600;
+  }
+
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
+
+
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+
+
+
+  </style>
+
+  <script type="application/javascript">
+
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+
+  // show body when load is complete
+  function on_load_complete() {
+
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+
+
+    // set body to visible
+    document.body.style.visibility = 'visible';
+
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+
+  function init_distill() {
+
+    init_common();
+
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+
+      // capture layout
+      var layout = $(this).attr('data-layout');
+
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+
+
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+
+    // load distill framework
+    load_distill_framework();
+
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
+
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
+
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        if ($(this).children()[0].nodeName == "D-FOOTNOTE") {
+          var fn = $(this).children()[0]
+          $(this).html(fn.shadowRoot.querySelector("sup"))
+          $(this).id = fn.id
+          fn.remove()
+        }
+        var refs = $(this).attr('data-cites').split(" ");
+        var refHtml = refs.map(function(ref) {
+          return "<p>" + $('#ref-' + ref).html() + "</p>";
+        }).join("\n");
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
+
+      // fix footnotes in tables (#411)
+      // replacing broken distill.pub feature
+      $('table d-footnote').each(function() {
+        // we replace internal showAtNode methode which is triggered when hovering a footnote
+        this.hoverBox.showAtNode = function(node) {
+          // ported from https://github.com/distillpub/template/pull/105/files
+          calcOffset = function(elem) {
+              let x = elem.offsetLeft;
+              let y = elem.offsetTop;
+              // Traverse upwards until an `absolute` element is found or `elem`
+              // becomes null.
+              while (elem = elem.offsetParent && elem.style.position != 'absolute') {
+                  x += elem.offsetLeft;
+                  y += elem.offsetTop;
+              }
+
+              return { left: x, top: y };
+          }
+          // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
+          const bbox = node.getBoundingClientRect();
+          const offset = calcOffset(node);
+          this.show([offset.left + bbox.width, offset.top + bbox.height]);
+        }
+      })
+
+      // clear polling timer
+      clearInterval(tid);
+
+      // show body now that everything is ready
+      on_load_complete();
+    }
+
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+
+  }
+
+  function init_downlevel() {
+
+    init_common();
+
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+
+    // remove toc
+    $('.d-contents').remove();
+
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+
+
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+
+    $('body').addClass('downlevel');
+
+    on_load_complete();
+  }
+
+
+  function init_common() {
+
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      // ignore leaflet img layers (#106)
+      figures = figures.filter(':not(img[class*="leaflet"])')
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+
+      }
+    });
+
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace(/^index[.]html/, "./"));
+      });
+    }
+
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+
+  </script>
+
+  <!--/radix_placeholder_distill-->
+  <script src="egocentric-networks-from-twitter-timelines_files/header-attrs-2.14/header-attrs.js"></script>
+  <script src="egocentric-networks-from-twitter-timelines_files/core-js-2.5.3/shim.min.js"></script>
+  <script src="egocentric-networks-from-twitter-timelines_files/react-17.0.0/react.min.js"></script>
+  <script src="egocentric-networks-from-twitter-timelines_files/react-17.0.0/react-dom.min.js"></script>
+  <script src="egocentric-networks-from-twitter-timelines_files/reactwidget-1.0.0/react-tools.js"></script>
+  <script src="egocentric-networks-from-twitter-timelines_files/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+  <script src="egocentric-networks-from-twitter-timelines_files/reactable-binding-0.3.0/reactable.js"></script>
+  <link href="egocentric-networks-from-twitter-timelines_files/vis-9.1.0/vis-network.min.css" rel="stylesheet" />
+  <script src="egocentric-networks-from-twitter-timelines_files/vis-9.1.0/vis-network.min.js"></script>
+  <script src="egocentric-networks-from-twitter-timelines_files/visNetwork-binding-2.1.0/visNetwork.js"></script>
+  <script src="egocentric-networks-from-twitter-timelines_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+  <script src="egocentric-networks-from-twitter-timelines_files/popper-2.6.0/popper.min.js"></script>
+  <link href="egocentric-networks-from-twitter-timelines_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="egocentric-networks-from-twitter-timelines_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="egocentric-networks-from-twitter-timelines_files/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="egocentric-networks-from-twitter-timelines_files/anchor-4.2.2/anchor.min.js"></script>
+  <script src="egocentric-networks-from-twitter-timelines_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="egocentric-networks-from-twitter-timelines_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="egocentric-networks-from-twitter-timelines_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Egocentric Networks from Twitter timelines","description":"Demonstration of how to use rtweet and vosonSML to construct an ego net from Twitter users timelines.","authors":[{"author":"Bryan Gertzel","authorURL":"#","affiliation":"VOSON Lab","affiliationURL":"http://vosonlab.net/","orcidID":""}],"publishedDate":"2022-06-05T00:00:00.000+10:00","citationText":"Gertzel, 2022"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Egocentric Networks from Twitter timelines</h1>
+<!--radix_placeholder_categories-->
+<div class="dt-tags">
+<div class="dt-tag">rstats</div>
+<div class="dt-tag">twitter</div>
+<div class="dt-tag">networks</div>
+<div class="dt-tag">egocentric</div>
+<div class="dt-tag">rtweet</div>
+<div class="dt-tag">vosonsml</div>
+<div class="dt-tag">timeline</div>
+</div>
+<!--/radix_placeholder_categories-->
+<p><p>Demonstration of how to use rtweet and vosonSML to construct an
+ego net from Twitter users timelines.</p></p>
+</div>
+
+<div class="d-byline">
+  Bryan Gertzel  (VOSON Lab)<a href="http://vosonlab.net/"
+class="uri">http://vosonlab.net/</a>
+  
+<br/>2022-06-05
+</div>
+
+<div class="d-article">
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#collect-the-ego-timeline">Collect the ego
+timeline</a></li>
+<li><a href="#collect-timelines-of-alters">Collect timelines of
+alters</a></li>
+<li><a href="#create-an-actor-network">Create an actor network</a></li>
+<li><a
+href="#optionally-add-user-metadata-as-node-attributes">Optionally add
+user metadata as node attributes</a></li>
+<li><a href="#create-an-ego-subgraph">Create an ego subgraph</a></li>
+<li><a href="#visualise-with-an-interactive-visnetwork-plot">Visualise
+with an interactive visNetwork plot</a></li>
+</ul>
+</nav>
+</div>
+<h2 id="introduction">Introduction</h2>
+<p>Egocentric networks or ego nets are networks that focus on a
+particular actor (the ego) and map out their connections to other
+actors. In an ego net other actors are referred to as alters, and by
+collecting the outward expanding connections of alters, ego nets of
+varying degrees can be constructed. Some literature and software refer
+to these as neighborhood networks, with varying orders instead of
+degrees. For example in a friendship network, a neightborhood network of
+the first order (1.0 degree) contains just the friends of the ego,
+whereas a network of the second order (sometimes second step) also
+contains “friends of friends” (a 2.0 degree ego net).</p>
+<p>By collecting the tweets in a Twitter users timeline, and the
+timelines of users referenced, we can create a 1.0, 2.0 or 1.5 degree
+network for the ego. A 1.5 degree network is similar to the 1.0 degree,
+except it also contains relationships or ties between the alters, or
+“between friends” of the ego from the previous friendship network
+example.</p>
+<p>It should be noted that by using user timelines that this is not
+necessarily a friendship network, but instead a network of twitter users
+who are associated through tweet activity. This kind of ego net can lead
+to insights beyond simply declared friendships (obtained from Twitter’s
+friend/follower metadata) as the network structure is the result of
+users interactions on the platform over a period of time.</p>
+<p>This post will demonstrate how to construct an ego net from a twitter
+users timeline using the <code>rtweet</code> package to collect tweets
+and <code>vosonSML</code> to create an actor network.</p>
+<h2 id="collect-the-ego-timeline">Collect the ego timeline</h2>
+<p>The first step is to collect the ego users timelime. In this post we
+will be using the VOSON Lab <code>@vosonlab</code> twitter account, and
+collecting the Twitter timeline using <code>rtweet</code>. The Twitter
+API restricts the number of timeline tweets that can be collected to the
+<a
+href="https://developer.twitter.com/en/docs/twitter-api/tweets/timelines/introduction">most
+recent 3,200 tweets</a>, but we can set this to a lesser value e.g most
+recent 100 tweets, and also use the same parameter for alters timelines
+for the purposes of this demonstration.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/rstudio/DT'>DT</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://CRAN.R-project.org/package=rtweet'>rtweet</a></span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/vosonlab/vosonSML'>vosonSML</a></span><span class='op'>)</span>
+
+<span class='va'>ego_user</span> <span class='op'>&lt;-</span> <span class='st'>"vosonlab"</span>
+
+<span class='co'># get twitter user timeline</span>
+<span class='va'>ego_tweets</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/rtweet/man/get_timeline.html'>get_timeline</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"vosonlab"</span><span class='op'>)</span>, n <span class='op'>=</span> <span class='fl'>100</span>, token <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+
+<span class='co'># get twitter user id</span>
+<span class='va'>ego_user_id</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice_head</a></span><span class='op'>(</span><span class='va'>ego_tweets</span> |&gt; <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='va'>user_id</span>, sort <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> |&gt;
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></span><span class='op'>(</span><span class='va'>user_id</span><span class='op'>)</span>
+
+<span class='co'># create actor network from timeline tweets</span>
+<span class='va'>ego_net</span> <span class='op'>&lt;-</span> <span class='va'>ego_tweets</span> |&gt; <span class='fu'><a href='https://rdrr.io/pkg/vosonSML/man/ImportData.html'>ImportData</a></span><span class='op'>(</span><span class='st'>"twitter"</span><span class='op'>)</span> |&gt; <span class='fu'><a href='https://rdrr.io/pkg/vosonSML/man/Create.html'>Create</a></span><span class='op'>(</span><span class='st'>"actor"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>Generating twitter actor network...
+-------------------------
+collected tweets | 100
+tweet mention    | 128
+tweet            | 42
+retweet          | 57
+quote            | 1 
+nodes            | 41
+edges            | 228
+-------------------------
+Done.</code></pre>
+</div>
+<p>A result of <strong>41 nodes</strong> indicates that there are
+<strong>40 alters</strong> in the network with ties to the ego.</p>
+<h2 id="collect-timelines-of-alters">Collect timelines of alters</h2>
+<p>From the previous step we created an actor network represented as
+nodes and edges dataframes from the ego users timeline. We can now use
+this to extract all of the user ids of the alters in the network.</p>
+<p>Note that we haven’t specified the degree of the ego net at this
+stage, however by virtue of the twitter data (timeline tweets) having
+all been created by the ego user, we can assume all of the alters
+(referenced users) are connected to the ego in this network.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># get list of alter user ids</span>
+<span class='va'>alter_user_ids</span> <span class='op'>&lt;-</span> <span class='va'>ego_net</span><span class='op'>$</span><span class='va'>nodes</span> |&gt;
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>user_id</span> <span class='op'>!=</span> <span class='va'>ego_user_id</span><span class='op'>)</span> |&gt; <span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span><span class='op'>(</span><span class='va'>user_id</span><span class='op'>)</span> |&gt; <span class='fu'><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='co'># get 100 most recent tweets from all of the alters timelines</span>
+<span class='va'>alter_tweets</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/rtweet/man/get_timeline.html'>get_timeline</a></span><span class='op'>(</span><span class='va'>alter_user_ids</span>, n <span class='op'>=</span> <span class='fl'>100</span>, token <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code># A tibble: 3,644 × 90
+  user_id       status_id created_at          screen_name text  source
+  &lt;chr&gt;         &lt;chr&gt;     &lt;dttm&gt;              &lt;chr&gt;       &lt;chr&gt; &lt;chr&gt; 
+1 132482353362… 14916165… 2022-02-10 03:34:37 WiNS_Socie… &quot;Ver… Twitt…
+2 132482353362… 14910512… 2022-02-08 14:08:15 WiNS_Socie… &quot;\U0… Twitt…
+3 132482353362… 14910511… 2022-02-08 14:08:00 WiNS_Socie… &quot;Upd… Tweet…
+# … with 3,641 more rows, and 84 more variables:
+#   display_text_width &lt;dbl&gt;, reply_to_status_id &lt;chr&gt;,
+#   reply_to_user_id &lt;chr&gt;, reply_to_screen_name &lt;chr&gt;,
+#   is_quote &lt;lgl&gt;, is_retweet &lt;lgl&gt;, favorite_count &lt;int&gt;,
+#   retweet_count &lt;int&gt;, quote_count &lt;int&gt;, reply_count &lt;int&gt;,
+#   hashtags &lt;list&gt;, symbols &lt;list&gt;, urls_url &lt;list&gt;,
+#   urls_t.co &lt;list&gt;, urls_expanded_url &lt;list&gt;, media_url &lt;list&gt;, …</code></pre>
+</div>
+<h2 id="create-an-actor-network">Create an actor network</h2>
+<p>Now that all of the tweets from the alters timelines have also been
+collected, the data can be merged and a single actor network created.
+This actor network can be considered a <strong>2.0 degree</strong>
+network, as it contains not only the associations or “friends” from the
+egos timeline, but also the associations or “friends” of the alters from
+their timelines.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># combine all of the tweets from ego and alters timelines</span>
+<span class='va'>tweets</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span><span class='op'>(</span><span class='va'>ego_tweets</span>, <span class='va'>alter_tweets</span><span class='op'>)</span>
+
+<span class='co'># create actor network from combined timeline tweets</span>
+<span class='va'>actor_net</span> <span class='op'>&lt;-</span> <span class='va'>tweets</span> |&gt; <span class='fu'><a href='https://rdrr.io/pkg/vosonSML/man/ImportData.html'>ImportData</a></span><span class='op'>(</span><span class='st'>"twitter"</span><span class='op'>)</span> |&gt; <span class='fu'><a href='https://rdrr.io/pkg/vosonSML/man/Create.html'>Create</a></span><span class='op'>(</span><span class='st'>"actor"</span><span class='op'>)</span>
+</code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<pre><code>Generating twitter actor network...
+-------------------------
+collected tweets | 3744
+tweet mention    | 1354
+tweet            | 1339
+retweet          | 1457
+reply mention    | 758
+reply            | 725
+quote mention    | 179
+quote            | 224
+nodes            | 2120
+edges            | 6036
+-------------------------
+Done.</code></pre>
+</div>
+<p>Here we can see an actor network of <strong>2120 nodes</strong> and
+<strong>6036 edges</strong>, substantially larger than our initial actor
+network.</p>
+<h2 id="optionally-add-user-metadata-as-node-attributes">Optionally add
+user metadata as node attributes</h2>
+<p>At this point we can optionally add some user metadata to our network
+as node attributes. This allows us to change visual properties of the
+network graph based on actor attributes. For example, we could map the
+node size to number of followers a twitter user may have.</p>
+<p>Please note this step requires a <a
+href="https://vosonlab.github.io/vosonSML/reference/Authenticate.twitter.html">vosonSML
+twitter auth object</a> if you want to use the look up feature for
+complete users metadata.</p>
+<div class="layout-chunk" data-layout="l-body">
+
+</div>
+<p>Here is some of the actor metadata available and an example of how it
+can be presented and explored using a data table.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># node attributes</span>
+<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>actor_net_meta</span><span class='op'>$</span><span class='va'>nodes</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code> [1] &quot;user_id&quot;                &quot;screen_name&quot;           
+ [3] &quot;display_name&quot;           &quot;location&quot;              
+ [5] &quot;description&quot;            &quot;url&quot;                   
+ [7] &quot;protected&quot;              &quot;followers_count&quot;       
+ [9] &quot;friends_count&quot;          &quot;listed_count&quot;          
+[11] &quot;statuses_count&quot;         &quot;favourites_count&quot;      
+[13] &quot;account_created_at&quot;     &quot;verified&quot;              
+[15] &quot;profile_url&quot;            &quot;profile_expanded_url&quot;  
+[17] &quot;account_lang&quot;           &quot;profile_banner_url&quot;    
+[19] &quot;profile_background_url&quot; &quot;profile_image_url&quot;     </code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># explore actors metadata</span>
+<span class='va'>actors_table</span> <span class='op'>&lt;-</span> <span class='va'>actor_net_meta</span><span class='op'>$</span><span class='va'>nodes</span> |&gt;
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>user_id</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>ego_user_id</span>, <span class='va'>alter_user_ids</span><span class='op'>)</span><span class='op'>)</span> |&gt;
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>screen_name <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"@"</span>, <span class='va'>screen_name</span><span class='op'>)</span><span class='op'>)</span> |&gt;
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span>name <span class='op'>=</span> <span class='va'>screen_name</span>, display <span class='op'>=</span> <span class='va'>display_name</span>, <span class='va'>location</span>, <span class='va'>description</span>,
+         followers <span class='op'>=</span> <span class='va'>followers_count</span>, tweets <span class='op'>=</span> <span class='va'>statuses_count</span><span class='op'>)</span> |&gt;
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/slice.html'>slice_head</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
+
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://glin.github.io/reactable/'>reactable</a></span><span class='op'>)</span>
+
+<span class='fu'><a href='https://glin.github.io/reactable/reference/reactable.html'>reactable</a></span><span class='op'>(</span><span class='va'>actors_table</span>, bordered <span class='op'>=</span> <span class='cn'>TRUE</span>, striped <span class='op'>=</span> <span class='cn'>TRUE</span>, resizable <span class='op'>=</span> <span class='cn'>TRUE</span>,
+          wrap <span class='op'>=</span> <span class='cn'>FALSE</span>, searchable <span class='op'>=</span> <span class='cn'>TRUE</span>, paginationType <span class='op'>=</span> <span class='st'>"simple"</span><span class='op'>)</span>
+</code></pre>
+</div>
+<div id="htmlwidget-48cffcb4f3b93a533ed8" class="reactable html-widget" style="width:auto;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-48cffcb4f3b93a533ed8">{"x":{"tag":{"name":"Reactable","attribs":{"data":{"name":["@vosonlab","@WiNS_Society","@SocNetAnalysts","@ANSNA_Au","@RobAckland"],"display":["VOSON Lab ANU","Women in Network Science (WiNS) Society","INSNA","ANSNA","Rob Ackland"],"location":["Canberra","Network science conferences","","Australia","Canberra"],"description":["Virtual Observatory for the Study of Online Networks (VOSON) Lab, Australian National University","Fostering opportunities for the education, employment, and career advancement of women, non-binary, and trans researchers in #NetworkScience. Allies welcome.","INSNA is the professional association for researchers interested in social network analysis.","Australian Network of Social Network Analysis. Building greater collaboration & cooperation among SN researchers. Raising the profile of Australian SN research.","Social network analysis, economics, social science of the Internet. Prof in School of Sociology, Australian National University. @vosonlab @uberlink"],"followers":[343,2026,3994,309,586],"tweets":[195,893,800,223,1029]},"columns":[{"accessor":"name","name":"name","type":"character"},{"accessor":"display","name":"display","type":"character"},{"accessor":"location","name":"location","type":"character"},{"accessor":"description","name":"description","type":"character"},{"accessor":"followers","name":"followers","type":"numeric"},{"accessor":"tweets","name":"tweets","type":"numeric"}],"resizable":true,"searchable":true,"defaultPageSize":10,"paginationType":"simple","showPageInfo":true,"minRows":1,"bordered":true,"striped":true,"nowrap":true,"dataKey":"7f4f9742c4d7733fb2a798b966445c4d"},"children":[]},"class":"reactR_markup"},"evals":[],"jsHooks":[]}</script>
+</div>
+<h2 id="create-an-ego-subgraph">Create an ego subgraph</h2>
+<p>It’s often useful to visualise ego nets without the ego in a 1.5
+degree network, as it is easier to see clustering and relationships
+between alters. The ego can easily be removed using the
+<code>igraph::induced_subgraph</code> function.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://igraph.org'>igraph</a></span><span class='op'>)</span>
+
+<span class='co'># use the vosonSML to convert the network dataframes into an igraph object</span>
+<span class='va'>g</span> <span class='op'>&lt;-</span> <span class='va'>actor_net_meta</span> |&gt; <span class='fu'><a href='https://rdrr.io/pkg/vosonSML/man/Graph.html'>Graph</a></span><span class='op'>(</span><span class='op'>)</span>
+</code></pre>
+</div>
+<pre><code>Creating igraph network graph...Done.</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='co'># create a subgraph with ego removed</span>
+<span class='va'>g2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/subgraph.html'>induced_subgraph</a></span><span class='op'>(</span><span class='va'>g</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>alter_user_ids</span><span class='op'>)</span><span class='op'>)</span>
+
+<span class='va'>g2</span>
+</code></pre>
+</div>
+<pre><code>IGRAPH 82b0f49 DN-- 40 1862 -- 
++ attr: type (g/c), name (v/c), screen_name (v/c),
+| display_name (v/c), location (v/c), description (v/c), url
+| (v/c), protected (v/c), followers_count (v/n), friends_count
+| (v/n), listed_count (v/n), statuses_count (v/n),
+| favourites_count (v/n), account_created_at (v/c), verified
+| (v/c), profile_url (v/c), profile_expanded_url (v/c),
+| account_lang (v/c), profile_banner_url (v/c),
+| profile_background_url (v/c), profile_image_url (v/c),
+| status_id (e/c), created_at (e/c), edge_type (e/c)
++ edges from 82b0f49 (vertex names):</code></pre>
+</div>
+<p>As we saw in our initial actor network constructed from only the ego
+users timeline we now have <strong>40 nodes</strong> again, matching the
+number of alters. This actor network has many more edges however, as
+<strong>1862 ties</strong> or relations between the alters were captured
+from the collection of the alters timelines.</p>
+<h2 id="visualise-with-an-interactive-visnetwork-plot">Visualise with an
+interactive visNetwork plot</h2>
+<p>Using the <code>igraph</code> and <code>visNetwork</code> package we
+can create a simplified and undirected ego network graph of alters.
+Community detection can be performed and visualised using the
+<code>igraph</code> walktrap clustering algorithm and
+Fruchterman-Reingold force-directed layout. We can further map some
+visual properties of nodes to attributes - with node size corresponding
+to the node degree, edge width to combined weight, and color to
+clustering community group.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://datastorm-open.github.io/visNetwork/'>visNetwork</a></span><span class='op'>)</span>
+
+<span class='co'># combine and weight the edges between nodes</span>
+<span class='fu'><a href='https://rdrr.io/pkg/igraph/man/E.html'>E</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>weight</span> <span class='op'>&lt;-</span> <span class='fl'>1</span>
+<span class='va'>g2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/simplify.html'>simplify</a></span><span class='op'>(</span><span class='va'>g2</span>, edge.attr.comb <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>weight <span class='op'>=</span> <span class='st'>"sum"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='va'>g2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/as.directed.html'>as.undirected</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span>
+
+<span class='co'># perform some community detection using a random walk algorithm</span>
+<span class='va'>c</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/cluster_walktrap.html'>walktrap.community</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>group</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/communities.html'>membership</a></span><span class='op'>(</span><span class='va'>c</span><span class='op'>)</span>
+
+<span class='co'># map visual properties of graph to attributes</span>
+<span class='fu'><a href='https://rdrr.io/pkg/igraph/man/E.html'>E</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>width</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/E.html'>E</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>weight</span> <span class='op'>&gt;</span> <span class='fl'>1</span>, <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/E.html'>E</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>weight</span><span class='op'>)</span> <span class='op'>+</span> <span class='fl'>1</span>, <span class='fl'>1.1</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>size</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/degree.html'>degree</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span> <span class='op'>+</span> <span class='fl'>5</span>
+<span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>label</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"@"</span>, <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>screen_name</span><span class='op'>)</span>
+
+<span class='fu'><a href='https://rdrr.io/pkg/visNetwork/man/visNetwork-igraph.html'>visIgraph</a></span><span class='op'>(</span><span class='va'>g2</span>, idToLabel <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> |&gt;
+  <span class='fu'><a href='https://rdrr.io/pkg/visNetwork/man/visIgraphLayout.html'>visIgraphLayout</a></span><span class='op'>(</span>layout <span class='op'>=</span> <span class='st'>"layout_with_fr"</span><span class='op'>)</span> |&gt;
+  <span class='fu'><a href='https://rdrr.io/pkg/visNetwork/man/visOptions.html'>visOptions</a></span><span class='op'>(</span>
+    nodesIdSelection <span class='op'>=</span> <span class='cn'>TRUE</span>,
+    highlightNearest <span class='op'>=</span> <span class='cn'>TRUE</span>
+  <span class='op'>)</span>
+</code></pre>
+</div>
+<div id="htmlwidget-8f9eb6016cc1b3e37911" style="width:624px;height:384px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8f9eb6016cc1b3e37911">{"x":{"nodes":{"id":["1324823533629841408","216098950","979218330190888963","393352440","256805966","303048766","975278960","2844540954","1333610678519676930","1167145117452570626","440645901","3655412534","2228815292","23761309","926336346578227201","194159907","2364844711","973586538","5478002","4880792912","1002417874651115520","28919841","882115892594618368","3588104066","2160262890","144592995","2451308594","13334762","233585808","6778812","1604895918","22749856","47292505","4370846892","39991189","41090406","28872462","265509803","34464407","84163797"],"screen_name":["WiNS_Society","SocNetAnalysts","ANSNA_Au","RobAckland","AustSoc","timothyjgraham","PavelKrivitsky","NovakMikayla","UTWthePodcast","Networks2021","winsonpeng2011","ACEMathStats","lewis_math","ruyhliu","Sevvandik","SMLabTO","NewsMediaRC","mathieuoneil","claudiakincaid","VOSONsoftware","SocSciWeek","sean_batt","acspri","ANU_SOCY","ANUcass","Rbloggers","Botometer","github","CRANberriesFeed","RMIT","karl_gwynn_","Gephi","mikejjensen","anu_philosophy","unibielefeld","SimonCopland","cvklein","Jenny_L_Davis","Macquarie_Uni","Data61news"],"display_name":["Women in Network Science (WiNS) Society","INSNA","ANSNA","Rob Ackland","TASA","Tim Graham “Lil Pharma”","Pavel N. Krivitsky","Mikayla Novak","Untangling the Web Podcast","Networks 2021: A Joint Sunbelt & NetSci Conference","Winson Peng","𝘼𝘾𝙀𝙈𝙎","Lewis Mitchell","Ying-Hsang Liu","Sevvandi K.","Social Media Lab","News & Media Research Centre","Mathieu O'Neil","Dr. Karen Gregory","VOSON software 2.5","Social Sciences Week, Australia","#GraceTameForPresident","ACSPRI","ANU Sociology","ANU CASS","R-bloggers","Botometer","GitHub","CRAN Package Updates","RMIT University","Karl Gwynn","Gephi graph viz","Mike Jensen","ANU Philosophy","Bielefeld University","Simon Copland","Colin Klein","Jenny Davis","Macquarie University","Data61"],"location":["Network science conferences","","Australia","Canberra","Australia","Brisbane","Sydney, Australia","Canberra, Australia","","Coming to a Zoom room near you","East Lansing, MI","Australia","Adelaide, Australia","","Melbourne, Australia","Toronto, Canada","Canberra, ACT, Australia","Ngunnawal country","Edinburgh, Scotland","Australia","Australia","Canberra, Ngunnawal Country","Melbourne, Victoria","Canberra, Australia","Canberra","","Bloomington, IN","San Francisco, CA","Chicago, IL","Melbourne, Australia","","","Canberra, Australia","Canberra","Bielefeld / Germany","Canberra","Canberra","Australian Capital Territory","North Ryde, Sydney, Australia","Australia"],"description":["Fostering opportunities for the education, employment, and career advancement of women, non-binary, and trans researchers in #NetworkScience. Allies welcome.","INSNA is the professional association for researchers interested in social network analysis.","Australian Network of Social Network Analysis. Building greater collaboration & cooperation among SN researchers. Raising the profile of Australian SN research.","Social network analysis, economics, social science of the Internet. Prof in School of Sociology, Australian National University. @vosonlab @uberlink","Promoting Sociology in Australia & beyond. The official voice of The Australian Sociological Association (TASA). RT & media posted may not reflect our views.","Senior Lecturer at @qutdmrc, ARC DECRA Fellow. Tweets about mis/disinformation, platforms, bots, computational sociology","","Author: \"Inequality: An Entangled Political Economy Perspective\" & \"Freedom in Contention: Social Movements and Liberal Political Economy\"","A podcast of the Web Science Trust and hosted by the SONIC Research Group at Northwestern","#Networks2021 June 21-July 10, 2021 | Virtual Meeting. The joint annual meeting of Sunbelt (@SocNetAnalysts) and NetSci (@netscisociety) Host: @IUNetSci","Communication + Social/Mobile Media + Computational Social Science -- Associate Professor @ Michigan State University. Tweets are my own.","Delivering world-leading research in #mathematics & #statistics to address challenging scientific problems in the real world. We are an ARC Centre of Excellence","Applied mathematician at @UniOfAdelaide, working with data and models on #complexsystems problems. I like #datascience, #socialnetworks, #networks, #socialmedia","Senior Researcher at Oslo Metropolitan University (OsloMet). All views my own.","Mathematician.  Conducts inter-disciplinary research in data science/mathematics.","Research lab @TRSMRyersonU. Tweets re: social media research/tech/misinfo by @phmai & @gruzd. Latest proj. https://t.co/Fu3q26e2OG & https://t.co/tcEJmLkvrL","The News and Media Research Centre (N&MRC) at the University of Canberra advances public understanding of our changing media environment.","Researching digital commons institutions, issue networks, information literacy @UniCanberra @NewsMediaRC | Maintainer jopp dcpc @peer_production @beyourownpeer","Sociology @EdinburghUni | Digital Labour & Futures of Work | Director @mscdigsoc | Digital Social Science @EdCDCS | Journal of Cultural Economy | CUNY alum","Web app for collecting, analyzing and visualizing hyperlink and Twitter networks, and Text analysis. \n#webmining #datavisualisation  #textanalysis #SNA #Twitter","Social Sciences Week is a week-long series of events held across Australia each September offering insight into the impact of the social sciences on our lives.","Ironist. Not nice. Not kind. Not wise. Not aware. Not sorry. Likes and retweets not endorsements, though indistinguishable from same (he/him)","Australian Consortium for Social and Political Research Incorporated","The School of Sociology at the Australian National University; RT & Follows are not endorsements.\n\nCRICOS Provider 00120C","Leading expertise in Humanities, Arts and Social Sciences. Our researchers inform national debate, our students and graduates shape the future. CRICOS: 00120C","Twitting blog posts from the R blogosphere","Tool to calculate likelihood an account is automated (a bot). Formerly known as BotOrNot, part of OSoMe at IU. Pls read FAQ before asking about permissions!","How people build software. \n\nNeed help? Send us a message at https://t.co/YU5nzbpDIg for support.","","RMIT is a global university of technology, design and enterprise.\n\nOnline M-F 8:30am-5:30pm. CRICOS 00122A","","Network visualization and analysis platform.","I am Associate Professor at IGPA, University of Canberra. My research concerns political communications and computational social science.","The School of Philosophy at the Research School of Social Sciences, in the Australian National University\nCRICOS Provider number #00120C","Hier twittert das Referat für Kommunikation Neuigkeiten aus der Universität Bielefeld. Impressum: https://t.co/i1DqiTnr1y","Researcher @ANU_SOCY studying the online manosphere, misogyny, extremism, masculinity and social media. \n\nAlso tweets about sport and Bowie, and am in the SES.","Professional philosopher.  Twitter free-rider.","Sociologist @anu_socy. Author of How Artifacts Afford: The Power and Politics of Everyday Things https://t.co/iwdbNJAp04","Macquarie is renowned for its interdisciplinary research and teaching, highly skilled graduates and first-class facilities. CRICOS code: 00002J","Creating our data-driven future. We're the world’s leading data-focused innovation powerhouse. Follows, likes, RTs not endorsements."],"url":["https://t.co/2LnJJ2kvjq","http://t.co/Q4rPC1cbJO","https://t.co/yMQbyzjk4U","https://t.co/KdKYJsP2Q4","https://t.co/ADmCwZufBx","https://t.co/gutSj8ajpX","https://t.co/Ri90wifIBp","https://t.co/yhCvzCKIwG",null,"https://t.co/k3vmK0ZnLK","https://t.co/aOciaxsKdw","http://t.co/3aevzFrd68","http://t.co/CVsSYVvP4S","https://t.co/shjQOfnCvX","https://t.co/tXuNJrTlkB","https://t.co/tb0mGBPWhE","https://t.co/SBop5E0rfY","https://t.co/nHD5XFLvzS","https://t.co/8obMCKeh57","https://t.co/VfBDaFOIJc","https://t.co/BPJdotLPmS",null,"https://t.co/SFvII2JHFf","http://t.co/B4FVKTUXUg","https://t.co/88Rc0HWjlh","http://t.co/s1TkcCUCoR","https://t.co/wTGU8ZVzjy",null,"http://t.co/cDCjs6HNNJ","https://t.co/pfFGpX1G4t",null,"http://t.co/dJIioXGd0c","http://t.co/EJTy4mmr4R","https://t.co/ssPQHIFdl7","https://t.co/LonZMaJq7s","https://t.co/q3Edoz4mQx","https://t.co/aCGcDvzX5C","https://t.co/me6Ynk0mWB","https://t.co/XjcJealmwX","https://t.co/sZVxVJ9gnS"],"protected":["FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE"],"followers_count":[2026,3994,309,586,5471,5558,156,1404,208,2737,388,3352,1605,680,476,3978,788,672,11161,126,1093,557,95,1419,5149,97143,9970,2211523,2456,58488,18,13022,610,1368,8842,5182,563,4053,32407,14379],"friends_count":[1655,259,240,379,1128,1398,27,711,320,1835,201,2976,787,1378,235,491,312,495,6336,431,127,2731,75,690,706,39,112,332,0,1684,52,143,907,196,494,2608,170,3820,590,1807],"listed_count":[21,146,8,16,171,104,0,38,1,38,4,133,46,44,11,174,25,13,407,3,5,42,0,29,118,2247,144,17032,98,741,0,731,24,23,200,111,6,155,403,409],"statuses_count":[893,800,223,1029,30378,9735,19,7386,40,299,1742,8616,3751,1543,1303,10241,1034,2002,94432,84,1005,9207,2,1289,15930,29565,1546,6821,56614,13173,2,1720,3489,815,3451,64579,170,7177,9876,10728],"favourites_count":[751,571,169,3486,625,19508,52,15195,25,405,455,5211,14874,657,1860,657,614,1049,129955,66,659,17830,1,1521,19448,2,797,5720,0,2467,44,132,2180,181,1075,3482,612,16528,3053,1876],"account_created_at":["2020-11-06 21:18:49","2010-11-15 20:04:05","2018-03-29 04:46:57","2011-10-18 12:10:38","2011-02-24 03:22:02","2011-05-22 06:44:04","2012-11-28 03:34:22","2014-10-07 20:04:49","2020-12-01 03:15:56","2019-08-29 18:41:43","2011-12-19 07:34:47","2015-09-23 03:28:59","2013-12-03 20:27:17","2009-03-11 13:22:15","2017-11-03 06:32:50","2010-09-23 15:35:21","2014-02-28 00:40:11","2012-11-27 09:46:46","2007-04-24 21:30:27","2016-02-09 01:58:25","2018-06-01 05:13:40","2009-04-05 02:11:15","2017-07-04 05:56:32","2015-09-17 00:12:57","2013-10-28 05:51:21","2010-05-16 19:15:16","2014-04-18 12:37:44","2008-02-11 04:41:50","2011-01-03 16:28:56","2007-06-13 00:16:10","2013-07-19 03:01:29","2009-03-04 08:43:21","2009-06-15 08:35:26","2015-11-26 21:57:12","2009-05-14 13:20:35","2009-05-19 10:21:42","2009-04-04 21:17:29","2011-03-13 17:26:36","2009-04-23 00:39:20","2009-10-21 21:11:55"],"verified":["FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","TRUE","FALSE","TRUE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","FALSE","TRUE","TRUE"],"profile_url":["https://t.co/2LnJJ2kvjq","http://t.co/Q4rPC1cbJO","https://t.co/yMQbyzjk4U","https://t.co/KdKYJsP2Q4","https://t.co/ADmCwZufBx","https://t.co/gutSj8ajpX","https://t.co/Ri90wifIBp","https://t.co/yhCvzCKIwG",null,"https://t.co/k3vmK0ZnLK","https://t.co/aOciaxsKdw","http://t.co/3aevzFrd68","http://t.co/CVsSYVvP4S","https://t.co/shjQOfnCvX","https://t.co/tXuNJrTlkB","https://t.co/tb0mGBPWhE","https://t.co/SBop5E0rfY","https://t.co/nHD5XFLvzS","https://t.co/8obMCKeh57","https://t.co/VfBDaFOIJc","https://t.co/BPJdotLPmS",null,"https://t.co/SFvII2JHFf","http://t.co/B4FVKTUXUg","https://t.co/88Rc0HWjlh","http://t.co/s1TkcCUCoR","https://t.co/wTGU8ZVzjy",null,"http://t.co/cDCjs6HNNJ","https://t.co/pfFGpX1G4t",null,"http://t.co/dJIioXGd0c","http://t.co/EJTy4mmr4R","https://t.co/ssPQHIFdl7","https://t.co/LonZMaJq7s","https://t.co/q3Edoz4mQx","https://t.co/aCGcDvzX5C","https://t.co/me6Ynk0mWB","https://t.co/XjcJealmwX","https://t.co/sZVxVJ9gnS"],"profile_expanded_url":["https://tinyurl.com/winssoc","http://insna.org","https://www.ansna.org.au/","http://vosonlab.net","http://www.tasa.org.au","https://staff.qut.edu.au/staff/timothy.graham","http://www.krivitsky.net","https://mikaylanovak.com/",null,"http://networks2021.net","http://www.winsonpeng.net","http://acems.org.au","http://maths.adelaide.edu.au/lewis.mitchell","https://scholar.google.com/citations?user=2F5sfx8AAAAJ&hl=en","https://sevvandi.netlify.com/","http://socialmedialab.ca/","https://www.canberra.edu.au/research/faculty-research-centres/nmrc","http://dcpc.info","https://www.sps.ed.ac.uk/staff/karen-gregory","http://www.uberlink.com","https://socialsciences.org.au/socialsciencesweek/",null,"https://www.acspri.org.au","http://sociology.anu.edu.au/","http://cass.anu.edu.au","http://www.r-bloggers.com","https://botometer.iuni.iu.edu",null,"http://dirk.eddelbuettel.com/cranberries/index.html","https://www.rmit.edu.au",null,"http://gephi.org","http://www.politicalcommunications.blogspot.com/","http://philosophy.anu.edu.au","http://www.uni-bielefeld.de","http://simoncopland.com","http://www.colinklein.org","https://www.jennyldavis.com/","http://www.mq.edu.au","http://www.data61.csiro.au"],"account_lang":[null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"profile_banner_url":["https://pbs.twimg.com/profile_banners/1324823533629841408/1604775322","https://pbs.twimg.com/profile_banners/216098950/1568995479","https://pbs.twimg.com/profile_banners/979218330190888963/1522711013",null,"https://pbs.twimg.com/profile_banners/256805966/1638488439","https://pbs.twimg.com/profile_banners/303048766/1540901483",null,null,"https://pbs.twimg.com/profile_banners/1333610678519676930/1606926807","https://pbs.twimg.com/profile_banners/1167145117452570626/1615479540",null,"https://pbs.twimg.com/profile_banners/3655412534/1622594516",null,"https://pbs.twimg.com/profile_banners/23761309/1644252746","https://pbs.twimg.com/profile_banners/926336346578227201/1603939521","https://pbs.twimg.com/profile_banners/194159907/1591216652","https://pbs.twimg.com/profile_banners/2364844711/1585085385","https://pbs.twimg.com/profile_banners/973586538/1644018365","https://pbs.twimg.com/profile_banners/5478002/1579804617","https://pbs.twimg.com/profile_banners/4880792912/1496711193","https://pbs.twimg.com/profile_banners/1002417874651115520/1629497621","https://pbs.twimg.com/profile_banners/28919841/1465130824","https://pbs.twimg.com/profile_banners/882115892594618368/1559866798","https://pbs.twimg.com/profile_banners/3588104066/1442464317","https://pbs.twimg.com/profile_banners/2160262890/1622517716",null,"https://pbs.twimg.com/profile_banners/2451308594/1471650040","https://pbs.twimg.com/profile_banners/13334762/1607466181",null,"https://pbs.twimg.com/profile_banners/6778812/1630283063",null,null,null,"https://pbs.twimg.com/profile_banners/4370846892/1523625176","https://pbs.twimg.com/profile_banners/39991189/1575026053","https://pbs.twimg.com/profile_banners/41090406/1403163061",null,"https://pbs.twimg.com/profile_banners/265509803/1592606843","https://pbs.twimg.com/profile_banners/34464407/1600989977","https://pbs.twimg.com/profile_banners/84163797/1538525323"],"profile_background_url":[null,"http://abs.twimg.com/images/themes/theme14/bg.gif","http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme10/bg.gif","http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme3/bg.gif",null,null,"http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme2/bg.gif",null,"http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme13/bg.gif","http://abs.twimg.com/images/themes/theme1/bg.png",null,"http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme2/bg.gif","http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme9/bg.gif","http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme18/bg.gif","http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme1/bg.png","http://abs.twimg.com/images/themes/theme1/bg.png"],"profile_image_url":["http://pbs.twimg.com/profile_images/1405631877726105607/lkWahexX_normal.jpg","http://pbs.twimg.com/profile_images/1070501434079174657/MLLT147k_normal.jpg","http://pbs.twimg.com/profile_images/980956465430085632/Z618I4bk_normal.jpg","http://pbs.twimg.com/profile_images/1363718978728652803/Wf-nIqsa_normal.jpg","http://pbs.twimg.com/profile_images/477170588146864129/lwUhNEmG_normal.jpeg","http://pbs.twimg.com/profile_images/1410563526767169545/HRh40MNz_normal.jpg","http://pbs.twimg.com/profile_images/1052126173990277121/gNoD2G-F_normal.jpg","http://pbs.twimg.com/profile_images/1185137433425281024/N5CBVisB_normal.jpg","http://pbs.twimg.com/profile_images/1334174286160883712/sJvTwgjL_normal.jpg","http://pbs.twimg.com/profile_images/1336711124855697416/MCz3-_fH_normal.jpg","http://pbs.twimg.com/profile_images/1243242126487535617/xPGOGHFs_normal.jpg","http://pbs.twimg.com/profile_images/1212600659867947008/pYznKvCs_normal.jpg","http://pbs.twimg.com/profile_images/570755867226537984/HHZZezqC_normal.png","http://pbs.twimg.com/profile_images/1427648866086699017/Fhlzv_3h_normal.jpg","http://pbs.twimg.com/profile_images/1195993677920755714/LfiZVq9j_normal.jpg","http://pbs.twimg.com/profile_images/639293371144474629/ORfuBbRd_normal.jpg","http://pbs.twimg.com/profile_images/1242564516707069952/9TmI3rkM_normal.jpg","http://pbs.twimg.com/profile_images/1484532412952776708/7NEF3Mqq_normal.jpg","http://pbs.twimg.com/profile_images/1451660259832078336/xYw_uq2e_normal.jpg","http://pbs.twimg.com/profile_images/700106652867960832/t174H682_normal.png","http://pbs.twimg.com/profile_images/1002433028851785729/i0qhEJUx_normal.jpg","http://pbs.twimg.com/profile_images/1484432514542612481/xfoU2UL4_normal.jpg","http://pbs.twimg.com/profile_images/882117348559265792/YV0glPJu_normal.jpg","http://pbs.twimg.com/profile_images/1367624260773027842/0rT9yxnz_normal.jpg","http://pbs.twimg.com/profile_images/1369853706578010113/Spjtw0SD_normal.jpg","http://pbs.twimg.com/profile_images/502185985786916864/gkdFh-q7_normal.png","http://pbs.twimg.com/profile_images/457137705931927552/vaOsBeZY_normal.png","http://pbs.twimg.com/profile_images/1414990564408262661/r6YemvF9_normal.jpg","http://pbs.twimg.com/profile_images/1222779560/cran1_normal.jpg","http://pbs.twimg.com/profile_images/887519039106334720/1s8Lww6v_normal.jpg","http://pbs.twimg.com/profile_images/1294111991657725953/6r0_IXmm_normal.jpg","http://pbs.twimg.com/profile_images/1824489934/128-2_normal.png","http://pbs.twimg.com/profile_images/1680916862/jensen_michael_ms_normal.jpg","http://pbs.twimg.com/profile_images/984781567489814528/3nRgEr0a_normal.jpg","http://pbs.twimg.com/profile_images/1123916040877092867/vHnEGoRH_normal.png","http://pbs.twimg.com/profile_images/1411141714224451587/OwUaRLz9_normal.jpg","http://pbs.twimg.com/profile_images/1446059489120043008/5iNbSpyS_normal.jpg","http://pbs.twimg.com/profile_images/1136149472218533888/KKxij0Xu_normal.png","http://pbs.twimg.com/profile_images/577248626126114816/aro_NFSA_normal.png","http://pbs.twimg.com/profile_images/1375318301648121857/bV3xK6Ol_normal.jpg"],"group":[3,3,3,1,2,1,3,2,1,3,1,4,4,1,4,6,1,1,7,1,2,8,9,2,5,10,11,12,13,4,2,1,1,5,14,1,5,2,2,3],"size":[8,10,12,21,7,14,8,7,6,7,6,10,10,7,10,5,8,10,5,10,8,5,5,12,11,5,5,6,5,7,8,7,7,7,5,10,9,9,8,6],"label":["@WiNS_Society","@SocNetAnalysts","@ANSNA_Au","@RobAckland","@AustSoc","@timothyjgraham","@PavelKrivitsky","@NovakMikayla","@UTWthePodcast","@Networks2021","@winsonpeng2011","@ACEMathStats","@lewis_math","@ruyhliu","@Sevvandik","@SMLabTO","@NewsMediaRC","@mathieuoneil","@claudiakincaid","@VOSONsoftware","@SocSciWeek","@sean_batt","@acspri","@ANU_SOCY","@ANUcass","@Rbloggers","@Botometer","@github","@CRANberriesFeed","@RMIT","@karl_gwynn_","@Gephi","@mikejjensen","@anu_philosophy","@unibielefeld","@SimonCopland","@cvklein","@Jenny_L_Davis","@Macquarie_Uni","@Data61news"],"x":[0.514134617763397,0.319696874785913,0.141104599021417,-0.167151270665865,-1,-0.271659831755233,0.229425771438901,-0.482891540451102,0.192986845382649,0.679408826300842,0.22884061067568,-0.240794149298153,-0.109794587641387,0.0561004952036623,-0.0425126619800694,-0.37249658262926,-0.417925461661264,-0.381106946283834,0.753667390951678,-0.139527659106483,-0.839489428719529,0.549645304545089,-0.0297488255947823,-0.69865349503643,-0.518862342847784,0.899500460996836,0.292872893309049,0.0152390990078377,-0.753491257252788,-0.117771291774639,-0.515667055952672,-0.498342898257305,-0.291013440813495,-0.845928007497146,1,-0.638699033574274,-0.66578981947073,-0.832525166676869,-0.569744500989214,0.4455859833199],"y":[-0.432394761700927,-0.472966922482304,-0.444644968606023,-0.289800122451647,-0.486487577758608,-0.0820599087121117,-0.723836887951074,0.0326181475110181,-0.212777609194006,-0.493694534719336,-0.0458728119585265,-0.734703178531207,-0.484020199874381,0.052941705713202,-0.718801951326826,0.990133177749565,-0.550229366347611,-0.19251502876059,0.521694951036777,0.103833572454371,-0.646585983621033,0.74230414613882,1,-0.320107616047891,-0.0764148057272841,0.247118956813003,0.916687733271727,0.459098022557303,0.860140787864244,-1,-0.359970622620494,0.264981867377524,0.186897576314905,0.225867755787005,-0.0932919812815561,-0.0452881328293314,0.138950338588943,-0.0343230845070546,-0.808701052635148,-0.728685044380449]},"edges":{"from":["1324823533629841408","1324823533629841408","216098950","216098950","979218330190888963","979218330190888963","393352440","216098950","979218330190888963","393352440","393352440","1324823533629841408","216098950","393352440","393352440","979218330190888963","393352440","303048766","3655412534","393352440","393352440","975278960","3655412534","2228815292","393352440","393352440","303048766","2364844711","393352440","303048766","23761309","256805966","393352440","256805966","1002417874651115520","393352440","4880792912","3588104066","4880792912","3655412534","926336346578227201","393352440","3588104066","2160262890","303048766","303048766","973586538","2160262890","303048766","973586538","3588104066","22749856","303048766","2160262890","4370846892","2844540954","3588104066","41090406","28872462","3655412534","2364844711","1002417874651115520","979218330190888963"],"to":["216098950","979218330190888963","979218330190888963","393352440","393352440","303048766","303048766","975278960","975278960","2844540954","1333610678519676930","1167145117452570626","1167145117452570626","440645901","3655412534","2228815292","2228815292","2228815292","2228815292","23761309","926336346578227201","926336346578227201","926336346578227201","926336346578227201","2364844711","973586538","973586538","973586538","4880792912","4880792912","4880792912","1002417874651115520","3588104066","3588104066","3588104066","2160262890","2160262890","2160262890","13334762","6778812","6778812","1604895918","1604895918","1604895918","22749856","47292505","47292505","4370846892","41090406","41090406","41090406","41090406","28872462","28872462","28872462","265509803","265509803","265509803","265509803","34464407","34464407","34464407","84163797"],"weight":[6,2,9,1,3,1,6,10,2,1,3,8,29,2,2,1,2,1,1,1,2,2,22,3,1,8,14,9,3,1,1,2,6,10,1,3,1,7,1,1,3,2,2,1,1,10,11,27,4,1,3,1,1,1,7,1,7,1,2,1,2,2,2],"width":[2.79175946922805,1.69314718055995,3.19722457733622,1.1,2.09861228866811,1.1,2.79175946922805,3.30258509299405,1.69314718055995,1.1,2.09861228866811,3.07944154167984,4.36729582998647,1.69314718055995,1.69314718055995,1.1,1.69314718055995,1.1,1.1,1.1,1.69314718055995,1.69314718055995,4.09104245335832,2.09861228866811,1.1,3.07944154167984,3.63905732961526,3.19722457733622,2.09861228866811,1.1,1.1,1.69314718055995,2.79175946922805,3.30258509299405,1.1,2.09861228866811,1.1,2.94591014905531,1.1,1.1,2.09861228866811,1.69314718055995,1.69314718055995,1.1,1.1,3.30258509299405,3.39789527279837,4.29583686600433,2.38629436111989,1.1,2.09861228866811,1.1,1.1,1.1,2.94591014905531,1.1,2.94591014905531,1.1,1.69314718055995,1.1,1.69314718055995,1.69314718055995,1.69314718055995]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","physics":false},"manipulation":{"enabled":false},"edges":{"smooth":false},"physics":{"stabilization":false}},"groups":["3","1","2","4","6","7","8","9","5","10","11","12","13","14"],"width":null,"height":null,"idselection":{"enabled":true,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","igraphlayout":{"type":"square"},"highlight":{"enabled":true,"hoverNearest":false,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"}},"evals":[],"jsHooks":[]}</script>
+</div>
+<p>The final result is a ego net with some clear associations. Colours
+and placement of nodes found to represent some interesting domains and
+community relationships between the Twitter <code>@vosonlab</code>
+account and its timeline network alters. Isolates representing more
+distant connections with no detected community ties.</p>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom"></div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>

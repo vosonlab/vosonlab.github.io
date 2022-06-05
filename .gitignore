@@ -42,5 +42,4 @@ vignettes/*.pdf
 # blog related
 .DS_Store
 *.rds
-auspol_tweets.csv
 robots.txt

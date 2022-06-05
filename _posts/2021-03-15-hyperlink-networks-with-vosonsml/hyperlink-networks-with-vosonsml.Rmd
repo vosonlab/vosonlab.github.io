@@ -6,7 +6,6 @@ author:
   - name: Bryan Gertzel
     affiliation: VOSON Lab
     affiliation_url: http://vosonlab.net/
-  - name: Francisca Borquez
 date: 2021-03-15
 categories:
   - rstats
@@ -23,11 +22,12 @@ draft: false
 bibliography: biblio.yaml
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+data_path <- "E:/My Drive/VOSON-BLOG-DATA/2021-03-15-hyperlink-networks-with-vosonsml/"
 ```
 
-The [VOSON](http://vosonlab.net/VOSON) software for hyperlink collection and analysis was an early research output of the VOSON Lab [@ackland2010]. It addressed a need for tools that could help study online social networks, even before the rise of social media, and assisted researchers gain insights into important phenomena such as networks around issue spheres and online social movements [see [@acklandoneil2011] and [@ackland2013]]. After [many years and many iterations](http://vosonlab.net/content/voson-turns-10) since its inception in 2004, the VOSON Lab is happy to reintroduce the canonical VOSON hyperlink collection software as part of our R open-source toolkit for social media collection: `vosonSML`.
+The [VOSON](http://vosonlab.net/VOSON) software for hyperlink collection and analysis was an early research output of the VOSON Lab [@ackland2010]. It addressed a need for tools that could help study online social networks, even before the rise of social media, and assisted researchers gain insights into important phenomena such as networks around issue spheres and online social movements [see [@acklandoneil2011] and [@ackland2013]]. After [many years and many iterations](http://vosonlab.net/content/voson-turns-10) since its inception in 2004, the VOSON Lab is happy to reintroduce the canonical VOSON hyperlink collection software as part of our R open-source toolkit for social media collection: `vosonSML`.^[References compiled by Francisca Borquez]
 
 This simple guide will demonstrate how to use the new features of the `vosonSML` package to perform a hyperlink collection and generate networks for analysis.
  
@@ -39,7 +39,7 @@ The `vosonSML` hyperlink collection and network creation works similarly to the 
 
 The new hyperlink collection and network features are currently available in the development version of [vosonSML on GitHub](https://github.com/vosonlab/vosonsml), and are to soon be released on CRAN. The development version can be installed as follows:
 
-```{r install, echo=TRUE, eval=FALSE}
+```{r install, echo = TRUE, eval = FALSE}
 # use the remotes package to install the latest dev version of vosonSML from github
 library(remotes)
 install_github("vosonlab/vosonsml")
@@ -64,7 +64,7 @@ install_github("vosonlab/vosonsml")
 
 The web sites or pages to collect hyperlinks from are specified and input to the `Collect` function in a dataframe. As there are page specific options that can be used, this format helps us to organise and set the request parameters. The URL's set in the dataframe for the `page` column are called 'seed pages' and are the starting points for web crawling. Although not explicitly indicated in the URL's, the seed pages are actually the landing pages or "index" pages of the web sites and a page name can be specified if known or desired.  
 
-```{r pages, echo=TRUE, eval=FALSE}
+```{r pages, echo = TRUE, eval = FALSE}
 # set sites as seed pages and set each for external crawl with a max depth
 pages <- data.frame(page = c("http://vosonlab.net",
                              "https://www.oii.ox.ac.uk",
@@ -85,7 +85,7 @@ It should be noted that all hyperlinks found are collected from scraped pages an
 
 The hyperlink data can now be collected using the `Collect` function with the `pages` parameter. This produces a dataframe that contains the hyperlink URL's found, pages they were found on and other metadata that can be used to help construct networks.
 
-```{r collect, echo=TRUE, eval=FALSE}
+```{r collect, echo = TRUE, eval = FALSE}
 library(magrittr)
 library(dplyr)
 library(vosonSML)
@@ -136,7 +136,7 @@ A total of 1,163 hyperlinks were collected from 38 pages followed from our 3 see
 
 As with other `vosonSML` social media, there are two standard types of networks we can create. An `activity` network that produces a more structural representation of the network where nodes are web pages and edges are the hyperlink references between them, and an `actor` network that instead groups pages into entities based on their domain names.
 
-```{r create, echo=TRUE, eval=FALSE}
+```{r create, echo = TRUE, eval = FALSE}
 # generate a hyperlink activity network
 activity_net <- Create(hyperlinks, "activity")
 
@@ -148,7 +148,7 @@ actor_net <- Create(hyperlinks, "actor")
 
 The output of the network creation is a named list of two dataframes, one for the `nodes` and the other for the `edges` or edge list data. The example below shows the `actor_net`. Note that the edges of the `actor` network are also aggregated into a weight value and that actors can link to themselves forming self-loops.
 
-```{r network, echo=TRUE, eval=FALSE}
+```{r network, echo = TRUE, eval = FALSE}
 print(as_tibble(actor_net$nodes))
 # # A tibble: 185 x 2
 #   id                              link_id
@@ -172,7 +172,7 @@ print(as_tibble(actor_net$edges))
 
 Now that the network has been generated, we can create a graph and plot it. The `Graph` function creates an `igraph` format object that can be directly plotted or adjusted for presentation using `igraph` plotting parameters.
 
-```{r graph, echo=TRUE, eval=FALSE}
+```{r graph, echo = TRUE, eval = FALSE}
 library(igraph)
 library(stringr)
 

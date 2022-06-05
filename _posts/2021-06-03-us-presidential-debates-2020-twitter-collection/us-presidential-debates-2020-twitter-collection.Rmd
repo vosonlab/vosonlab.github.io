@@ -7,7 +7,6 @@ author:
   - name: Bryan Gertzel
     affiliation: VOSON Lab
     affiliation_url: http://vosonlab.net/
-  - name: Robert Ackland
 date: 2021-06-03
 categories:
   - rstats
@@ -24,8 +23,9 @@ output:
     toc_depth: 3
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+data_path <- "E:/My Drive/VOSON-BLOG-DATA/2021-06-03-us-presidential-debates-2020-twitter-collection/"
 ```
 
 The VOSON Lab undertook a number of Twitter collections on selected hashtags during the 2020 US Presidential debates and townhalls. The Twitter streaming API endpoint was used for a sampled real-time collection of tweets during the debates, and the recent search API was used post-debate to collect all tweets containing hashtags that occurred over the debate telecast periods. The two approaches differ in that the streaming API endpoint allows access to a ["roughly 1% random sample of publicly available Tweets in real-time"](https://developer.twitter.com/en/docs/twitter-api/tweets/sampled-stream/introduction) using provided hashtags or terms as a filter to monitor events. The search API endpoint uses terms in a search query to match all tweets containing hashtags for a recent historical period in time. The streaming collections, a filtered sample, produced much smaller datasets and was useful for a timeley review of the Twitter activity during the debates as well as for identifying tweets to act as bounds for search collections. The retrospective search collections were much larger and produced more comprehensive datasets.
@@ -34,7 +34,7 @@ The R packages `rtweet` and `vosonSML`, the latter of which wraps the functional
 
 Two US Presidential debates took place between Donald Trump and Joe Biden on September 29th and October 22nd, with one debate scheduled for October 15th cancelled due to COVID-19 concerns. One VP debate between Kamala Harris and Mike Pence took place on October 7th. This article will focus on the datasets collected for the first debate, widely reported as ["pure chaos"](https://theconversation.com/the-first-us-presidential-debate-was-pure-chaos-heres-what-our-experts-thought-147178) and ["90 minutes of insult and interjection"](https://www.abc.net.au/news/2020-10-01/us-election-debate-became-little-more-than-shouting-trump-biden/12718458) by commentators, to demonstrate our collection methodology and some simple network analysis.
 
-![Figure 1: Next day headlines, tweet from https://twitter.com/oliverdarcy](debate_headlines.png){width=512 .external}
+![Figure 1: Next day headlines, tweet from https://twitter.com/oliverdarcy. Embedded tweet sourced from Twitter.](debate_headlines.png){width=512 .external}
 
 ## Collection Strategy
 
@@ -82,7 +82,7 @@ The first US Presidential debate took place in Cleveland, Ohio at 9pm Eastern Da
 
 For the streaming collection a directory was created to for easier post-processing. Streaming data was collected and written to file in JSON format using timestamp formatted file names. The streaming collection period was set to 4 hours and divided into segments or files.
 
-```{r stream-setup, echo=TRUE, eval=FALSE, code_folding=TRUE}
+```{r stream-setup, echo = TRUE, eval = FALSE, code_folding = TRUE}
 wd <- getwd()
 
 # check paths and create directories if they do not exist
@@ -112,7 +112,7 @@ seg_period <- ceiling(stream_period / num_segs)
 
 The streaming collection is performed by the `rtweet` function `stream_tweets` which in our operation uses the query or filter parameter `q`, a `timeout` period which is the length of time to collect streaming tweets, and an output JSON `file_name`. The collection is wrapped in a loop which is for the number of 15 minute segments in the collection period. Each iteration sets up a new timestamped data file and log file.
 
-```{r stream-collection, echo=TRUE, eval=FALSE, code_folding=TRUE}
+```{r stream-collection, echo = TRUE, eval = FALSE, code_folding = TRUE}
 library(rtweet)
 
 # load rtweet auth token
@@ -161,7 +161,7 @@ Log entries for each 15 minute iteration confirm the collection period and each 
 
 For the first streaming collection iteration an **180MB** JSON file was written with **111,244 lines**. Each line contains the JSON for a single tweet, meaning the same number of tweets were collected.
 
-```{r streaming-data-json, echo=TRUE, eval=FALSE}
+```{r streaming-data-json, echo = TRUE, eval = FALSE}
 > first_json_file <- "./data/pres-debate-streams/stream-20200930102859.json"
 > file.size(first_json_file)
 [1] 188575977 # 180MB
@@ -176,7 +176,7 @@ For the first streaming collection iteration an **180MB** JSON file was written 
 
 As with the streaming collection directories were created to store collected data and search parameters set. The search query containing hashtags uses the Twitter `OR` search operator unlike the streaming filter which was comma seperated. A maximum number of tweets for each collection iteration as well as a maximum number of iterations are set. The number of tweets is required for the search request and is set to the maximum rate-limit value for a bearer token. A maximum number of iterations is set as a precaution to prevent infinite collection should a problem arise. The two tweets found from the streaming collection and used as search bounds are also set. The search will start at the `latest id` and continue until the `earliest id` is found, or the maximum iterations has been reached.
 
-```{r search-setup, echo=TRUE, eval=FALSE, code_folding=TRUE}
+```{r search-setup, echo = TRUE, eval = FALSE, code_folding = TRUE}
 wd <- getwd()
 
 # check paths and create directories if they do not exist
@@ -204,7 +204,7 @@ earliest_id <- "1311104723978579968"  # end tweet
 
 The search collection is performed by the `vosonSML` function `Collect`. The process is more involved than the streaming collection in that the reset time for the rate-limit is calculated each collection iteration and the script sleeps for that period of time before continuing. Tracking of search progress is also logged to the console in this approach but was redirected to a log file.
 
-```{r search-collection, echo=TRUE, eval=FALSE, code_folding=TRUE}
+```{r search-collection, echo = TRUE, eval = FALSE, code_folding = TRUE}
 library(vosonSML)
 
 auth <- readRDS("~/.vsml_oauth2")
@@ -340,7 +340,7 @@ Using `vosonSML` the Twitter data for both streaming and search collections is a
 
 ### Merge Collected Data
 
-```{r combine-data, echo=TRUE, eval=FALSE, code_folding=FALSE}
+```{r combine-data, echo = TRUE, eval = FALSE, code_folding = FALSE}
 library(dplyr)
 
 # combine the search data files and remove duplicate tweets
@@ -364,7 +364,7 @@ saveRDS(data, "./data/pres_debate1_search.rds") # save combined data
 
 Because the combined search data for the first debate is quite large, it can be useful to reduce it to a much smaller window of time for demonstration and network visualization purposes. The following code will extract 15 minutes of tweet data from between 21:30 - 21:45 EDT.
 
-```{r data-filtering, echo=TRUE, eval=FALSE, code_folding=FALSE}
+```{r data-filtering, echo = TRUE, eval = FALSE, code_folding = FALSE}
 data <- readRDS("./data/pres_debate1_search.rds") # load the previously saved data
 
 # filter out tweets with creation timestamps outside of the 15 min window
@@ -381,7 +381,7 @@ data <- data %>% filter(created_at >= as.POSIXct("2020-09-30 01:30:00", tz = "UT
 
 The data is now comprised of **349,937 unique tweets** that all were created during our specified window. We can now create our networks using `vosonSML`.
 
-```{r network-creation, echo=TRUE, eval=FALSE, code_folding=FALSE}
+```{r network-creation, echo = TRUE, eval = FALSE, code_folding = FALSE}
 library(vosonSML)
 
 # use the vosonsml create function to create networks
@@ -424,7 +424,7 @@ The `activity` network has **366,029** nodes or **unique tweets**, and the `acto
 
 If we're interested in exploring some of the Twitter interactions taking place between users during the 21:30 - 21:45 window of the first debate, the network can be further distilled by looking at the actor network and including only reply edges. This will reveal a number of reply-conversations, but we can select for the giant component to find the largest one. The `igraph` library can be used to perform a number of common network operations such as removing self-loops, isolates and finding the giant component.
 
-```{r reply-network-creation, echo=TRUE, eval=FALSE, code_folding=FALSE}
+```{r reply-network-creation, echo = TRUE, eval = FALSE, code_folding = FALSE}
 library(igraph)
 
 # convert vosonsml actor network to igraph object
@@ -447,7 +447,7 @@ g_actor_reply_gc <- induced_subgraph(g_actor_reply, node_ids)
 
 The giant component in the reply-network has **1743 nodes** and **1982 edges**. We can use `igraphs` `degree` function to further explore who the most prominent actors are in the network by in-degree.
 
-```{r prominent-actors, echo=TRUE, eval=FALSE, code_folding=FALSE}
+```{r prominent-actors, echo = TRUE, eval = FALSE, code_folding = FALSE}
 > V(g_actor_reply_gc)$screen_name[order(degree(g_actor_reply_gc, mode = "in"), decreasing = TRUE)]
 [1] "realDonaldTrump"    "JoeBiden"           "GOPLeader"         
 [4] "KamalaHarris"       "ProjectLincoln"     "Alyssa_Milano"
@@ -457,6 +457,6 @@ To visualise the conversation occurring during this 15 minutes of the debate, we
 
 The visualization of this network (using `Gephi`) with node size proportional to in-degree is below.
 
-![Figure 4: Reply-network giant component with candidates removed](reply_network.png "Figure 4: Reply-network giant component with candidates removed"){width="1048"}
+![Figure 4: Reply-network giant component with candidates removed. Figure created by Robert Ackland using Gephi.](reply_network.png "Figure 4: Reply-network giant component with candidates removed"){width="1048"}
 
 This graph provides some insight into the largest reply network at our chosen point in time, revealing the Twitter actors receiving the most reply attention and their associations.

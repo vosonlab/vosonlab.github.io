@@ -8,33 +8,10 @@
   margin-top: 0px;
 }
 
-/*
-d-article p code {
-    color: #383838;
-    background: rgba(54, 215, 130, 0.15);
-    //font-weight: 400;
-    //font-size: 0.9em;
-    
-}
-*/
-
 d-title {
   padding-bottom: 0 !important;
 }
 
 d-byline {
   padding: 0.2rem 0 !important;
-}
-
-d-article p code {
-    font-size: .875rem;
-    line-height: 1.5;
-    font-family: "Lucida Console",Monaco,monospace;
-    font-weight: normal;
-    color: #333;
-    background-color: #f8f8f8;
-    border-width: 1px;
-    border-style: solid;
-    border-color: #dfdfdf;
-    padding: .125rem .3125rem .0625rem;
 }
