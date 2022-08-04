@@ -133,7 +133,7 @@ At this point we can optionally add some user metadata to our network as node at
 
 Please note this step requires a [vosonSML twitter auth object](https://vosonlab.github.io/vosonSML/reference/Authenticate.twitter.html) if you want to use the look up feature for complete users metadata.
 
-```{r comb-add-meta, eval = FALSE}
+```{r comb-add-meta, eval = FALSE, echo = TRUE}
 # this step requires a previously saved vosonSMML twitter auth object
 twitter_auth <- readRDS("~/.vsml_oauth1a")
 
