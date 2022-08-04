@@ -15,6 +15,7 @@ categories:
   - rtweet
   - vosonsml
   - timeline
+preview: egocentric.png
 output:
   distill::distill_article:
     self_contained: false

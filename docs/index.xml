@@ -12,7 +12,7 @@
       <link>https://vosonlab.github.io/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Sat, 04 Jun 2022 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 05 Jun 2022 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Egocentric Networks from Twitter timelines</title>
       <dc:creator>Bryan Gertzel</dc:creator>
@@ -26,7 +26,8 @@
       <category>vosonsml</category>
       <category>timeline</category>
       <guid>https://vosonlab.github.io/posts/2022-06-05-egocentric-networks-from-twitter-timelines</guid>
-      <pubDate>Sat, 04 Jun 2022 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 05 Jun 2022 00:00:00 +0000</pubDate>
+      <media:content url="https://vosonlab.github.io/posts/2022-06-05-egocentric-networks-from-twitter-timelines/egocentric.png" medium="image" type="image/png" width="421" height="400"/>
     </item>
     <item>
       <title>Collecting YouTube comments with VOSONDash</title>
