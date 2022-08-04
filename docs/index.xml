@@ -27,7 +27,7 @@
       <category>timeline</category>
       <guid>https://vosonlab.github.io/posts/2022-06-05-egocentric-networks-from-twitter-timelines</guid>
       <pubDate>Sun, 05 Jun 2022 00:00:00 +0000</pubDate>
-      <media:content url="https://vosonlab.github.io/posts/2022-06-05-egocentric-networks-from-twitter-timelines/egocentric.png" medium="image" type="image/png" width="421" height="400"/>
+      <media:content url="https://vosonlab.github.io/posts/2022-06-05-egocentric-networks-from-twitter-timelines/egocentric_400x400.png" medium="image" type="image/png" width="400" height="400"/>
     </item>
     <item>
       <title>Collecting YouTube comments with VOSONDash</title>
