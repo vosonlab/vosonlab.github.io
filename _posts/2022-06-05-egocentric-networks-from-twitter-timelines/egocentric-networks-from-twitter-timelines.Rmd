@@ -20,7 +20,7 @@ output:
     self_contained: false
     toc: true
     toc_depth: 3
-draft: true
+draft: false
 ---
 
 ```{r setup, include = FALSE}
@@ -45,6 +45,8 @@ This post will demonstrate how to construct an ego net from a twitter users time
 ## Collect the ego timeline
 
 The first step is to collect the ego users timelime. In this post we will be using the VOSON Lab `@vosonlab` twitter account, and collecting the Twitter timeline using `rtweet`. The Twitter API restricts the number of timeline tweets that can be collected to the [most recent 3,200 tweets](https://developer.twitter.com/en/docs/twitter-api/tweets/timelines/introduction), but we can set this to a lesser value e.g most recent 100 tweets, and also use the same parameter for alters timelines for the purposes of this demonstration.
+
+*Please note this post uses vosonSML v0.30.6 and rtweet 0.7.0*
 
 ```{r ego, echo = TRUE, eval = FALSE}
 library(dplyr)
