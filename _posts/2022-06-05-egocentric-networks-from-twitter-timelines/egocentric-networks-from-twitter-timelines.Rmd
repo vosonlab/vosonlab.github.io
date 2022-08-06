@@ -22,6 +22,8 @@ output:
     toc: true
     toc_depth: 3
 draft: false
+bibliography: refs.bib
+csl: apa-style.csl
 ---
 
 ```{r setup, include = FALSE}
@@ -35,7 +37,7 @@ library(vosonSML)
 
 ## Introduction
 
-Egocentric networks or ego nets are networks that focus on a particular actor (the ego) and map out their connections to other actors. In an ego net other actors are referred to as alters, and by collecting the outward expanding connections of alters, ego nets of varying degrees can be constructed. Some literature and software refer to these as neighborhood networks, with varying orders instead of degrees. For example in a friendship network, a neightborhood network of the first order (1.0 degree) contains just the friends of the ego, whereas a network of the second order (sometimes second step) also contains "friends of friends" (a 2.0 degree ego net).
+Egocentric networks or ego nets are networks that focus on a particular actor (the ego) and map out their connections to other actors. In an ego net other actors are referred to as alters, and by collecting the outward expanding connections of alters, ego nets of varying degrees can be constructed [see @RN59, p.168]. Some literature and software refer to these as neighborhood networks, with varying orders instead of degrees. For example in a friendship network, a neightborhood network of the first order (1.0 degree) contains just the friends of the ego, whereas a network of the second order (sometimes second step) also contains "friends of friends" (a 2.0 degree ego net).
 
 By collecting the tweets in a Twitter users timeline, and the timelines of users referenced, we can create a 1.0, 2.0 or 1.5 degree network for the ego. A 1.5 degree network is similar to the 1.0 degree, except it also contains relationships or ties between the alters, or "between friends" of the ego from the previous friendship network example.
 
