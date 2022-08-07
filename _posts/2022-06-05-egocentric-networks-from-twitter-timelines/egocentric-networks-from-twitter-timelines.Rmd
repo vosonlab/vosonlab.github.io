@@ -15,7 +15,7 @@ categories:
   - rtweet
   - vosonsml
   - timeline
-preview: egocentric_400x400.png
+preview: egocentric_500x500.png
 output:
   distill::distill_article:
     self_contained: false
@@ -86,23 +86,25 @@ ego_net <- ego_tweets |> ImportData("twitter") |> Create("actor")
 
 A result of **41 nodes** indicates that there are **40 alters** in the network with ties to the ego. 
 
-```{r degree-1, echo = FALSE, fig.cap = "vosonlab 1.0 degree actor network"}
+```{r degree-1, echo = FALSE, fig.width = 5, fig.height = 4, fig.cap = "vosonlab 1.0 degree actor network"}
 net_deg_1 <- ego_net
 net_deg_1$nodes <- net_deg_1$nodes |>
-  mutate(node_cat = ifelse(user_id %in% ego_user_id, "ego", "alter")) |>
-  mutate(size = ifelse(node_cat == "ego", 3, 1))
+  mutate(node_cat = ifelse(user_id %in% ego_user_id, "ego", "alter"))
 
 node_cat_colors <- list(ego = "magenta", alter = "blue")
 
-g_deg_1 <-
-  graph_from_data_frame(net_deg_1$edges, vertices = net_deg_1$nodes)
+g_deg_1 <- graph_from_data_frame(net_deg_1$edges, vertices = net_deg_1$nodes)
 V(g_deg_1)$degree <- degree(g_deg_1)
+
+E(g_deg_1)$weight <- 1
+g_deg_1 <- simplify(g_deg_1, edge.attr.comb = list(weight = "sum"))
+g_deg_1 <- as.undirected(g_deg_1)
 
 set.seed(100)
 layout <- create_layout(g_deg_1, layout = "star")
 p_deg_1 <- ggraph(layout) +
-  geom_edge_fan(colour = "gray") +
-  geom_node_point(aes(colour = factor(node_cat), size = size)) +
+  geom_edge_link(aes(width = weight), colour = "gray") +
+  geom_node_point(aes(colour = factor(node_cat), size = degree)) +
   scale_color_manual(values = node_cat_colors) +
   labs(color = "nodes") +
   guides(size = "none")
