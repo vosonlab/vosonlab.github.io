@@ -31,6 +31,8 @@ knitr::opts_chunk$set(echo = FALSE)
 data_path <- "E:/My Drive/VOSON-BLOG-DATA/2022-06-05-egocentric-networks-from-twitter-timelines/"
 
 library(dplyr)
+library(ggraph)
+library(igraph)
 library(rtweet)
 library(vosonSML)
 ```
@@ -84,6 +86,30 @@ ego_net <- ego_tweets |> ImportData("twitter") |> Create("actor")
 
 A result of **41 nodes** indicates that there are **40 alters** in the network with ties to the ego. 
 
+```{r degree-1, echo = FALSE, fig.cap = "vosonlab 1.0 degree actor network"}
+net_deg_1 <- ego_net
+net_deg_1$nodes <- net_deg_1$nodes |>
+  mutate(node_cat = ifelse(user_id %in% ego_user_id, "ego", "alter")) |>
+  mutate(size = ifelse(node_cat == "ego", 3, 1))
+
+node_cat_colors <- list(ego = "magenta", alter = "blue")
+
+g_deg_1 <-
+  graph_from_data_frame(net_deg_1$edges, vertices = net_deg_1$nodes)
+V(g_deg_1)$degree <- degree(g_deg_1)
+
+set.seed(100)
+layout <- create_layout(g_deg_1, layout = "star")
+p_deg_1 <- ggraph(layout) +
+  geom_edge_fan(colour = "gray") +
+  geom_node_point(aes(colour = factor(node_cat), size = size)) +
+  scale_color_manual(values = node_cat_colors) +
+  labs(color = "nodes") +
+  guides(size = "none")
+
+p_deg_1
+```
+
 ## Collect timelines of alters
 
 From the previous step we created an actor network represented as nodes and edges dataframes from the ego users timeline. We can now use this to extract all of the user ids of the alters in the network.
@@ -130,6 +156,44 @@ actor_net <- tweets |> ImportData("twitter") |> Create("actor")
 
 Here we can see an actor network of **2120 nodes** and **6036 edges**, substantially larger than our initial actor network.
 
+```{r degree-2, echo = FALSE, fig.cap = "vosonlab 2.0 degree actor network"}
+net_deg_2 <- actor_net
+net_deg_2$nodes <- net_deg_2$nodes |>
+  mutate(node_cat = ifelse(
+    user_id %in% ego_user_id,
+    "ego",
+    ifelse(user_id %in% alter_user_ids, "alter", "alter-alter")
+  )) |>
+  mutate(size = ifelse(node_cat == "ego", 4, ifelse(node_cat == "alter", 1.2, 1)))
+
+net_deg_2$edges <- net_deg_2$edges |>
+  mutate(edge_type = ifelse(
+    stringr::str_detect(edge_type, "mention"),
+    "mention",
+    edge_type
+  ))
+
+node_cat_colors <-
+  list(ego = "magenta",
+       alter = "blue",
+       `alter-alter` = "darkgray")
+
+g_deg_2 <-
+  graph_from_data_frame(net_deg_2$edges, vertices = net_deg_2$nodes)
+V(g_deg_2)$degree <- degree(g_deg_2)
+
+set.seed(100)
+layout <- create_layout(g_deg_2, layout = "fr") #, root = ego_user_id)
+p_deg_2 <- ggraph(layout) +
+  geom_edge_link(colour = "gray") +
+  geom_node_point(aes(colour = factor(node_cat), size = size)) +
+  scale_color_manual(values = node_cat_colors) +
+  labs(color = "nodes") +
+  guides(size = "none")
+
+p_deg_2
+```
+
 ## Optionally add user metadata as node attributes
 
 At this point we can optionally add some user metadata to our network as node attributes. This allows us to change visual properties of the network graph based on actor attributes. For example, we could map the node size to number of followers a twitter user may have.
@@ -172,7 +236,7 @@ reactable(actors_table, bordered = TRUE, striped = TRUE, resizable = TRUE,
 
 ## Create an ego subgraph
 
-It's often useful to visualise ego nets without the ego in a 1.5 degree network, as it is easier to see clustering and relationships between alters. The ego can easily be removed using the `igraph::induced_subgraph` function. 
+A 1.5 degree network can be useful to reveal the associations between an egos alters. This can be achieved by creating a subgraph of the 2.0 ego network that retains only the previously identified alters (see below `igraph::induced_subgraph`). As we know every alter is connected to the ego so it is also often useful to visualise ego nets without the ego as it is then easier to see clustering.
 
 ```{r graph, echo = TRUE}
 library(igraph)
@@ -192,7 +256,7 @@ As we saw in our initial actor network constructed from only the ego users timel
 
 Using the `igraph` and `visNetwork` package we can create a simplified and undirected ego network graph of alters. Community detection can be performed and visualised using the `igraph` walktrap clustering algorithm and Fruchterman-Reingold force-directed layout. We can further map some visual properties of nodes to attributes - with node size corresponding to the node degree, edge width to combined weight, and color to clustering community group.
 
-```{r net, echo = TRUE}
+```{r net, echo = TRUE, fig.cap = "vosonlab 1.5 degree actor network"}
 library(visNetwork)
 
 # combine and weight the edges between nodes
