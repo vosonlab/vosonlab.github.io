@@ -6,7 +6,7 @@ author:
   - name: Bryan Gertzel
     affiliation: VOSON Lab
     affiliation_url: http://vosonlab.net/
-date: 2022-06-05
+date: 2022-08-22
 categories:
   - rstats
   - twitter
@@ -29,29 +29,33 @@ csl: apa-style.csl
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 data_path <- "E:/My Drive/VOSON-BLOG-DATA/2022-06-05-egocentric-networks-from-twitter-timelines/"
+collect_data <- FALSE
+options(voson.msg = FALSE)
 
 library(dplyr)
 library(ggraph)
 library(igraph)
+library(purrr)
 library(rtweet)
 library(vosonSML)
 ```
 
+<div class="bs-callout bs-callout-info">Updated for [rtweet](https://CRAN.R-project.org/package=rtweet) v1.0.2 and [vosonSML](https://CRAN.R-project.org/package=vosonSML) v0.32.7.<br><br>This article does not require Twitter API keys,
+but does require a twitter account and for the user to authorise the rtweet `rstats2twitter` app when prompted.</div>
+
 ## Introduction
 
-Egocentric networks or ego nets are networks that focus on a particular actor (the ego) and map out their connections to other actors. In an ego net other actors are referred to as alters, and by collecting the outward expanding connections of alters, ego nets of varying degrees can be constructed [see @RN59, p.168]. Some literature and software refer to these as neighborhood networks, with varying orders instead of degrees. For example in a friendship network, a neightborhood network of the first order (1.0 degree) contains just the friends of the ego, whereas a network of the second order (sometimes second step) also contains "friends of friends" (a 2.0 degree ego net).
+Egocentric networks or ego nets are networks that focus on a particular actor (the ego) and map out their connections to other actors. In an ego net other actors are referred to as alters, and by collecting the outward expanding connections of alters, ego nets of varying degrees can be constructed [see @RN59, p.168]. Some literature and software refer to these as neighborhood networks, with varying orders instead of degrees. For example in a friendship network, a neighborhood network of the first order (1.0 degree) contains just the friends of the ego, whereas a network of the second order (sometimes second step) also contains "friends of friends" (a 2.0 degree ego net).
 
 By collecting the tweets in a Twitter users timeline, and the timelines of users referenced, we can create a 1.0, 2.0 or 1.5 degree network for the ego. A 1.5 degree network is similar to the 1.0 degree, except it also contains relationships or ties between the alters, or "between friends" of the ego from the previous friendship network example.
 
 It should be noted that by using user timelines that this is not necessarily a friendship network, but instead a network of twitter users who are associated through tweet activity. This kind of ego net can lead to insights beyond simply declared friendships (obtained from Twitter's friend/follower metadata) as the network structure is the result of users interactions on the platform over a period of time.
 
-This post will demonstrate how to construct an ego net from a twitter users timeline using the `rtweet` package to collect tweets and `vosonSML` to create an actor network.
+This post will demonstrate how to construct an ego networks from a twitter timelines using the `rtweet` package to collect tweets and `vosonSML` to create an actor network.
 
 ## Collect the ego timeline
 
-The first step is to collect the ego users timelime. In this post we will be using the VOSON Lab `@vosonlab` twitter account, and collecting the Twitter timeline using `rtweet`. The Twitter API restricts the number of timeline tweets that can be collected to the [most recent 3,200 tweets](https://developer.twitter.com/en/docs/twitter-api/tweets/timelines/introduction), but we can set this to a lesser value e.g most recent 100 tweets, and also use the same parameter for alters timelines for the purposes of this demonstration.
-
-*Please note this post uses vosonSML v0.30.6 and rtweet 0.7.0*
+The first step is to collect the ego's timelime. In this post we will be using the VOSON Lab `@vosonlab` twitter account, and collecting the Twitter timeline using `rtweet`. The Twitter API restricts the number of timeline tweets that can be collected to the [most recent 3,200 tweets](https://developer.twitter.com/en/docs/twitter-api/tweets/timelines/introduction), but we can set this to a lesser value e.g most recent 100 tweets, and also use the same parameter for alters timelines for the purposes of this demonstration.
 
 ```{r ego, echo = TRUE, eval = FALSE}
 library(dplyr)
@@ -59,32 +63,31 @@ library(DT)
 library(rtweet)
 library(vosonSML)
 
-ego_user <- "vosonlab"
-
 # get twitter user timeline
 ego_tweets <- get_timeline(c("vosonlab"), n = 100, token = NULL)
-
-# get twitter user id
-ego_user_id <- slice_head(ego_tweets |> count(user_id, sort = TRUE)) |>
-  pull(user_id)
-
-# create actor network from timeline tweets
-ego_net <- ego_tweets |> ImportData("twitter") |> Create("actor")
 ```
 
 ```{r ego-read-data, include = FALSE}
-ego_tweets <- readRDS(paste0(data_path, "vosonlab_timeline_n100.rds"))
+f <- paste0(data_path, "vosonlab_timeline_n100a.rds")
+if (collect_data) {
+  #ego_tweets <- get_timeline(c("vosonlab"), n = 100, token = NULL)
+  #saveRDS(ego_tweets, f)
+}
+ego_tweets <- readRDS(f)
 
-ego_user_id <- slice_head(ego_tweets |> count(user_id, sort = TRUE)) |>
-  pull(user_id)
-# ego_net <- ego_tweets |> ImportData("twitter") |> Create("actor")
+ego_net <- ego_tweets |> ImportRtweet() |> Create("actor")
+ego_user_id <- ego_net$nodes |> filter(screen_name == "vosonlab") |> pull(user_id)
 ```
 
-```{r ego-net-output}
-ego_net <- ego_tweets |> ImportData("twitter") |> Create("actor")
+```{r ego-net-output, echo = TRUE}
+# convert rtweet data into vosonSML format
+ego_tweets <- ego_tweets |> ImportRtweet()
+
+# create actor network from timeline tweets
+ego_net <- ego_tweets |> Create("actor", verbose = TRUE)
 ```
 
-A result of **41 nodes** indicates that there are **40 alters** in the network with ties to the ego. 
+A result of **41 nodes** indicates that there are **40 alters** in the network with ties to the ego.
 
 ```{r degree-1, echo = FALSE, fig.width = 5, fig.height = 4, fig.cap = "vosonlab 1.0 degree actor network"}
 net_deg_1 <- ego_net
@@ -97,7 +100,7 @@ g_deg_1 <- graph_from_data_frame(net_deg_1$edges, vertices = net_deg_1$nodes)
 V(g_deg_1)$degree <- degree(g_deg_1)
 
 E(g_deg_1)$weight <- 1
-g_deg_1 <- simplify(g_deg_1, edge.attr.comb = list(weight = "sum"))
+g_deg_1 <- igraph::simplify(g_deg_1, edge.attr.comb = list(weight = "sum"))
 g_deg_1 <- as.undirected(g_deg_1)
 
 set.seed(100)
@@ -114,49 +117,100 @@ p_deg_1
 
 ## Collect timelines of alters
 
-From the previous step we created an actor network represented as nodes and edges dataframes from the ego users timeline. We can now use this to extract all of the user ids of the alters in the network.
+From the previous step we created an actor network represented as nodes and edges dataframes from the ego's tweet timeline. We can now use this to extract all of the user ids of the alters in the network.
 
-Note that we haven't specified the degree of the ego net at this stage, however by virtue of the twitter data (timeline tweets) having all been created by the ego user, we can assume all of the alters (referenced users) are connected to the ego in this network.
+Note that we have not specified the degree of the ego net at this stage, however by virtue of the twitter data (timeline tweets) having all been created by the ego user, we can assume all of the alters (referenced users) are connected to the ego in this network.
 
-```{r alters, echo = TRUE, eval = FALSE}
-# get list of alter user ids
+```{r alters, echo = TRUE}
+# get ego user id
+ego_user_id <- ego_net$nodes |>
+  filter(screen_name == "vosonlab") |> pull(user_id)
+
+# get list of alter user ids from network
 alter_user_ids <- ego_net$nodes |>
   filter(user_id != ego_user_id) |> distinct(user_id) |> pull()
+```
 
+Using the alters user ids the timeline tweets can be collected and imported into `vosonSML` as follows:
+
+```{r alters2, echo = TRUE, eval = FALSE}
 # get 100 most recent tweets from all of the alters timelines
-alter_tweets <- get_timeline(alter_user_ids, n = 100, token = NULL)
+# and convert to vosonSML format
+alters_tweets <- alter_user_ids |>
+  get_timeline(n = 100, retryonratelimit = TRUE) |>
+  ImportRtweet()
+
+# Error: Number of tweet observations does not match number of users. 3526 != 99
+```
+
+<div class="bs-callout bs-callout-warning">Please note there seems to be an inconsistency in timeline results for
+this version of rtweet and the following workaround can be used instead:</div> 
+
+```{r alters2a, echo = TRUE, eval = FALSE}
+# workaround for rtweet timeline users issue
+get_alters_timelines <- function(x) {
+  ImportRtweet(get_timeline(user = x, n = 100, retryonratelimit = TRUE))
+}
+
+# collects timelines individually and place into a list
+require(purrr)
+alters_tweets <- map(alter_user_ids, get_alters_timelines)
+```
+
+Alternatively, if you have your own API access the `vosonSML` `Collect` function can also be used with the
+`endpoint = "timeline"` parameter:
+
+```{r alters2b, echo = TRUE, eval = FALSE}
+# requires a previously saved vosonSML twitter auth object
+auth_twitter <- readRDS("~/.vsml_auth_tw")
+
+alters_tweets2 <- auth_twitter |>
+  Collect(
+    endpoint = "timeline",
+    users = alter_user_ids,
+    numTweets = 100,
+    verbose = TRUE
+  )
+
+# Collecting timeline tweets for users...
+# Requested 4000 tweets of 150000 in this search rate limit.
+# Rate limit reset: 2022-08-22 06:21:30
+# 
+# tweet        | status_id           | created            
+# --------------------------------------------------------
+# Latest Obs   | 1560130378366562304 | 2022-08-18 05:04:02
+# Earliest Obs | 1544727926645596162 | 2022-07-06 17:00:12
+# Collected 3525 tweets.
+# Done.
 ```
 
 ```{r alters-1a, include = FALSE}
-alter_user_ids <- ego_net$nodes |> filter(user_id != ego_user_id) |>
-  distinct(user_id) |> pull()
+get_alters_timelines <- function(x) {
+  ImportRtweet(get_timeline(user = x, n = 100, retryonratelimit = TRUE))
+}
 
-alter_tweets <- readRDS(paste0(data_path, "vosonlab_alters_timeline_n100.rds"))
-
-```
-
-```{r alters-1b, echo = FALSE}
-print(alter_tweets, n = 3)
+f <- paste0(data_path, "vosonlab_alters_timeline_n100a.rds")
+if (collect_data) {
+  alters_tweets <- purrr:::map(alter_user_ids, get_alters_timelines)
+  saveRDS(alters_tweets, f)
+}
+alters_tweets <- readRDS(f)
 ```
 
 ## Create an actor network
 
-Now that all of the tweets from the alters timelines have also been collected, the data can be merged and a single actor network created. This actor network can be considered a **2.0 degree** network, as it contains not only the associations or "friends" from the egos timeline, but also the associations or "friends" of the alters from their timelines.
+Now that all of the tweets from the alters timelines have also been collected, the data can be merged and a single actor network created. This actor network can be considered a **2.0 degree** network, as it contains not only the associations or "friends" from the ego's timeline, but also the associations or "friends" of the alters from their timelines.
 
-```{r alters-2, echo = TRUE, eval = FALSE}
-# combine all of the tweets from ego and alters timelines
-tweets <- bind_rows(ego_tweets, alter_tweets)
+```{r alters-2, echo = TRUE}
+# combine all of the tweets from ego and alters timelines using vosonSML merge
+tweets <- do.call(Merge, alters_tweets)
+tweets <- Merge(ego_tweets, tweets)
 
 # create actor network from combined timeline tweets
-actor_net <- tweets |> ImportData("twitter") |> Create("actor")
+actor_net <- tweets |> Create("actor", verbose = TRUE)
 ```
 
-```{r import-comb-actor, echo = FALSE}
-tweets <- bind_rows(ego_tweets, alter_tweets)
-actor_net <- tweets |> ImportData("twitter") |> Create("actor")
-```
-
-Here we can see an actor network of **2120 nodes** and **6036 edges**, substantially larger than our initial actor network.
+Here we can see an actor network of **1818 nodes** and **5585 edges**, substantially larger than our initial actor network.
 
 ```{r degree-2, echo = FALSE, fig.cap = "vosonlab 2.0 degree actor network"}
 net_deg_2 <- actor_net
@@ -200,23 +254,29 @@ p_deg_2
 
 At this point we can optionally add some user metadata to our network as node attributes. This allows us to change visual properties of the network graph based on actor attributes. For example, we could map the node size to number of followers a twitter user may have.
 
-Please note this step requires a [vosonSML twitter auth object](https://vosonlab.github.io/vosonSML/reference/Authenticate.twitter.html) if you want to use the look up feature for complete users metadata.
+Please note this step requires a [vosonSML twitter auth object](https://vosonlab.github.io/vosonSML/reference/Authenticate.twitter.html) if you want to use the look up feature for complete users' metadata.
 
 ```{r comb-add-meta, eval = FALSE, echo = TRUE}
 # this step requires a previously saved vosonSMML twitter auth object
-twitter_auth <- readRDS("~/.vsml_oauth1a")
+auth_twitter <- readRDS("~/.vsml_auth_tw")
 
 # add user profile metadata
 actor_net_meta <- actor_net |>
-  AddUserData(tweets, lookupUsers = TRUE, twitterAuth = twitter_auth)
+  AddUserData(tweets, lookupUsers = TRUE, twitterAuth = auth_twitter)
 ```
 
 ```{r comb-add-meta-file, include = FALSE}
-# saveRDS(actor_net_meta, paste0(data_path, "vosonlab_actor_net_meta.rds"))
-actor_net_meta <- readRDS(paste0(data_path, "vosonlab_actor_net_meta.rds"))
+f <- paste0(data_path, "vosonlab_actor_net_meta_a.rds")
+if (collect_data) {
+  auth_twitter <- readRDS("~/.auth_tw_bearer")
+  actor_net_meta <- actor_net |>
+    AddUserData(tweets, lookupUsers = TRUE, twitterAuth = auth_twitter)
+  saveRDS(actor_net_meta, f)
+}
+actor_net_meta <- readRDS(f)
 ```
 
-Here is some of the actor metadata available and an example of how it can be presented and explored using a data table.
+Here is a sample of the actor metadata available and an example of how it can be presented and explored using a data table:
 
 ```{r comb, echo = TRUE}
 # node attributes
@@ -225,9 +285,13 @@ names(actor_net_meta$nodes)
 # explore actors metadata
 actors_table <- actor_net_meta$nodes |>
   filter(user_id %in% c(ego_user_id, alter_user_ids)) |>
-  mutate(screen_name = paste0("@", screen_name)) |>
-  select(name = screen_name, display = display_name, location, description,
-         followers = followers_count, tweets = statuses_count) |>
+  mutate(u.screen_name = paste0("@", screen_name)) |>
+  select(name = u.screen_name,
+         display = u.name,
+         locationu = u.location,
+         description = u.description,
+         followers = u.followers_count,
+         tweets = u.statuses_count) |>
   slice_head(n = 5)
 
 library(reactable)
@@ -238,7 +302,7 @@ reactable(actors_table, bordered = TRUE, striped = TRUE, resizable = TRUE,
 
 ## Create an ego subgraph
 
-A 1.5 degree network can be useful to reveal the associations between an egos alters. This can be achieved by creating a subgraph of the 2.0 ego network that retains only the previously identified alters (see below `igraph::induced_subgraph`). As we know every alter is connected to the ego so it is also often useful to visualise ego nets without the ego as it is then easier to see clustering.
+A 1.5 degree network can be useful to reveal the associations between an ego's alters. This can be achieved by creating a subgraph of the 2.0 ego network that retains only the previously identified alters (see below `igraph::induced_subgraph`). As we know every alter is connected to the ego so it is also often useful to visualise ego networks without the ego as it is then easier to observe clustering.
 
 ```{r graph, echo = TRUE}
 library(igraph)
@@ -252,7 +316,7 @@ g2 <- induced_subgraph(g, c(alter_user_ids))
 g2
 ```
 
-As we saw in our initial actor network constructed from only the ego users timeline we now have **40 nodes** again, matching the number of alters. This actor network has many more edges however, as **1862 ties** or relations between the alters were captured from the collection of the alters timelines. 
+As we saw in our initial actor network constructed from only the ego's timeline we now have **40 nodes** again, matching the number of alters. This actor network has many more edges however, as **1922 ties** or relations between the alters were captured from the collection of the alters timelines.
 
 ## Visualise with an interactive visNetwork plot
 
@@ -263,7 +327,7 @@ library(visNetwork)
 
 # combine and weight the edges between nodes
 E(g2)$weight <- 1
-g2 <- simplify(g2, edge.attr.comb = list(weight = "sum"))
+g2 <- igraph::simplify(g2, edge.attr.comb = list(weight = "sum"))
 g2 <- as.undirected(g2)
 
 # perform some community detection using a random walk algorithm
@@ -274,7 +338,7 @@ V(g2)$group <- membership(c)
 E(g2)$width <- ifelse(E(g2)$weight > 1, log(E(g2)$weight) + 1, 1.1)
 
 V(g2)$size <- degree(g2) + 5
-V(g2)$label <- paste0("@", V(g2)$screen_name)
+V(g2)$label <- paste0("@", V(g2)$u.screen_name)
 
 visIgraph(g2, idToLabel = FALSE) |>
   visIgraphLayout(layout = "layout_with_fr") |>
@@ -284,5 +348,4 @@ visIgraph(g2, idToLabel = FALSE) |>
   )
 ```
 
-
-The final result is a ego net with some clear associations. Colours and placement of nodes found to represent some interesting domains and community relationships between the Twitter `@vosonlab` account and its timeline network alters. Isolates representing more distant connections with no detected community ties.
+The final result is an ego net with some clear associations. Colours and placement of nodes found to represent some interesting domains and community relationships between the Twitter `@vosonlab` account and its timeline network alters. Isolates represent more distant connections with no detected community ties.
