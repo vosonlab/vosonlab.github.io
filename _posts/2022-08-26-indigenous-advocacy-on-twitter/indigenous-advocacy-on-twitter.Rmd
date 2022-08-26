@@ -1,0 +1,165 @@
+---
+title: "Indigenous Advocacy on Twitter"
+description: |
+  A short description of the post.
+author:
+  - name: Robert Ackland
+    url: {https://orcid.org/0000-0002-0008-1766}
+    affiliation: VOSON Lab, School of Sociology, Australian National University
+    affiliation_url: http://vosonlab.net/
+  - name: Francisca Borquez
+date: 2022-08-26
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Distill is a publication format for scientific and technical writing, native to the web.
+
+Learn more about using Distill at <https://rstudio.github.io/distill>.
+
+```{r}
+
+library(dplyr)
+library(DT)
+library(rtweet)
+library(vosonSML)
+
+#seed accounts
+accs <- c("CountryNeedsPpl","KLC1978","IndigLandSea","KJMartu","EnviroKimberley","OurMobOnCountry","mrngunnawal","OutbackEco","TSCommissioner","VoiceMakarrata","SeedMob","nswalc","jpjanke")
+#accs2 <- accs[1:2]
+
+#Create a list of timeline data from rtweet, each list element is rtweet data
+#for a seed account
+L <- list()
+for (i in 1:length(accs)){
+    cat("Working on:", i, "\n")
+    # get twitter user timeline
+    ego_tweets <- get_timeline(accs[i], n = 100, token = NULL)
+    L[[i]] <- ego_tweets
+}
+
+#If you are on Linux you might get the following error
+
+#Error in `default_cached_auth()`:
+#    ! No default authentication found. Please call `auth_setup_default()`
+#Run `rlang::last_error()` to see where the error occurred.
+
+#Run this to get the twitter login so can authenticate rtweet
+#> auth_setup_default()
+
+
+
+# convert rtweet data into vosonSML format, stored in a new list
+# could just overwrite the earlier list
+L2 <- list()
+for (i in 1:length(L)){
+    L2[[i]] <- L[[i]] |> ImportRtweet()
+}
+
+#Merge the vosonSML format tweet data
+#This will also remove duplicates from the users dataframe
+tweets <- do.call(Merge, L2)
+
+#create the vosonSML network object for egonet
+ego_net <- tweets |> Create("actor", verbose = TRUE)
+
+#create the igraph graph
+g <- ego_net %>%Graph()
+
+
+V(g)$color <-"blue"
+V(g)$color[which(degree(g, mode="out")>0)]<-"red"
+
+V(g)$label <- paste0("@", V(g)$screen_name)
+
+visIgraph(g)
+
+#identify "important" alters, i.e. indegree > 2
+#the indegree threshold is ad hoc, just to reduce number of accs to look at
+ind <- which(degree(g, mode="in")>2 & V(g)$color=="blue")
+
+#wriite "important" alters to file
+write.csv(V(g)$name[ind], "important_alters.csv")
+
+#filter the accounts, not interested in etc etc.
+
+#read in the coded important alter file
+
+df <- read.csv("important_alters_coded.csv", header=FALSE)
+
+# get list of important alter user ids from network
+#we have coded important alters with 1
+df <- df[which(df$V3==1),]
+imp_alter_user_ids <- V(g)$name[match(df$V2, V(g)$screen_name)]
+
+
+# get 100 most recent tweets from the important alters timelines
+# and convert to vosonSML format
+
+#-------------------------
+
+#Error in `default_cached_auth()`:
+#    ! No default authentication found. Please call `auth_setup_default()`
+#Run `rlang::last_error()` to see where the error occurred.
+
+#> rlang::last_error()
+#<error/vctrs_error_incompatible_size>
+#    Error in `dplyr::bind_cols()`:
+#    ! Can't recycle `..1` (size 3527) to match `..2` (size 99).
+#---
+#Backtrace:
+# 1. vosonSML::ImportRtweet(...)
+# 2. vosonSML:::import_rtweet_(data)
+# 3. dplyr::bind_cols(...)
+# 6. vctrs::vec_cbind(!!!dots, .name_repair = .name_repair)
+#Run `rlang::last_trace()` to see the full context.
+
+#--------------------
+
+# we neededto implment the 
+# workaround for rtweet timeline users issue (see Bryan's blog post)
+get_alters_timelines <- function(x) {
+  ImportRtweet(get_timeline(user = x, n = 100, retryonratelimit = TRUE))
+}
+
+# collects timelines individually and place into a list
+require(purrr)
+imp_alters_tweets <- map(imp_alter_user_ids, get_alters_timelines)
+
+#don't write over this...
+#tweets2 <- tweets      #Ego tweets collected above - rename this something better
+
+
+# combine all of the tweets from ego and alters timelines using vosonSML merge
+#first merge the alter tweets
+tweets_imp_alters <- do.call(Merge, imp_alters_tweets)
+#now merge with the ego tweets
+tweets3 <- Merge(tweets2, tweets_imp_alters)
+
+#so we now have a vosonsml format raw data file (converted from rtweet)
+#which contais the tweets from the seed accounts and the important alter accounts
+
+# create actor network from combined timeline tweets
+actor_net <- tweets3 |> Create("actor", verbose = TRUE) %>% AddText(tweets3)
+
+g2 <- actor_net %>% Graph() 
+
+V(g2)$color <-"blue"
+V(g2)$color[which(degree(g2, mode="out")>0)]<-"red"
+
+V(g2)$label <- paste0("@", V(g2)$screen_name)
+
+visIgraph(g2)
+
+
+
+```
+
+
