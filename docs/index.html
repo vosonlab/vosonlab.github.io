@@ -789,6 +789,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   d-article table.gt_table td,
   d-article table.gt_table th {
     border-bottom: none;
+    font-size: 100%;
   }
 
   .html-widget {
@@ -1861,15 +1862,21 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
       // hoverable references
       $('span.citation[data-cites]').each(function() {
-        if ($(this).children()[0].nodeName == "D-FOOTNOTE") {
-          var fn = $(this).children()[0]
+        const citeChild = $(this).children()[0]
+        // Do not process if @xyz has been used without escaping and without bibliography activated
+        // https://github.com/rstudio/distill/issues/466
+        if (citeChild === undefined) return true
+
+        if (citeChild.nodeName == "D-FOOTNOTE") {
+          var fn = citeChild
           $(this).html(fn.shadowRoot.querySelector("sup"))
           $(this).id = fn.id
           fn.remove()
         }
         var refs = $(this).attr('data-cites').split(" ");
         var refHtml = refs.map(function(ref) {
-          return "<p>" + $('#ref-' + ref).html() + "</p>";
+          // Could use CSS.escape too here, we insure backward compatibility in navigator
+          return "<p>" + $('div[id="ref-' + ref + '"]').html() + "</p>";
         }).join("\n");
         window.tippy(this, {
           allowHTML: true,
@@ -2068,7 +2075,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="site_libs/header-attrs-2.15/header-attrs.js"></script>
+  <script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
   <script src="site_libs/popper-2.6.0/popper.min.js"></script>
   <link href="site_libs/tippy-6.2.7/tippy.css" rel="stylesheet" />
   <link href="site_libs/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
@@ -2360,30 +2367,6 @@ function init_posts_list() {
 <div class="posts-container posts-with-sidebar posts-apply-limit l-screen-inset">
 <div class="posts-list">
 <h1 class="posts-list-caption" data-caption="Articles">Articles</h1>
-<a href="posts/2022-08-26-indigenous-advocacy-on-twitter/" class="post-preview">
-<script class="post-metadata" type="text/json">{"categories":["rstats","twitter","networks","egocentric","rtweet","vosonsml","timeline"]}</script>
-<div class="metadata">
-<div class="publishedDate">Aug. 25, 2022</div>
-<div class="dt-authors">
-<div class="dt-author">Robert Ackland</div>
-<div class="dt-author">Francisca Borquez</div>
-</div>
-</div>
-<div class="thumbnail"></div>
-<div class="description">
-<h2>Indigenous Advocacy on Twitter</h2>
-<div class="dt-tags">
-<div class="dt-tag">rstats</div>
-<div class="dt-tag">twitter</div>
-<div class="dt-tag">networks</div>
-<div class="dt-tag">egocentric</div>
-<div class="dt-tag">rtweet</div>
-<div class="dt-tag">vosonsml</div>
-<div class="dt-tag">timeline</div>
-</div>
-<p>Exploring Twitter ego-networks of Indigenous advocacy groups using Twitter timeline data.</p>
-</div>
-</a>
 <a href="posts/2022-06-05-egocentric-networks-from-twitter-timelines/" class="post-preview">
 <script class="post-metadata" type="text/json">{"categories":["rstats","twitter","networks","egocentric","rtweet","vosonsml","timeline"]}</script>
 <div class="metadata">
@@ -2492,7 +2475,7 @@ function init_posts_list() {
 </div>
 </div>
 <div class="thumbnail">
-<img data-src="posts/2021-08-05-exploring-issues-in-reddit-using-voson-dash/preview.png"/>
+<img src="posts/2021-08-05-exploring-issues-in-reddit-using-voson-dash/preview.png"/>
 </div>
 <div class="description">
 <h2>Exploring issues in Reddit using VOSON Dash</h2>
@@ -2671,7 +2654,7 @@ function init_posts_list() {
 <ul>
 <li>
 <a href="#category:Articles">Articles</a>
-<span class="category-count">(12)</span>
+<span class="category-count">(11)</span>
 </li>
 <li>
 <a href="#category:bot_detection">bot detection</a>
@@ -2695,7 +2678,7 @@ function init_posts_list() {
 </li>
 <li>
 <a href="#category:egocentric">egocentric</a>
-<span class="category-count">(2)</span>
+<span class="category-count">(1)</span>
 </li>
 <li>
 <a href="#category:election">election</a>
@@ -2711,7 +2694,7 @@ function init_posts_list() {
 </li>
 <li>
 <a href="#category:networks">networks</a>
-<span class="category-count">(11)</span>
+<span class="category-count">(10)</span>
 </li>
 <li>
 <a href="#category:python">python</a>
@@ -2723,11 +2706,11 @@ function init_posts_list() {
 </li>
 <li>
 <a href="#category:rstats">rstats</a>
-<span class="category-count">(12)</span>
+<span class="category-count">(11)</span>
 </li>
 <li>
 <a href="#category:rtweet">rtweet</a>
-<span class="category-count">(3)</span>
+<span class="category-count">(2)</span>
 </li>
 <li>
 <a href="#category:SNA">SNA</a>
@@ -2739,11 +2722,11 @@ function init_posts_list() {
 </li>
 <li>
 <a href="#category:timeline">timeline</a>
-<span class="category-count">(2)</span>
+<span class="category-count">(1)</span>
 </li>
 <li>
 <a href="#category:twitter">twitter</a>
-<span class="category-count">(6)</span>
+<span class="category-count">(5)</span>
 </li>
 <li>
 <a href="#category:visualisation">visualisation</a>
@@ -2759,7 +2742,7 @@ function init_posts_list() {
 </li>
 <li>
 <a href="#category:vosonsml">vosonsml</a>
-<span class="category-count">(2)</span>
+<span class="category-count">(1)</span>
 </li>
 <li>
 <a href="#category:vosonSML">vosonSML</a>
@@ -2787,8 +2770,7 @@ function init_posts_list() {
 
 
 <div class="d-article">
-<div class="sourceCode" id="cb1"><pre
-class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

@@ -43,3 +43,4 @@ vignettes/*.pdf
 .DS_Store
 *.rds
 robots.txt
+.~lock*

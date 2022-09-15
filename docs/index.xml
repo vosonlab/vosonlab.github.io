@@ -12,23 +12,7 @@
       <link>https://vosonlab.github.io/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Thu, 25 Aug 2022 00:00:00 +0000</lastBuildDate>
-    <item>
-      <title>Indigenous Advocacy on Twitter</title>
-      <dc:creator>Robert Ackland</dc:creator>
-      <dc:creator>Francisca Borquez</dc:creator>
-      <link>https://vosonlab.github.io/posts/2022-08-26-indigenous-advocacy-on-twitter</link>
-      <description>Exploring Twitter ego-networks of Indigenous advocacy groups using Twitter timeline data.</description>
-      <category>rstats</category>
-      <category>twitter</category>
-      <category>networks</category>
-      <category>egocentric</category>
-      <category>rtweet</category>
-      <category>vosonsml</category>
-      <category>timeline</category>
-      <guid>https://vosonlab.github.io/posts/2022-08-26-indigenous-advocacy-on-twitter</guid>
-      <pubDate>Thu, 25 Aug 2022 00:00:00 +0000</pubDate>
-    </item>
+    <lastBuildDate>Mon, 22 Aug 2022 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Egocentric Networks from Twitter timelines</title>
       <dc:creator>Bryan Gertzel</dc:creator>
