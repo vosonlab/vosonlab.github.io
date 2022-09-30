@@ -1,0 +1,247 @@
+---
+title: "Hyperlink networks: data pre-processing techniques"
+description: |
+  Steps for collecting hyperlink networks with vosonSML and to process data using R tools
+author:
+  - name: Robert Ackland
+    url: {https://orcid.org/0000-0002-0008-1766}
+    affiliation: VOSON Lab, School of Sociology, Australian National University
+    affiliation_url: http://vosonlab.net/
+  - name: Francisca Borquez
+date: 2022-08-26
+categories:
+  - rstats
+  - hyperlinks
+  - networks
+  - vosonsml
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+---
+
+## Introduction
+
+The VOSON software web app -- first published in 2006 -- was a research output aimed at studying the emerging web 1.0 as online social networks. The canonical VOSON hyperlink collection was [reintroduced in 2021 in vosonSML (development version)](https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml/). This post provides the methodological steps and code for hyperlink network data pre-processing via R, including the functions that were previously available via VOSON Software web app (pruning, preserving and pagegrouping). 
+
+This example draws from an exploratory area of research on an Indigenous Australia governance network alliance -- [the 10 Deserts Project](https://10deserts.org/). The first attempt to study this alliance involved collecting hyperlink and text data to construct socio-semantic networks.
+
+## Data collection
+
+Hyperlink collection is available via `vosonSML` development version. Find instructions to install the development version on [GitHub](https://github.com/vosonlab/vosonSML)). Partner organisations' websites were entered as seeds. The crawler was set to `all`, i.e. it will follow both internal and external links and depth of crawl was set to 2.
+
+```{r, echo = TRUE, eval = FALSE}
+library(magrittr)
+library(dplyr)
+library(vosonSML)
+library(igraph)
+library(stringr)
+
+
+# set sites as seed pages and set each for external crawl with a max depth
+pages <- data.frame(page = c("https://www.indigenousdesertalliance.com/",
+                             "https://www.desertsupportservices.com/",
+                             "https://www.landscape.sa.gov.au/aw",
+                             "https://www.clc.org.au/",
+                             "https://www.kj.org.au/",
+                             "https://www.klc.org.au/",
+                             "http://www.yanunijarra.com/",
+                             "https://www.alec.org.au/",
+                             "https://www.pewtrusts.org/en",
+                             "https://www.countryneedspeople.org.au/",
+                             "https://www.natureaustralia.org.au/"),
+                    type = c("all", "all", "all", "all", "all","all", "all", "all", "all", "all", "all"),
+                    max_depth = c(2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2))
+
+# set up as a web collection and collect the hyperlink data using the
+# previously defined seed pages
+hyperlinks <- Authenticate("web") %>% Collect(pages)
+
+saveRDS (hyperlinks, file = "hyperlinks")
+saveRDS (pages, file = "pages")
+
+# explore dataframe structure
+glimpse(hyperlinks)
+
+# number of pages scraped for hyperlinks
+nrow(hyperlinks %>% distinct(page))
+
+# number of hyperlinks collected
+nrow(hyperlinks)
+
+```
+
+The resulting dataframe contains 41,811 rows of which 589 represent individual sites. since not all the sites collected are relevant to the analysis (e.g. news sites or Adobe to read pdfs), the next steps will involve data pre-processing to reduce the number of websites in the networks.
+
+```{r, echo = TRUE, eval = FALSE}
+
+use
+#pages <- readRDS("pages.rds")
+#hyperlinks <- readRDS("hyperlinks.rds")
+#these are second crawl Francisca did, with more seed pages
+pages <- readRDS("pages.23Jun.rds")
+hyperlinks <- readRDS("hyperlinks.23Jun.rds")
+
+# create hyperlink actor network
+actor_net <- Create(hyperlinks, "actor")
+
+# identify the seed pages and set a node attribute
+seed_pages <- pages %>%
+  mutate(page = str_remove(page, "^http[s]?://"), seed = TRUE)
+# also remove trailing "/"
+seed_pages <- seed_pages %>%
+  mutate(page = str_remove(page, "/$"))
+
+#Because default vosonsml behaviour when creating actor network is to 
+#not "preserve" subdirectories, this means that seed sites:
+#www.landscape.sa.gov.au/aw
+#www.pewtrusts.org/en
+#are in the network as:
+#www.landscape.sa.gov.au
+#www.pewtrusts.org
+#As a hack for time being, we will ignore the preservation issue
+#So adjust the URL in seed_pages accordingly, so we can get all 11 seeds in the network
+seed_pages$page[which(seed_pages$page=="www.landscape.sa.gov.au/aw")] <- "www.landscape.sa.gov.au"
+seed_pages$page[which(seed_pages$page=="www.pewtrusts.org/en")] <- "www.pewtrusts.org"
+
+actor_net$nodes <- actor_net$nodes %>%
+  left_join(seed_pages, by = c("id" = "page"))
+
+# create an igraph graph object from the network
+g <- actor_net %>% Graph()
+
+#OK now have all 11 seeds in the network
+table(V(g)$seed)
+#TRUE 
+#11 
+
+#Lets do some node *pruning* 
+#write.csv(V(g)$name, "nodes.csv")
+
+#library(tidyr)
+#df <- data.frame(name=V(g)$name)
+#df2 <- df %>% separate(name, sep="\\.", remove=FALSE, c("t1", "t2", "t3", "t4", "t5"))
+#df2$num <- str_count(df2$name, "\\.")
+
+
+canon_sites <- V(g)$name[grep("www\\.", V(g)$name)]
+for (c in canon_sites){
+
+  cat("working on:", c, "\n")
+  i <- str_remove(c,"^www.")
+  #next
+  #print(i)
+  #print(V(g)$name[grep(i, V(g)$name)])
+  num_parts <- str_count(c, "\\.")
+  #ind <- grep(paste0(i,"$"), as.character(V(g)$name))
+  #ind <- grep(paste0("\\.",i,"$"), as.character(V(g)$name))
+  #this is a hack...want to match on ".abc.com" or "abc.com"
+  ind <- union(grep(paste0("\\.",i,"$"), as.character(V(g)$name)), grep(paste0("^",i,"$"), as.character(V(g)$name)))
+
+  #if (length(grep("klc.org.au", V(g)$name[ind]))){
+  #    print(V(g)$name[ind])
+  #    break
+  #}
+
+  if (c == "www.sa.gov.au"){
+      tt <- grep("landscape.sa.gov.au",V(g)$name[ind])
+      if (length(tt)){
+          ind <- ind[-tt]
+      }
+  }
+    
+  ind <- sort(ind)
+    
+  map_i <- 1:ind[1]
+  t <- ind[1]+1
+  for (j in (ind[1]+1):vcount(g)){
+    #print(j)
+    if ((j %in% ind) & (str_count(V(g)$name[j], "\\.")<=num_parts)){     #node to merge
+      map_i <- c(map_i, ind[1])
+    }else{               #not node to merge
+      map_i <- c(map_i, t)
+      t <- t + 1
+    }
+    #t <- t + 1  
+  }
+  
+  #need to use vertex.attr.comb="first" or else get weird lists in attribute
+  #and it messes things up.  Replaced anyway...
+  g <-contract.vertices(g, map_i, vertex.attr.comb="first")
+  #xx <- unlist(V(g)$name)
+  #g <- delete_vertex_attr(g, "name")
+  #V(g)$name <- xx
+  V(g)$name[ind[1]] <- i
+
+  #if(length
+}
+
+
+seeds <- c("indigenousdesertalliance.com",
+                             "desertsupportservices.com",
+                             "landscape.sa.gov.au",
+                             "clc.org.au",
+                             "kj.org.au",
+                             "klc.org.au",
+                             "yanunijarra.com",
+                             "alec.org.au",
+                             "pewtrusts.org",
+                             "countryneedspeople.org.au",
+                             "natureaustralia.org.au")
+
+#OK good, have 11 seed sites again
+length(which(V(g)$name %in% seeds))
+#V(g)$name[which(V(g)$name %in% seeds)]
+
+V(g)$seed <- "non-seed"
+V(g)$seed[which(V(g)$name %in% seeds)] <-"seed"
+table(V(g)$seed)
+
+#prune sites
+#these were created for the first crawl, and then augmented for the second crawl
+prune <- read.csv("prune.csv", header=FALSE)
+for (i in prune$V1){
+  cat("pruning:", i, "\n")
+  g <- delete.vertices(g, which(V(g)$name==i))
+}
+
+write.csv(V(g)$name, "tt.csv")
+
+new_seeds <- read.csv("new_seeds_potentially.csv", header=FALSE)
+
+toDel <- which(!V(g)$name %in% c(seeds, new_seeds$V1))
+
+g <- delete.vertices(g, toDel)
+
+
+#pagegroup <- read.csv("pagegroup.csv", header=FALSE)
+#see if need to do this...
+
+
+# set node colours
+#V(g)$color <- ifelse(degree(g, mode = "in") > 1, "yellow", "grey")
+#V(g)$color[which(V(g)$seed == "seed")] <- "dodgerblue3"
+V(g)$color <- "blue"
+V(g)$color[which(V(g)$seed == "seed")] <- "red"
+
+# set label colours
+V(g)$label.color <- "black"
+#V(g)$label.color[which(V(g)$seed == "seed")] <- "dodgerblue4"
+
+
+# set labels for seed sites and nodes with an in-degree > 1
+V(g)$label <- V(g)$name
+
+
+g <- simplify(g)
+write.graph(g, "g.graphml", format="graphml")
+
+
+gsub <- delete.vertices(g, which(V(g)$seed=="non-seed"&degree(g)<2))
+write.graph(gsub, "gsub.graphml", format="graphml")
+
+
+```
+
+
+
