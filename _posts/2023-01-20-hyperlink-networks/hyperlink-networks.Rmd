@@ -1,0 +1,25 @@
+---
+title: "Hyperlink networks"
+description: |
+  A short description of the post.
+author:
+  - name: Robert Ackland
+    url: {}
+  - name: Sidiq Madaj
+date: 2023-01-20
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Distill is a publication format for scientific and technical writing, native to the web.
+
+Learn more about using Distill at <https://rstudio.github.io/distill>.
+
+
