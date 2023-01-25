@@ -15,15 +15,75 @@ draft: true
 
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Second edit by Rob.  third edit by Rob.  222
+# First step - hyperlink network collection
 
-Test edit by Sidiq
-Test edit third by Sidiq
-Distill is a publication format for scientific and technical writing, native to the web.
+Let's first test out hyperlink collection.
 
-Learn more about using Distill at <https://rstudio.github.io/distill>.
+We are going to use VOSON to collect hyperlinks.
 
+First load the libraries.
+
+```{r}
+library(magrittr)
+library(vosonSML)
+library(igraph)
+```
+
+Now we conduct the craw.
+
+We create a dataframe containing the pages to be crawled
+
+```{r}
+
+#For more information on collecting hyperlink networks using vosonSML, see:
+#https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml/
+
+# seed pages
+# int: collect all hyperlinks but only follow links that have same domain as seed page (internal)
+# ext: collect all hyperlinks but only follow links that have different domain as seed page (external)
+# all: collect and follow all hyperlinks
+# max_depth: how many levels of hyperlinks to follow from seed page
+pages <- data.frame(page = c("http://vosonlab.net",
+                             "https://rsss.cass.anu.edu.au",
+                             "https://www.ansna.org.au"),
+                    type = c("int", "ext", "all"),
+                    max_depth = c(1, 1, 1))
+
+pages
+
+```
+
+Now run the crawl.  Set verbose=TRUE to see the crawler working.
+
+```{r, eval=FALSE}
+
+crawlDF <- Authenticate("web") %>% Collect(pages, verbose=TRUE)
+
+crawlDF
+
+#We will save this dataframe, for use later
+saveRDS(crawlDF, "crawlDF.rds")
+
+```
+
+Let's now create networks from the crawl data.
+
+```{r}
+crawlDF <- readRDS("crawlDF.rds")
+
+
+# nodes are pages hyperlinks were collected from
+net_activity <- crawlDF %>% Create("activity")
+g_activity <- net_activity %>% Graph(writeToFile = TRUE)
+g_activity
+
+# nodes are site domains of pages hyperlinks were collected from
+net_actor <- crawlDF %>% Create("actor")
+g_actor <- net_actor %>% Graph(writeToFile = TRUE)
+g_actor
+
+```
 
