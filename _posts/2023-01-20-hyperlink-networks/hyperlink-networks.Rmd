@@ -30,11 +30,10 @@ First load the libraries.
 library(magrittr)
 library(vosonSML)
 library(igraph)
+library(dplyr)
 ```
 
-Now we conduct the craw.
-
-We create a dataframe containing the pages to be crawled
+We create a dataframe containing the pages to be crawled.  We are reading a csv file with pages for 20 organisations etc etc. [Sidiq can provide some more information on the case study].  We have chosen 1 or 2 pages from each website and are using these as "seed pages" where the crawler will start.
 
 ```{r}
 
@@ -46,33 +45,39 @@ We create a dataframe containing the pages to be crawled
 # ext: collect all hyperlinks but only follow links that have different domain as seed page (external)
 # all: collect and follow all hyperlinks
 # max_depth: how many levels of hyperlinks to follow from seed page
-pages <- data.frame(page = c("http://vosonlab.net",
-                             "https://rsss.cass.anu.edu.au",
-                             "https://www.ansna.org.au"),
-                    type = c("int", "ext", "all"),
-                    max_depth = c(1, 1, 1))
+#pages <- data.frame(page = c("http://vosonlab.net",
+#                             "https://rsss.cass.anu.edu.au",
+#                             "https://www.ansna.org.au"),
+#                    type = c("int", "ext", "all"),
+#                    max_depth = c(1, 1, 1))
 
+pages <- read.csv("seed_sites_20.csv")
 pages
+
+#remove pages that caused error with crawler
+pages <- pages %>% filter(!grepl("ispa.org.za", pages$page))
 
 ```
 
-Now run the crawl.  Set verbose=TRUE to see the crawler working.
+Note that for the crawler all we need is a dataframe with three columns: page, type, max_depth (explain these), but of course it might be useful to include other meta data in this file that is used in analysis later.
+
+Now run the crawl.  Set `verbose=TRUE` to see the crawler working.
 
 ```{r, eval=FALSE}
 
 crawlDF <- Authenticate("web") %>% Collect(pages, verbose=TRUE)
-
 crawlDF
 
 #We will save this dataframe, for use later
-saveRDS(crawlDF, "crawlDF.rds")
+#saveRDS(crawlDF, "crawlDF.rds")
+saveRDS(crawlDF, "crawlDF_20_sites_depth1.rds")
 
 ```
 
 Let's now create networks from the crawl data.
 
 ```{r}
-crawlDF <- readRDS("crawlDF.rds")
+crawlDF <- readRDS("crawlDF_20_sites_depth1.rds")
 
 
 # nodes are pages hyperlinks were collected from
@@ -84,6 +89,16 @@ g_activity
 net_actor <- crawlDF %>% Create("actor")
 g_actor <- net_actor %>% Graph(writeToFile = TRUE)
 g_actor
+plot(g_actor)
+
+#Rob will work on this...how to get network of just seed sites
+# network of just the seed pages/sites
+#crawlDF_tmp <- filter(url )
+#net_actor <- crawlDF %>% Create("actor")
+#g_actor <- net_actor %>% Graph(writeToFile = TRUE)
+#g_actor
+
+
 
 ```
 
