@@ -33,9 +33,11 @@ library(igraph)
 library(dplyr)
 ```
 
-We create a dataframe containing the pages to be crawled.  We are reading a csv file with pages for 20 organisations etc etc. [Sidiq can provide some more information on the case study].  We have chosen 1 or 2 pages from each website and are using these as "seed pages" where the crawler will start.
+We create a dataframe containing the pages to be crawled.  We are reading a csv file with pages for 20 organisations. These organisations are samples of non-state or non-government entities (for-profit and non-for-profit) which actively engage in 'data sovereignty' debates as part of their concern in contemporary data politics. These organisations include NGO, research think thank, media, companies, industry associations, and movements or initiatives from communities. These different group of organisations deal with various issues and values when promoting their agenda ranging from security, privacy, innovation, entrepreneurship, to human rights and social justice.
 
-```{r}
+Being involved in the emerging issues of global data politics, these organisations are based or headquartered in different countries across the globe include the US, UK, Canada, Germany, The Netherlands, Belgium, and Denmark which represent the Global North, and South Africa, India and Hong Kong representing the Global South. The websites are being used by these organisations to participate in the emerging debates on data politics. Their participation in the debates are becoming more intense in the midst of the ongoing process of massive 'digitisation' and 'datafication' in societies. We have chosen 1 or 2 pages from each website and are using these as "seed pages" where the crawler will start.
+
+```{r, eval=FALSE}
 
 #For more information on collecting hyperlink networks using vosonSML, see:
 #https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml/
@@ -76,7 +78,7 @@ saveRDS(crawlDF, "crawlDF_20_sites_depth1.rds")
 
 Let's now create networks from the crawl data.
 
-```{r}
+```{r, eval=FALSE}
 crawlDF <- readRDS("crawlDF_20_sites_depth1.rds")
 
 

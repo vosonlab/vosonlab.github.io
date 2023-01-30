@@ -97,7 +97,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <meta property="article:published" itemprop="datePublished" content="2023-01-20"/>
   <meta property="article:created" itemprop="dateCreated" content="2023-01-20"/>
   <meta name="article:author" content="Robert Ackland"/>
-  <meta name="article:author" content="Sidiq Madaj"/>
+  <meta name="article:author" content="Sidiq Madya"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Hyperlink networks"/>
@@ -114,12 +114,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["Hyperlink networks"]},{"type":"character","attributes":{},"value":["A short description of the post.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Robert Ackland"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":[]}},"value":[]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Sidiq Madaj"]}]}]},{"type":"character","attributes":{},"value":["2023-01-20"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["Hyperlink networks"]},{"type":"character","attributes":{},"value":["A short description of the post.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Robert Ackland"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":[]}},"value":[]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Sidiq Madya"]}]}]},{"type":"character","attributes":{},"value":["2023-01-20"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"NULL"}
+  {"type":"character","attributes":{},"value":["2023-01-25_160950-WebActivity.graphml","2023-01-25_160951-WebActor.graphml","hyperlink-networks_files/anchor-4.2.2/anchor.min.js","hyperlink-networks_files/bowser-1.9.3/bowser.min.js","hyperlink-networks_files/distill-2.2.21/template.v2.js","hyperlink-networks_files/header-attrs-2.19/header-attrs.js","hyperlink-networks_files/jquery-3.6.0/jquery-3.6.0.js","hyperlink-networks_files/jquery-3.6.0/jquery-3.6.0.min.js","hyperlink-networks_files/jquery-3.6.0/jquery-3.6.0.min.map","hyperlink-networks_files/popper-2.6.0/popper.min.js","hyperlink-networks_files/tippy-6.2.7/tippy-bundle.umd.min.js","hyperlink-networks_files/tippy-6.2.7/tippy-light-border.css","hyperlink-networks_files/tippy-6.2.7/tippy.css","hyperlink-networks_files/tippy-6.2.7/tippy.umd.min.js","hyperlink-networks_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1497,7 +1497,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Hyperlink networks","description":"A short description of the post.","authors":[{"author":"Robert Ackland","authorURL":{},"affiliation":"&nbsp;","affiliationURL":"#","orcidID":""},{"author":"Sidiq Madaj","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2023-01-20T00:00:00.000+11:00","citationText":"Ackland & Madaj, 2023"}
+{"title":"Hyperlink networks","description":"A short description of the post.","authors":[{"author":"Robert Ackland","authorURL":{},"affiliation":"&nbsp;","affiliationURL":"#","orcidID":""},{"author":"Sidiq Madya","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2023-01-20T00:00:00.000+11:00","citationText":"Ackland & Madya, 2023"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1516,14 +1516,86 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="d-byline">
   Robert Ackland true 
   
-,   Sidiq Madaj  
+,   Sidiq Madya  
   
 <br/>2023-01-20
 </div>
 
 <div class="d-article">
-<p>Distill is a publication format for scientific and technical writing, native to the web.</p>
-<p>Learn more about using Distill at <a href="https://rstudio.github.io/distill" class="uri">https://rstudio.github.io/distill</a>.</p>
+<h1 id="first-step---hyperlink-network-collection">First step - hyperlink network collection</h1>
+<p>Let’s first test out hyperlink collection.</p>
+<p>We are going to use VOSON to collect hyperlinks.</p>
+<p>First load the libraries.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://magrittr.tidyverse.org'>magrittr</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/vosonlab/vosonSML'>vosonSML</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://igraph.org'>igraph</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<p>We create a dataframe containing the pages to be crawled. We are reading a csv file with pages for 20 organisations. These organisations are samples of non-state or non-government entities (for-profit and non-for-profit) which actively engage in ‘data sovereignty’ debates as part of their concern in contemporary data politics. These organisations include NGO, research think thank, media, companies, industry associations, and movements or initiatives from communities. These different group of organisations deal with various issues and values when promoting their agenda ranging from security, privacy, innovation, entrepreneurship, to human rights and social justice.</p>
+<p>Being involved in the emerging issues of global data politics, these organisations are based or headquartered in different countries across the globe include the US, UK, Canada, Germany, The Netherlands, Belgium, and Denmark which represent the Global North, and South Africa, India and Hong Kong representing the Global South. The websites are being used by these organisations to participate in the emerging debates on data politics. Their participation in the debates are becoming more intense in the midst of the ongoing process of massive ‘digitisation’ and ‘datafication’ in societies. We have chosen 1 or 2 pages from each website and are using these as “seed pages” where the crawler will start.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#For more information on collecting hyperlink networks using vosonSML, see:</span></span>
+<span><span class='co'>#https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml/</span></span>
+<span></span>
+<span><span class='co'># seed pages</span></span>
+<span><span class='co'># int: collect all hyperlinks but only follow links that have same domain as seed page (internal)</span></span>
+<span><span class='co'># ext: collect all hyperlinks but only follow links that have different domain as seed page (external)</span></span>
+<span><span class='co'># all: collect and follow all hyperlinks</span></span>
+<span><span class='co'># max_depth: how many levels of hyperlinks to follow from seed page</span></span>
+<span><span class='co'>#pages &lt;- data.frame(page = c("http://vosonlab.net",</span></span>
+<span><span class='co'>#                             "https://rsss.cass.anu.edu.au",</span></span>
+<span><span class='co'>#                             "https://www.ansna.org.au"),</span></span>
+<span><span class='co'>#                    type = c("int", "ext", "all"),</span></span>
+<span><span class='co'>#                    max_depth = c(1, 1, 1))</span></span>
+<span></span>
+<span><span class='va'>pages</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='st'>"seed_sites_20.csv"</span><span class='op'>)</span></span>
+<span><span class='va'>pages</span></span>
+<span></span>
+<span><span class='co'>#remove pages that caused error with crawler</span></span>
+<span><span class='va'>pages</span> <span class='op'>&lt;-</span> <span class='va'>pages</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span><span class='op'>(</span><span class='st'>"ispa.org.za"</span>, <span class='va'>pages</span><span class='op'>$</span><span class='va'>page</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<p>Note that for the crawler all we need is a dataframe with three columns: page, type, max_depth (explain these), but of course it might be useful to include other meta data in this file that is used in analysis later.</p>
+<p>Now run the crawl. Set <code>verbose=TRUE</code> to see the crawler working.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>crawlDF</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/vosonSML/man/Authenticate.html'>Authenticate</a></span><span class='op'>(</span><span class='st'>"web"</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/vosonSML/man/Collect.html'>Collect</a></span><span class='op'>(</span><span class='va'>pages</span>, verbose<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span><span class='va'>crawlDF</span></span>
+<span></span>
+<span><span class='co'>#We will save this dataframe, for use later</span></span>
+<span><span class='co'>#saveRDS(crawlDF, "crawlDF.rds")</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>saveRDS</a></span><span class='op'>(</span><span class='va'>crawlDF</span>, <span class='st'>"crawlDF_20_sites_depth1.rds"</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<p>Let’s now create networks from the crawl data.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>crawlDF</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='st'>"crawlDF_20_sites_depth1.rds"</span><span class='op'>)</span></span>
+<span></span>
+<span></span>
+<span><span class='co'># nodes are pages hyperlinks were collected from</span></span>
+<span><span class='va'>net_activity</span> <span class='op'>&lt;-</span> <span class='va'>crawlDF</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/vosonSML/man/Create.html'>Create</a></span><span class='op'>(</span><span class='st'>"activity"</span><span class='op'>)</span></span>
+<span><span class='va'>g_activity</span> <span class='op'>&lt;-</span> <span class='va'>net_activity</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/vosonSML/man/Graph.html'>Graph</a></span><span class='op'>(</span>writeToFile <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span><span class='va'>g_activity</span></span>
+<span></span>
+<span><span class='co'># nodes are site domains of pages hyperlinks were collected from</span></span>
+<span><span class='va'>net_actor</span> <span class='op'>&lt;-</span> <span class='va'>crawlDF</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/vosonSML/man/Create.html'>Create</a></span><span class='op'>(</span><span class='st'>"actor"</span><span class='op'>)</span></span>
+<span><span class='va'>g_actor</span> <span class='op'>&lt;-</span> <span class='va'>net_actor</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/vosonSML/man/Graph.html'>Graph</a></span><span class='op'>(</span>writeToFile <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span><span class='va'>g_actor</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>g_actor</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'>#Rob will work on this...how to get network of just seed sites</span></span>
+<span><span class='co'># network of just the seed pages/sites</span></span>
+<span><span class='co'>#crawlDF_tmp &lt;- filter(url )</span></span>
+<span><span class='co'>#net_actor &lt;- crawlDF %&gt;% Create("actor")</span></span>
+<span><span class='co'>#g_actor &lt;- net_actor %&gt;% Graph(writeToFile = TRUE)</span></span>
+<span><span class='co'>#g_actor</span></span></code></pre>
+</div>
+</div>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
