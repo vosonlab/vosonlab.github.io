@@ -15,7 +15,7 @@ categories:
 output:
   distill::distill_article:
     self_contained: false
-draft: true
+draft: false
 ---
 
 
@@ -137,7 +137,7 @@ seed_pages <- seed_pages %>%
 a <- str_match(seed_pages$page, "(.+?)/")
 seed_pages$page <- ifelse(grepl("/", seed_pages$page), a[,2], seed_pages$page)
 
-seed_pages <- seed_pages %>% distinct(page)
+seed_pages <- seed_pages %>% distinct(page, .keep_all=TRUE)
 
 nrow(seed_pages)
 
@@ -148,6 +148,10 @@ net_actor$nodes <- net_actor$nodes %>%
 # create an igraph object from the network
 g <- net_actor %>% Graph()
 
+#simplify the network - remove loops and multiple edges
+E(g)$weight <- 1
+g <- simplify(g)
+
 #OK now have all 11 seeds in the network
 table(V(g)$seed)
 #TRUE 
@@ -155,12 +159,28 @@ table(V(g)$seed)
 
 #create igraph graph of just the seed sites
 g_seed <- induced.subgraph(g, which(V(g)$seed==TRUE))
+plot(g_seed, layout=layout_with_fr(g_seed), vertex.label="", vertex.size=3, edge.width=1, edge.arrow.size=0.5)
+
+V(g)$color <- ifelse(V(g)$seed==TRUE, "red", "blue")
+plot(g, layout=layout_with_fr(g), vertex.label="", vertex.size=3, edge.width=E(g)$weight, edge.arrow.size=0.5)
+
+```
+
+
+
+### Seed sites plus "important" other sites
+
+```{r}
+
+g_seedImp <- induced.subgraph(g, which(V(g)$seed==TRUE | (degree(g)>=2)))
+plot(g_seedImp, layout=layout_with_fr(g_seedImp), vertex.size=3, edge.width=1, edge.arrow.size=0.5)
 
 
 ```
 
-### Seed sites plus "important" other sites
+# Pruning
 
+The above "seeds plus important" network has sites that are not relevant to the study.  let's prune them.
 
 
 
