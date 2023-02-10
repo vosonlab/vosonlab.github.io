@@ -9,7 +9,7 @@ collections:
   posts:
     share: [twitter, facebook]
     custom: _custom.html
-    citations: false
+    citations: true
 navbar:
   logo: images/logo.png
   right:
