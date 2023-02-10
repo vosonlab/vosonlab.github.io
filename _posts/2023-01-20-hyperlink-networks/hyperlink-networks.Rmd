@@ -5,8 +5,13 @@ description: |
 author:
   - name: Robert Ackland
     url: {}
+  - name: Francisca Borquez  
   - name: Sidiq Madya
 date: 2023-01-20
+categories:
+  - rstats
+  - hyperlink networks
+  - vosonsml
 output:
   distill::distill_article:
     self_contained: false
@@ -31,13 +36,16 @@ library(magrittr)
 library(vosonSML)
 library(igraph)
 library(dplyr)
+library(knitr)
+library(stringr)
+
 ```
 
 We create a dataframe containing the pages to be crawled.  We are reading a csv file with pages for 20 organisations. These organisations are samples of non-state or non-government entities (for-profit and non-for-profit) which actively engage in 'data sovereignty' debates as part of their concern in contemporary data politics. These organisations include NGO, research think thank, media, companies, industry associations, and movements or initiatives from communities. These different group of organisations deal with various issues and values when promoting their agenda ranging from security, privacy, innovation, entrepreneurship, to human rights and social justice.
 
 Being involved in the emerging issues of global data politics, these organisations are based or headquartered in different countries across the globe include the US, UK, Canada, Germany, The Netherlands, Belgium, and Denmark which represent the Global North, and South Africa, India and Hong Kong representing the Global South. The websites are being used by these organisations to participate in the emerging debates on data politics. Their participation in the debates are becoming more intense in the midst of the ongoing process of massive 'digitisation' and 'datafication' in societies. We have chosen 1 or 2 pages from each website and are using these as "seed pages" where the crawler will start.
 
-```{r, eval=FALSE}
+```{r}
 
 #For more information on collecting hyperlink networks using vosonSML, see:
 #https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml/
@@ -54,53 +62,108 @@ Being involved in the emerging issues of global data politics, these organisatio
 #                    max_depth = c(1, 1, 1))
 
 pages <- read.csv("seed_sites_20.csv")
-pages
+kable(head(pages))
 
 #remove pages that caused error with crawler
+#Rob to check this again..error might no longer be present with new version of vosonSML
 pages <- pages %>% filter(!grepl("ispa.org.za", pages$page))
 
 ```
 
 Note that for the crawler all we need is a dataframe with three columns: page, type, max_depth (explain these), but of course it might be useful to include other meta data in this file that is used in analysis later.
 
-Now run the crawl.  Set `verbose=TRUE` to see the crawler working.
+Now run the crawl. 
 
 ```{r, eval=FALSE}
-
+#Remember to set `verbose=TRUE` to see the crawler working
 crawlDF <- Authenticate("web") %>% Collect(pages, verbose=TRUE)
 crawlDF
 
 #We will save this dataframe, for use later
 #saveRDS(crawlDF, "crawlDF.rds")
 saveRDS(crawlDF, "crawlDF_20_sites_depth1.rds")
-
 ```
+
+# Creating hyperlink networks
 
 Let's now create networks from the crawl data.
 
-```{r, eval=FALSE}
+```{r}
 crawlDF <- readRDS("crawlDF_20_sites_depth1.rds")
 
+# explore dataframe structure
+glimpse(crawlDF)
 
-# nodes are pages hyperlinks were collected from
+# create activity network: nodes are pages hyperlinks were collected from
 net_activity <- crawlDF %>% Create("activity")
 g_activity <- net_activity %>% Graph(writeToFile = TRUE)
-g_activity
+plot(g_activity, layout=layout_with_fr(g_activity), vertex.label="", vertex.size=3, edge.width=1, edge.arrow.size=0.5)
 
-# nodes are site domains of pages hyperlinks were collected from
+# create actor network: nodes are site domains of pages hyperlinks were collected from
 net_actor <- crawlDF %>% Create("actor")
 g_actor <- net_actor %>% Graph(writeToFile = TRUE)
 g_actor
-plot(g_actor)
+plot(g_actor, layout=layout_with_fr(g_actor), vertex.label="", vertex.size=3, edge.width=1, edge.arrow.size=0.5)
 
-#Rob will work on this...how to get network of just seed sites
-# network of just the seed pages/sites
-#crawlDF_tmp <- filter(url )
-#net_actor <- crawlDF %>% Create("actor")
-#g_actor <- net_actor %>% Graph(writeToFile = TRUE)
-#g_actor
+```
 
+For the rest of this exercise we will use the actor network.  The actor network has `r vcount(g_actor)` nodes and `r ecount(g_actor)` edges.  We will now look at three approaches for processing hyperlink network data: pruning, preserving and pagegrouping [REF to Rob's earlier work, VOSON software].
+
+## Pruning
+
+Pruning refers to removing nodes that are considered not relevant to the analysis.  It is highly likely that the web crawler will pick up pages that are not relevant to the study, and so we use pruning to identify and remove these irrelevant pages.
+
+### Seed sites only
+
+```{r}
+
+# identify the seed pages and set a node attribute
+# we are also removing http tag and trailing forward slash
+seed_pages <- pages %>%
+  mutate(page = str_remove(page, "^http[s]?://"), seed = TRUE)
+# also remove trailing "/"
+seed_pages <- seed_pages %>%
+  mutate(page = str_remove(page, "/$"))
+
+#Because default vosonsml behaviour when creating actor network is to 
+#not "preserve" subdirectories, this means that seed site:
+#womeninlocalization.com/partners 
+#is in the network as:
+#womeninlocalization.com
+#As a HACK for time being, we will ignore the preservation issue
+#So adjust the URL in seed_pages accordingly, so we can get identify all seeds in the network
+
+#The following will return just the domain name
+a <- str_match(seed_pages$page, "(.+?)/")
+seed_pages$page <- ifelse(grepl("/", seed_pages$page), a[,2], seed_pages$page)
+
+seed_pages <- seed_pages %>% distinct(page)
+
+nrow(seed_pages)
+
+net_actor$nodes <- net_actor$nodes %>%
+  left_join(seed_pages, by = c("id" = "page"))
+
+
+# create an igraph object from the network
+g <- net_actor %>% Graph()
+
+#OK now have all 11 seeds in the network
+table(V(g)$seed)
+#TRUE 
+#11 
+
+#create igraph graph of just the seed sites
+g_seed <- induced.subgraph(g, which(V(g)$seed==TRUE))
 
 
 ```
+
+### Seed sites plus "important" other sites
+
+
+
+
+
+
 
