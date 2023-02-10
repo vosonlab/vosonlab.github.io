@@ -12,21 +12,7 @@
       <link>https://vosonlab.github.io/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Fri, 20 Jan 2023 00:00:00 +0000</lastBuildDate>
-    <item>
-      <title>Hyperlink networks</title>
-      <dc:creator>Robert Ackland</dc:creator>
-      <dc:creator>Francisca Borquez</dc:creator>
-      <dc:creator>Sidiq Madya</dc:creator>
-      <link>https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks</link>
-      <description>A short description of the post.</description>
-      <category>rstats</category>
-      <category>hyperlink networks</category>
-      <category>vosonsml</category>
-      <guid>https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks</guid>
-      <pubDate>Fri, 20 Jan 2023 00:00:00 +0000</pubDate>
-      <media:content url="https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks/hyperlink-networks_files/figure-html5/unnamed-chunk-4-1.png" medium="image" type="image/png" width="1248" height="768"/>
-    </item>
+    <lastBuildDate>Mon, 22 Aug 2022 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Egocentric Networks from Twitter timelines</title>
       <dc:creator>Bryan Gertzel</dc:creator>
