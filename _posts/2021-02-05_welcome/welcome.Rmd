@@ -3,12 +3,10 @@ title: "Welcome to the VOSON Lab Code Blog"
 description: |
   The code blog is a space to share tools, methods, tips, examples and code. A place to collect data, construct and analyze online networks.
 author:
-  - name: VOSON Lab 
+  - name: Robert Ackland
     url: http://vosonlab.net/
-    affiliation: School of Sociology,
+    affiliation: VOSON Lab, School of Sociology, Australian National University
     affiliation_url: http://vosonlab.net/
-  - name:  
-    affiliation: Australian National University
 date: February 4, 2021
 categories:
   - rstats
@@ -39,100 +37,3 @@ We hope you find this content useful!
 The VOSON Lab team.
 
 *Virtual Observatory for the Study of Online Networks [VOSON Lab](http://vosonlab.net/), School of Sociology, The Australian National University.*
-
-```{r timeline, echo = TRUE, eval = FALSE}
-## collect @paygapapp timeline tweets using v1.1 API
-
-library(dplyr); library(lubridate); library(rtweet); library(voson.tcn)
-
-# collect all available timeline tweets for the bot
-gpg_bot_tl <-
-  rtweet::get_timeline(c("PayGapApp"), n = Inf, retryonratelimit = TRUE)
-
-# filter for the #iwd2022 time period
-gpg_bot_tl <- gpg_bot_tl |>
-  filter(created_at > ymd_hms("2022-03-03 23:59:59") &
-           created_at < ymd_hms("2022-03-13 00:00:00"))
-```
-
-```{r, echo = TRUE, eval = FALSE}
-## collect tweets using v2 API for metadata
-
-# filter for only timeline tweets that are quote tweets
-quote_tweets <- gpg_bot_tl |> filter(is_quote == TRUE)
-
-# get tweet ids of quoted tweets
-org_tweet_ids <- quote_tweets |> pull(quoted_status_id) |> unique()
-
-# get tweet ids from the bot timeline
-bot_tweet_ids <- quote_tweets |> pull(status_id) |> unique()
-
-# collect tweets using the twitter v2 api
-bot_org_tweets <-
-  voson.tcn::tcn_tweets(tweet_ids = c(bot_tweet_ids, org_tweet_ids),
-                        token = readRDS("~/.v2_api_token"))
-```
-
-```{r, echo = TRUE, eval = FALSE}
-## collect conversation thread tweets by conversation_id
-
-# get conversation ids from tweets
-conv_ids <- bot_org_tweets |>
-  pull(conversation_id) |> unique()
-
-# collect conversation thread tweets
-conv_threads <-
-  voson.tcn::tcn_threads(
-    tweet_ids = conv_ids,
-    token = readRDS("~/.v2_api_token"),
-    endpoint = "all",
-    start_time = "2022-03-03T23:59:59Z",
-    end_time = "2022-03-13T00:00:00Z"
-  )
-
-> nrow(bot_tl_data)
-[1] 3250
-> table(bot_tl_data$is_quote)
-FALSE  TRUE 
- 1308  1942 
-
-> nrow(bot_tl_data)
-[1] 2001
-> table(bot_tl_data$is_quote)
-FALSE  TRUE 
-  202  1799
-
-> nrow(conv_threads$tweets)
-[1] 24130
-> nrow(conv_threads$users)
-[1] 10042
-  
-> nrow(conv_threads$tweets)
-[1] 24130
-> nrow(conv_threads$users)
-[1] 10042
-> table(conv_threads$errors$type)
-https://api.twitter.com/2/problems/not-authorized-for-resource 
-                                                           137 
-         https://api.twitter.com/2/problems/resource-not-found 
-                                                           742
-                                                           
-####################
-                                                           
-> nrow(bot_org_tweets$tweets)
-[1] 5555
-> nrow(bot_org_tweets$users)
-[1] 3026
-> nrow(bot_org_tweets$errors)
-[1] 2
-> table(bot_org_tweets$errors$type)
-https://api.twitter.com/2/problems/resource-not-found 
-                                                    2 
-```
-
-```{r, echo = TRUE, eval = FALSE}
-## create networks from collected tweet data
-
-# create networks
-actor_net <- conv_threads |> voson.tcn::tcn_network(type = "actor")
-```

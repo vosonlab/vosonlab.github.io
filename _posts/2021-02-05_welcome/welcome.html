@@ -96,8 +96,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--  https://schema.org/Article -->
   <meta property="article:published" itemprop="datePublished" content="2021-02-04"/>
   <meta property="article:created" itemprop="dateCreated" content="2021-02-04"/>
-  <meta name="article:author" content="VOSON Lab"/>
-  <meta name="article:author" content=""/>
+  <meta name="article:author" content="Robert Ackland"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Welcome to the VOSON Lab Code Blog"/>
@@ -114,7 +113,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","categories","preview","output"]}},"value":[{"type":"character","attributes":{},"value":["Welcome to the VOSON Lab Code Blog"]},{"type":"character","attributes":{},"value":["The code blog is a space to share tools, methods, tips, examples and code. A place to collect data, construct and analyze online networks.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["VOSON Lab"]},{"type":"character","attributes":{},"value":["http://vosonlab.net/"]},{"type":"character","attributes":{},"value":["School of Sociology,"]},{"type":"character","attributes":{},"value":["http://vosonlab.net/"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"NULL"},{"type":"character","attributes":{},"value":["Australian National University"]}]}]},{"type":"character","attributes":{},"value":["February 4, 2021"]},{"type":"character","attributes":{},"value":["rstats","SNA","Computational Social Science"]},{"type":"character","attributes":{},"value":["square-cards.png"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","categories","preview","output"]}},"value":[{"type":"character","attributes":{},"value":["Welcome to the VOSON Lab Code Blog"]},{"type":"character","attributes":{},"value":["The code blog is a space to share tools, methods, tips, examples and code. A place to collect data, construct and analyze online networks.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Robert Ackland"]},{"type":"character","attributes":{},"value":["http://vosonlab.net/"]},{"type":"character","attributes":{},"value":["VOSON Lab, School of Sociology, Australian National University"]},{"type":"character","attributes":{},"value":["http://vosonlab.net/"]}]}]},{"type":"character","attributes":{},"value":["February 4, 2021"]},{"type":"character","attributes":{},"value":["rstats","SNA","Computational Social Science"]},{"type":"character","attributes":{},"value":["square-cards.png"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
@@ -190,6 +189,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   d-article table.gt_table td,
   d-article table.gt_table th {
     border-bottom: none;
+    font-size: 100%;
   }
 
   .html-widget {
@@ -1262,15 +1262,21 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
       // hoverable references
       $('span.citation[data-cites]').each(function() {
-        if ($(this).children()[0].nodeName == "D-FOOTNOTE") {
-          var fn = $(this).children()[0]
+        const citeChild = $(this).children()[0]
+        // Do not process if @xyz has been used without escaping and without bibliography activated
+        // https://github.com/rstudio/distill/issues/466
+        if (citeChild === undefined) return true
+
+        if (citeChild.nodeName == "D-FOOTNOTE") {
+          var fn = citeChild
           $(this).html(fn.shadowRoot.querySelector("sup"))
           $(this).id = fn.id
           fn.remove()
         }
         var refs = $(this).attr('data-cites').split(" ");
         var refHtml = refs.map(function(ref) {
-          return "<p>" + $('#ref-' + ref).html() + "</p>";
+          // Could use CSS.escape too here, we insure backward compatibility in navigator
+          return "<p>" + $('div[id="ref-' + ref + '"]').html() + "</p>";
         }).join("\n");
         window.tippy(this, {
           allowHTML: true,
@@ -1469,7 +1475,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="welcome_files/header-attrs-2.14/header-attrs.js"></script>
+  <script src="welcome_files/header-attrs-2.20/header-attrs.js"></script>
   <script src="welcome_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="welcome_files/popper-2.6.0/popper.min.js"></script>
   <link href="welcome_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -1490,7 +1496,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Welcome to the VOSON Lab Code Blog","description":"The code blog is a space to share tools, methods, tips, examples and code. A place to collect data, construct and analyze online networks.","authors":[{"author":"VOSON Lab","authorURL":"http://vosonlab.net/","affiliation":"School of Sociology,","affiliationURL":"http://vosonlab.net/","orcidID":""},{"author":"","authorURL":"#","affiliation":"Australian National University","affiliationURL":"#","orcidID":""}],"publishedDate":"2021-02-04T00:00:00.000+11:00","citationText":"Lab & , 2021"}
+{"title":"Welcome to the VOSON Lab Code Blog","description":"The code blog is a space to share tools, methods, tips, examples and code. A place to collect data, construct and analyze online networks.","authors":[{"author":"Robert Ackland","authorURL":"http://vosonlab.net/","affiliation":"VOSON Lab, School of Sociology, Australian National University","affiliationURL":"http://vosonlab.net/","orcidID":""}],"publishedDate":"2021-02-04T00:00:00.000+11:00","citationText":"Ackland, 2021"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1508,170 +1514,30 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="dt-tag">Computational Social Science</div>
 </div>
 <!--/radix_placeholder_categories-->
-<p><p>The code blog is a space to share tools, methods, tips, examples
-and code. A place to collect data, construct and analyze online
-networks.</p></p>
+<p><p>The code blog is a space to share tools, methods, tips, examples and code. A place to collect data, construct and analyze online networks.</p></p>
 </div>
 
 <div class="d-byline">
-  VOSON Lab <a href="http://vosonlab.net/"
-class="uri">http://vosonlab.net/</a> (School of Sociology,)<a
-href="http://vosonlab.net/" class="uri">http://vosonlab.net/</a>
-  
-,   
-  true
+  Robert Ackland <a href="http://vosonlab.net/" class="uri">http://vosonlab.net/</a> (VOSON Lab, School of Sociology, Australian National University)<a href="http://vosonlab.net/" class="uri">http://vosonlab.net/</a>
   
 <br/>February 4, 2021
 </div>
 
 <div class="d-article">
-<p>Welcome to the <a href="http://vosonlab.net/">VOSON Lab</a> Code
-Blog! We have created this space to share methods, tips, examples and
-code. It’s also a place where we will demonstrate constructing and
-analyzing networks from various API and other online data sources.</p>
-<p>Most of our posts will cover techniques around the tools we have
-developed at the Lab: <code>vosonSML</code>, <code>VOSONDash</code> and
-<code>voson.tcn</code>, which are available on both <a
-href="https://cran.r-project.org/package=vosonSML">CRAN</a> and <a
-href="https://github.com/vosonlab">GitHub</a>. But we also plan to use
-this space to cover other complementary R packages and open-source
-software, such as fantastic R packages within the <a
-href="https://www.tidyverse.org/"><code>tidyverse</code></a>, RStudio’s
-<a href="https://www.rstudio.com/products/shiny/"><code>shiny</code></a>
-for web apps, and visualization tools such as <a
-href="https://igraph.org/r/"><code>igraph</code></a> and <a
-href="https://gephi.org/"><code>Gephi</code></a>.</p>
+<p>Welcome to the <a href="http://vosonlab.net/">VOSON Lab</a> Code Blog! We have created this space to share methods, tips, examples and code. It’s also a place where we will demonstrate constructing and analyzing networks from various API and other online data sources.</p>
+<p>Most of our posts will cover techniques around the tools we have developed at the Lab: <code>vosonSML</code>, <code>VOSONDash</code> and <code>voson.tcn</code>, which are available on both <a href="https://cran.r-project.org/package=vosonSML">CRAN</a> and <a href="https://github.com/vosonlab">GitHub</a>. But we also plan to use this space to cover other complementary R packages and open-source software, such as fantastic R packages within the <a href="https://www.tidyverse.org/"><code>tidyverse</code></a>, RStudio’s <a href="https://www.rstudio.com/products/shiny/"><code>shiny</code></a> for web apps, and visualization tools such as <a href="https://igraph.org/r/"><code>igraph</code></a> and <a href="https://gephi.org/"><code>Gephi</code></a>.</p>
 <figure>
 <img src="VOSON-tools.png" alt="VOSON Lab R Packages - Hex stickers" />
-<figcaption aria-hidden="true">VOSON Lab R Packages - Hex
-stickers</figcaption>
+<figcaption aria-hidden="true">VOSON Lab R Packages - Hex stickers</figcaption>
 </figure>
 <h3 id="voson-lab-open-source-tools">VOSON Lab Open Source Tools</h3>
-<p><code>vosonSML</code> is a R package for social media data collection
-(currently twitter, youtube, and reddit), hyperlink collection and
-network generation. <code>VOSONDash</code> is a <code>Shiny</code> app
-that integrates tools for visualizing and manipulating network graphs,
-performing network and text analysis, as well as an interface for
-collecting data with <code>vosonSML</code>.</p>
-<p>More information on these packages, their development and code can be
-found on our <a
-href="https://github.com/vosonlab/vosonSML"><code>vosonSML</code></a>,
-<a
-href="https://github.com/vosonlab/VOSONDash"><code>VOSONDash</code></a>
-and <a
-href="https://github.com/vosonlab/voson.tcn"><code>voson.tcn</code></a>
-github pages.</p>
-<p>We also have some other guides for using the packages. Check the <a
-href="https://vosonlab.github.io/vosonSML/articles/Intro-to-vosonSML.html">vosonSML
-Vignette</a> and the <a
-href="https://vosonlab.github.io/VOSONDashDocs/">VOSON Dash
-Userguide</a> for some practical examples and feature reference.</p>
+<p><code>vosonSML</code> is a R package for social media data collection (currently twitter, youtube, and reddit), hyperlink collection and network generation. <code>VOSONDash</code> is a <code>Shiny</code> app that integrates tools for visualizing and manipulating network graphs, performing network and text analysis, as well as an interface for collecting data with <code>vosonSML</code>.</p>
+<p>More information on these packages, their development and code can be found on our <a href="https://github.com/vosonlab/vosonSML"><code>vosonSML</code></a>, <a href="https://github.com/vosonlab/VOSONDash"><code>VOSONDash</code></a> and <a href="https://github.com/vosonlab/voson.tcn"><code>voson.tcn</code></a> github pages.</p>
+<p>We also have some other guides for using the packages. Check the <a href="https://vosonlab.github.io/vosonSML/articles/Intro-to-vosonSML.html">vosonSML Vignette</a> and the <a href="https://vosonlab.github.io/VOSONDashDocs/">VOSON Dash Userguide</a> for some practical examples and feature reference.</p>
 <p>We hope you find this content useful!</p>
 <p>The VOSON Lab team.</p>
-<p><em>Virtual Observatory for the Study of Online Networks <a
-href="http://vosonlab.net/">VOSON Lab</a>, School of Sociology, The
-Australian National University.</em></p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>## collect @paygapapp timeline tweets using v1.1 API</span></span>
-<span></span>
-<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>; <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://lubridate.tidyverse.org'>lubridate</a></span><span class='op'>)</span>; <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://CRAN.R-project.org/package=rtweet'>rtweet</a></span><span class='op'>)</span>; <span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/vosonlab/voson.tcn'>voson.tcn</a></span><span class='op'>)</span></span>
-<span></span>
-<span><span class='co'># collect all available timeline tweets for the bot</span></span>
-<span><span class='va'>gpg_bot_tl</span> <span class='op'>&lt;-</span></span>
-<span>  <span class='fu'>rtweet</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rtweet/man/get_timeline.html'>get_timeline</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"PayGapApp"</span><span class='op'>)</span>, n <span class='op'>=</span> <span class='cn'>Inf</span>, retryonratelimit <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='co'># filter for the #iwd2022 time period</span></span>
-<span><span class='va'>gpg_bot_tl</span> <span class='op'>&lt;-</span> <span class='va'>gpg_bot_tl</span> <span class='op'>|&gt;</span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>created_at</span> <span class='op'>&gt;</span> <span class='fu'><a href='https://lubridate.tidyverse.org/reference/ymd_hms.html'>ymd_hms</a></span><span class='op'>(</span><span class='st'>"2022-03-03 23:59:59"</span><span class='op'>)</span> <span class='op'>&amp;</span></span>
-<span>           <span class='va'>created_at</span> <span class='op'>&lt;</span> <span class='fu'><a href='https://lubridate.tidyverse.org/reference/ymd_hms.html'>ymd_hms</a></span><span class='op'>(</span><span class='st'>"2022-03-13 00:00:00"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
-</div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>## collect tweets using v2 API for metadata</span></span>
-<span></span>
-<span><span class='co'># filter for only timeline tweets that are quote tweets</span></span>
-<span><span class='va'>quote_tweets</span> <span class='op'>&lt;-</span> <span class='va'>gpg_bot_tl</span> <span class='op'>|&gt;</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>is_quote</span> <span class='op'>==</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='co'># get tweet ids of quoted tweets</span></span>
-<span><span class='va'>org_tweet_ids</span> <span class='op'>&lt;-</span> <span class='va'>quote_tweets</span> <span class='op'>|&gt;</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></span><span class='op'>(</span><span class='va'>quoted_status_id</span><span class='op'>)</span> <span class='op'>|&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='co'># get tweet ids from the bot timeline</span></span>
-<span><span class='va'>bot_tweet_ids</span> <span class='op'>&lt;-</span> <span class='va'>quote_tweets</span> <span class='op'>|&gt;</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/pull.html'>pull</a></span><span class='op'>(</span><span class='va'>status_id</span><span class='op'>)</span> <span class='op'>|&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='co'># collect tweets using the twitter v2 api</span></span>
-<span><span class='va'>bot_org_tweets</span> <span class='op'>&lt;-</span></span>
-<span>  <span class='fu'>voson.tcn</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/voson.tcn/man/tcn_tweets.html'>tcn_tweets</a></span><span class='op'>(</span>tweet_ids <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>bot_tweet_ids</span>, <span class='va'>org_tweet_ids</span><span class='op'>)</span>,</span>
-<span>                        token <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='st'>"~/.v2_api_token"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
-</div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## collect conversation thread tweets by conversation_id</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co"># get conversation ids from tweets</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>conv_ids <span class="ot">&lt;-</span> bot_org_tweets <span class="sc">|&gt;</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(conversation_id) <span class="sc">|&gt;</span> <span class="fu">unique</span>()</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># collect conversation thread tweets</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>conv_threads <span class="ot">&lt;-</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  voson.tcn<span class="sc">::</span><span class="fu">tcn_threads</span>(</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">tweet_ids =</span> conv_ids,</span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">token =</span> <span class="fu">readRDS</span>(<span class="st">&quot;~/.v2_api_token&quot;</span>),</span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">endpoint =</span> <span class="st">&quot;all&quot;</span>,</span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">start_time =</span> <span class="st">&quot;2022-03-03T23:59:59Z&quot;</span>,</span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">end_time =</span> <span class="st">&quot;2022-03-13T00:00:00Z&quot;</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">nrow</span>(bot_tl_data)</span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">3250</span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">table</span>(bot_tl_data<span class="sc">$</span>is_quote)</span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="cn">FALSE</span>  <span class="cn">TRUE</span> </span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a> <span class="dv">1308</span>  <span class="dv">1942</span> </span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">nrow</span>(bot_tl_data)</span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">2001</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">table</span>(bot_tl_data<span class="sc">$</span>is_quote)</span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="cn">FALSE</span>  <span class="cn">TRUE</span> </span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>  <span class="dv">202</span>  <span class="dv">1799</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">nrow</span>(conv_threads<span class="sc">$</span>tweets)</span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">24130</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">nrow</span>(conv_threads<span class="sc">$</span>users)</span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">10042</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">nrow</span>(conv_threads<span class="sc">$</span>tweets)</span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">24130</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">nrow</span>(conv_threads<span class="sc">$</span>users)</span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">10042</span></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">table</span>(conv_threads<span class="sc">$</span>errors<span class="sc">$</span>type)</span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>api.twitter.com<span class="sc">/</span><span class="dv">2</span><span class="sc">/</span>problems<span class="sc">/</span>not<span class="sc">-</span>authorized<span class="sc">-</span><span class="cf">for</span><span class="sc">-</span>resource </span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>                                                           <span class="dv">137</span> </span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>         https<span class="sc">:</span><span class="er">//</span>api.twitter.com<span class="sc">/</span><span class="dv">2</span><span class="sc">/</span>problems<span class="sc">/</span>resource<span class="sc">-</span>not<span class="sc">-</span>found </span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>                                                           <span class="dv">742</span></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>                                                           </span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="do">####################</span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>                                                           </span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">nrow</span>(bot_org_tweets<span class="sc">$</span>tweets)</span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">5555</span></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">nrow</span>(bot_org_tweets<span class="sc">$</span>users)</span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">3026</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">nrow</span>(bot_org_tweets<span class="sc">$</span>errors)</span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">2</span></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">table</span>(bot_org_tweets<span class="sc">$</span>errors<span class="sc">$</span>type)</span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>https<span class="sc">:</span><span class="er">//</span>api.twitter.com<span class="sc">/</span><span class="dv">2</span><span class="sc">/</span>problems<span class="sc">/</span>resource<span class="sc">-</span>not<span class="sc">-</span>found </span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>                                                    <span class="dv">2</span> </span></code></pre></div>
-</div>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>## create networks from collected tweet data</span></span>
-<span></span>
-<span><span class='co'># create networks</span></span>
-<span><span class='va'>actor_net</span> <span class='op'>&lt;-</span> <span class='va'>conv_threads</span> <span class='op'>|&gt;</span> <span class='fu'>voson.tcn</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/voson.tcn/man/tcn_network.html'>tcn_network</a></span><span class='op'>(</span>type <span class='op'>=</span> <span class='st'>"actor"</span><span class='op'>)</span></span></code></pre>
-</div>
-</div>
-<div class="sourceCode" id="cb2"><pre
-class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p><em>Virtual Observatory for the Study of Online Networks <a href="http://vosonlab.net/">VOSON Lab</a>, School of Sociology, The Australian National University.</em></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>

@@ -164,15 +164,14 @@
     </item>
     <item>
       <title>Welcome to the VOSON Lab Code Blog</title>
-      <dc:creator>VOSON Lab</dc:creator>
-      <dc:creator/>
+      <dc:creator>Robert Ackland</dc:creator>
       <link>https://vosonlab.github.io/posts/2021-02-05_welcome</link>
       <description>The code blog is a space to share tools, methods, tips, examples and code. A place to collect data, construct and analyze online networks.</description>
       <category>rstats</category>
       <category>SNA</category>
       <category>Computational Social Science</category>
       <guid>https://vosonlab.github.io/posts/2021-02-05_welcome</guid>
-      <pubDate>Thu, 04 Feb 2021 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 03 Feb 2021 00:00:00 +0000</pubDate>
       <media:content url="https://vosonlab.github.io/posts/2021-02-05_welcome/square-cards.png" medium="image" type="image/png" width="800" height="640"/>
     </item>
   </channel>
