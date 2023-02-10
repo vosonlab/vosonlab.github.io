@@ -96,12 +96,12 @@ glimpse(crawlDF)
 
 # create activity network: nodes are pages hyperlinks were collected from
 net_activity <- crawlDF %>% Create("activity")
-g_activity <- net_activity %>% Graph(writeToFile = TRUE)
+g_activity <- net_activity %>% Graph()
 plot(g_activity, layout=layout_with_fr(g_activity), vertex.label="", vertex.size=3, edge.width=1, edge.arrow.size=0.5)
 
 # create actor network: nodes are site domains of pages hyperlinks were collected from
 net_actor <- crawlDF %>% Create("actor")
-g_actor <- net_actor %>% Graph(writeToFile = TRUE)
+g_actor <- net_actor %>% Graph()
 g_actor
 plot(g_actor, layout=layout_with_fr(g_actor), vertex.label="", vertex.size=3, edge.width=1, edge.arrow.size=0.5)
 
