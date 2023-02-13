@@ -118,7 +118,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["debate_headlines.png","debate_preview.png","n_search_plot.svg","n_streaming_plot.svg","reply_network.png"]}
+  {"type":"character","attributes":{},"value":["debate_headlines.png","debate_preview.png","n_search_plot.svg","n_streaming_plot.svg","reply_network.png","us-presidential-debates-2020-twitter-collection_files/anchor-4.2.2/anchor.min.js","us-presidential-debates-2020-twitter-collection_files/bowser-1.9.3/bowser.min.js","us-presidential-debates-2020-twitter-collection_files/distill-2.2.21/template.v2.js","us-presidential-debates-2020-twitter-collection_files/header-attrs-2.14/header-attrs.js","us-presidential-debates-2020-twitter-collection_files/jquery-3.6.0/jquery-3.6.0.js","us-presidential-debates-2020-twitter-collection_files/jquery-3.6.0/jquery-3.6.0.min.js","us-presidential-debates-2020-twitter-collection_files/jquery-3.6.0/jquery-3.6.0.min.map","us-presidential-debates-2020-twitter-collection_files/popper-2.6.0/popper.min.js","us-presidential-debates-2020-twitter-collection_files/tippy-6.2.7/tippy-bundle.umd.min.js","us-presidential-debates-2020-twitter-collection_files/tippy-6.2.7/tippy-light-border.css","us-presidential-debates-2020-twitter-collection_files/tippy-6.2.7/tippy.css","us-presidential-debates-2020-twitter-collection_files/tippy-6.2.7/tippy.umd.min.js","us-presidential-debates-2020-twitter-collection_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -189,6 +189,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   d-article table.gt_table td,
   d-article table.gt_table th {
     border-bottom: none;
+    font-size: 100%;
   }
 
   .html-widget {
@@ -1261,15 +1262,21 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
       // hoverable references
       $('span.citation[data-cites]').each(function() {
-        if ($(this).children()[0].nodeName == "D-FOOTNOTE") {
-          var fn = $(this).children()[0]
+        const citeChild = $(this).children()[0]
+        // Do not process if @xyz has been used without escaping and without bibliography activated
+        // https://github.com/rstudio/distill/issues/466
+        if (citeChild === undefined) return true
+
+        if (citeChild.nodeName == "D-FOOTNOTE") {
+          var fn = citeChild
           $(this).html(fn.shadowRoot.querySelector("sup"))
           $(this).id = fn.id
           fn.remove()
         }
         var refs = $(this).attr('data-cites').split(" ");
         var refHtml = refs.map(function(ref) {
-          return "<p>" + $('#ref-' + ref).html() + "</p>";
+          // Could use CSS.escape too here, we insure backward compatibility in navigator
+          return "<p>" + $('div[id="ref-' + ref + '"]').html() + "</p>";
         }).join("\n");
         window.tippy(this, {
           allowHTML: true,
@@ -1468,7 +1475,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="us-presidential-debates-2020-twitter-collection_files/header-attrs-2.14/header-attrs.js"></script>
+  <script src="us-presidential-debates-2020-twitter-collection_files/header-attrs-2.20/header-attrs.js"></script>
   <script src="us-presidential-debates-2020-twitter-collection_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
   <script src="us-presidential-debates-2020-twitter-collection_files/popper-2.6.0/popper.min.js"></script>
   <link href="us-presidential-debates-2020-twitter-collection_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
@@ -1510,14 +1517,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="dt-tag">debate</div>
 </div>
 <!--/radix_placeholder_categories-->
-<p><p>Methodology for the bulk collection of tweets containing key
-hashtags for the US Presidential Debates and generation of Networks for
-Analysis.</p></p>
+<p><p>Methodology for the bulk collection of tweets containing key hashtags for the US Presidential Debates and generation of Networks for Analysis.</p></p>
 </div>
 
 <div class="d-byline">
-  Bryan Gertzel  (VOSON Lab)<a href="http://vosonlab.net/"
-class="uri">http://vosonlab.net/</a>
+  Bryan Gertzel  (VOSON Lab)<a href="http://vosonlab.net/" class="uri">http://vosonlab.net/</a>
   
 <br/>2021-06-03
 </div>
@@ -1527,117 +1531,44 @@ class="uri">http://vosonlab.net/</a>
 <nav class="l-text toc figcaption" id="TOC">
 <h3>Contents</h3>
 <ul>
-<li><a href="#collection-strategy">Collection Strategy</a>
+<li><a href="#collection-strategy" id="toc-collection-strategy">Collection Strategy</a>
 <ul>
-<li><a href="#hashtags">Hashtags</a></li>
-<li><a href="#timezones">Timezones</a></li>
+<li><a href="#hashtags" id="toc-hashtags">Hashtags</a></li>
+<li><a href="#timezones" id="toc-timezones">Timezones</a></li>
 </ul></li>
-<li><a href="#streaming-collection">Streaming Collection</a></li>
-<li><a href="#search-collection">Search Collection</a></li>
-<li><a href="#first-presidential-debate-preliminary-results">First
-Presidential Debate Preliminary Results</a>
+<li><a href="#streaming-collection" id="toc-streaming-collection">Streaming Collection</a></li>
+<li><a href="#search-collection" id="toc-search-collection">Search Collection</a></li>
+<li><a href="#first-presidential-debate-preliminary-results" id="toc-first-presidential-debate-preliminary-results">First Presidential Debate Preliminary Results</a>
 <ul>
-<li><a href="#data-summary">Data Summary</a></li>
-<li><a href="#data-tweet-activity">Data Tweet Activity</a></li>
+<li><a href="#data-summary" id="toc-data-summary">Data Summary</a></li>
+<li><a href="#data-tweet-activity" id="toc-data-tweet-activity">Data Tweet Activity</a></li>
 </ul></li>
-<li><a href="#network-analysis">Network Analysis</a>
+<li><a href="#network-analysis" id="toc-network-analysis">Network Analysis</a>
 <ul>
-<li><a href="#merge-collected-data">Merge Collected Data</a></li>
-<li><a href="#create-networks">Create Networks</a></li>
-<li><a href="#reply-network-giant-component">Reply-network Giant
-Component</a></li>
+<li><a href="#merge-collected-data" id="toc-merge-collected-data">Merge Collected Data</a></li>
+<li><a href="#create-networks" id="toc-create-networks">Create Networks</a></li>
+<li><a href="#reply-network-giant-component" id="toc-reply-network-giant-component">Reply-network Giant Component</a></li>
 </ul></li>
 </ul>
 </nav>
 </div>
-<p>The VOSON Lab undertook a number of Twitter collections on selected
-hashtags during the 2020 US Presidential debates and townhalls. The
-Twitter streaming API endpoint was used for a sampled real-time
-collection of tweets during the debates, and the recent search API was
-used post-debate to collect all tweets containing hashtags that occurred
-over the debate telecast periods. The two approaches differ in that the
-streaming API endpoint allows access to a <a
-href="https://developer.twitter.com/en/docs/twitter-api/tweets/sampled-stream/introduction">“roughly
-1% random sample of publicly available Tweets in real-time”</a> using
-provided hashtags or terms as a filter to monitor events. The search API
-endpoint uses terms in a search query to match all tweets containing
-hashtags for a recent historical period in time. The streaming
-collections, a filtered sample, produced much smaller datasets and was
-useful for a timeley review of the Twitter activity during the debates
-as well as for identifying tweets to act as bounds for search
-collections. The retrospective search collections were much larger and
-produced more comprehensive datasets.</p>
-<p>The R packages <code>rtweet</code> and <code>vosonSML</code>, the
-latter of which wraps the functionality of <code>rtweet</code> for its
-Twitter capability, were used in a semi-automated way to collect data
-with both streaming and search API’s. These packages use the standard <a
-href="https://developer.twitter.com/en/docs/twitter-api/v1">Twitter API
-v1.1</a> endpoints.</p>
-<p>Two US Presidential debates took place between Donald Trump and Joe
-Biden on September 29th and October 22nd, with one debate scheduled for
-October 15th cancelled due to COVID-19 concerns. One VP debate between
-Kamala Harris and Mike Pence took place on October 7th. This article
-will focus on the datasets collected for the first debate, widely
-reported as <a
-href="https://theconversation.com/the-first-us-presidential-debate-was-pure-chaos-heres-what-our-experts-thought-147178">“pure
-chaos”</a> and <a
-href="https://www.abc.net.au/news/2020-10-01/us-election-debate-became-little-more-than-shouting-trump-biden/12718458">“90
-minutes of insult and interjection”</a> by commentators, to demonstrate
-our collection methodology and some simple network analysis.</p>
+<p>The VOSON Lab undertook a number of Twitter collections on selected hashtags during the 2020 US Presidential debates and townhalls. The Twitter streaming API endpoint was used for a sampled real-time collection of tweets during the debates, and the recent search API was used post-debate to collect all tweets containing hashtags that occurred over the debate telecast periods. The two approaches differ in that the streaming API endpoint allows access to a <a href="https://developer.twitter.com/en/docs/twitter-api/tweets/sampled-stream/introduction">“roughly 1% random sample of publicly available Tweets in real-time”</a> using provided hashtags or terms as a filter to monitor events. The search API endpoint uses terms in a search query to match all tweets containing hashtags for a recent historical period in time. The streaming collections, a filtered sample, produced much smaller datasets and was useful for a timeley review of the Twitter activity during the debates as well as for identifying tweets to act as bounds for search collections. The retrospective search collections were much larger and produced more comprehensive datasets.</p>
+<p>The R packages <code>rtweet</code> and <code>vosonSML</code>, the latter of which wraps the functionality of <code>rtweet</code> for its Twitter capability, were used in a semi-automated way to collect data with both streaming and search API’s. These packages use the standard <a href="https://developer.twitter.com/en/docs/twitter-api/v1">Twitter API v1.1</a> endpoints.</p>
+<p>Two US Presidential debates took place between Donald Trump and Joe Biden on September 29th and October 22nd, with one debate scheduled for October 15th cancelled due to COVID-19 concerns. One VP debate between Kamala Harris and Mike Pence took place on October 7th. This article will focus on the datasets collected for the first debate, widely reported as <a href="https://theconversation.com/the-first-us-presidential-debate-was-pure-chaos-heres-what-our-experts-thought-147178">“pure chaos”</a> and <a href="https://www.abc.net.au/news/2020-10-01/us-election-debate-became-little-more-than-shouting-trump-biden/12718458">“90 minutes of insult and interjection”</a> by commentators, to demonstrate our collection methodology and some simple network analysis.</p>
 <figure>
-<img src="debate_headlines.png" class="external" width="512"
-alt="Figure 1: Next day headlines, tweet from https://twitter.com/oliverdarcy. Embedded tweet sourced from Twitter." />
-<figcaption aria-hidden="true">Figure 1: Next day headlines, tweet from
-<a href="https://twitter.com/oliverdarcy"
-class="uri">https://twitter.com/oliverdarcy</a>. Embedded tweet sourced
-from Twitter.</figcaption>
+<img src="debate_headlines.png" class="external" width="512" alt="Figure 1: Next day headlines, tweet from https://twitter.com/oliverdarcy. Embedded tweet sourced from Twitter." />
+<figcaption aria-hidden="true">Figure 1: Next day headlines, tweet from <a href="https://twitter.com/oliverdarcy" class="uri">https://twitter.com/oliverdarcy</a>. Embedded tweet sourced from Twitter.</figcaption>
 </figure>
 <h2 id="collection-strategy">Collection Strategy</h2>
-<p>The US Presidential debates were all scheduled to run for 1.5 hours
-between 9pm and 10.30pm Eastern Daylight Time (EDT). To capture Twitter
-discussion surrounding the debate a four hour streaming window was
-chosen, with the collection starting at 8.30pm and concluding at 12.30am
-EDT (0.5 hours before and 2 hours after the debate). Streaming
-collection was performed by multiple team members, each with slightly
-staggered start times. This is because streaming collections were
-divided into 15 minute segments, and offsetting allowed tweets to be
-collected during connections, disconnections and segment changeover
-intervals. The tweets could then be merged and any duplicates removed in
-post-processing.</p>
-<p>Because of the very likely large volume of tweets collected using the
-search API endpoint the collection window was reduced to 2 hours,
-starting 15 minutes before and concluding 15 minutes after the debates.
-Twitter searches are historical and page backwards in time, results are
-returned from most recent tweet as the first observation to the earliest
-tweet matching search criteria as last observation collected. There are
-also limits to how many tweets can be collected as defined by the API
-rate-limit. Using a <a
-href="https://developer.twitter.com/en/docs/authentication/oauth-2-0/bearer-tokens">bearer
-authentication token</a> to perform searches allows for 45,000 tweets to
-be retrieved every 15 minutes.</p>
-<p>As tweet status ID’s are sequential numbers, with new tweets
-incrementing the identifier, they can be used to set bounds for
-searches. Simply, the first tweet in the collected data from a search
-(earliest tweet in data) can be used as a starting point for subsequent
-searches as we move backwards in time. This means that given two tweets,
-one at the beginning and the other at the end of an event - the debate,
-we can systematically and programatically collect all tweets in-between
-working backwards from the end of event tweet. To identify which tweets
-to use as bounds we performed timestamp search of collected streaming
-tweets. We identified the highest status ID tweet matching our end time
-for the collection window 10.45pm EDT (search start) and the lowest ID
-matching our debate start time 8.45pm EDT (search end).</p>
-<p>In practice, 45,000 tweets were collected with a pause for the 15
-minute rate-limit to reset, then a further 45,000 were collected with a
-pause, and so on until the tweet that we identified as marking the
-beginning of the debate window was collected. Because this process could
-take many hours, it was important to perform the search collections
-within 7 days of the debates.</p>
+<p>The US Presidential debates were all scheduled to run for 1.5 hours between 9pm and 10.30pm Eastern Daylight Time (EDT). To capture Twitter discussion surrounding the debate a four hour streaming window was chosen, with the collection starting at 8.30pm and concluding at 12.30am EDT (0.5 hours before and 2 hours after the debate). Streaming collection was performed by multiple team members, each with slightly staggered start times. This is because streaming collections were divided into 15 minute segments, and offsetting allowed tweets to be collected during connections, disconnections and segment changeover intervals. The tweets could then be merged and any duplicates removed in post-processing.</p>
+<p>Because of the very likely large volume of tweets collected using the search API endpoint the collection window was reduced to 2 hours, starting 15 minutes before and concluding 15 minutes after the debates. Twitter searches are historical and page backwards in time, results are returned from most recent tweet as the first observation to the earliest tweet matching search criteria as last observation collected. There are also limits to how many tweets can be collected as defined by the API rate-limit. Using a <a href="https://developer.twitter.com/en/docs/authentication/oauth-2-0/bearer-tokens">bearer authentication token</a> to perform searches allows for 45,000 tweets to be retrieved every 15 minutes.</p>
+<p>As tweet status ID’s are sequential numbers, with new tweets incrementing the identifier, they can be used to set bounds for searches. Simply, the first tweet in the collected data from a search (earliest tweet in data) can be used as a starting point for subsequent searches as we move backwards in time. This means that given two tweets, one at the beginning and the other at the end of an event - the debate, we can systematically and programatically collect all tweets in-between working backwards from the end of event tweet. To identify which tweets to use as bounds we performed timestamp search of collected streaming tweets. We identified the highest status ID tweet matching our end time for the collection window 10.45pm EDT (search start) and the lowest ID matching our debate start time 8.45pm EDT (search end).</p>
+<div class="bs-callout bs-callout-warning">
+Update: Twitter tweet ID’s are large unique 64bit unsigned integers that are not incremented or assigned sequentially, but instead generated from a timestamp, a worker number, and a sequence number (Refer <a href="https://developer.twitter.com/en/docs/twitter-ids">Developer Platform: Twitter ID’s</a>). It is problematic to use and perform operations on these ID’s as integers and they should instead be managed as unique identifier strings. Tweets are retrieved from the API ordered, and it is more reliable to use the first and last observation and/or tweet timestamps to delimit searches. Unlike the Twitter API v1.1 used for this article, the newer API v2 also returns tweet timestamps that record the tweet creation time to the second rather than to the minute.
+</div>
+<p>In practice, 45,000 tweets were collected with a pause for the 15 minute rate-limit to reset, then a further 45,000 were collected with a pause, and so on until the tweet that we identified as marking the beginning of the debate window was collected. Because this process could take many hours, it was important to perform the search collections within 7 days of the debates.</p>
 <h3 id="hashtags">Hashtags</h3>
-<p>A set of hashtags were selected in order to capture tweets related to
-the presidential debates. The following 12 were used for streaming and
-search collections for all debates, with 4 addditonal hashtags for the
-vice presidential debate and 3 for the townhalls.</p>
+<p>A set of hashtags were selected in order to capture tweets related to the presidential debates. The following 12 were used for streaming and search collections for all debates, with 4 addditonal hashtags for the vice presidential debate and 3 for the townhalls.</p>
 <table>
 <caption>Table 1: Debate hashtags</caption>
 <colgroup>
@@ -1653,9 +1584,7 @@ vice presidential debate and 3 for the townhalls.</p>
 <tbody>
 <tr class="odd">
 <td>Hashtags for all events</td>
-<td>#PresidentialDebate, #PresidentialDebates, #Election2020,
-#Debates2020, #Debates, #DebateNight, #Biden, #Biden2020,
-#BidenHarris2020, #Trump, #Trump2020, #TrumpPence2020</td>
+<td>#PresidentialDebate, #PresidentialDebates, #Election2020, #Debates2020, #Debates, #DebateNight, #Biden, #Biden2020, #BidenHarris2020, #Trump, #Trump2020, #TrumpPence2020</td>
 </tr>
 <tr class="even">
 <td>Additional vice presidential debate</td>
@@ -1668,14 +1597,7 @@ vice presidential debate and 3 for the townhalls.</p>
 </tbody>
 </table>
 <h3 id="timezones">Timezones</h3>
-<p>The first US Presidential debate took place in Cleveland, Ohio at 9pm
-Eastern Daylight Time (EDT) on the 29th September, 2020. Tweet
-timestamps are all in Universal Coordinated Time (UTC), meaning times in
-the data need to be offset by -4 to find the debate time in EDT. As
-collection took place in Canberra, Australia or Australian Eastern
-Standard Time (AEST), the local system timestamps produced by scripts
-for logging are in AEST. The first debate time and timezone conversions
-can be seen in the table below.</p>
+<p>The first US Presidential debate took place in Cleveland, Ohio at 9pm Eastern Daylight Time (EDT) on the 29th September, 2020. Tweet timestamps are all in Universal Coordinated Time (UTC), meaning times in the data need to be offset by -4 to find the debate time in EDT. As collection took place in Canberra, Australia or Australian Eastern Standard Time (AEST), the local system timestamps produced by scripts for logging are in AEST. The first debate time and timezone conversions can be seen in the table below.</p>
 <table style="width:68%;">
 <caption>Table 2: First debate timezone reference</caption>
 <colgroup>
@@ -1709,99 +1631,85 @@ can be seen in the table below.</p>
 </tbody>
 </table>
 <h2 id="streaming-collection">Streaming Collection</h2>
-<p>For the streaming collection a directory was created to for easier
-post-processing. Streaming data was collected and written to file in
-JSON format using timestamp formatted file names. The streaming
-collection period was set to 4 hours and divided into segments or
-files.</p>
+<p>For the streaming collection a directory was created to for easier post-processing. Streaming data was collected and written to file in JSON format using timestamp formatted file names. The streaming collection period was set to 4 hours and divided into segments or files.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>wd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='co'># check paths and create directories if they do not exist</span>
-<span class='va'>data_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>wd</span>, <span class='st'>"/data"</span><span class='op'>)</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.exists</a></span><span class='op'>(</span><span class='va'>data_path</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span> <span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span><span class='op'>(</span><span class='va'>data_path</span>, showWarnings <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>}</span>
-
-<span class='va'>streams_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>data_path</span>, <span class='st'>"/pres-debate-streams"</span><span class='op'>)</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.exists</a></span><span class='op'>(</span><span class='va'>streams_path</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span> <span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span><span class='op'>(</span><span class='va'>streams_path</span>, showWarnings <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>}</span>
-
-<span class='co'># helper functions to write to log file and to create date time based file names</span>
-<span class='va'>log</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>msg</span>, <span class='va'>fn</span><span class='op'>)</span> <span class='op'>{</span> <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='va'>msg</span>, file <span class='op'>=</span> <span class='va'>fn</span>, append <span class='op'>=</span> <span class='cn'>TRUE</span>, sep <span class='op'>=</span> <span class='st'>"\n"</span><span class='op'>)</span> <span class='op'>}</span>
-<span class='va'>fname</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>ts</span><span class='op'>)</span> <span class='op'>{</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>path</span>, <span class='st'>"/stream-"</span>, <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span><span class='op'>(</span><span class='st'>"[^[:digit:]_]"</span>, <span class='st'>""</span>, <span class='va'>ts</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>}</span>
-
-<span class='co'># set stream filter hashtags - comma seperated</span>
-<span class='va'>stream_filter</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"#PresidentialDebate,#PresidentialDebates,#Election2020,"</span>,
-                       <span class='st'>"#Debates2020,#Debates,#DebateNight,"</span>,
-                       <span class='st'>"#Biden,#Biden2020,#BidenHarris2020,"</span>,
-                       <span class='st'>"#Trump,#Trump2020,#TrumpPence2020"</span><span class='op'>)</span>
-
-<span class='co'># set the time period to collect tweets in seconds</span>
-<span class='va'>stream_period</span> <span class='op'>&lt;-</span> <span class='fl'>4</span> <span class='op'>*</span> <span class='fl'>60</span> <span class='op'>*</span> <span class='fl'>60</span> <span class='co'># 4 hours or 14400 seconds</span>
-
-<span class='co'># break up streaming collection into segments</span>
-<span class='va'>num_segs</span> <span class='op'>&lt;-</span> <span class='fl'>16</span> <span class='co'># each segment is 15 minutes</span>
-<span class='va'>seg_period</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>ceiling</a></span><span class='op'>(</span><span class='va'>stream_period</span> <span class='op'>/</span> <span class='va'>num_segs</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>wd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'># check paths and create directories if they do not exist</span></span>
+<span><span class='va'>data_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>wd</span>, <span class='st'>"/data"</span><span class='op'>)</span></span>
+<span><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.exists</a></span><span class='op'>(</span><span class='va'>data_path</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span> <span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span><span class='op'>(</span><span class='va'>data_path</span>, showWarnings <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>}</span></span>
+<span></span>
+<span><span class='va'>streams_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>data_path</span>, <span class='st'>"/pres-debate-streams"</span><span class='op'>)</span></span>
+<span><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.exists</a></span><span class='op'>(</span><span class='va'>streams_path</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span> <span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span><span class='op'>(</span><span class='va'>streams_path</span>, showWarnings <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>}</span></span>
+<span></span>
+<span><span class='co'># helper functions to write to log file and to create date time based file names</span></span>
+<span><span class='va'>log</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>msg</span>, <span class='va'>fn</span><span class='op'>)</span> <span class='op'>{</span> <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='va'>msg</span>, file <span class='op'>=</span> <span class='va'>fn</span>, append <span class='op'>=</span> <span class='cn'>TRUE</span>, sep <span class='op'>=</span> <span class='st'>"\n"</span><span class='op'>)</span> <span class='op'>}</span></span>
+<span><span class='va'>fname</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>path</span>, <span class='va'>ts</span><span class='op'>)</span> <span class='op'>{</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>path</span>, <span class='st'>"/stream-"</span>, <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span><span class='op'>(</span><span class='st'>"[^[:digit:]_]"</span>, <span class='st'>""</span>, <span class='va'>ts</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>}</span></span>
+<span></span>
+<span><span class='co'># set stream filter hashtags - comma seperated</span></span>
+<span><span class='va'>stream_filter</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"#PresidentialDebate,#PresidentialDebates,#Election2020,"</span>,</span>
+<span>                       <span class='st'>"#Debates2020,#Debates,#DebateNight,"</span>,</span>
+<span>                       <span class='st'>"#Biden,#Biden2020,#BidenHarris2020,"</span>,</span>
+<span>                       <span class='st'>"#Trump,#Trump2020,#TrumpPence2020"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'># set the time period to collect tweets in seconds</span></span>
+<span><span class='va'>stream_period</span> <span class='op'>&lt;-</span> <span class='fl'>4</span> <span class='op'>*</span> <span class='fl'>60</span> <span class='op'>*</span> <span class='fl'>60</span> <span class='co'># 4 hours or 14400 seconds</span></span>
+<span></span>
+<span><span class='co'># break up streaming collection into segments</span></span>
+<span><span class='va'>num_segs</span> <span class='op'>&lt;-</span> <span class='fl'>16</span> <span class='co'># each segment is 15 minutes</span></span>
+<span><span class='va'>seg_period</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Round.html'>ceiling</a></span><span class='op'>(</span><span class='va'>stream_period</span> <span class='op'>/</span> <span class='va'>num_segs</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
 </div>
-<p>The streaming collection is performed by the <code>rtweet</code>
-function <code>stream_tweets</code> which in our operation uses the
-query or filter parameter <code>q</code>, a <code>timeout</code> period
-which is the length of time to collect streaming tweets, and an output
-JSON <code>file_name</code>. The collection is wrapped in a loop which
-is for the number of 15 minute segments in the collection period. Each
-iteration sets up a new timestamped data file and log file.</p>
+<p>The streaming collection is performed by the <code>rtweet</code> function <code>stream_tweets</code> which in our operation uses the query or filter parameter <code>q</code>, a <code>timeout</code> period which is the length of time to collect streaming tweets, and an output JSON <code>file_name</code>. The collection is wrapped in a loop which is for the number of 15 minute segments in the collection period. Each iteration sets up a new timestamped data file and log file.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://CRAN.R-project.org/package=rtweet'>rtweet</a></span><span class='op'>)</span>
-
-<span class='co'># load rtweet auth token</span>
-<span class='va'>token</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='st'>"~/.rtweet_oauth1a"</span><span class='op'>)</span>
-
-<span class='co'># collect streaming tweets with a new file every 15 minutes</span>
-<span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='va'>num_segs</span><span class='op'>)</span> <span class='op'>{</span>
-
-  <span class='co'># create log file and JSON data file</span>
-  <span class='va'>timestamp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>
-  <span class='va'>log_file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='fu'>fname</span><span class='op'>(</span><span class='va'>streams_path</span>, <span class='va'>timestamp</span><span class='op'>)</span>, <span class='st'>".txt"</span><span class='op'>)</span>
-  <span class='va'>json_file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='fu'>fname</span><span class='op'>(</span><span class='va'>streams_path</span>, <span class='va'>timestamp</span><span class='op'>)</span>, <span class='st'>".json"</span><span class='op'>)</span>
-  
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"timestamp: "</span>, <span class='va'>timestamp</span>, <span class='st'>"\ntimeout: "</span>,
-             <span class='va'>seg_period</span>, <span class='st'>" secs\nfilter: "</span>, <span class='va'>stream_filter</span><span class='op'>)</span>,
-    <span class='va'>log_file</span><span class='op'>)</span>
-  
-  <span class='co'># collect streaming tweets and write to JSON file</span>
-  <span class='kw'><a href='https://rdrr.io/r/base/conditions.html'>tryCatch</a></span><span class='op'>(</span><span class='op'>{</span>
-    <span class='fu'>rtweet</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/rtweet/man/stream_tweets.html'>stream_tweets</a></span><span class='op'>(</span>
-      token <span class='op'>=</span> <span class='va'>token</span>,
-      q <span class='op'>=</span> <span class='va'>stream_filter</span>,
-      timeout <span class='op'>=</span> <span class='va'>seg_period</span>,
-      file_name <span class='op'>=</span> <span class='va'>json_file</span>,
-      parse <span class='op'>=</span> <span class='cn'>FALSE</span>
-    <span class='op'>)</span>
-  <span class='op'>}</span>, error <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>e</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>e</span>, <span class='st'>"\n"</span><span class='op'>)</span><span class='op'>)</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"error: "</span>, <span class='va'>e</span><span class='op'>)</span>, <span class='va'>log_file</span><span class='op'>)</span>
-  <span class='op'>}</span><span class='op'>)</span>
-  
-  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"completed: "</span>, <span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>, <span class='va'>log_file</span><span class='op'>)</span>
-<span class='op'>}</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://docs.ropensci.org/rtweet/'>rtweet</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'># load rtweet auth token</span></span>
+<span><span class='va'>token</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='st'>"~/.rtweet_oauth1a"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'># collect streaming tweets with a new file every 15 minutes</span></span>
+<span><span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='va'>num_segs</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span></span>
+<span>  <span class='co'># create log file and JSON data file</span></span>
+<span>  <span class='va'>timestamp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span>  <span class='va'>log_file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='fu'>fname</span><span class='op'>(</span><span class='va'>streams_path</span>, <span class='va'>timestamp</span><span class='op'>)</span>, <span class='st'>".txt"</span><span class='op'>)</span></span>
+<span>  <span class='va'>json_file</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='fu'>fname</span><span class='op'>(</span><span class='va'>streams_path</span>, <span class='va'>timestamp</span><span class='op'>)</span>, <span class='st'>".json"</span><span class='op'>)</span></span>
+<span>  </span>
+<span>  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"timestamp: "</span>, <span class='va'>timestamp</span>, <span class='st'>"\ntimeout: "</span>,</span>
+<span>             <span class='va'>seg_period</span>, <span class='st'>" secs\nfilter: "</span>, <span class='va'>stream_filter</span><span class='op'>)</span>,</span>
+<span>    <span class='va'>log_file</span><span class='op'>)</span></span>
+<span>  </span>
+<span>  <span class='co'># collect streaming tweets and write to JSON file</span></span>
+<span>  <span class='kw'><a href='https://rdrr.io/r/base/conditions.html'>tryCatch</a></span><span class='op'>(</span><span class='op'>{</span></span>
+<span>    <span class='fu'>rtweet</span><span class='fu'>::</span><span class='fu'><a href='https://docs.ropensci.org/rtweet/reference/stream_tweets.html'>stream_tweets</a></span><span class='op'>(</span></span>
+<span>      token <span class='op'>=</span> <span class='va'>token</span>,</span>
+<span>      q <span class='op'>=</span> <span class='va'>stream_filter</span>,</span>
+<span>      timeout <span class='op'>=</span> <span class='va'>seg_period</span>,</span>
+<span>      file_name <span class='op'>=</span> <span class='va'>json_file</span>,</span>
+<span>      parse <span class='op'>=</span> <span class='cn'>FALSE</span></span>
+<span>    <span class='op'>)</span></span>
+<span>  <span class='op'>}</span>, error <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>e</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span>    <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>e</span>, <span class='st'>"\n"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span>    <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"error: "</span>, <span class='va'>e</span><span class='op'>)</span>, <span class='va'>log_file</span><span class='op'>)</span></span>
+<span>  <span class='op'>}</span><span class='op'>)</span></span>
+<span>  </span>
+<span>  <span class='fu'><a href='https://rdrr.io/r/base/Log.html'>log</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"completed: "</span>, <span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>, <span class='va'>log_file</span><span class='op'>)</span></span>
+<span><span class='op'>}</span></span></code></pre>
 </div>
 </details>
 </div>
-<p>Log entries for each 15 minute iteration confirm the collection
-period and each file matches a JSON data file (note timestamps are in
-local time which was AEST).</p>
+<p>Log entries for each 15 minute iteration confirm the collection period and each file matches a JSON data file (note timestamps are in local time which was AEST).</p>
 <pre><code># data/pres-debate-streams/stream-20200930102859.txt 
 
 timestamp: 2020-09-30 10:28:59
@@ -1810,10 +1718,7 @@ query: #PresidentialDebate,#PresidentialDebates,#Election2020,
 #Debates2020,#Debates,#DebateNight,#Biden,#Biden2020,#BidenHarris2020,
 #Trump,#Trump2020,#TrumpPence2020
 completed: 2020-09-30 10:43:59</code></pre>
-<p>For the first streaming collection iteration an
-<strong>180MB</strong> JSON file was written with <strong>111,244
-lines</strong>. Each line contains the JSON for a single tweet, meaning
-the same number of tweets were collected.</p>
+<p>For the first streaming collection iteration an <strong>180MB</strong> JSON file was written with <strong>111,244 lines</strong>. Each line contains the JSON for a single tweet, meaning the same number of tweets were collected.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> first_json_file <span class="ot">&lt;-</span> <span class="st">&quot;./data/pres-debate-streams/stream-20200930102859.json&quot;</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">file.size</span>(first_json_file)</span>
@@ -1822,153 +1727,121 @@ the same number of tweets were collected.</p>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">length</span>(<span class="fu">readLines</span>(first_json_file))</span>
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="dv">111244</span></span></code></pre></div>
 </div>
-<p><strong>16 JSON data files</strong> were written, corresponding to
-the number of 15 minute segments specified. These were then individually
-processed and converted to dataframes, which were then merged into a
-single complete streaming collection dataframe for the first debate.</p>
+<p><strong>16 JSON data files</strong> were written, corresponding to the number of 15 minute segments specified. These were then individually processed and converted to dataframes, which were then merged into a single complete streaming collection dataframe for the first debate.</p>
 <h2 id="search-collection">Search Collection</h2>
-<p>As with the streaming collection directories were created to store
-collected data and search parameters set. The search query containing
-hashtags uses the Twitter <code>OR</code> search operator unlike the
-streaming filter which was comma seperated. A maximum number of tweets
-for each collection iteration as well as a maximum number of iterations
-are set. The number of tweets is required for the search request and is
-set to the maximum rate-limit value for a bearer token. A maximum number
-of iterations is set as a precaution to prevent infinite collection
-should a problem arise. The two tweets found from the streaming
-collection and used as search bounds are also set. The search will start
-at the <code>latest id</code> and continue until the
-<code>earliest id</code> is found, or the maximum iterations has been
-reached.</p>
+<p>As with the streaming collection directories were created to store collected data and search parameters set. The search query containing hashtags uses the Twitter <code>OR</code> search operator unlike the streaming filter which was comma seperated. A maximum number of tweets for each collection iteration as well as a maximum number of iterations are set. The number of tweets is required for the search request and is set to the maximum rate-limit value for a bearer token. A maximum number of iterations is set as a precaution to prevent infinite collection should a problem arise. The two tweets found from the streaming collection and used as search bounds are also set. The search will start at the <code>latest id</code> and continue until the <code>earliest id</code> is found, or the maximum iterations has been reached.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='va'>wd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='co'># check paths and create directories if they do not exist</span>
-<span class='va'>data_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>wd</span>, <span class='st'>"/data"</span><span class='op'>)</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.exists</a></span><span class='op'>(</span><span class='va'>data_path</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span> <span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span><span class='op'>(</span><span class='va'>data_path</span>, showWarnings <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>}</span>
-
-<span class='va'>searches_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>data_path</span>, <span class='st'>"/pres-debate-searches"</span><span class='op'>)</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.exists</a></span><span class='op'>(</span><span class='va'>searches_path</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span> <span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span><span class='op'>(</span><span class='va'>searches_path</span>, showWarnings <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>}</span>
-
-<span class='co'># set search query hashtags - separated with OR search operator</span>
-<span class='va'>q</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"#PresidentialDebate OR #PresidentialDebates "</span>,
-            <span class='st'>"OR #Election2020 OR "</span>,
-            <span class='st'>"#Debates2020 OR #Debates OR #DebateNight OR "</span>,
-            <span class='st'>"#Biden OR #Biden2020 OR #BidenHarris2020 OR "</span>,
-            <span class='st'>"#Trump OR #Trump2020 OR #TrumpPence2020"</span><span class='op'>)</span>
-
-<span class='va'>type</span> <span class='op'>&lt;-</span> <span class='st'>"recent"</span>
-<span class='va'>num_tweets</span> <span class='op'>&lt;-</span> <span class='fl'>45000</span>
-<span class='va'>max_iter</span> <span class='op'>&lt;-</span> <span class='fl'>40</span>
-
-<span class='co'># pres debate 1 search</span>
-<span class='va'>latest_id</span> <span class='op'>&lt;-</span> <span class='st'>"1311121700394807296"</span>    <span class='co'># start tweet</span>
-<span class='va'>earliest_id</span> <span class='op'>&lt;-</span> <span class='st'>"1311104723978579968"</span>  <span class='co'># end tweet</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>wd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'># check paths and create directories if they do not exist</span></span>
+<span><span class='va'>data_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>wd</span>, <span class='st'>"/data"</span><span class='op'>)</span></span>
+<span><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.exists</a></span><span class='op'>(</span><span class='va'>data_path</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span> <span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span><span class='op'>(</span><span class='va'>data_path</span>, showWarnings <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>}</span></span>
+<span></span>
+<span><span class='va'>searches_path</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>data_path</span>, <span class='st'>"/pres-debate-searches"</span><span class='op'>)</span></span>
+<span><span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.exists</a></span><span class='op'>(</span><span class='va'>searches_path</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span> <span class='fu'><a href='https://rdrr.io/r/base/files2.html'>dir.create</a></span><span class='op'>(</span><span class='va'>searches_path</span>, showWarnings <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>}</span></span>
+<span></span>
+<span><span class='co'># set search query hashtags - separated with OR search operator</span></span>
+<span><span class='va'>q</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"#PresidentialDebate OR #PresidentialDebates "</span>,</span>
+<span>            <span class='st'>"OR #Election2020 OR "</span>,</span>
+<span>            <span class='st'>"#Debates2020 OR #Debates OR #DebateNight OR "</span>,</span>
+<span>            <span class='st'>"#Biden OR #Biden2020 OR #BidenHarris2020 OR "</span>,</span>
+<span>            <span class='st'>"#Trump OR #Trump2020 OR #TrumpPence2020"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>type</span> <span class='op'>&lt;-</span> <span class='st'>"recent"</span></span>
+<span><span class='va'>num_tweets</span> <span class='op'>&lt;-</span> <span class='fl'>45000</span></span>
+<span><span class='va'>max_iter</span> <span class='op'>&lt;-</span> <span class='fl'>40</span></span>
+<span></span>
+<span><span class='co'># pres debate 1 search</span></span>
+<span><span class='va'>latest_id</span> <span class='op'>&lt;-</span> <span class='st'>"1311121700394807296"</span>    <span class='co'># start tweet</span></span>
+<span><span class='va'>earliest_id</span> <span class='op'>&lt;-</span> <span class='st'>"1311104723978579968"</span>  <span class='co'># end tweet</span></span></code></pre>
 </div>
 </details>
 </div>
-<p>The search collection is performed by the <code>vosonSML</code>
-function <code>Collect</code>. The process is more involved than the
-streaming collection in that the reset time for the rate-limit is
-calculated each collection iteration and the script sleeps for that
-period of time before continuing. Tracking of search progress is also
-logged to the console in this approach but was redirected to a log
-file.</p>
+<p>The search collection is performed by the <code>vosonSML</code> function <code>Collect</code>. The process is more involved than the streaming collection in that the reset time for the rate-limit is calculated each collection iteration and the script sleeps for that period of time before continuing. Tracking of search progress is also logged to the console in this approach but was redirected to a log file.</p>
 <div class="layout-chunk" data-layout="l-body">
 <details>
 <summary>
 Show code
 </summary>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/vosonlab/vosonSML'>vosonSML</a></span><span class='op'>)</span>
-
-<span class='va'>auth</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='st'>"~/.vsml_oauth2"</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"large twitter search\n"</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"type: "</span>, <span class='va'>type</span>, <span class='st'>"\n"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"tweets per iter: "</span>, <span class='va'>num_tweets</span>, <span class='st'>"\n"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"max iter: "</span>, <span class='va'>max_iter</span>, <span class='st'>" ("</span>, <span class='op'>(</span><span class='va'>max_iter</span> <span class='op'>*</span> <span class='va'>num_tweets</span><span class='op'>)</span>, <span class='st'>" tweets)\n\n"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='va'>i</span> <span class='op'>&lt;-</span> <span class='fl'>1</span>
-<span class='kw'>while</span> <span class='op'>(</span><span class='va'>i</span> <span class='op'>&lt;=</span> <span class='va'>max_iter</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"iteration "</span>, <span class='va'>i</span>, <span class='st'>" of "</span>, <span class='va'>max_iter</span>, <span class='st'>"\n"</span><span class='op'>)</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"time: "</span>, <span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"\n"</span><span class='op'>)</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"set max_id: "</span>, <span class='va'>latest_id</span>, <span class='st'>"\n"</span><span class='op'>)</span><span class='op'>)</span>
-  <span class='va'>req_time</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-  <span class='va'>reset_time</span> <span class='op'>&lt;-</span> <span class='va'>req_time</span> <span class='op'>+</span> <span class='op'>(</span><span class='fl'>15</span> <span class='op'>*</span> <span class='fl'>60</span><span class='op'>)</span> <span class='op'>+</span> <span class='fl'>10</span> <span class='co'># add 10 sec buffer</span>
-  
-  <span class='va'>code_wd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span><span class='op'>(</span><span class='op'>)</span>
-  <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='va'>searches_path</span><span class='op'>)</span>
-  
-  <span class='va'>data</span> <span class='op'>&lt;-</span> <span class='kw'><a href='https://rdrr.io/r/base/conditions.html'>tryCatch</a></span><span class='op'>(</span><span class='op'>{</span>
-    <span class='va'>auth</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span>
-      <span class='fu'><a href='https://rdrr.io/pkg/vosonSML/man/Collect.html'>Collect</a></span><span class='op'>(</span>searchTerm <span class='op'>=</span> <span class='va'>q</span>,
-              searchType <span class='op'>=</span> <span class='va'>type</span>,
-              numTweets <span class='op'>=</span> <span class='va'>num_tweets</span>,
-              max_id <span class='op'>=</span> <span class='va'>latest_id</span>,
-              verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,
-              includeRetweets <span class='op'>=</span> <span class='cn'>TRUE</span>,
-              retryOnRateLimit <span class='op'>=</span> <span class='cn'>TRUE</span>,
-              writeToFile <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-  <span class='op'>}</span>, error <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>e</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>e</span>, <span class='st'>"\n"</span><span class='op'>)</span><span class='op'>)</span>
-    <span class='cn'>NULL</span>
-  <span class='op'>}</span><span class='op'>)</span>
-  
-  <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='va'>code_wd</span><span class='op'>)</span>
-  
-  <span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NULL.html'>is.null</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span> <span class='op'>&amp;&amp;</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='va'>data_first_obvs_id</span> <span class='op'>&lt;-</span> <span class='va'>data</span><span class='op'>$</span><span class='va'>status_id</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>
-    <span class='va'>data_last_obvs_id</span> <span class='op'>&lt;-</span> <span class='va'>data</span><span class='op'>$</span><span class='va'>status_id</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span><span class='op'>]</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"data nrows = "</span>, <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span>, <span class='st'>"\n"</span>,
-               <span class='st'>"first row status id = "</span>, <span class='va'>data_first_obvs_id</span>, <span class='st'>"\n"</span>,
-               <span class='st'>"last row status id = "</span>, <span class='va'>data_last_obvs_id</span>, <span class='st'>"\n"</span><span class='op'>)</span><span class='op'>)</span>
-    
-    <span class='co'># set latest id to lowest status id in data for NEXT iteration</span>
-    <span class='co'># this is typically the last observation</span>
-    <span class='va'>latest_id</span> <span class='op'>&lt;-</span> <span class='va'>data_last_obvs_id</span>
-    
-    <span class='co'># if our target id is passed then stop</span>
-    <span class='kw'>if</span> <span class='op'>(</span><span class='va'>earliest_id</span> <span class='op'>&gt;=</span> <span class='va'>latest_id</span><span class='op'>)</span> <span class='op'>{</span>
-      <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"earliest id reached\n"</span><span class='op'>)</span>
-      <span class='kw'>break</span>
-    <span class='op'>}</span>
-    <span class='va'>now_time</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-    <span class='kw'>if</span> <span class='op'>(</span><span class='va'>i</span> <span class='op'>&lt;</span> <span class='va'>max_iter</span><span class='op'>)</span> <span class='op'>{</span>
-      <span class='va'>sleep_time</span> <span class='op'>&lt;-</span> <span class='va'>reset_time</span> <span class='op'>-</span> <span class='va'>now_time</span>
-      <span class='kw'>if</span> <span class='op'>(</span><span class='va'>sleep_time</span> <span class='op'>&gt;</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>{</span>
-        <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"sleeping "</span>, <span class='va'>sleep_time</span>, <span class='st'>" secs\n"</span><span class='op'>)</span>
-        <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span><span class='op'>(</span><span class='va'>sleep_time</span><span class='op'>)</span>  
-      <span class='op'>}</span>      
-    <span class='op'>}</span>
-  <span class='op'>}</span> <span class='kw'>else</span> <span class='op'>{</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"no data\n"</span><span class='op'>)</span>
-    <span class='kw'>break</span>
-  <span class='op'>}</span>
-  <span class='va'>i</span> <span class='op'>&lt;-</span> <span class='va'>i</span> <span class='op'>+</span> <span class='fl'>1</span>
-<span class='op'>}</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"completed: "</span>, <span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"\n"</span><span class='op'>)</span><span class='op'>)</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/vosonlab/vosonSML'>vosonSML</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>auth</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='st'>"~/.vsml_oauth2"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"large twitter search\n"</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"type: "</span>, <span class='va'>type</span>, <span class='st'>"\n"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"tweets per iter: "</span>, <span class='va'>num_tweets</span>, <span class='st'>"\n"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"max iter: "</span>, <span class='va'>max_iter</span>, <span class='st'>" ("</span>, <span class='op'>(</span><span class='va'>max_iter</span> <span class='op'>*</span> <span class='va'>num_tweets</span><span class='op'>)</span>, <span class='st'>" tweets)\n\n"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>i</span> <span class='op'>&lt;-</span> <span class='fl'>1</span></span>
+<span><span class='kw'>while</span> <span class='op'>(</span><span class='va'>i</span> <span class='op'>&lt;=</span> <span class='va'>max_iter</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span>  <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"iteration "</span>, <span class='va'>i</span>, <span class='st'>" of "</span>, <span class='va'>max_iter</span>, <span class='st'>"\n"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span>  <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"time: "</span>, <span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"\n"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span>  <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"set max_id: "</span>, <span class='va'>latest_id</span>, <span class='st'>"\n"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span>  <span class='va'>req_time</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span>  <span class='va'>reset_time</span> <span class='op'>&lt;-</span> <span class='va'>req_time</span> <span class='op'>+</span> <span class='op'>(</span><span class='fl'>15</span> <span class='op'>*</span> <span class='fl'>60</span><span class='op'>)</span> <span class='op'>+</span> <span class='fl'>10</span> <span class='co'># add 10 sec buffer</span></span>
+<span>  </span>
+<span>  <span class='va'>code_wd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span>  <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='va'>searches_path</span><span class='op'>)</span></span>
+<span>  </span>
+<span>  <span class='va'>data</span> <span class='op'>&lt;-</span> <span class='kw'><a href='https://rdrr.io/r/base/conditions.html'>tryCatch</a></span><span class='op'>(</span><span class='op'>{</span></span>
+<span>    <span class='va'>auth</span> <span class='op'>%&gt;%</span></span>
+<span>      <span class='fu'><a href='https://rdrr.io/pkg/vosonSML/man/Collect.html'>Collect</a></span><span class='op'>(</span>searchTerm <span class='op'>=</span> <span class='va'>q</span>,</span>
+<span>              searchType <span class='op'>=</span> <span class='va'>type</span>,</span>
+<span>              numTweets <span class='op'>=</span> <span class='va'>num_tweets</span>,</span>
+<span>              max_id <span class='op'>=</span> <span class='va'>latest_id</span>,</span>
+<span>              verbose <span class='op'>=</span> <span class='cn'>TRUE</span>,</span>
+<span>              includeRetweets <span class='op'>=</span> <span class='cn'>TRUE</span>,</span>
+<span>              retryOnRateLimit <span class='op'>=</span> <span class='cn'>TRUE</span>,</span>
+<span>              writeToFile <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span>  <span class='op'>}</span>, error <span class='op'>=</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>e</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span>    <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='va'>e</span>, <span class='st'>"\n"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span>    <span class='cn'>NULL</span></span>
+<span>  <span class='op'>}</span><span class='op'>)</span></span>
+<span>  </span>
+<span>  <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>setwd</a></span><span class='op'>(</span><span class='va'>code_wd</span><span class='op'>)</span></span>
+<span>  </span>
+<span>  <span class='kw'>if</span> <span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NULL.html'>is.null</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span> <span class='op'>&amp;&amp;</span> <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span>    <span class='va'>data_first_obvs_id</span> <span class='op'>&lt;-</span> <span class='va'>data</span><span class='op'>$</span><span class='va'>status_id</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span></span>
+<span>    <span class='va'>data_last_obvs_id</span> <span class='op'>&lt;-</span> <span class='va'>data</span><span class='op'>$</span><span class='va'>status_id</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span><span class='op'>]</span></span>
+<span>    <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"data nrows = "</span>, <span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>)</span>, <span class='st'>"\n"</span>,</span>
+<span>               <span class='st'>"first row status id = "</span>, <span class='va'>data_first_obvs_id</span>, <span class='st'>"\n"</span>,</span>
+<span>               <span class='st'>"last row status id = "</span>, <span class='va'>data_last_obvs_id</span>, <span class='st'>"\n"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span>    </span>
+<span>    <span class='co'># set latest id to lowest status id in data for NEXT iteration</span></span>
+<span>    <span class='co'># this is typically the last observation</span></span>
+<span>    <span class='va'>latest_id</span> <span class='op'>&lt;-</span> <span class='va'>data_last_obvs_id</span></span>
+<span>    </span>
+<span>    <span class='co'># if our target id is passed then stop</span></span>
+<span>    <span class='kw'>if</span> <span class='op'>(</span><span class='va'>earliest_id</span> <span class='op'>&gt;=</span> <span class='va'>latest_id</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span>      <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"earliest id reached\n"</span><span class='op'>)</span></span>
+<span>      <span class='kw'>break</span></span>
+<span>    <span class='op'>}</span></span>
+<span>    <span class='va'>now_time</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/numeric.html'>as.numeric</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span>    <span class='kw'>if</span> <span class='op'>(</span><span class='va'>i</span> <span class='op'>&lt;</span> <span class='va'>max_iter</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span>      <span class='va'>sleep_time</span> <span class='op'>&lt;-</span> <span class='va'>reset_time</span> <span class='op'>-</span> <span class='va'>now_time</span></span>
+<span>      <span class='kw'>if</span> <span class='op'>(</span><span class='va'>sleep_time</span> <span class='op'>&gt;</span> <span class='fl'>0</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span>        <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"sleeping "</span>, <span class='va'>sleep_time</span>, <span class='st'>" secs\n"</span><span class='op'>)</span></span>
+<span>        <span class='fu'><a href='https://rdrr.io/r/base/Sys.sleep.html'>Sys.sleep</a></span><span class='op'>(</span><span class='va'>sleep_time</span><span class='op'>)</span>  </span>
+<span>      <span class='op'>}</span>      </span>
+<span>    <span class='op'>}</span></span>
+<span>  <span class='op'>}</span> <span class='kw'>else</span> <span class='op'>{</span></span>
+<span>    <span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='st'>"no data\n"</span><span class='op'>)</span></span>
+<span>    <span class='kw'>break</span></span>
+<span>  <span class='op'>}</span></span>
+<span>  <span class='va'>i</span> <span class='op'>&lt;-</span> <span class='va'>i</span> <span class='op'>+</span> <span class='fl'>1</span></span>
+<span><span class='op'>}</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/cat.html'>cat</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"completed: "</span>, <span class='fu'><a href='https://rdrr.io/r/base/Sys.time.html'>Sys.time</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='st'>"\n"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 </details>
 </div>
-<p>The first search collection iteration collected a full <strong>45,000
-tweets</strong> and wrote an R <code>dataframe</code> object to an
-<code>RDS</code> file. The <code>vosonSML</code> output also indicates
-the minimum and maximum tweet <code>status ID</code> in the data and
-their timestamp (UTC) to assist with tracking the collection progress,
-it shows that the first 45,000 tweets were all created within an
-approximate 2.25 min period. It took <strong>5.5 mins</strong> for the
-first collection to complete, and it slept for over 9.5 mins while the
-rate-limit reset before iteration 2. Timestamps other than the tweet
-creation time are in local time AEST.</p>
+<p>The first search collection iteration collected a full <strong>45,000 tweets</strong> and wrote an R <code>dataframe</code> object to an <code>RDS</code> file. The <code>vosonSML</code> output also indicates the minimum and maximum tweet <code>status ID</code> in the data and their timestamp (UTC) to assist with tracking the collection progress, it shows that the first 45,000 tweets were all created within an approximate 2.25 min period. It took <strong>5.5 mins</strong> for the first collection to complete, and it slept for over 9.5 mins while the rate-limit reset before iteration 2. Timestamps other than the tweet creation time are in local time AEST.</p>
 <pre><code>large twitter search
 type: recent
 tweets per iter: 45000
@@ -1998,24 +1871,18 @@ data nrows = 45000
 first row status id = 1311134926167834628
 last row status id = 1311134367985565697
 sleeping  588.2078  secs</code></pre>
-<p><strong>54 RDS data files</strong> containing Twitter collection
-dataframes were written and the search took approximately <strong>17.5
-hours</strong>. These files were then merged into a single complete
-search collection dataframe for the first debate.</p>
-<h2 id="first-presidential-debate-preliminary-results">First
-Presidential Debate Preliminary Results</h2>
+<p><strong>54 RDS data files</strong> containing Twitter collection dataframes were written and the search took approximately <strong>17.5 hours</strong>. These files were then merged into a single complete search collection dataframe for the first debate.</p>
+<h2 id="first-presidential-debate-preliminary-results">First Presidential Debate Preliminary Results</h2>
 <h3 id="data-summary">Data Summary</h3>
-<p>Data was collected by multiple team members, presented are the
-un-merged results from a single members streaming and search collections
-for the first presidential debate.</p>
-<table>
+<p>Data was collected by multiple team members, presented are the un-merged results from a single members streaming and search collections for the first presidential debate.</p>
+<table style="width:97%;">
 <caption>Table 2: Collection summary</caption>
 <colgroup>
-<col style="width: 21%" />
-<col style="width: 17%" />
-<col style="width: 17%" />
+<col style="width: 20%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
 <col style="width: 15%" />
-<col style="width: 28%" />
+<col style="width: 27%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2044,60 +1911,41 @@ for the first presidential debate.</p>
 </tbody>
 </table>
 <h3 id="data-tweet-activity">Data Tweet Activity</h3>
-<p>Time series plots for the streaming and search collections were
-created to indicate tweet activity over time. Observations are grouped
-by tweet type and into 5 minute bins. Perhaps unsurprisingly, retweet
-activity appears to became more prevalent as the first debate
-progressed. At around <strong>10.20pm</strong> in the search collection
-just over <strong>100,000 retweets</strong> were collected.</p>
+<p>Time series plots for the streaming and search collections were created to indicate tweet activity over time. Observations are grouped by tweet type and into 5 minute bins. Perhaps unsurprisingly, retweet activity appears to became more prevalent as the first debate progressed. At around <strong>10.20pm</strong> in the search collection just over <strong>100,000 retweets</strong> were collected.</p>
 <figure>
-<img src="n_streaming_plot.svg"
-title="Figure 2: Streaming collection time series plot" width="640"
-alt="Figure 2: Streaming collection time series plot" />
-<figcaption aria-hidden="true">Figure 2: Streaming collection time
-series plot</figcaption>
+<img src="n_streaming_plot.svg" title="Figure 2: Streaming collection time series plot" width="640" alt="Figure 2: Streaming collection time series plot" />
+<figcaption aria-hidden="true">Figure 2: Streaming collection time series plot</figcaption>
 </figure>
 <figure>
-<img src="n_search_plot.svg" width="640"
-alt="Figure 3: Search collection time series plot" />
-<figcaption aria-hidden="true">Figure 3: Search collection time series
-plot</figcaption>
+<img src="n_search_plot.svg" width="640" alt="Figure 3: Search collection time series plot" />
+<figcaption aria-hidden="true">Figure 3: Search collection time series plot</figcaption>
 </figure>
 <h2 id="network-analysis">Network Analysis</h2>
-<p>Using <code>vosonSML</code> the Twitter data for both streaming and
-search collections is able to be converted into networks in the same
-way. The following code will demonstrate the merging of search
-collection data, and creation of an <code>activity</code> and
-<code>actor</code> network for the first debate.</p>
+<p>Using <code>vosonSML</code> the Twitter data for both streaming and search collections is able to be converted into networks in the same way. The following code will demonstrate the merging of search collection data, and creation of an <code>activity</code> and <code>actor</code> network for the first debate.</p>
 <h3 id="merge-collected-data">Merge Collected Data</h3>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span>
-
-<span class='co'># combine the search data files and remove duplicate tweets</span>
-
-<span class='co'># get all of the files to combine</span>
-<span class='va'>files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='st'>"./data/pres-debate-searches/"</span>,
-                    pattern <span class='op'>=</span> <span class='st'>".+TwitterData\\.rds$"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='co'># merge dataframes</span>
-<span class='va'>comb_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind.html'>bind_rows</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>files</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>}</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>comb_data</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/desc.html'>desc</a></span><span class='op'>(</span><span class='va'>status_id</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='co'># find and remove any duplicates</span>
-<span class='va'>dupes</span> <span class='op'>&lt;-</span> <span class='va'>data</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>status_id</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>data</span><span class='op'>$</span><span class='va'>status_id</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/duplicated.html'>duplicated</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>$</span><span class='va'>status_id</span><span class='op'>)</span><span class='op'>]</span><span class='op'>)</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>dupes</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span> <span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>data</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span><span class='op'>(</span><span class='va'>status_id</span>, .keep_all <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>}</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>saveRDS</a></span><span class='op'>(</span><span class='va'>data</span>, <span class='st'>"./data/pres_debate1_search.rds"</span><span class='op'>)</span> <span class='co'># save combined data</span>
-</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'># combine the search data files and remove duplicate tweets</span></span>
+<span></span>
+<span><span class='co'># get all of the files to combine</span></span>
+<span><span class='va'>files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>list.files</a></span><span class='op'>(</span>path <span class='op'>=</span> <span class='st'>"./data/pres-debate-searches/"</span>,</span>
+<span>                    pattern <span class='op'>=</span> <span class='st'>".+TwitterData\\.rds$"</span>, full.names <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'># merge dataframes</span></span>
+<span><span class='va'>comb_data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind_rows.html'>bind_rows</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='va'>files</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>}</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>comb_data</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/arrange.html'>arrange</a></span><span class='op'>(</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/desc.html'>desc</a></span><span class='op'>(</span><span class='va'>status_id</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'># find and remove any duplicates</span></span>
+<span><span class='va'>dupes</span> <span class='op'>&lt;-</span> <span class='va'>data</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>status_id</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='va'>data</span><span class='op'>$</span><span class='va'>status_id</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/duplicated.html'>duplicated</a></span><span class='op'>(</span><span class='va'>data</span><span class='op'>$</span><span class='va'>status_id</span><span class='op'>)</span><span class='op'>]</span><span class='op'>)</span></span>
+<span><span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>dupes</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span> <span class='va'>data</span> <span class='op'>&lt;-</span> <span class='va'>data</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span><span class='op'>(</span><span class='va'>status_id</span>, .keep_all <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>}</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>saveRDS</a></span><span class='op'>(</span><span class='va'>data</span>, <span class='st'>"./data/pres_debate1_search.rds"</span><span class='op'>)</span> <span class='co'># save combined data</span></span></code></pre>
 </div>
 </div>
 <h3 id="create-networks">Create Networks</h3>
-<p>Because the combined search data for the first debate is quite large,
-it can be useful to reduce it to a much smaller window of time for
-demonstration and network visualization purposes. The following code
-will extract 15 minutes of tweet data from between 21:30 - 21:45
-EDT.</p>
+<p>Because the combined search data for the first debate is quite large, it can be useful to reduce it to a much smaller window of time for demonstration and network visualization purposes. The following code will extract 15 minutes of tweet data from between 21:30 - 21:45 EDT.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="st">&quot;./data/pres_debate1_search.rds&quot;</span>) <span class="co"># load the previously saved data</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -2112,9 +1960,7 @@ EDT.</p>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">max</span>(data<span class="sc">$</span>created_at)</span>
 <span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;2020-09-30 01:45:00 UTC&quot;</span></span></code></pre></div>
 </div>
-<p>The data is now comprised of <strong>349,937 unique tweets</strong>
-that all were created during our specified window. We can now create our
-networks using <code>vosonSML</code>.</p>
+<p>The data is now comprised of <strong>349,937 unique tweets</strong> that all were created during our specified window. We can now create our networks using <code>vosonSML</code>.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vosonSML)</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -2151,20 +1997,9 @@ networks using <code>vosonSML</code>.</p>
 <span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a><span class="sc">-------------------------</span></span>
 <span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>Done.</span></code></pre></div>
 </div>
-<p>The <code>activity</code> network has <strong>366,029</strong> nodes
-or <strong>unique tweets</strong>, and the <code>actor</code> network
-has <strong>202,333</strong> nodes or <strong>unique actors</strong> for
-our 15 minute window.</p>
-<h3 id="reply-network-giant-component">Reply-network Giant
-Component</h3>
-<p>If we’re interested in exploring some of the Twitter interactions
-taking place between users during the 21:30 - 21:45 window of the first
-debate, the network can be further distilled by looking at the actor
-network and including only reply edges. This will reveal a number of
-reply-conversations, but we can select for the giant component to find
-the largest one. The <code>igraph</code> library can be used to perform
-a number of common network operations such as removing self-loops,
-isolates and finding the giant component.</p>
+<p>The <code>activity</code> network has <strong>366,029</strong> nodes or <strong>unique tweets</strong>, and the <code>actor</code> network has <strong>202,333</strong> nodes or <strong>unique actors</strong> for our 15 minute window.</p>
+<h3 id="reply-network-giant-component">Reply-network Giant Component</h3>
+<p>If we’re interested in exploring some of the Twitter interactions taking place between users during the 21:30 - 21:45 window of the first debate, the network can be further distilled by looking at the actor network and including only reply edges. This will reveal a number of reply-conversations, but we can select for the giant component to find the largest one. The <code>igraph</code> library can be used to perform a number of common network operations such as removing self-loops, isolates and finding the giant component.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(igraph)</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -2185,37 +2020,20 @@ isolates and finding the giant component.</p>
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>node_ids <span class="ot">&lt;-</span> <span class="fu">V</span>(g_actor_reply)[comps<span class="sc">$</span>membership <span class="sc">==</span> largest_cluster_id]</span>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>g_actor_reply_gc <span class="ot">&lt;-</span> <span class="fu">induced_subgraph</span>(g_actor_reply, node_ids)</span></code></pre></div>
 </div>
-<p>The giant component in the reply-network has <strong>1743
-nodes</strong> and <strong>1982 edges</strong>. We can use
-<code>igraphs</code> <code>degree</code> function to further explore who
-the most prominent actors are in the network by in-degree.</p>
+<p>The giant component in the reply-network has <strong>1743 nodes</strong> and <strong>1982 edges</strong>. We can use <code>igraphs</code> <code>degree</code> function to further explore who the most prominent actors are in the network by in-degree.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="sc">&gt;</span> <span class="fu">V</span>(g_actor_reply_gc)<span class="sc">$</span>screen_name[<span class="fu">order</span>(<span class="fu">degree</span>(g_actor_reply_gc, <span class="at">mode =</span> <span class="st">&quot;in&quot;</span>), <span class="at">decreasing =</span> <span class="cn">TRUE</span>)]</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>[<span class="dv">1</span>] <span class="st">&quot;realDonaldTrump&quot;</span>    <span class="st">&quot;JoeBiden&quot;</span>           <span class="st">&quot;GOPLeader&quot;</span>         </span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>[<span class="dv">4</span>] <span class="st">&quot;KamalaHarris&quot;</span>       <span class="st">&quot;ProjectLincoln&quot;</span>     <span class="st">&quot;Alyssa_Milano&quot;</span></span></code></pre></div>
 </div>
-<p>To visualise the conversation occurring during this 15 minutes of the
-debate, we first removed the Twitter accounts for the two candidates
-(<code>"realDonaldTrump"</code>, <code>"JoeBiden"</code>,
-<code>"GOPLeader"</code>), and then constructed a new giant component
-from the reply network, which now has <strong>1345 nodes</strong> and
-<strong>1484 edges</strong>.</p>
-<p>The visualization of this network (using <code>Gephi</code>) with
-node size proportional to in-degree is below.</p>
+<p>To visualise the conversation occurring during this 15 minutes of the debate, we first removed the Twitter accounts for the two candidates (<code>"realDonaldTrump"</code>, <code>"JoeBiden"</code>, <code>"GOPLeader"</code>), and then constructed a new giant component from the reply network, which now has <strong>1345 nodes</strong> and <strong>1484 edges</strong>.</p>
+<p>The visualization of this network (using <code>Gephi</code>) with node size proportional to in-degree is below.</p>
 <figure>
-<img src="reply_network.png"
-title="Figure 4: Reply-network giant component with candidates removed"
-width="1048"
-alt="Figure 4: Reply-network giant component with candidates removed. Figure created by Robert Ackland using Gephi." />
-<figcaption aria-hidden="true">Figure 4: Reply-network giant component
-with candidates removed. Figure created by Robert Ackland using
-Gephi.</figcaption>
+<img src="reply_network.png" title="Figure 4: Reply-network giant component with candidates removed" width="1048" alt="Figure 4: Reply-network giant component with candidates removed. Figure created by Robert Ackland using Gephi." />
+<figcaption aria-hidden="true">Figure 4: Reply-network giant component with candidates removed. Figure created by Robert Ackland using Gephi.</figcaption>
 </figure>
-<p>This graph provides some insight into the largest reply network at
-our chosen point in time, revealing the Twitter actors receiving the
-most reply attention and their associations.</p>
-<div class="sourceCode" id="cb8"><pre
-class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>This graph provides some insight into the largest reply network at our chosen point in time, revealing the Twitter actors receiving the most reply attention and their associations.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
