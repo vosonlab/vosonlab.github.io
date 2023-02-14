@@ -168,7 +168,7 @@ Pagegrouping refers to merging nodes within a hyperlink network. A common exampl
 
 There two approaches we can used to undertake pagrouping: (1) operating on the `vosonSML` network object (that is then used to create the `igraph` graph object); (2) operating on the `igraph` graph object.  In this document we will demonstrate method (2).
 
-### 3.1.1 Merging nodes into single canonical domain
+### 3.1.1 Merging the "www" subdomain into a canonical domain
 
 First we are going to consolidate nodes into a single canonical domain.  This will involve stripping "www" from www.x.y if only www.x.y exists and if both www.x.y and x.y exist then the former will be merged into the latter.  Note that the following code also works if the canonical domain contains three or more parts e.g. x.y.z.  Also note that the following step will only modify the wwww subdomain (e.g. wwww.x.y): other subbdomains (e.g. othersub.x.y) are handled below.
 
@@ -283,53 +283,29 @@ We will implement two types of preserving: (1) preserve specific subdomains, (2)
 
 In the example below we will preserve specific wordpress subdomains (and the rest will be merged into the canonincal domain wordpress.com) and we will preserve all subdomains for mydata.org.
 
-A final point to note is that the "wildcard" approach to preserving subddomains (what we are doing for mydata.org) will only work if there exists mydata.org. From the following, we can see that mydata.org exists, but fraunhofer.de does not exist.
+A final point to note is that the "wildcard" approach to preserving subddomains (what we are doing for mydata.org) will only work if mydata.org exists in the network. From the following, we can see that mydata.org exists, but fraunhofer.de does not exist.
 
 ```{r}
 V(g)$name[grep("mydata.org", V(g)$name)]
 V(g)$name[grep("fraunhofer.de", V(g)$name)]
 ```
 
-If the canonical domain doesn't exist, then we need to specify the relevant domain separately.  We do this below for fraunhofer.de.
+If the canonical domain doesn't exist, as in the case of fraunhofer.de, then we need a separate process to undertake pagegrouping.  We do this for fraunhofer.de in the section on "custom merging" below.
 
 
 ```{r, eval=TRUE}
-#NOTE: Remove merge code below...no longer doing here...
-
 #vector containing the information for preserving subdomains
 #we would most likely store this as a csv file with notes on choices made
 preserve <- c("*mydata.org", "coporwa1en.wordpress.com", "institutdayakologi.wordpress.com",
               "indigenousdatalab.wordpress.com")
-
-#the above process of merging subdomains will only work if there was www.x.y in the original dataset
-#if this is not the case, and want to merge subdomains using a wildcard, then specify the canonical domain here
-merge <- c("y", "x")
-#merge <- c("fraunhofer.de", "x")
-#note that we can preserve particular subdomains of fraunhofer.de by including in preserve above
 
 for (i in V(g)$name){
 
   #cat("working on:", i, "\n")
   ind_i <- which(V(g)$name==i)
   
-  for (m in merge){
-    ind_g <- grep(m,i)
-    if (length(ind_g)){
-      i <- merge[ind_g]
-      break
-    }
-  }
-  
-  #we are going to merge all subdomains of e.g. fraunhofer.de
-  
   #want to match only on ".x.y" not "x.y"
   ind <- grep(paste0("\\.",i,"$"), as.character(V(g)$name))
-  
-  #if (i=="wordpress.com")
-  #  break
-  #if (grepl("fraunhofer.de",i))
-  #  break
-  
   
   #skip any subdomains that are to be preserved
   ind_g <- grep(i, preserve)
@@ -390,15 +366,9 @@ We have preserved three subdomains of wordpress.com, and the rest have been merg
 V(g)$name[grep("wordpress.com", V(g)$name)]
 ```
 
-We have created a new canonical domain fraunhofer.de, and all but two specified subdomains have been merged into this domain.
-
-```{r}
-V(g)$name[grep("fraunhofer.de", V(g)$name)]
-```
-
 ### 3.1.3 Custom merging of domains
 
-The above code showed how to merge subdomains "in bulk", and we also showed how to control this merging by "preserving" subdomains.  But we might need to undertake an additional step for merging domains and subdomains.  When an organisation uses two or more websites, it might be desirable to merge the relevant domains into a single node in the actor network.  The following approach also takes account of the situation we found above for fraunhofer.de: the bulk merging did not work because the canonical domain fraunhofer.de doesn't exist in our hyperlink actor network.
+The above code showed how to merge subdomains "in bulk", and we also showed how to control this merging by "preserving" subdomains.  But we might need to undertake an additional step for merging domains and subdomains.  When an organisation uses two or more websites, it might be desirable to merge the relevant domains into a single node in the actor network.  The following approach also takes account of the situation we found above for fraunhofer.de: the bulk merging did not work because the canonical domain fraunhofer.de doesn't yet exist in our hyperlink actor network.
 
 The following code does this with reference to the following examples:
 
@@ -408,8 +378,7 @@ V(g)$name[grep("fraunhofer", V(g)$name)]
 V(g)$name[grep("undocs|undp|uneca|unpo|unhcr|unstats|unwomen|unesco|un\\.org", V(g)$name)]
 ```
 
-As with the above, this step involves pre-specification of how the sites are to be merged.  We will use a wildcard to merge the two womeninlocalization sites. We will also bulk merge subdomains of fraunhofer.de, preserving two subdomains.  Finally, we will merge selected domains from the UN into a canonical domain un.org. Note that in the case of fraunhofer and the UN, the decision of which subdomains and domains to merge is somewhat arbitrary: this is just for purposes of showing example code.
-
+As with the above, this step involves pre-specification of how the sites are to be merged.  We will use a wildcard to merge the two womeninlocalization sites. We will also bulk merge subdomains of fraunhofer.de, preserving two subdomains.  Finally, we will merge selected domains from the UN into a canonical domain un.org. Note that in the case of fraunhofer and the UN, the decision of exactly which subdomains and domains to merge is arbitrary: this is just for purposes of showing example code.
 
 ```{r, eval=TRUE}
 
@@ -428,7 +397,7 @@ preserve <- c("dataspaces.fraunhofer.de","medical-data-space.fraunhofer.de")
 ex1 <- data.frame(V1="womeninlocalization.org", V2="womeninlocalization.com")    #bespoke merge
 ex2 <- data.frame(V1="fraunhofer.de")                                            #bulk merge
 ex3 <- data.frame(V1="un.org", V2="en.unesco.org", V3="lac.unwomen.org", V4="undocs.org", V5="unstats.un.org", V6="undp.org", V7="uneca.org")         #bespoke merge
-merge <- bind_rows(ex1, ex2, ex3)
+mergeDF <- bind_rows(ex1, ex2, ex3)
 #note that we preserve particular subdomains of fraunhofer.de by including in preserve above
 
 #seems most efficient to iterate over nodes first, rather than iterating over merges first
@@ -437,12 +406,12 @@ for (i in V(g)$name){
   #cat("working on:", i, "\n")
   ind_i <- which(V(g)$name==i)
 
-  for (m in 1:nrow(merge)){
-    col1 <- merge[m,1]
+  for (m in 1:nrow(mergeDF)){
+    col1 <- mergeDF[m,1]
     othcol <- NULL
-    for (m2 in 2:ncol(merge)){
-      if ( !is.na(merge[m,m2]) )
-        othcol <- c(othcol, merge[m,m2])
+    for (m2 in 2:ncol(mergeDF)){
+      if ( !is.na(mergeDF[m,m2]) )
+        othcol <- c(othcol, mergeDF[m,m2])
       else
         break
     }
@@ -534,84 +503,129 @@ V(g)$name[grep("undocs|undp|uneca|unpo|unhcr|unstats|unwomen|unesco|un\\.org", V
 ```
 
 
-*** ROB IS UP TO HERE ***
-
 ## 3.2 Pruning
 
 Pruning refers to removing nodes that are considered not relevant to the analysis.  It is highly likely that the web crawler will pick up pages that are not relevant to the study, and so we use pruning to identify and remove these irrelevant pages.
 
-### Seed sites only
+### 3.2.1 Creatng the network containing just the seed sites
 
-```{r, eval=FALSE}
+We will first create an actor network containing just the seed sites: in effect we are "pruning" non-seed sites. To start with, we need to identify what are the seed sites: we do this using the `pages` dataframe we created above for the web crawl.  Recall that the `pages` dataframe contains *web pages* that we have crawled, but the hyperlink actor network contains *websites (or domains)*.  So we need to process the `pages` dataframe so as to identify what are the seed sites (not seed pages).
+
+```{r}
 
 # identify the seed pages and set a node attribute
 # we are also removing http tag and trailing forward slash
-seed_pages <- pages %>%
-  mutate(page = str_remove(page, "^http[s]?://"), seed = TRUE)
+seed_sites <- pages %>%
+  mutate(site = str_remove(page, "^http[s]?://"), seed = TRUE)
 # also remove trailing "/"
-seed_pages <- seed_pages %>%
-  mutate(page = str_remove(page, "/$"))
-
-#Because default vosonsml behaviour when creating actor network is to 
-#not "preserve" subdirectories, this means that seed site:
-#womeninlocalization.com/partners 
-#is in the network as:
-#womeninlocalization.com
-#As a HACK for time being, we will ignore the preservation issue
-#So adjust the URL in seed_pages accordingly, so we can get identify all seeds in the network
+seed_sites <- seed_sites %>%
+  mutate(site = str_remove(site, "/$"))
 
 #The following will return just the domain name
-a <- str_match(seed_pages$page, "(.+?)/")
-seed_pages$page <- ifelse(grepl("/", seed_pages$page), a[,2], seed_pages$page)
+a <- str_match(seed_sites$site, "(.+?)/")
+seed_sites$site <- ifelse(grepl("/", seed_sites$site), a[,2], seed_sites$site)
 
-seed_pages <- seed_pages %>% distinct(page, .keep_all=TRUE)
+#remove redundant column "page" and also user-created column "domain" (to avoid confusion, since not using)
+#and put "site" colum first
+seed_sites <- seed_sites %>% select(-c(page,domain)) %>% relocate(site)
 
-nrow(seed_pages)
+seed_sites <- seed_sites %>% distinct(site, .keep_all=TRUE)
 
-net_actor$nodes <- net_actor$nodes %>%
-  left_join(seed_pages, by = c("id" = "page"))
+kable(head(seed_sites))
 
-# create an igraph object from the network
-g <- net_actor %>% Graph()
+nrow(seed_sites)
 
+```
+
+We have created a dataframe `seed_sites` which contains the domains extracted from the seed pages used for crawling - this is stored in the column `site`. We have created a column `seed` and set this to TRUE (this will be used below when we use this dataframe to identify seed sites in the hyperlink actor network).   Note that there was also a column `domain` but this was manually created at the time the seed pages were identified (in the same way that the column was `country` was manually created);  we do not make use of that column in what follows, and so we removed it from the `seed_sites` dataframe.
+
+Before proceeding, we need to first make some modifications to the `seed_sites` dataframe.  The pagegrouping step above means that we no longer have the "www" subdomain present in the hyperlink actor network, and so we need to modify `seed_sites` by stripping "www" from the seed sites stored in the column `site`.  Also, the pagegrouping means that we no longer have womeninlocalization.com in the network, so we need to change the seed site to womeninlocalization.org.
+
+```{r}
+seed_sites <- seed_sites %>% mutate(site=gsub("^www\\.","",site))
+
+seed_sites$site[which(seed_sites$site=="womeninlocalization.com")] <- "womeninlocalization.org"
+
+seed_sites <- seed_sites %>% distinct(site, .keep_all=TRUE)
+
+kable(head(seed_sites))
+
+nrow(seed_sites)
+```
+
+So we have `r nrow(seed_sites)` seed sites and we are now ready to create the "seeds only" hyperlink network.  To do this, we will create a node attribute "seed" which indicates whether a site is a seed or not.
+
+```{r}
+V(g)$seed <- seed_sites$seed[match(V(g)$name, seed_sites$site)]
+
+table(V(g)$seed)
+```
+
+The above indicates that there are now 20 nodes in the network with the attribute `seed` equal to 1 (the rest have values of NA), so we have correctly identified our seed sites in the network.  We can now visualise the seeds only hyperlink network.
+
+```{r}
+#for the remainder of this exercise we will work with the simiplified network
 #simplify the network - remove loops and multiple edges
 E(g)$weight <- 1
 g <- simplify(g)
 
-#OK now have all 11 seeds in the network
-table(V(g)$seed)
-#TRUE 
-#11 
-
-#create igraph graph of just the seed sites
-g_seed <- induced.subgraph(g, which(V(g)$seed==TRUE))
-#png("activity.png", width=800, height=800)
-plot(g_seed, layout=layout_with_fr(g_seed), vertex.label="", vertex.size=3, edge.width=1, edge.arrow.size=0.5)
-#dev.off()
-
-V(g)$color <- ifelse(V(g)$seed==TRUE, "red", "blue")
-plot(g, layout=layout_with_fr(g), vertex.label="", vertex.size=3, edge.width=E(g)$weight, edge.arrow.size=0.5)
-
+g_seeds <- induced.subgraph(g, which(V(g)$seed==1))
 ```
-
-
-
-### Seed sites plus "important" other sites
 
 ```{r, eval=FALSE}
+png("seeds.png", width=800, height=800)
+plot(g_seeds, vertex.label.color="black", vertex.size=3, edge.width=E(g_seeds)$weight, edge.arrow.size=0.5)
+dev.off()
+```
 
-g_seedImp <- induced.subgraph(g, which(V(g)$seed==TRUE | (degree(g)>=2)))
-plot(g_seedImp, layout=layout_with_fr(g_seedImp), vertex.size=3, edge.width=1, edge.arrow.size=0.5)
+![Figure 3: Seeds hyperlink network.](seeds.png)
 
+The above figure shows that the seed sites are very disconnected, with only four pairs of sites connected; this is to be expected given we have only crawled to depth 1 (i.e. only the seed page is crawled).  If we increased the crawl depth to 2, then it is to be expected that the seeds hyperlink network would become more connected.
+
+### 3.2.2 Creatng the network containing the seeds plus "important" non-seed sites
+
+Next we will create the "seeds plus important" network: this contains the seed sites plus those other sites that are hyperlinked to by two or more seeds.
+
+```{r}
+g_seedsImp <- induced.subgraph(g, which(V(g)$seed==1 | (degree(g)>=2)))
+
+#red nodes are seeds, blue nodes are importnant non-seeds
+V(g_seedsImp)$color <- ifelse(V(g_seedsImp)$seed==1, "red", "blue")
+```
+
+```{r, eval=FALSE}
+png("seeds_important.png", width=800, height=800)
+plot(g_seedsImp, vertex.label.color="black", vertex.size=3+degree(g_seedsImp, mode="in"), edge.width=E(g_seedsImp)$weight, edge.arrow.size=0.5)
+dev.off()
+```
+
+![Figure 4: Seeds plus important hyperlink network.](seeds_important.png)
+The above visualisation indicates that we now have a much more connected network, indeed it is fully-connected (no isolates) but a casual inspection indicates that many of the so-called "important" sites are probably not relevant to the analysis.  For example, the most central nodes are social media sites (e.g. twitter.com, youtube.com).  This brings us to the final step in the processing of the hyperlink data: manually pruning irrelevant sites.
+
+### 3.2.3 Manually pruning irrelevant sites
+
+Whether a site is relevant to the research is something only the researcher will know, so this final step is necessarily a manual one.  We recommend that the "seeds plus important" network nodes are written to csv file, and then this csv file is manually coded so either the relevant sites are kept or the irrelevant sites are removed.  In the example below, we are keeping those sites that are deemed relevant.
+
+```{r, eval=FALSE}
+#write the sites to csv file, for manual coding
+#also write seed stauts, since this will be used to determine whether a site is relevant
+write.csv(data.frame(site=V(g_seedsImp)$name, seed=V(g_seedsImp)$seed), "seeds_plus_important.csv")
+```
+
+The sites are manually coded - a new column "keep" is created, with a 1 indicating that the site is either a seed or it is a relevant non-seed site.  The coded csv file is then used to create the new sub-network.
+
+
+```{r}
+df2 <- read.csv("seeds_plus_important_coded.csv")
+V(g_seedsImp)$keep <- df2$keep[match(V(g_seedsImp)$name, df2$site)]
+g_seedsImp2 <- induced.subgraph(g_seedsImp, which(V(g_seedsImp)$keep==1))
 
 ```
 
-# Pruning
+```{r, eval=FALSE}
+png("seeds_important2.png", width=800, height=800)
+plot(g_seedsImp2, vertex.label.color="black", vertex.size=3+degree(g_seedsImp2, mode="in"), edge.width=E(g_seedsImp2)$weight, edge.arrow.size=0.5)
+dev.off()
+```
 
-The above "seeds plus important" network has sites that are not relevant to the study.  let's prune them.
-
-
-
-
-
-
+![Figure 5: Seeds plus relevant important hyperlink network.](seeds_important2.png)

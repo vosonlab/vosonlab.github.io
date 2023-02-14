@@ -120,7 +120,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["activity_network.png","actor_network.png","hyperlink-networks_files/anchor-4.2.2/anchor.min.js","hyperlink-networks_files/bowser-1.9.3/bowser.min.js","hyperlink-networks_files/distill-2.2.21/template.v2.js","hyperlink-networks_files/header-attrs-2.19/header-attrs.js","hyperlink-networks_files/jquery-3.6.0/jquery-3.6.0.js","hyperlink-networks_files/jquery-3.6.0/jquery-3.6.0.min.js","hyperlink-networks_files/jquery-3.6.0/jquery-3.6.0.min.map","hyperlink-networks_files/popper-2.6.0/popper.min.js","hyperlink-networks_files/tippy-6.2.7/tippy-bundle.umd.min.js","hyperlink-networks_files/tippy-6.2.7/tippy-light-border.css","hyperlink-networks_files/tippy-6.2.7/tippy.css","hyperlink-networks_files/tippy-6.2.7/tippy.umd.min.js","hyperlink-networks_files/webcomponents-2.0.0/webcomponents.js","seed_sites_20.csv","sites.csv"]}
+  {"type":"character","attributes":{},"value":["activity_network.png","actor_network.png","hyperlink-networks_files/anchor-4.2.2/anchor.min.js","hyperlink-networks_files/bowser-1.9.3/bowser.min.js","hyperlink-networks_files/distill-2.2.21/template.v2.js","hyperlink-networks_files/figure-html5/unnamed-chunk-27-1.png","hyperlink-networks_files/figure-html5/unnamed-chunk-27-2.png","hyperlink-networks_files/header-attrs-2.19/header-attrs.js","hyperlink-networks_files/jquery-3.6.0/jquery-3.6.0.js","hyperlink-networks_files/jquery-3.6.0/jquery-3.6.0.min.js","hyperlink-networks_files/jquery-3.6.0/jquery-3.6.0.min.map","hyperlink-networks_files/popper-2.6.0/popper.min.js","hyperlink-networks_files/tippy-6.2.7/tippy-bundle.umd.min.js","hyperlink-networks_files/tippy-6.2.7/tippy-light-border.css","hyperlink-networks_files/tippy-6.2.7/tippy.css","hyperlink-networks_files/tippy-6.2.7/tippy.umd.min.js","hyperlink-networks_files/webcomponents-2.0.0/webcomponents.js","seed_sites_20.csv","seeds_important.png","seeds_important2.png","seeds_plus_important_coded.csv","seeds_plus_important.csv","seeds.png","sites.csv"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1759,7 +1759,7 @@ $ type      &lt;chr&gt; &quot;int&quot;, &quot;int&quot;, &quot;int&quot;, &quot
 <h2 id="pagegrouping">3.1 Pagegrouping</h2>
 <p>Pagegrouping refers to merging nodes within a hyperlink network. A common example of a situation where you may want to apply pagegrouping is when you would like to ensure that a subdomain node is not shown separately in the network i.e. it is merged with its domain node. For example, we might want to merge <code>www.anu.edu.au</code> with <code>anu.edu.au</code> (or rename <code>www.anu.edu.au</code> to <code>anu.edu.au</code> if the latter does not already exist). It should be noted that whether this pagegrouping is enacted is dependent on the research setting: it might be the case that you want to keep particular subdomains separate to their parent domain. For example we might want <code>rsss.anu.edu.au</code> or <code>cass.anu.edu.au</code> to be separate nodes, and not merged with <code>anu.edu.au</code>.</p>
 <p>There two approaches we can used to undertake pagrouping: (1) operating on the <code>vosonSML</code> network object (that is then used to create the <code>igraph</code> graph object); (2) operating on the <code>igraph</code> graph object. In this document we will demonstrate method (2).</p>
-<h3 id="merging-nodes-into-single-canonical-domain">3.1.1 Merging nodes into single canonical domain</h3>
+<h3 id="merging-the-www-subdomain-into-a-canonical-domain">3.1.1 Merging the “www” subdomain into a canonical domain</h3>
 <p>First we are going to consolidate nodes into a single canonical domain. This will involve stripping “www” from www.x.y if only www.x.y exists and if both www.x.y and x.y exist then the former will be merged into the latter. Note that the following code also works if the canonical domain contains three or more parts e.g. x.y.z. Also note that the following step will only modify the wwww subdomain (e.g. wwww.x.y): other subbdomains (e.g. othersub.x.y) are handled below.</p>
 <p>Let’s focus on an example present in this dataset.</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -1883,7 +1883,7 @@ Finished working on www.privacyshield.gov ( 200 of 262 )</code></pre>
 <p>If we don’t “preserve” these wordpress websites (which are run by different organisations or groups) then they will all be merged into a single node wordpress.com.</p>
 <p>We will implement two types of preserving: (1) preserve specific subdomains, (2) preserve all subdomains via a wildcard match.</p>
 <p>In the example below we will preserve specific wordpress subdomains (and the rest will be merged into the canonincal domain wordpress.com) and we will preserve all subdomains for mydata.org.</p>
-<p>A final point to note is that the “wildcard” approach to preserving subddomains (what we are doing for mydata.org) will only work if there exists mydata.org. From the following, we can see that mydata.org exists, but fraunhofer.de does not exist.</p>
+<p>A final point to note is that the “wildcard” approach to preserving subddomains (what we are doing for mydata.org) will only work if mydata.org exists in the network. From the following, we can see that mydata.org exists, but fraunhofer.de does not exist.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>name</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grep</a></span><span class='op'>(</span><span class='st'>"mydata.org"</span>, <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>name</span><span class='op'>)</span><span class='op'>]</span></span></code></pre>
@@ -1899,45 +1899,21 @@ Finished working on www.privacyshield.gov ( 200 of 262 )</code></pre>
 [5] &quot;iml.fraunhofer.de&quot;               
 [6] &quot;medical-data-space.fraunhofer.de&quot;</code></pre>
 </div>
-<p>If the canonical domain doesn’t exist, then we need to specify the relevant domain separately. We do this below for fraunhofer.de.</p>
+<p>If the canonical domain doesn’t exist, as in the case of fraunhofer.de, then we need a separate process to undertake pagegrouping. We do this for fraunhofer.de in the section on “custom merging” below.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#NOTE: Remove merge code below...no longer doing here...</span></span>
-<span></span>
-<span><span class='co'>#vector containing the information for preserving subdomains</span></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#vector containing the information for preserving subdomains</span></span>
 <span><span class='co'>#we would most likely store this as a csv file with notes on choices made</span></span>
 <span><span class='va'>preserve</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"*mydata.org"</span>, <span class='st'>"coporwa1en.wordpress.com"</span>, <span class='st'>"institutdayakologi.wordpress.com"</span>,</span>
 <span>              <span class='st'>"indigenousdatalab.wordpress.com"</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='co'>#the above process of merging subdomains will only work if there was www.x.y in the original dataset</span></span>
-<span><span class='co'>#if this is not the case, and want to merge subdomains using a wildcard, then specify the canonical domain here</span></span>
-<span><span class='va'>merge</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"y"</span>, <span class='st'>"x"</span><span class='op'>)</span></span>
-<span><span class='co'>#merge &lt;- c("fraunhofer.de", "x")</span></span>
-<span><span class='co'>#note that we can preserve particular subdomains of fraunhofer.de by including in preserve above</span></span>
 <span></span>
 <span><span class='kw'>for</span> <span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>name</span><span class='op'>)</span><span class='op'>{</span></span>
 <span></span>
 <span>  <span class='co'>#cat("working on:", i, "\n")</span></span>
 <span>  <span class='va'>ind_i</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>name</span><span class='op'>==</span><span class='va'>i</span><span class='op'>)</span></span>
 <span>  </span>
-<span>  <span class='kw'>for</span> <span class='op'>(</span><span class='va'>m</span> <span class='kw'>in</span> <span class='va'>merge</span><span class='op'>)</span><span class='op'>{</span></span>
-<span>    <span class='va'>ind_g</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grep</a></span><span class='op'>(</span><span class='va'>m</span>,<span class='va'>i</span><span class='op'>)</span></span>
-<span>    <span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>ind_g</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span></span>
-<span>      <span class='va'>i</span> <span class='op'>&lt;-</span> <span class='va'>merge</span><span class='op'>[</span><span class='va'>ind_g</span><span class='op'>]</span></span>
-<span>      <span class='kw'>break</span></span>
-<span>    <span class='op'>}</span></span>
-<span>  <span class='op'>}</span></span>
-<span>  </span>
-<span>  <span class='co'>#we are going to merge all subdomains of e.g. fraunhofer.de</span></span>
-<span>  </span>
 <span>  <span class='co'>#want to match only on ".x.y" not "x.y"</span></span>
 <span>  <span class='va'>ind</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grep</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"\\."</span>,<span class='va'>i</span>,<span class='st'>"$"</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>name</span><span class='op'>)</span><span class='op'>)</span></span>
-<span>  </span>
-<span>  <span class='co'>#if (i=="wordpress.com")</span></span>
-<span>  <span class='co'>#  break</span></span>
-<span>  <span class='co'>#if (grepl("fraunhofer.de",i))</span></span>
-<span>  <span class='co'>#  break</span></span>
-<span>  </span>
 <span>  </span>
 <span>  <span class='co'>#skip any subdomains that are to be preserved</span></span>
 <span>  <span class='va'>ind_g</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grep</a></span><span class='op'>(</span><span class='va'>i</span>, <span class='va'>preserve</span><span class='op'>)</span></span>
@@ -2042,20 +2018,8 @@ working on: wto.org
 [3] &quot;indigenousdatalab.wordpress.com&quot; 
 [4] &quot;institutdayakologi.wordpress.com&quot;</code></pre>
 </div>
-<p>We have created a new canonical domain fraunhofer.de, and all but two specified subdomains have been merged into this domain.</p>
-<div class="layout-chunk" data-layout="l-body">
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>name</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grep</a></span><span class='op'>(</span><span class='st'>"fraunhofer.de"</span>, <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>name</span><span class='op'>)</span><span class='op'>]</span></span></code></pre>
-</div>
-<pre><code>[1] &quot;isst.fraunhofer.de&quot;              
-[2] &quot;websites.fraunhofer.de&quot;          
-[3] &quot;dataspaces.fraunhofer.de&quot;        
-[4] &quot;iee.fraunhofer.de&quot;               
-[5] &quot;iml.fraunhofer.de&quot;               
-[6] &quot;medical-data-space.fraunhofer.de&quot;</code></pre>
-</div>
 <h3 id="custom-merging-of-domains">3.1.3 Custom merging of domains</h3>
-<p>The above code showed how to merge subdomains “in bulk”, and we also showed how to control this merging by “preserving” subdomains. But we might need to undertake an additional step for merging domains and subdomains. When an organisation uses two or more websites, it might be desirable to merge the relevant domains into a single node in the actor network. The following approach also takes account of the situation we found above for fraunhofer.de: the bulk merging did not work because the canonical domain fraunhofer.de doesn’t exist in our hyperlink actor network.</p>
+<p>The above code showed how to merge subdomains “in bulk”, and we also showed how to control this merging by “preserving” subdomains. But we might need to undertake an additional step for merging domains and subdomains. When an organisation uses two or more websites, it might be desirable to merge the relevant domains into a single node in the actor network. The following approach also takes account of the situation we found above for fraunhofer.de: the bulk merging did not work because the canonical domain fraunhofer.de doesn’t yet exist in our hyperlink actor network.</p>
 <p>The following code does this with reference to the following examples:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2080,7 +2044,7 @@ working on: wto.org
  [7] &quot;undp.org&quot;              &quot;uneca.org&quot;            
  [9] &quot;unhcr.org&quot;             &quot;unpo.org&quot;             </code></pre>
 </div>
-<p>As with the above, this step involves pre-specification of how the sites are to be merged. We will use a wildcard to merge the two womeninlocalization sites. We will also bulk merge subdomains of fraunhofer.de, preserving two subdomains. Finally, we will merge selected domains from the UN into a canonical domain un.org. Note that in the case of fraunhofer and the UN, the decision of which subdomains and domains to merge is somewhat arbitrary: this is just for purposes of showing example code.</p>
+<p>As with the above, this step involves pre-specification of how the sites are to be merged. We will use a wildcard to merge the two womeninlocalization sites. We will also bulk merge subdomains of fraunhofer.de, preserving two subdomains. Finally, we will merge selected domains from the UN into a canonical domain un.org. Note that in the case of fraunhofer and the UN, the decision of exactly which subdomains and domains to merge is arbitrary: this is just for purposes of showing example code.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#vector containing the information for preserving subdomains</span></span>
@@ -2098,7 +2062,7 @@ working on: wto.org
 <span><span class='va'>ex1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>V1<span class='op'>=</span><span class='st'>"womeninlocalization.org"</span>, V2<span class='op'>=</span><span class='st'>"womeninlocalization.com"</span><span class='op'>)</span>    <span class='co'>#bespoke merge</span></span>
 <span><span class='va'>ex2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>V1<span class='op'>=</span><span class='st'>"fraunhofer.de"</span><span class='op'>)</span>                                            <span class='co'>#bulk merge</span></span>
 <span><span class='va'>ex3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>V1<span class='op'>=</span><span class='st'>"un.org"</span>, V2<span class='op'>=</span><span class='st'>"en.unesco.org"</span>, V3<span class='op'>=</span><span class='st'>"lac.unwomen.org"</span>, V4<span class='op'>=</span><span class='st'>"undocs.org"</span>, V5<span class='op'>=</span><span class='st'>"unstats.un.org"</span>, V6<span class='op'>=</span><span class='st'>"undp.org"</span>, V7<span class='op'>=</span><span class='st'>"uneca.org"</span><span class='op'>)</span>         <span class='co'>#bespoke merge</span></span>
-<span><span class='va'>merge</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind_rows.html'>bind_rows</a></span><span class='op'>(</span><span class='va'>ex1</span>, <span class='va'>ex2</span>, <span class='va'>ex3</span><span class='op'>)</span></span>
+<span><span class='va'>mergeDF</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/bind_rows.html'>bind_rows</a></span><span class='op'>(</span><span class='va'>ex1</span>, <span class='va'>ex2</span>, <span class='va'>ex3</span><span class='op'>)</span></span>
 <span><span class='co'>#note that we preserve particular subdomains of fraunhofer.de by including in preserve above</span></span>
 <span></span>
 <span><span class='co'>#seems most efficient to iterate over nodes first, rather than iterating over merges first</span></span>
@@ -2107,12 +2071,12 @@ working on: wto.org
 <span>  <span class='co'>#cat("working on:", i, "\n")</span></span>
 <span>  <span class='va'>ind_i</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>name</span><span class='op'>==</span><span class='va'>i</span><span class='op'>)</span></span>
 <span></span>
-<span>  <span class='kw'>for</span> <span class='op'>(</span><span class='va'>m</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>merge</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span></span>
-<span>    <span class='va'>col1</span> <span class='op'>&lt;-</span> <span class='va'>merge</span><span class='op'>[</span><span class='va'>m</span>,<span class='fl'>1</span><span class='op'>]</span></span>
+<span>  <span class='kw'>for</span> <span class='op'>(</span><span class='va'>m</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>mergeDF</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span></span>
+<span>    <span class='va'>col1</span> <span class='op'>&lt;-</span> <span class='va'>mergeDF</span><span class='op'>[</span><span class='va'>m</span>,<span class='fl'>1</span><span class='op'>]</span></span>
 <span>    <span class='va'>othcol</span> <span class='op'>&lt;-</span> <span class='cn'>NULL</span></span>
-<span>    <span class='kw'>for</span> <span class='op'>(</span><span class='va'>m2</span> <span class='kw'>in</span> <span class='fl'>2</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span><span class='op'>(</span><span class='va'>merge</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span></span>
-<span>      <span class='kw'>if</span> <span class='op'>(</span> <span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>merge</span><span class='op'>[</span><span class='va'>m</span>,<span class='va'>m2</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>)</span></span>
-<span>        <span class='va'>othcol</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>othcol</span>, <span class='va'>merge</span><span class='op'>[</span><span class='va'>m</span>,<span class='va'>m2</span><span class='op'>]</span><span class='op'>)</span></span>
+<span>    <span class='kw'>for</span> <span class='op'>(</span><span class='va'>m2</span> <span class='kw'>in</span> <span class='fl'>2</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span><span class='op'>(</span><span class='va'>mergeDF</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span></span>
+<span>      <span class='kw'>if</span> <span class='op'>(</span> <span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>mergeDF</span><span class='op'>[</span><span class='va'>m</span>,<span class='va'>m2</span><span class='op'>]</span><span class='op'>)</span> <span class='op'>)</span></span>
+<span>        <span class='va'>othcol</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>othcol</span>, <span class='va'>mergeDF</span><span class='op'>[</span><span class='va'>m</span>,<span class='va'>m2</span><span class='op'>]</span><span class='op'>)</span></span>
 <span>      <span class='kw'>else</span></span>
 <span>        <span class='kw'>break</span></span>
 <span>    <span class='op'>}</span></span>
@@ -2233,71 +2197,246 @@ uneca.org merged to un.org </code></pre>
 [3] &quot;tierracomun.org&quot;       &quot;unhcr.org&quot;            
 [5] &quot;unpo.org&quot;             </code></pre>
 </div>
-<p>*** ROB IS UP TO HERE ***</p>
 <h2 id="pruning">3.2 Pruning</h2>
 <p>Pruning refers to removing nodes that are considered not relevant to the analysis. It is highly likely that the web crawler will pick up pages that are not relevant to the study, and so we use pruning to identify and remove these irrelevant pages.</p>
-<h3 id="seed-sites-only">Seed sites only</h3>
+<h3 id="creatng-the-network-containing-just-the-seed-sites">3.2.1 Creatng the network containing just the seed sites</h3>
+<p>We will first create an actor network containing just the seed sites: in effect we are “pruning” non-seed sites. To start with, we need to identify what are the seed sites: we do this using the <code>pages</code> dataframe we created above for the web crawl. Recall that the <code>pages</code> dataframe contains <em>web pages</em> that we have crawled, but the hyperlink actor network contains <em>websites (or domains)</em>. So we need to process the <code>pages</code> dataframe so as to identify what are the seed sites (not seed pages).</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># identify the seed pages and set a node attribute</span></span>
 <span><span class='co'># we are also removing http tag and trailing forward slash</span></span>
-<span><span class='va'>seed_pages</span> <span class='op'>&lt;-</span> <span class='va'>pages</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>page <span class='op'>=</span> <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_remove.html'>str_remove</a></span><span class='op'>(</span><span class='va'>page</span>, <span class='st'>"^http[s]?://"</span><span class='op'>)</span>, seed <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span><span class='va'>seed_sites</span> <span class='op'>&lt;-</span> <span class='va'>pages</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>site <span class='op'>=</span> <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_remove.html'>str_remove</a></span><span class='op'>(</span><span class='va'>page</span>, <span class='st'>"^http[s]?://"</span><span class='op'>)</span>, seed <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
 <span><span class='co'># also remove trailing "/"</span></span>
-<span><span class='va'>seed_pages</span> <span class='op'>&lt;-</span> <span class='va'>seed_pages</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>page <span class='op'>=</span> <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_remove.html'>str_remove</a></span><span class='op'>(</span><span class='va'>page</span>, <span class='st'>"/$"</span><span class='op'>)</span><span class='op'>)</span></span>
-<span></span>
-<span><span class='co'>#Because default vosonsml behaviour when creating actor network is to </span></span>
-<span><span class='co'>#not "preserve" subdirectories, this means that seed site:</span></span>
-<span><span class='co'>#womeninlocalization.com/partners </span></span>
-<span><span class='co'>#is in the network as:</span></span>
-<span><span class='co'>#womeninlocalization.com</span></span>
-<span><span class='co'>#As a HACK for time being, we will ignore the preservation issue</span></span>
-<span><span class='co'>#So adjust the URL in seed_pages accordingly, so we can get identify all seeds in the network</span></span>
+<span><span class='va'>seed_sites</span> <span class='op'>&lt;-</span> <span class='va'>seed_sites</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>site <span class='op'>=</span> <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_remove.html'>str_remove</a></span><span class='op'>(</span><span class='va'>site</span>, <span class='st'>"/$"</span><span class='op'>)</span><span class='op'>)</span></span>
 <span></span>
 <span><span class='co'>#The following will return just the domain name</span></span>
-<span><span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_match.html'>str_match</a></span><span class='op'>(</span><span class='va'>seed_pages</span><span class='op'>$</span><span class='va'>page</span>, <span class='st'>"(.+?)/"</span><span class='op'>)</span></span>
-<span><span class='va'>seed_pages</span><span class='op'>$</span><span class='va'>page</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span><span class='op'>(</span><span class='st'>"/"</span>, <span class='va'>seed_pages</span><span class='op'>$</span><span class='va'>page</span><span class='op'>)</span>, <span class='va'>a</span><span class='op'>[</span>,<span class='fl'>2</span><span class='op'>]</span>, <span class='va'>seed_pages</span><span class='op'>$</span><span class='va'>page</span><span class='op'>)</span></span>
+<span><span class='va'>a</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://stringr.tidyverse.org/reference/str_match.html'>str_match</a></span><span class='op'>(</span><span class='va'>seed_sites</span><span class='op'>$</span><span class='va'>site</span>, <span class='st'>"(.+?)/"</span><span class='op'>)</span></span>
+<span><span class='va'>seed_sites</span><span class='op'>$</span><span class='va'>site</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span><span class='op'>(</span><span class='st'>"/"</span>, <span class='va'>seed_sites</span><span class='op'>$</span><span class='va'>site</span><span class='op'>)</span>, <span class='va'>a</span><span class='op'>[</span>,<span class='fl'>2</span><span class='op'>]</span>, <span class='va'>seed_sites</span><span class='op'>$</span><span class='va'>site</span><span class='op'>)</span></span>
 <span></span>
-<span><span class='va'>seed_pages</span> <span class='op'>&lt;-</span> <span class='va'>seed_pages</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span><span class='op'>(</span><span class='va'>page</span>, .keep_all<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span><span class='co'>#remove redundant column "page" and also user-created column "domain" (to avoid confusion, since not using)</span></span>
+<span><span class='co'>#and put "site" colum first</span></span>
+<span><span class='va'>seed_sites</span> <span class='op'>&lt;-</span> <span class='va'>seed_sites</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='op'>-</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='va'>page</span>,<span class='va'>domain</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/relocate.html'>relocate</a></span><span class='op'>(</span><span class='va'>site</span><span class='op'>)</span></span>
 <span></span>
-<span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>seed_pages</span><span class='op'>)</span></span>
+<span><span class='va'>seed_sites</span> <span class='op'>&lt;-</span> <span class='va'>seed_sites</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span><span class='op'>(</span><span class='va'>site</span>, .keep_all<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
 <span></span>
-<span><span class='va'>net_actor</span><span class='op'>$</span><span class='va'>nodes</span> <span class='op'>&lt;-</span> <span class='va'>net_actor</span><span class='op'>$</span><span class='va'>nodes</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
-<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>seed_pages</span>, by <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"id"</span> <span class='op'>=</span> <span class='st'>"page"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>seed_sites</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">site</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: right;">max_depth</th>
+<th style="text-align: left;">country</th>
+<th style="text-align: left;">seed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">womeninlocalization.com</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">US</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">iwgia.org</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Denmark</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">www.iwgia.org</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Denmark</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">indigenousdatalab.org</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">US</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">botpopuli.net</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">India</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">cipesa.org</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">South Africa</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>seed_sites</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>[1] 21</code></pre>
+</div>
+<p>We have created a dataframe <code>seed_sites</code> which contains the domains extracted from the seed pages used for crawling - this is stored in the column <code>site</code>. We have created a column <code>seed</code> and set this to TRUE (this will be used below when we use this dataframe to identify seed sites in the hyperlink actor network). Note that there was also a column <code>domain</code> but this was manually created at the time the seed pages were identified (in the same way that the column was <code>country</code> was manually created); we do not make use of that column in what follows, and so we removed it from the <code>seed_sites</code> dataframe.</p>
+<p>Before proceeding, we need to first make some modifications to the <code>seed_sites</code> dataframe. The pagegrouping step above means that we no longer have the “www” subdomain present in the hyperlink actor network, and so we need to modify <code>seed_sites</code> by stripping “www” from the seed sites stored in the column <code>site</code>. Also, the pagegrouping means that we no longer have womeninlocalization.com in the network, so we need to change the seed site to womeninlocalization.org.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>seed_sites</span> <span class='op'>&lt;-</span> <span class='va'>seed_sites</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>site<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span><span class='op'>(</span><span class='st'>"^www\\."</span>,<span class='st'>""</span>,<span class='va'>site</span><span class='op'>)</span><span class='op'>)</span></span>
 <span></span>
-<span><span class='co'># create an igraph object from the network</span></span>
-<span><span class='va'>g</span> <span class='op'>&lt;-</span> <span class='va'>net_actor</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/vosonSML/man/Graph.html'>Graph</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span><span class='va'>seed_sites</span><span class='op'>$</span><span class='va'>site</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='va'>seed_sites</span><span class='op'>$</span><span class='va'>site</span><span class='op'>==</span><span class='st'>"womeninlocalization.com"</span><span class='op'>)</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='st'>"womeninlocalization.org"</span></span>
 <span></span>
+<span><span class='va'>seed_sites</span> <span class='op'>&lt;-</span> <span class='va'>seed_sites</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span><span class='op'>(</span><span class='va'>site</span>, .keep_all<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>seed_sites</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">site</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: right;">max_depth</th>
+<th style="text-align: left;">country</th>
+<th style="text-align: left;">seed</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">womeninlocalization.org</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">US</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">iwgia.org</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Denmark</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">indigenousdatalab.org</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">US</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">botpopuli.net</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">India</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">cipesa.org</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">South Africa</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">mydata.org</td>
+<td style="text-align: left;">int</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: left;">Finland</td>
+<td style="text-align: left;">TRUE</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>seed_sites</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>[1] 20</code></pre>
+</div>
+<p>So we have 20 seed sites and we are now ready to create the “seeds only” hyperlink network. To do this, we will create a node attribute “seed” which indicates whether a site is a seed or not.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>seed</span> <span class='op'>&lt;-</span> <span class='va'>seed_sites</span><span class='op'>$</span><span class='va'>seed</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/match.html'>match</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>name</span>, <span class='va'>seed_sites</span><span class='op'>$</span><span class='va'>site</span><span class='op'>)</span><span class='op'>]</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>seed</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>
+TRUE 
+  20 </code></pre>
+</div>
+<p>The above indicates that there are now 20 nodes in the network with the attribute <code>seed</code> equal to 1 (the rest have values of NA), so we have correctly identified our seed sites in the network. We can now visualise the seeds only hyperlink network.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#for the remainder of this exercise we will work with the simiplified network</span></span>
 <span><span class='co'>#simplify the network - remove loops and multiple edges</span></span>
 <span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/E.html'>E</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>weight</span> <span class='op'>&lt;-</span> <span class='fl'>1</span></span>
 <span><span class='va'>g</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/simplify.html'>simplify</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span></span>
 <span></span>
-<span><span class='co'>#OK now have all 11 seeds in the network</span></span>
-<span><span class='fu'><a href='https://rdrr.io/r/base/table.html'>table</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>seed</span><span class='op'>)</span></span>
-<span><span class='co'>#TRUE </span></span>
-<span><span class='co'>#11 </span></span>
-<span></span>
-<span><span class='co'>#create igraph graph of just the seed sites</span></span>
-<span><span class='va'>g_seed</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/subgraph.html'>induced.subgraph</a></span><span class='op'>(</span><span class='va'>g</span>, <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>seed</span><span class='op'>==</span><span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span></span>
-<span><span class='co'>#png("activity.png", width=800, height=800)</span></span>
-<span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>g_seed</span>, layout<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/layout_with_fr.html'>layout_with_fr</a></span><span class='op'>(</span><span class='va'>g_seed</span><span class='op'>)</span>, vertex.label<span class='op'>=</span><span class='st'>""</span>, vertex.size<span class='op'>=</span><span class='fl'>3</span>, edge.width<span class='op'>=</span><span class='fl'>1</span>, edge.arrow.size<span class='op'>=</span><span class='fl'>0.5</span><span class='op'>)</span></span>
-<span><span class='co'>#dev.off()</span></span>
-<span></span>
-<span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>color</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>seed</span><span class='op'>==</span><span class='cn'>TRUE</span>, <span class='st'>"red"</span>, <span class='st'>"blue"</span><span class='op'>)</span></span>
-<span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>g</span>, layout<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/layout_with_fr.html'>layout_with_fr</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span>, vertex.label<span class='op'>=</span><span class='st'>""</span>, vertex.size<span class='op'>=</span><span class='fl'>3</span>, edge.width<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/E.html'>E</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>weight</span>, edge.arrow.size<span class='op'>=</span><span class='fl'>0.5</span><span class='op'>)</span></span></code></pre>
+<span><span class='va'>g_seeds</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/subgraph.html'>induced.subgraph</a></span><span class='op'>(</span><span class='va'>g</span>, <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>seed</span><span class='op'>==</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
-<h3 id="seed-sites-plus-important-other-sites">Seed sites plus “important” other sites</h3>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>g_seedImp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/subgraph.html'>induced.subgraph</a></span><span class='op'>(</span><span class='va'>g</span>, <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>seed</span><span class='op'>==</span><span class='cn'>TRUE</span> <span class='op'>|</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/degree.html'>degree</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>&gt;=</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
-<span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>g_seedImp</span>, layout<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/layout_with_fr.html'>layout_with_fr</a></span><span class='op'>(</span><span class='va'>g_seedImp</span><span class='op'>)</span>, vertex.size<span class='op'>=</span><span class='fl'>3</span>, edge.width<span class='op'>=</span><span class='fl'>1</span>, edge.arrow.size<span class='op'>=</span><span class='fl'>0.5</span><span class='op'>)</span></span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/grDevices/png.html'>png</a></span><span class='op'>(</span><span class='st'>"seeds.png"</span>, width<span class='op'>=</span><span class='fl'>800</span>, height<span class='op'>=</span><span class='fl'>800</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>g_seeds</span>, vertex.label.color<span class='op'>=</span><span class='st'>"black"</span>, vertex.size<span class='op'>=</span><span class='fl'>3</span>, edge.width<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/E.html'>E</a></span><span class='op'>(</span><span class='va'>g_seeds</span><span class='op'>)</span><span class='op'>$</span><span class='va'>weight</span>, edge.arrow.size<span class='op'>=</span><span class='fl'>0.5</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/grDevices/dev.html'>dev.off</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
-<h1 id="pruning-1">Pruning</h1>
-<p>The above “seeds plus important” network has sites that are not relevant to the study. let’s prune them.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<figure>
+<img src="seeds.png" alt="Figure 3: Seeds hyperlink network." />
+<figcaption aria-hidden="true">Figure 3: Seeds hyperlink network.</figcaption>
+</figure>
+<p>The above figure shows that the seed sites are very disconnected, with only four pairs of sites connected; this is to be expected given we have only crawled to depth 1 (i.e. only the seed page is crawled). If we increased the crawl depth to 2, then it is to be expected that the seeds hyperlink network would become more connected.</p>
+<h3 id="creatng-the-network-containing-the-seeds-plus-important-non-seed-sites">3.2.2 Creatng the network containing the seeds plus “important” non-seed sites</h3>
+<p>Next we will create the “seeds plus important” network: this contains the seed sites plus those other sites that are hyperlinked to by two or more seeds.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>g_seedsImp</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/subgraph.html'>induced.subgraph</a></span><span class='op'>(</span><span class='va'>g</span>, <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>$</span><span class='va'>seed</span><span class='op'>==</span><span class='fl'>1</span> <span class='op'>|</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/degree.html'>degree</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span><span class='op'>&gt;=</span><span class='fl'>2</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'>#red nodes are seeds, blue nodes are importnant non-seeds</span></span>
+<span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g_seedsImp</span><span class='op'>)</span><span class='op'>$</span><span class='va'>color</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g_seedsImp</span><span class='op'>)</span><span class='op'>$</span><span class='va'>seed</span><span class='op'>==</span><span class='fl'>1</span>, <span class='st'>"red"</span>, <span class='st'>"blue"</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/grDevices/png.html'>png</a></span><span class='op'>(</span><span class='st'>"seeds_important.png"</span>, width<span class='op'>=</span><span class='fl'>800</span>, height<span class='op'>=</span><span class='fl'>800</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>g_seedsImp</span>, vertex.label.color<span class='op'>=</span><span class='st'>"black"</span>, vertex.size<span class='op'>=</span><span class='fl'>3</span><span class='op'>+</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/degree.html'>degree</a></span><span class='op'>(</span><span class='va'>g_seedsImp</span>, mode<span class='op'>=</span><span class='st'>"in"</span><span class='op'>)</span>, edge.width<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/E.html'>E</a></span><span class='op'>(</span><span class='va'>g_seedsImp</span><span class='op'>)</span><span class='op'>$</span><span class='va'>weight</span>, edge.arrow.size<span class='op'>=</span><span class='fl'>0.5</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/grDevices/dev.html'>dev.off</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<p><img src="seeds_important.png" alt="Figure 4: Seeds plus important hyperlink network." />
+The above visualisation indicates that we now have a much more connected network, indeed it is fully-connected (no isolates) but a casual inspection indicates that many of the so-called “important” sites are probably not relevant to the analysis. For example, the most central nodes are social media sites (e.g. twitter.com, youtube.com). This brings us to the final step in the processing of the hyperlink data: manually pruning irrelevant sites.</p>
+<h3 id="manually-pruning-irrelevant-sites">3.2.3 Manually pruning irrelevant sites</h3>
+<p>Whether a site is relevant to the research is something only the researcher will know, so this final step is necessarily a manual one. We recommend that the “seeds plus important” network nodes are written to csv file, and then this csv file is manually coded so either the relevant sites are kept or the irrelevant sites are removed. In the example below, we are keeping those sites that are deemed relevant.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#write the sites to csv file, for manual coding</span></span>
+<span><span class='co'>#also write seed stauts, since this will be used to determine whether a site is relevant</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/utils/write.table.html'>write.csv</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>site<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g_seedsImp</span><span class='op'>)</span><span class='op'>$</span><span class='va'>name</span>, seed<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g_seedsImp</span><span class='op'>)</span><span class='op'>$</span><span class='va'>seed</span><span class='op'>)</span>, <span class='st'>"seeds_plus_important.csv"</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<p>The sites are manually coded - a new column “keep” is created, with a 1 indicating that the site is either a seed or it is a relevant non-seed site. The coded csv file is then used to create the new sub-network.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>df2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='st'>"seeds_plus_important_coded.csv"</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g_seedsImp</span><span class='op'>)</span><span class='op'>$</span><span class='va'>keep</span> <span class='op'>&lt;-</span> <span class='va'>df2</span><span class='op'>$</span><span class='va'>keep</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/match.html'>match</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g_seedsImp</span><span class='op'>)</span><span class='op'>$</span><span class='va'>name</span>, <span class='va'>df2</span><span class='op'>$</span><span class='va'>site</span><span class='op'>)</span><span class='op'>]</span></span>
+<span><span class='va'>g_seedsImp2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/igraph/man/subgraph.html'>induced.subgraph</a></span><span class='op'>(</span><span class='va'>g_seedsImp</span>, <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/V.html'>V</a></span><span class='op'>(</span><span class='va'>g_seedsImp</span><span class='op'>)</span><span class='op'>$</span><span class='va'>keep</span><span class='op'>==</span><span class='fl'>1</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/grDevices/png.html'>png</a></span><span class='op'>(</span><span class='st'>"seeds_important2.png"</span>, width<span class='op'>=</span><span class='fl'>800</span>, height<span class='op'>=</span><span class='fl'>800</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/graphics/plot.default.html'>plot</a></span><span class='op'>(</span><span class='va'>g_seedsImp2</span>, vertex.label.color<span class='op'>=</span><span class='st'>"black"</span>, vertex.size<span class='op'>=</span><span class='fl'>3</span><span class='op'>+</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/degree.html'>degree</a></span><span class='op'>(</span><span class='va'>g_seedsImp2</span>, mode<span class='op'>=</span><span class='st'>"in"</span><span class='op'>)</span>, edge.width<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/E.html'>E</a></span><span class='op'>(</span><span class='va'>g_seedsImp2</span><span class='op'>)</span><span class='op'>$</span><span class='va'>weight</span>, edge.arrow.size<span class='op'>=</span><span class='fl'>0.5</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/grDevices/dev.html'>dev.off</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<figure>
+<img src="seeds_important2.png" alt="Figure 5: Seeds plus relevant important hyperlink network." />
+<figcaption aria-hidden="true">Figure 5: Seeds plus relevant important hyperlink network.</figcaption>
+</figure>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
