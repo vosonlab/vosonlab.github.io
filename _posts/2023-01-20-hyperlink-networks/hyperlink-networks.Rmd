@@ -5,8 +5,8 @@ description: |
 author:
   - name: Robert Ackland
     url: {}
-  - name: Francisca Borquez  
   - name: Sidiq Madya
+  - name: Francisca Borquez  
 date: 2023-01-20
 categories:
   - rstats
