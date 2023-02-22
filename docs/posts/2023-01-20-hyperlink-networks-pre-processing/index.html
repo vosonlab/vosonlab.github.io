@@ -113,7 +113,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <meta property="description" itemprop="description" content="Steps for collecting hyperlink networks with vosonSML and processing hyperlink data using R tools"/>
 
-<link rel="canonical" href="https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks/"/>
+<link rel="canonical" href="https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing/"/>
 <link rel="license" href="https://creativecommons.org/licenses/by/4.0/"/>
 <link rel="icon" type="image/png" href="../../images/favicon.png"/>
 
@@ -128,8 +128,8 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <meta property="og:title" content="VOSON Lab Code Blog: Hyperlink networks: data pre-processing techniques"/>
 <meta property="og:type" content="article"/>
 <meta property="og:description" content="Steps for collecting hyperlink networks with vosonSML and processing hyperlink data using R tools"/>
-<meta property="og:url" content="https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks/"/>
-<meta property="og:image" content="https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks/seeds_important2.png"/>
+<meta property="og:url" content="https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing/"/>
+<meta property="og:image" content="https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing/seeds_important2.png"/>
 <meta property="og:image:width" content="800"/>
 <meta property="og:image:height" content="800"/>
 <meta property="og:locale" content="en_US"/>
@@ -139,15 +139,15 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <meta property="twitter:card" content="summary_large_image"/>
 <meta property="twitter:title" content="VOSON Lab Code Blog: Hyperlink networks: data pre-processing techniques"/>
 <meta property="twitter:description" content="Steps for collecting hyperlink networks with vosonSML and processing hyperlink data using R tools"/>
-<meta property="twitter:url" content="https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks/"/>
-<meta property="twitter:image" content="https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks/seeds_important2.png"/>
+<meta property="twitter:url" content="https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing/"/>
+<meta property="twitter:image" content="https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing/seeds_important2.png"/>
 <meta property="twitter:image:width" content="800"/>
 <meta property="twitter:image:height" content="800"/>
 <meta property="twitter:site" content="@vosonlab"/>
 
 <!--  https://scholar.google.com/intl/en/scholar/inclusion.html#indexing -->
 <meta name="citation_title" content="VOSON Lab Code Blog: Hyperlink networks: data pre-processing techniques"/>
-<meta name="citation_fulltext_html_url" content="https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks/"/>
+<meta name="citation_fulltext_html_url" content="https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing/"/>
 <meta name="citation_fulltext_world_readable" content=""/>
 <meta name="citation_online_date" content="2023/02/22"/>
 <meta name="citation_publication_date" content="2023/02/22"/>
@@ -166,12 +166,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
 <script type="text/json" id="radix-rmarkdown-metadata">
-{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["creative_commons","title","description","author","date","categories","preview","output","draft","bibliography","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["CC BY"]},{"type":"character","attributes":{},"value":["Hyperlink networks: data pre-processing techniques"]},{"type":"character","attributes":{},"value":["Steps for collecting hyperlink networks with vosonSML and processing hyperlink data using R tools"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Robert Ackland"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["https://orcid.org/0000-0002-0008-1766"]}},"value":[{"type":"NULL"}]},{"type":"character","attributes":{},"value":["VOSON Lab, School of Sociology, Australian National University"]},{"type":"character","attributes":{},"value":["http://vosonlab.net/"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Sidiq Madya"]},{"type":"character","attributes":{},"value":["VOSON Lab, School of Sociology, Australian National University"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Francisca Borquez"]},{"type":"character","attributes":{},"value":["VOSON Lab, School of Sociology, Australian National University"]}]}]},{"type":"character","attributes":{},"value":["2023-02-22"]},{"type":"character","attributes":{},"value":["rstats","hyperlink networks","vosonsml"]},{"type":"character","attributes":{},"value":["seeds_important2.png"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["refs.bib"]},{"type":"character","attributes":{},"value":["https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks/"]},{"type":"character","attributes":{},"value":["https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks/"]}]}
+{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["creative_commons","title","description","author","date","categories","preview","output","draft","bibliography","citation_url","canonical_url"]}},"value":[{"type":"character","attributes":{},"value":["CC BY"]},{"type":"character","attributes":{},"value":["Hyperlink networks: data pre-processing techniques"]},{"type":"character","attributes":{},"value":["Steps for collecting hyperlink networks with vosonSML and processing hyperlink data using R tools"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Robert Ackland"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["https://orcid.org/0000-0002-0008-1766"]}},"value":[{"type":"NULL"}]},{"type":"character","attributes":{},"value":["VOSON Lab, School of Sociology, Australian National University"]},{"type":"character","attributes":{},"value":["http://vosonlab.net/"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Sidiq Madya"]},{"type":"character","attributes":{},"value":["VOSON Lab, School of Sociology, Australian National University"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Francisca Borquez"]},{"type":"character","attributes":{},"value":["VOSON Lab, School of Sociology, Australian National University"]}]}]},{"type":"character","attributes":{},"value":["2023-02-22"]},{"type":"character","attributes":{},"value":["rstats","hyperlink networks","vosonsml"]},{"type":"character","attributes":{},"value":["seeds_important2.png"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["refs.bib"]},{"type":"character","attributes":{},"value":["https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing/"]},{"type":"character","attributes":{},"value":["https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing/"]}]}
 </script>
 <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["activity_network.png","actor_network.png","apa-style.csl","hyperlink-networks_files/anchor-4.2.2/anchor.min.js","hyperlink-networks_files/bowser-1.9.3/bowser.min.js","hyperlink-networks_files/distill-2.2.21/template.v2.js","hyperlink-networks_files/figure-html5/unnamed-chunk-27-1.png","hyperlink-networks_files/figure-html5/unnamed-chunk-27-2.png","hyperlink-networks_files/header-attrs-2.19/header-attrs.js","hyperlink-networks_files/jquery-3.6.0/jquery-3.6.0.js","hyperlink-networks_files/jquery-3.6.0/jquery-3.6.0.min.js","hyperlink-networks_files/jquery-3.6.0/jquery-3.6.0.min.map","hyperlink-networks_files/popper-2.6.0/popper.min.js","hyperlink-networks_files/tippy-6.2.7/tippy-bundle.umd.min.js","hyperlink-networks_files/tippy-6.2.7/tippy-light-border.css","hyperlink-networks_files/tippy-6.2.7/tippy.css","hyperlink-networks_files/tippy-6.2.7/tippy.umd.min.js","hyperlink-networks_files/webcomponents-2.0.0/webcomponents.js","refs.bib","seed_sites_20.csv","seeds_important.png","seeds_important2.png","seeds_plus_important_coded.csv","seeds_plus_important.csv","seeds.png","sites.csv"]}
+  {"type":"character","attributes":{},"value":["activity_network.png","actor_network.png","hyperlink-networks-pre-processing_files/anchor-4.2.2/anchor.min.js","hyperlink-networks-pre-processing_files/bowser-1.9.3/bowser.min.js","hyperlink-networks-pre-processing_files/distill-2.2.21/template.v2.js","hyperlink-networks-pre-processing_files/figure-html5/unnamed-chunk-27-1.png","hyperlink-networks-pre-processing_files/figure-html5/unnamed-chunk-27-2.png","hyperlink-networks-pre-processing_files/header-attrs-2.19/header-attrs.js","hyperlink-networks-pre-processing_files/jquery-3.6.0/jquery-3.6.0.js","hyperlink-networks-pre-processing_files/jquery-3.6.0/jquery-3.6.0.min.js","hyperlink-networks-pre-processing_files/jquery-3.6.0/jquery-3.6.0.min.map","hyperlink-networks-pre-processing_files/popper-2.6.0/popper.min.js","hyperlink-networks-pre-processing_files/tippy-6.2.7/tippy-bundle.umd.min.js","hyperlink-networks-pre-processing_files/tippy-6.2.7/tippy-light-border.css","hyperlink-networks-pre-processing_files/tippy-6.2.7/tippy.css","hyperlink-networks-pre-processing_files/tippy-6.2.7/tippy.umd.min.js","hyperlink-networks-pre-processing_files/webcomponents-2.0.0/webcomponents.js","refs.bib","seed_sites_20.csv","seeds_important.png","seeds_important2.png","seeds_plus_important_coded.csv","seeds_plus_important.csv","seeds.png","sites.csv"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
 <meta name="distill:offset" content="../.."/>
@@ -3275,10 +3275,10 @@ Lusher, D., and R. Ackland. 2011. <span>“A Relational Hyperlink Analysis of an
   <p class="social_footer">
     <span class="article-sharing">
       Share: &nbsp;
-      <a href="https://twitter.com/share?text=Hyperlink%20networks%3A%20data%20pre-processing%20techniques&amp;url=https%3A%2F%2Fvosonlab.github.io%2Fposts%2F2023-01-20-hyperlink-networks%2F" aria-label="share on twitter">
+      <a href="https://twitter.com/share?text=Hyperlink%20networks%3A%20data%20pre-processing%20techniques&amp;url=https%3A%2F%2Fvosonlab.github.io%2Fposts%2F2023-01-20-hyperlink-networks-pre-processing%2F" aria-label="share on twitter">
         <i class="fab fa-twitter" aria-hidden="true"></i>
       </a>
-      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fvosonlab.github.io%2Fposts%2F2023-01-20-hyperlink-networks%2F" aria-label="share on facebook">
+      <a href="https://www.facebook.com/sharer/sharer.php?s=100&amp;p[url]=https%3A%2F%2Fvosonlab.github.io%2Fposts%2F2023-01-20-hyperlink-networks-pre-processing%2F" aria-label="share on facebook">
         <i class="fab fa-facebook" aria-hidden="true"></i>
       </a>
     </span>
@@ -3310,12 +3310,12 @@ Lusher, D., and R. Ackland. 2011. <span>“A Relational Hyperlink Analysis of an
   <p>Text and figures are licensed under Creative Commons Attribution <a rel="license" href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a>. The figures that have been reused from other sources don't fall under this license and can be recognized by a note in their caption: "Figure from ...".</p>
   <h3 id="citation">Citation</h3>
   <p>For attribution, please cite this work as</p>
-  <pre class="citation-appendix short">Ackland, et al. (2023, Feb. 22). VOSON Lab Code Blog: Hyperlink networks: data pre-processing techniques. Retrieved from https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks/</pre>
+  <pre class="citation-appendix short">Ackland, et al. (2023, Feb. 22). VOSON Lab Code Blog: Hyperlink networks: data pre-processing techniques. Retrieved from https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing/</pre>
   <p>BibTeX citation</p>
   <pre class="citation-appendix long">@misc{ackland2023hyperlink,
   author = {Ackland, Robert and Madya, Sidiq and Borquez, Francisca},
   title = {VOSON Lab Code Blog: Hyperlink networks: data pre-processing techniques},
-  url = {https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks/},
+  url = {https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing/},
   year = {2023}
 }</pre>
 </div>
