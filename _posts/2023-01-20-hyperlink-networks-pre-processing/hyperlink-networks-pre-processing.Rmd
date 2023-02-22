@@ -1,7 +1,7 @@
 ---
 title: "Hyperlink networks: data pre-processing techniques"
 description: |
-  Steps for collecting hyperlink networks with vosonSML and processing hyperlink data using R tools
+  Steps for collecting hyperlink networks with vosonSML and processing hyperlink data using R tools.
 author:
   - name: Robert Ackland
     url: {https://orcid.org/0000-0002-0008-1766}
