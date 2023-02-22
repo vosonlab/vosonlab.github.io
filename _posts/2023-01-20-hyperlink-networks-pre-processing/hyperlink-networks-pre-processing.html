@@ -86,41 +86,67 @@ code span.vs { color: #20794d; } /* VerbatimString */
 code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </style>
 
+<style>
+  div.csl-bib-body { }
+  div.csl-entry {
+    clear: both;
+    }
+  .hanging div.csl-entry {
+    margin-left:2em;
+    text-indent:-2em;
+  }
+  div.csl-left-margin {
+    min-width:2em;
+    float:left;
+  }
+  div.csl-right-inline {
+    margin-left:2em;
+    padding-left:1em;
+  }
+  div.csl-indent {
+    margin-left: 2em;
+  }
+</style>
 
   <!--radix_placeholder_meta_tags-->
-  <title>Hyperlink networks</title>
+  <title>Hyperlink networks: data pre-processing techniques</title>
 
-  <meta property="description" itemprop="description" content="A short description of the post."/>
+  <meta property="description" itemprop="description" content="Steps for collecting hyperlink networks with vosonSML and processing hyperlink data using R tools"/>
 
 
   <!--  https://schema.org/Article -->
-  <meta property="article:published" itemprop="datePublished" content="2023-01-20"/>
-  <meta property="article:created" itemprop="dateCreated" content="2023-01-20"/>
+  <meta property="article:published" itemprop="datePublished" content="2023-02-22"/>
+  <meta property="article:created" itemprop="dateCreated" content="2023-02-22"/>
   <meta name="article:author" content="Robert Ackland"/>
   <meta name="article:author" content="Sidiq Madya"/>
   <meta name="article:author" content="Francisca Borquez"/>
 
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
-  <meta property="og:title" content="Hyperlink networks"/>
+  <meta property="og:title" content="Hyperlink networks: data pre-processing techniques"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="A short description of the post."/>
+  <meta property="og:description" content="Steps for collecting hyperlink networks with vosonSML and processing hyperlink data using R tools"/>
   <meta property="og:locale" content="en_US"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:title" content="Hyperlink networks"/>
-  <meta property="twitter:description" content="A short description of the post."/>
+  <meta property="twitter:title" content="Hyperlink networks: data pre-processing techniques"/>
+  <meta property="twitter:description" content="Steps for collecting hyperlink networks with vosonSML and processing hyperlink data using R tools"/>
 
   <!--/radix_placeholder_meta_tags-->
+  
+  <meta name="citation_reference" content="citation_title=WWW hyperlink networks;citation_publisher=Morgan-Kaufmann;citation_author=R. Ackland"/>
+  <meta name="citation_reference" content="citation_title=Online collective identity: The case of the environmental movement;citation_volume=33;citation_doi=https://doi.org/10.1016/j.socnet.2011.03.001;citation_author=R. Ackland;citation_author=M. O’Neil"/>
+  <meta name="citation_reference" content="citation_title=A relational hyperlink analysis of an online social movement;citation_volume=12;citation_author=D. Lusher;citation_author=R. Ackland"/>
+  <meta name="citation_reference" content="citation_title=Web social science: Concepts, data and tools for social scientists in the digital age;citation_publisher=SAGE Publications;citation_author=R. Ackland"/>
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","categories","output","draft"]}},"value":[{"type":"character","attributes":{},"value":["Hyperlink networks"]},{"type":"character","attributes":{},"value":["A short description of the post.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Robert Ackland"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":[]}},"value":[]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Sidiq Madya"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Francisca Borquez"]}]}]},{"type":"character","attributes":{},"value":["2023-01-20"]},{"type":"character","attributes":{},"value":["rstats","hyperlink networks","vosonsml"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","categories","preview","output","draft","bibliography"]}},"value":[{"type":"character","attributes":{},"value":["Hyperlink networks: data pre-processing techniques"]},{"type":"character","attributes":{},"value":["Steps for collecting hyperlink networks with vosonSML and processing hyperlink data using R tools\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url","affiliation","affiliation_url"]}},"value":[{"type":"character","attributes":{},"value":["Robert Ackland"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["https://orcid.org/0000-0002-0008-1766"]}},"value":[{"type":"NULL"}]},{"type":"character","attributes":{},"value":["VOSON Lab, School of Sociology, Australian National University"]},{"type":"character","attributes":{},"value":["http://vosonlab.net/"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Sidiq Madya"]},{"type":"character","attributes":{},"value":["VOSON Lab, School of Sociology, Australian National University"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","affiliation"]}},"value":[{"type":"character","attributes":{},"value":["Francisca Borquez"]},{"type":"character","attributes":{},"value":["VOSON Lab, School of Sociology, Australian National University"]}]}]},{"type":"character","attributes":{},"value":["2023-02-22"]},{"type":"character","attributes":{},"value":["rstats","hyperlink networks","vosonsml"]},{"type":"character","attributes":{},"value":["seeds_important2.png"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained","toc","toc_depth"]}},"value":[{"type":"logical","attributes":{},"value":[false]},{"type":"logical","attributes":{},"value":[true]},{"type":"integer","attributes":{},"value":[3]}]}]},{"type":"logical","attributes":{},"value":[false]},{"type":"character","attributes":{},"value":["refs.bib"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["activity_network.png","actor_network.png","hyperlink-networks_files/anchor-4.2.2/anchor.min.js","hyperlink-networks_files/bowser-1.9.3/bowser.min.js","hyperlink-networks_files/distill-2.2.21/template.v2.js","hyperlink-networks_files/header-attrs-2.19/header-attrs.js","hyperlink-networks_files/jquery-3.6.0/jquery-3.6.0.js","hyperlink-networks_files/jquery-3.6.0/jquery-3.6.0.min.js","hyperlink-networks_files/jquery-3.6.0/jquery-3.6.0.min.map","hyperlink-networks_files/popper-2.6.0/popper.min.js","hyperlink-networks_files/tippy-6.2.7/tippy-bundle.umd.min.js","hyperlink-networks_files/tippy-6.2.7/tippy-light-border.css","hyperlink-networks_files/tippy-6.2.7/tippy.css","hyperlink-networks_files/tippy-6.2.7/tippy.umd.min.js","hyperlink-networks_files/webcomponents-2.0.0/webcomponents.js","seed_sites_20.csv","seeds.png","seeds_important.png","seeds_important2.png","seeds_plus_important_coded.csv"]}
+  {"type":"character","attributes":{},"value":["activity_network.png","actor_network.png","apa-style.csl","hyperlink-networks_files/anchor-4.2.2/anchor.min.js","hyperlink-networks_files/bowser-1.9.3/bowser.min.js","hyperlink-networks_files/distill-2.2.21/template.v2.js","hyperlink-networks_files/figure-html5/unnamed-chunk-27-1.png","hyperlink-networks_files/figure-html5/unnamed-chunk-27-2.png","hyperlink-networks_files/header-attrs-2.19/header-attrs.js","hyperlink-networks_files/jquery-3.6.0/jquery-3.6.0.js","hyperlink-networks_files/jquery-3.6.0/jquery-3.6.0.min.js","hyperlink-networks_files/jquery-3.6.0/jquery-3.6.0.min.map","hyperlink-networks_files/popper-2.6.0/popper.min.js","hyperlink-networks_files/tippy-6.2.7/tippy-bundle.umd.min.js","hyperlink-networks_files/tippy-6.2.7/tippy-light-border.css","hyperlink-networks_files/tippy-6.2.7/tippy.css","hyperlink-networks_files/tippy-6.2.7/tippy.umd.min.js","hyperlink-networks_files/webcomponents-2.0.0/webcomponents.js","refs.bib","seed_sites_20.csv","seeds_important.png","seeds_important2.png","seeds_plus_important_coded.csv","seeds_plus_important.csv","seeds.png","sites.csv"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1498,7 +1524,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Hyperlink networks","description":"A short description of the post.","authors":[{"author":"Robert Ackland","authorURL":{},"affiliation":"&nbsp;","affiliationURL":"#","orcidID":""},{"author":"Sidiq Madya","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""},{"author":"Francisca Borquez","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2023-01-20T00:00:00.000+11:00","citationText":"Ackland, et al., 2023"}
+{"title":"Hyperlink networks: data pre-processing techniques","description":"Steps for collecting hyperlink networks with vosonSML and processing hyperlink data using R tools","authors":[{"author":"Robert Ackland","authorURL":{"https://orcid.org/0000-0002-0008-1766":{}},"affiliation":"VOSON Lab, School of Sociology, Australian National University","affiliationURL":"http://vosonlab.net/","orcidID":""},{"author":"Sidiq Madya","authorURL":"#","affiliation":"VOSON Lab, School of Sociology, Australian National University","affiliationURL":"#","orcidID":""},{"author":"Francisca Borquez","authorURL":"#","affiliation":"VOSON Lab, School of Sociology, Australian National University","affiliationURL":"#","orcidID":""}],"publishedDate":"2023-02-22T00:00:00.000+11:00","citationText":"Ackland, et al., 2023"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1508,7 +1534,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--/radix_placeholder_site_before_body-->
 
 <div class="d-title">
-<h1>Hyperlink networks</h1>
+<h1>Hyperlink networks: data pre-processing techniques</h1>
 <!--radix_placeholder_categories-->
 <div class="dt-tags">
 <div class="dt-tag">rstats</div>
@@ -1516,27 +1542,44 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="dt-tag">vosonsml</div>
 </div>
 <!--/radix_placeholder_categories-->
-<p><p>A short description of the post.</p></p>
+<p><p>Steps for collecting hyperlink networks with vosonSML and processing hyperlink data using R tools</p></p>
 </div>
 
 <div class="d-byline">
-  Robert Ackland true 
+  Robert Ackland true (VOSON Lab, School of Sociology, Australian National University)<a href="http://vosonlab.net/" class="uri">http://vosonlab.net/</a>
   
-,   Sidiq Madya  
+,   Sidiq Madya  (VOSON Lab, School of Sociology, Australian National University)
   
-,   Francisca Borquez  
+,   Francisca Borquez  (VOSON Lab, School of Sociology, Australian National University)
   
-<br/>2023-01-20
+<br/>2023-02-22
 </div>
 
 <div class="d-article">
-<h1 id="collecting-hyperlink-data-via-web-crawling">1. Collecting hyperlink data via web crawling</h1>
-<p>Let’s first test out hyperlink collection.</p>
-<p>We are going to use VOSON to collect hyperlinks.</p>
+<div class="d-contents d-contents-float">
+<nav class="l-text toc figcaption" id="TOC">
+<h3>Contents</h3>
+<ul>
+<li><a href="#introduction" id="toc-introduction">1. Introduction</a></li>
+<li><a href="#collecting-hyperlink-data-via-web-crawling" id="toc-collecting-hyperlink-data-via-web-crawling">2. Collecting hyperlink data via web crawling</a></li>
+<li><a href="#creating-hyperlink-networks" id="toc-creating-hyperlink-networks">3. Creating hyperlink networks</a></li>
+<li><a href="#processing-nodes-in-the-hyperlink-actor-network" id="toc-processing-nodes-in-the-hyperlink-actor-network">4. Processing nodes in the hyperlink actor network</a>
+<ul>
+<li><a href="#pagegrouping" id="toc-pagegrouping">4.1 Pagegrouping</a></li>
+<li><a href="#pruning" id="toc-pruning">4.2 Pruning</a></li>
+<li><a href="#preserving" id="toc-preserving">4.3 Preserving</a></li>
+</ul></li>
+</ul>
+</nav>
+</div>
+<h2 id="introduction">1. Introduction</h2>
+<p>The VOSON software web app – first made publicly available in 2006 – was a tool designed to enable researchers to study Web 1.0 websites as online social networks <span class="citation" data-cites="Ackland2010 AcklandONeil2011 Lusher2011 Ackland2013">(<a href="#ref-Ackland2010" role="doc-biblioref">Ackland 2010</a>, <a href="#ref-Ackland2013" role="doc-biblioref">2013</a>; <a href="#ref-AcklandONeil2011" role="doc-biblioref">Ackland and O’Neil 2011</a>; <a href="#ref-Lusher2011" role="doc-biblioref">Lusher and Ackland 2011</a>)</span>. The canonical VOSON hyperlink collection was <a href="https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml/">reintroduced in 2021 in vosonSML)</a> and it was made available in <a href="https://github.com/vosonlab/VOSONDash">VOSONDash version 0.6.1</a> in February 2023. This post provides the methodological steps and code for collecting hyperlink data using <code>vosonSML</code> and pre-processing hyperlink network data via R, including the specific approaches that were previously available via VOSON software web app (pruning, preserving and pagegrouping).</p>
+<h2 id="collecting-hyperlink-data-via-web-crawling">2. Collecting hyperlink data via web crawling</h2>
+<p>We collected the hyperlink data using <a href="https://github.com/vosonlab/vosonSML">vosonSML</a>.</p>
 <p>First load the libraries.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://magrittr.tidyverse.org'>magrittr</a></span><span class='op'>)</span></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://magrittr.tidyverse.org'>magrittr</a></span><span class='op'>)</span>             <span class='co'>#only need to load this if we use %&gt;% as pipe, otherwise can use |&gt;</span></span>
 <span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/vosonlab/vosonSML'>vosonSML</a></span><span class='op'>)</span></span>
 <span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://igraph.org'>igraph</a></span><span class='op'>)</span></span>
 <span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
@@ -1544,7 +1587,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://stringr.tidyverse.org'>stringr</a></span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
-<p>We create a dataframe containing the pages to be crawled. We are reading a csv file with pages for 20 organisations. These organisations are samples of non-state or non-government entities (for-profit and non-for-profit) which actively engage in ‘data sovereignty’ debates as part of their concern in contemporary data politics. These organisations include NGO, research think tank, companies, industry associations, and movements or initiatives from communities. These different group of organisations deal with various issues and values when promoting their agenda ranging from security, privacy, innovation, entrepreneurship, to human rights and social justice.</p>
+<p>We create a dataframe containing the pages to be crawled. We are reading a csv file with pages for 20 organisations. These organisations are a sample of non-state or non-government entities (for-profit and non-for-profit) which actively engage in ‘data sovereignty’ debates as part of their concern in contemporary data politics. These organisations include NGO, research think tank, companies, industry associations, and movements or initiatives from communities. These different group of organisations deal with various issues and values when promoting their agenda ranging from security, privacy, innovation, entrepreneurship, to human rights and social justice.</p>
 <p>Being involved in the emerging issues of global data politics, these organisations are based or headquartered in different countries across the globe include the US, UK, Canada, Germany, The Netherlands, Belgium, and Denmark which represent the Global North, and South Africa, India and Hong Kong representing the Global South. The websites are being used by these organisations to participate in the emerging debates on data politics. Their participation in the debates are becoming more intense in the midst of the ongoing process of massive ‘digitisation’ and ‘datafication’ in societies. We have chosen 1 or 2 pages from each website and are using these as “seed pages” where the crawler will start: in this way we are directing the crawler to the pages we think will be most “productive” in terms of containing hyperlinks and text that are of interest to the study.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -1636,7 +1679,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span><span class='va'>pages</span> <span class='op'>&lt;-</span> <span class='va'>pages</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span><span class='op'>(</span><span class='st'>"ispa.org.za"</span>, <span class='va'>pages</span><span class='op'>$</span><span class='va'>page</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
-<p>Note that for the crawler all we need is a dataframe with three columns: page, type, max_depth (explain these), but of course it might be useful to include other meta data in this file that is used in analysis later.</p>
+<p>Note that for the crawler all we need is a dataframe with three columns: page, type, max_depth (see code above for an explantion of these terms and also see the <a href="https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml/">VOSON Lab blog post on crawling using vosonSML</a>), but of course it might be useful to include other meta data in this file that is used in analysis later.</p>
 <p>Now run the crawl.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -1649,7 +1692,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span><span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>saveRDS</a></span><span class='op'>(</span><span class='va'>crawlDF</span>, <span class='st'>"crawlDF_20_sites_depth1.rds"</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
-<h2 id="creating-hyperlink-networks">2. Creating hyperlink networks</h2>
+<h2 id="creating-hyperlink-networks">3. Creating hyperlink networks</h2>
 <p>Let’s now create networks from the crawl data.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -1670,7 +1713,7 @@ $ parse     &lt;df[,6]&gt; &lt;data.frame[23 x 6]&gt;
 $ seed      &lt;chr&gt; &quot;https://womeninlocalization.com/partners&quot;, &quot;ht…
 $ type      &lt;chr&gt; &quot;int&quot;, &quot;int&quot;, &quot;int&quot;, &quot;int&quot;, &quot;int&quot;, &quot;int&quot;, &quot;int&quot;, &quot;…</code></pre>
 </div>
-<p>First we create the activity network: with hyperlink activity networks, the nodes are web pages. For the purpose of visualisation we will simplify the network by removing loops (with activity networks there should not be any multiple edges).</p>
+<p>First we create the activity network: with hyperlink activity networks, the nodes are web pages. For the purpose of visualisation we will simplify the network by removing loops.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># create activity network: nodes are pages hyperlinks were collected from</span></span>
@@ -1754,13 +1797,13 @@ $ type      &lt;chr&gt; &quot;int&quot;, &quot;int&quot;, &quot;int&quot;, &quot
  $ no        : int 1</code></pre>
 </div>
 <p>The actor network has 497 nodes and 559 edges. The above indicates we have a single (weakly-connected) component: with hyperlink actor networks seeds are more likely to be connected to one another (either directly or indirectly) as they only need to link to a common domain.</p>
-<h1 id="processing-nodes-in-the-hyperlink-actor-network">3. Processing nodes in the hyperlink actor network</h1>
-<p>For the rest of this exercise we will use the actor network. We will now look at three approaches for processing hyperlink network data: pagegrouping, pruning, and preserving <strong>[REF to Rob’s earlier work, VOSON software]</strong>.</p>
-<h2 id="pagegrouping">3.1 Pagegrouping</h2>
+<h2 id="processing-nodes-in-the-hyperlink-actor-network">4. Processing nodes in the hyperlink actor network</h2>
+<p>For the rest of this exercise we will use the actor network. We will now look at three approaches for processing hyperlink network data: pagegrouping, pruning, and preserving.</p>
+<h3 id="pagegrouping">4.1 Pagegrouping</h3>
 <p>Pagegrouping refers to merging nodes within a hyperlink network. A common example of a situation where you may want to apply pagegrouping is when you would like to ensure that a subdomain node is not shown separately in the network i.e. it is merged with its domain node. For example, we might want to merge <code>www.anu.edu.au</code> with <code>anu.edu.au</code> (or rename <code>www.anu.edu.au</code> to <code>anu.edu.au</code> if the latter does not already exist). It should be noted that whether this pagegrouping is enacted is dependent on the research setting: it might be the case that you want to keep particular subdomains separate to their parent domain. For example we might want <code>rsss.anu.edu.au</code> or <code>cass.anu.edu.au</code> to be separate nodes, and not merged with <code>anu.edu.au</code>.</p>
-<p>There two approaches we can used to undertake pagrouping: (1) operating on the <code>vosonSML</code> network object (that is then used to create the <code>igraph</code> graph object); (2) operating on the <code>igraph</code> graph object. In this document we will demonstrate method (2).</p>
-<h3 id="merging-the-www-subdomain-into-a-canonical-domain">3.1.1 Merging the “www” subdomain into a canonical domain</h3>
-<p>First we are going to consolidate nodes into a single canonical domain. This will involve stripping “www” from www.x.y if only www.x.y exists and if both www.x.y and x.y exist then the former will be merged into the latter. Note that the following code also works if the canonical domain contains three or more parts e.g. x.y.z. Also note that the following step will only modify the wwww subdomain (e.g. wwww.x.y): other subbdomains (e.g. othersub.x.y) are handled below.</p>
+<p>There are two approaches we can used to undertake pagerouping: (1) operating on the <code>vosonSML</code> network object (that is then used to create the <code>igraph</code> graph object); (2) operating on the <code>igraph</code> graph object. In this document we will demonstrate method (2).</p>
+<h4 id="merging-the-www-subdomain-into-a-canonical-domain">4.1.1 Merging the “www” subdomain into a canonical domain</h4>
+<p>First we are going to consolidate nodes into a single canonical domain. This will involve stripping “www” from www.x.y if only www.x.y exists and if both www.x.y and x.y exist then the former will be merged into the latter. Note that the following code also works if the canonical domain contains three or more parts e.g. x.y.z. Also note that the following step will only modify the www subdomain (e.g. www.x.y): other subbdomains (e.g. othersub.x.y) are handled below.</p>
 <p>Let’s focus on an example present in this dataset.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -1851,11 +1894,12 @@ Finished working on www.privacyshield.gov ( 200 of 262 )</code></pre>
 </div>
 <pre><code>[1] 497</code></pre>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/gorder.html'>vcount</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span></span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#to</span></span>
+<span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/gorder.html'>vcount</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span></span></code></pre>
 </div>
 <pre><code>[1] 478</code></pre>
 </div>
-<h3 id="merging-other-subdomains-into-the-canonical-domain">3.1.2 Merging other subdomains into the canonical domain</h3>
+<h4 id="merging-other-subdomains-into-the-canonical-domain">4.1.2 Merging other subdomains into the canonical domain</h4>
 <p>Now have only a single canonical version of the mydata.org domain, but there are still two subdomains (other than www).</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -1864,7 +1908,7 @@ Finished working on www.privacyshield.gov ( 200 of 262 )</code></pre>
 <pre><code>[1] &quot;2022.mydata.org&quot;   &quot;mydata.org&quot;        &quot;oldwww.mydata.org&quot;</code></pre>
 </div>
 <p>In this next step we will merge all remaining subdomains into the canonical domain.</p>
-<p>However, there might be examples of subdomains that we want “preserved” (not merged into the canonical domain), they should be specified in advance.</p>
+<p>However, there might be examples of subdomains that we want “preserved” (not merged into the canonical domain); they should be specified in advance.</p>
 <p>A good example is websites created using Wordpress.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -1997,7 +2041,8 @@ working on: wto.org
 </div>
 <pre><code>[1] 497</code></pre>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/gorder.html'>vcount</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span></span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#to</span></span>
+<span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/gorder.html'>vcount</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span></span></code></pre>
 </div>
 <pre><code>[1] 459</code></pre>
 </div>
@@ -2018,7 +2063,7 @@ working on: wto.org
 [3] &quot;indigenousdatalab.wordpress.com&quot; 
 [4] &quot;institutdayakologi.wordpress.com&quot;</code></pre>
 </div>
-<h3 id="custom-merging-of-domains">3.1.3 Custom merging of domains</h3>
+<h4 id="custom-merging-of-domains">4.1.3 Custom merging of domains</h4>
 <p>The above code showed how to merge subdomains “in bulk”, and we also showed how to control this merging by “preserving” subdomains. But we might need to undertake an additional step for merging domains and subdomains. When an organisation uses two or more websites, it might be desirable to merge the relevant domains into a single node in the actor network. The following approach also takes account of the situation we found above for fraunhofer.de: the bulk merging did not work because the canonical domain fraunhofer.de doesn’t yet exist in our hyperlink actor network.</p>
 <p>The following code does this with reference to the following examples:</p>
 <div class="layout-chunk" data-layout="l-body">
@@ -2174,7 +2219,8 @@ uneca.org merged to un.org </code></pre>
 </div>
 <pre><code>[1] 497</code></pre>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/gorder.html'>vcount</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span></span></code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#to</span></span>
+<span><span class='fu'><a href='https://rdrr.io/pkg/igraph/man/gorder.html'>vcount</a></span><span class='op'>(</span><span class='va'>g</span><span class='op'>)</span></span></code></pre>
 </div>
 <pre><code>[1] 450</code></pre>
 </div>
@@ -2197,9 +2243,9 @@ uneca.org merged to un.org </code></pre>
 [3] &quot;tierracomun.org&quot;       &quot;unhcr.org&quot;            
 [5] &quot;unpo.org&quot;             </code></pre>
 </div>
-<h2 id="pruning">3.2 Pruning</h2>
+<h3 id="pruning">4.2 Pruning</h3>
 <p>Pruning refers to removing nodes that are considered not relevant to the analysis. It is highly likely that the web crawler will pick up pages that are not relevant to the study, and so we use pruning to identify and remove these irrelevant pages.</p>
-<h3 id="creatng-the-network-containing-just-the-seed-sites">3.2.1 Creatng the network containing just the seed sites</h3>
+<h4 id="creatng-the-network-containing-just-the-seed-sites">4.2.1 Creatng the network containing just the seed sites</h4>
 <p>We will first create an actor network containing just the seed sites: in effect we are “pruning” non-seed sites. To start with, we need to identify what are the seed sites: we do this using the <code>pages</code> dataframe we created above for the web crawl. Recall that the <code>pages</code> dataframe contains <em>web pages</em> that we have crawled, but the hyperlink actor network contains <em>websites (or domains)</em>. So we need to process the <code>pages</code> dataframe so as to identify what are the seed sites (not seed pages).</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2389,7 +2435,7 @@ TRUE
 <figcaption aria-hidden="true">Figure 3: Seeds hyperlink network.</figcaption>
 </figure>
 <p>The above figure shows that the seed sites are very disconnected, with only four pairs of sites connected; this is to be expected given we have only crawled to depth 1 (i.e. only the seed page is crawled). If we increased the crawl depth to 2, then it is to be expected that the seeds hyperlink network would become more connected.</p>
-<h3 id="creatng-the-network-containing-the-seeds-plus-important-non-seed-sites">3.2.2 Creatng the network containing the seeds plus “important” non-seed sites</h3>
+<h4 id="creatng-the-network-containing-the-seeds-plus-important-non-seed-sites">4.2.2 Creatng the network containing the seeds plus “important” non-seed sites</h4>
 <p>Next we will create the “seeds plus important” network: this contains the seed sites plus those other sites that are hyperlinked to by two or more seeds.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2408,7 +2454,7 @@ TRUE
 </div>
 <p><img src="seeds_important.png" alt="Figure 4: Seeds plus important hyperlink network." />
 The above visualisation indicates that we now have a much more connected network, indeed it is fully-connected (no isolates) but a casual inspection indicates that many of the so-called “important” sites are probably not relevant to the analysis. For example, the most central nodes are social media sites (e.g. twitter.com, youtube.com). This brings us to the final step in the processing of the hyperlink data: manually pruning irrelevant sites.</p>
-<h3 id="manually-pruning-irrelevant-sites">3.2.3 Manually pruning irrelevant sites</h3>
+<h4 id="manually-pruning-irrelevant-sites">4.2.3 Manually pruning irrelevant sites</h4>
 <p>Whether a site is relevant to the research is something only the researcher will know, so this final step is necessarily a manual one. We recommend that the “seeds plus important” network nodes are written to csv file, and then this csv file is manually coded so either the relevant sites are kept or the irrelevant sites are removed. In the example below, we are keeping those sites that are deemed relevant.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
@@ -2434,7 +2480,38 @@ The above visualisation indicates that we now have a much more connected network
 </div>
 <p><img src="seeds_important2.png" alt="Figure 5: Seeds plus relevant important hyperlink network." />
 The result is a graph presenting a connection or disconnection among organisations discussing ‘data sovereignty’ issues on the web. It shows that the debates interestingly place the already powerful institutions such as the UN and the World Bank at the center which makes them appear to be influential actors in the network of data sovereignty debates. Given their prominent positions in the network connecting otherwise separated organisations across countries or regions interested in data politics, it is interesting to gain insight into how organisations such as the UN and the World Bank impose their interest on data sovereignty agenda.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<h3 id="preserving">4.3 Preserving</h3>
+<p>We have already mentioned preserving of subdomains above (to prevent all subdomains being merged into a single node when pagregrouping is undertaken). Another example of preserving is when we want to preserve sub-directories. By default, <code>vosonSML</code> does not preserve sub-directories and so <code>www.example.com/subdir1</code> and <code>www.example.com/subdir2</code> would, by default, be merged to the node <code>www.example.com</code>. Preserving these sub-diretories would involve working with the activity network object returned by <code>vosonSML</code>:</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>net_activity</span><span class='op'>$</span><span class='va'>edges</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code># A tibble: 6 × 2
+  from                                     to                         
+  &lt;chr&gt;                                    &lt;chr&gt;                      
+1 https://womeninlocalization.com/partners http://goap-global.com     
+2 https://womeninlocalization.com/partners http://www.reddit.com/subm…
+3 https://womeninlocalization.com/partners https://csa-research.com   
+4 https://womeninlocalization.com/partners https://euatc.org          
+5 https://womeninlocalization.com/partners https://locworld.com       
+6 https://womeninlocalization.com/partners https://slator.com         </code></pre>
+</div>
+<p>It would be necessary to process the URLs in the <code>from</code> and <code>to</code> using similar techniques to those presented above e.g. converting URLs to the domain names, but preserving certain sub-directories. Then the <code>vosonSML</code> <code>Create()</code> function can be used to create the igraph graph object. We will not cover this in full here, but leave this for a future blog post.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div id="refs" class="references csl-bib-body hanging-indent" role="doc-bibliography">
+<div id="ref-Ackland2010" class="csl-entry" role="doc-biblioentry">
+Ackland, R. 2010. <span>“<span>WWW</span> Hyperlink Networks.”</span> In <em>Analyzing Social Media Networks with NodeXL: Insights from a Connected World</em>, edited by D. L. Hansen, B. Shneiderman, and M. A. Smith. Burlington, MA: Morgan-Kaufmann.
+</div>
+<div id="ref-Ackland2013" class="csl-entry" role="doc-biblioentry">
+———. 2013. <em>Web Social Science: Concepts, Data and Tools for Social Scientists in the Digital Age</em>. London: SAGE Publications.
+</div>
+<div id="ref-AcklandONeil2011" class="csl-entry" role="doc-biblioentry">
+Ackland, R., and M. O’Neil. 2011. <span>“Online Collective Identity: The Case of the Environmental Movement.”</span> <em>Social Networks</em> 33: 177–90. https://doi.org/<a href="https://doi.org/10.1016/j.socnet.2011.03.001">https://doi.org/10.1016/j.socnet.2011.03.001</a>.
+</div>
+<div id="ref-Lusher2011" class="csl-entry" role="doc-biblioentry">
+Lusher, D., and R. Ackland. 2011. <span>“A Relational Hyperlink Analysis of an Online Social Movement.”</span> <em>Journal of Social Structure</em> 12 (5).
+</div>
+</div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -2455,7 +2532,10 @@ The result is a graph presenting a connection or disconnection among organisatio
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
 <!--radix_placeholder_appendices-->
-<div class="appendix-bottom"></div>
+<div class="appendix-bottom">
+<h3 id="references">References</h3>
+<div id="references-listing"></div>
+</div>
 <!--/radix_placeholder_appendices-->
 <!--radix_placeholder_navigation_after_body-->
 <!--/radix_placeholder_navigation_after_body-->
