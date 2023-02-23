@@ -122,7 +122,8 @@ g_activity <- simplify(g_activity)
 
 ```{r, eval=FALSE}
 png("activity_network.png", width=800, height=800)
-plot(g_activity, layout=layout_with_fr(g_activity), vertex.label="", vertex.size=3, edge.width=1, edge.arrow.size=0.5)
+plot(g_activity, layout=layout_with_fr(g_activity), vertex.label="", 
+     vertex.size=3, edge.width=1, edge.arrow.size=0.5)
 dev.off()
 ```
 
@@ -156,7 +157,8 @@ ecount(g_actor)
 
 ```{r, eval=FALSE}
 png("actor_network.png", width=800, height=800)
-plot(g_actor, layout=layout_with_fr(g_actor), vertex.label="", vertex.size=3, edge.width=E(g_actor)$weight, edge.arrow.size=0.5)
+plot(g_actor, layout=layout_with_fr(g_actor), vertex.label="", vertex.size=3, 
+     edge.width=E(g_actor)$weight, edge.arrow.size=0.5)
 dev.off()
 ```
 
@@ -218,11 +220,12 @@ for (c in www_sites){
   #ind <- grep(paste0(i,"$"), as.character(V(g)$name))
   #ind <- grep(paste0("\\.",i,"$"), as.character(V(g)$name))
   #this is a hack...want to match on ".abc.com" or "abc.com"
-  #ind <- union(grep(paste0("\\.",i,"$"), as.character(V(g)$name)), grep(paste0("^",i,"$"), as.character(V(g)$name)))
+  #ind <- union(grep(paste0("\\.",i,"$"), as.character(V(g)$name)), 
+  #             grep(paste0("^",i,"$"), as.character(V(g)$name)))
   
   ind <- grep(paste0("^",i,"$"), as.character(V(g)$name))
 
-  if (!length(ind)){     #there is only the "www" version, just rename node to domain
+  if (!length(ind)){     #only the "www" version, just rename node to domain
     V(g)$name[ind_i] <- i
     t2 <- t2 + 1
     next
@@ -239,9 +242,10 @@ for (c in www_sites){
   #  break
     
   #merging nodes involves creating a map of vertices e.g. if we have 5 vertices 
-  #and want to merge nodes 1 and 2 and also merge nodes 3 and 4 the map needs to be:
+  #to merge nodes 1 and 2 and also merge nodes 3 and 4 the map needs to be:
   #1 1 2 2 3
-  #i.e. nodes 1 and 2 become node 1, nodes 3 and 4 become node 2, and node 5 becomes node 3
+  #i.e. nodes 1 and 2 become node 1, nodes 3 and 4 become node 2, 
+  #and node 5 becomes node 3
   map_i <- 1:ind[1]
   t <- ind[1]+1
   for (j in (ind[1]+1):vcount(g)){
@@ -307,7 +311,8 @@ If the canonical domain doesn't exist, as in the case of fraunhofer.de, then we 
 ```{r, eval=TRUE}
 #vector containing the information for preserving subdomains
 #we would most likely store this as a csv file with notes on choices made
-preserve <- c("*mydata.org", "coporwa1en.wordpress.com", "institutdayakologi.wordpress.com",
+preserve <- c("*mydata.org", "coporwa1en.wordpress.com", 
+              "institutdayakologi.wordpress.com",
               "indigenousdatalab.wordpress.com")
 
 for (i in V(g)$name){
@@ -387,7 +392,8 @@ The following code does this with reference to the following examples:
 ```{r}
 V(g)$name[grep("womeninlocalization", V(g)$name)]
 V(g)$name[grep("fraunhofer", V(g)$name)]
-V(g)$name[grep("undocs|undp|uneca|unpo|unhcr|unstats|unwomen|unesco|un\\.org", V(g)$name)]
+V(g)$name[grep("undocs|undp|uneca|unpo|unhcr|unstats|unwomen|unesco|un\\.org", 
+               V(g)$name)]
 ```
 
 As with the above, this step involves pre-specification of how the sites are to be merged.  We will use a wildcard to merge the two womeninlocalization sites. We will also bulk merge subdomains of fraunhofer.de, preserving two subdomains.  Finally, we will merge selected domains from the UN into a canonical domain un.org. Note that in the case of fraunhofer and the UN, the decision of exactly which subdomains and domains to merge is arbitrary: this is just for purposes of showing example code.
@@ -398,21 +404,34 @@ As with the above, this step involves pre-specification of how the sites are to 
 #we would most likely store this as a csv file with notes on choices made
 preserve <- c("dataspaces.fraunhofer.de","medical-data-space.fraunhofer.de")
 
-#the above process of merging subdomains will only work if there was www.x.y in the original dataset
-#if this is not the case, and want to merge subdomains using a wildcard, then specify the canonical domain here
-#note that here we use a dataframe with the first column being the canonical domain (what other domains/subdomains will be merged into), and subsequent columns are the other domains/subdomains.  If only the first column is specified, then a bulk merge will be undertaken
-#There are two types of merge below:
-# (1) bulk merge: this is when there is only one column in the data frame, the canonical domain.  This domain needs to be contained in the subdomains that are to be merged
-# (2) bespoke merge: this is when the first column contains the domain which all the other subdomains/domains will be merged into.  Note that this domain does not even need to exist in the hyperlink actor network
-#the following will only work if the canonical domain is contained in at least one 
+#the above process of merging subdomains will only work if there was www.x.y in
+#the original dataset if this is not the case, and want to merge subdomains
+#using a wildcard, then specify the canonical domain here note that here we use
+#a dataframe with the first column being the canonical domain (what other
+#domains/subdomains will be merged into), and subsequent columns are the other
+#domains/subdomains.  If only the first column is specified, then a bulk merge
+#will be undertaken. There are two types of merge below:
+# (1) bulk merge: this is when there is only one column in the data frame, 
+#     the canonical domain.  
+#     This domain needs to be contained in the subdomains that are to be merged
+# (2) bespoke merge: this is when the first column contains the domain which
+#all the other subdomains/domains will be merged into.  Note that this domain
+#does not even need to exist in the hyperlink actor network the following will
+#only work if the canonical domain is contained in at least one. 
 #Note that this would normally be stored in csv file
-ex1 <- data.frame(V1="womeninlocalization.org", V2="womeninlocalization.com")    #bespoke merge
-ex2 <- data.frame(V1="fraunhofer.de")                                            #bulk merge
-ex3 <- data.frame(V1="un.org", V2="en.unesco.org", V3="lac.unwomen.org", V4="undocs.org", V5="unstats.un.org", V6="undp.org", V7="uneca.org")         #bespoke merge
+ex1 <- data.frame(V1="womeninlocalization.org", 
+                  V2="womeninlocalization.com")    #bespoke merge
+ex2 <- data.frame(V1="fraunhofer.de")              #bulk merge
+ex3 <- data.frame(V1="un.org", V2="en.unesco.org", 
+                  V3="lac.unwomen.org", V4="undocs.org", 
+                  V5="unstats.un.org", V6="undp.org", 
+                  V7="uneca.org")         #bespoke merge
 mergeDF <- bind_rows(ex1, ex2, ex3)
-#note that we preserve particular subdomains of fraunhofer.de by including in preserve above
+#note that we preserve particular subdomains of fraunhofer.de by including
+#in preserve above
 
-#seems most efficient to iterate over nodes first, rather than iterating over merges first
+#seems most efficient to iterate over nodes first, 
+#rather than iterating over merges first
 for (i in V(g)$name){
   
   #cat("working on:", i, "\n")
@@ -456,7 +475,8 @@ for (i in V(g)$name){
     next
   }
   
-  #Also check that the node we are merging is not the same as the node we are merging to i.e. not merging
+  #Also check that the node we are merging is not the same as the node
+  #we are merging to i.e. not merging
   #fraunhofer.de -> fraunhofer.de
   if (i==col1){
     cat(i, ", trying to merge node with itself...\n")
@@ -478,7 +498,8 @@ for (i in V(g)$name){
    
   #break
   
-  #the following will only have two nodes in it, but use it so can re-use code from above
+  #the following will only have two nodes in it, but use it 
+  #so can re-use code from above
   ind <- sort(c(ind_i, dom_match))
   
   #break
@@ -512,7 +533,8 @@ The following confirms that the merges have taken place correctly.
 ```{r}
 V(g)$name[grep("womeninlocalization", V(g)$name)]
 V(g)$name[grep("fraunhofer", V(g)$name)]
-V(g)$name[grep("undocs|undp|uneca|unpo|unhcr|unstats|unwomen|unesco|un\\.org", V(g)$name)]
+V(g)$name[grep("undocs|undp|uneca|unpo|unhcr|unstats|unwomen|unesco|un\\.org",
+               V(g)$name)]
 ```
 
 
@@ -538,8 +560,8 @@ seed_sites <- seed_sites %>%
 a <- str_match(seed_sites$site, "(.+?)/")
 seed_sites$site <- ifelse(grepl("/", seed_sites$site), a[,2], seed_sites$site)
 
-#remove redundant column "page" and also user-created column "domain" (to avoid confusion, since not using)
-#and put "site" colum first
+#remove redundant column "page" and also user-created column "domain"
+#(to avoid confusion, since not using) and put "site" column first
 seed_sites <- seed_sites %>% select(-c(page,domain)) %>% relocate(site)
 
 seed_sites <- seed_sites %>% distinct(site, .keep_all=TRUE)
@@ -557,7 +579,8 @@ Before proceeding, we need to first make some modifications to the `seed_sites` 
 ```{r}
 seed_sites <- seed_sites %>% mutate(site=gsub("^www\\.","",site))
 
-seed_sites$site[which(seed_sites$site=="womeninlocalization.com")] <- "womeninlocalization.org"
+seed_sites$site[which(seed_sites$site == "womeninlocalization.com")] <-
+  "womeninlocalization.org"
 
 seed_sites <- seed_sites %>% distinct(site, .keep_all=TRUE)
 
@@ -587,7 +610,8 @@ g_seeds <- induced.subgraph(g, which(V(g)$seed==1))
 
 ```{r, eval=FALSE}
 png("seeds.png", width=800, height=800)
-plot(g_seeds, vertex.label.color="black", vertex.size=3, edge.width=E(g_seeds)$weight, edge.arrow.size=0.5)
+plot(g_seeds, vertex.label.color="black", vertex.size=3, 
+     edge.width=E(g_seeds)$weight, edge.arrow.size=0.5)
 dev.off()
 ```
 
@@ -608,7 +632,9 @@ V(g_seedsImp)$color <- ifelse(V(g_seedsImp)$seed==1, "red", "blue")
 
 ```{r, eval=FALSE}
 png("seeds_important.png", width=800, height=800)
-plot(g_seedsImp, vertex.label.color="black", vertex.size=3+degree(g_seedsImp, mode="in"), edge.width=E(g_seedsImp)$weight, edge.arrow.size=0.5)
+plot(g_seedsImp, vertex.label.color="black", 
+     vertex.size=3+degree(g_seedsImp, mode="in"), 
+     edge.width=E(g_seedsImp)$weight, edge.arrow.size=0.5)
 dev.off()
 ```
 
@@ -637,7 +663,9 @@ g_seedsImp2 <- induced.subgraph(g_seedsImp, which(V(g_seedsImp)$keep==1))
 
 ```{r, eval=FALSE}
 png("seeds_important2.png", width=800, height=800)
-plot(g_seedsImp2, vertex.label.color="black", vertex.size=3+degree(g_seedsImp2, mode="in"), edge.width=E(g_seedsImp2)$weight, edge.arrow.size=0.5)
+plot(g_seedsImp2, vertex.label.color="black", 
+     vertex.size=3+degree(g_seedsImp2, mode="in"), 
+     edge.width=E(g_seedsImp2)$weight, edge.arrow.size=0.5)
 dev.off()
 ```
 
