@@ -648,7 +648,8 @@ The sites are manually coded - a new column "keep" is created, with a 1 indicati
 df2 <- read.csv("seeds_plus_important_coded.csv")
 V(g_seedsImp)$keep <- df2$keep[match(V(g_seedsImp)$name, df2$site)]
 g_seedsImp2 <- induced.subgraph(g_seedsImp, which(V(g_seedsImp)$keep==1))
-
+#save to graphml for later use
+write.graph(g_seedsImp2, "g_seedsImp2.graphml", format="graphml")
 ```
 
 ```{r, eval=FALSE}
