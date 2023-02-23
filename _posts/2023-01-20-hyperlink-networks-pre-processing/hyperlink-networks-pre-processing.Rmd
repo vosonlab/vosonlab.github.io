@@ -8,9 +8,7 @@ author:
     affiliation: VOSON Lab, School of Sociology, Australian National University
     affiliation_url: http://vosonlab.net/
   - name: Sidiq Madya
-    affiliation: VOSON Lab, School of Sociology, Australian National University
   - name: Francisca Borquez  
-    affiliation: VOSON Lab, School of Sociology, Australian National University
 date: 2023-02-22
 categories:
   - rstats
@@ -38,9 +36,14 @@ The VOSON software web app -- first made publicly available in 2006 -- was a too
 
 ## 2. Collecting hyperlink data via web crawling
 
-We collected the hyperlink data using [vosonSML](https://github.com/vosonlab/vosonSML).
+### 2.1 The seed set
+The organisations represented in this collection are a sample of non-state or non-government entities (for-profit and non-for-profit), which actively engage in 'data sovereignty' debates as part of their concern in contemporary data politics. These organisations include NGOs, research think tanks, companies, industry associations, and movements or initiatives from communities. These different group of organisations deal with various issues and values when promoting their agenda ranging from security, privacy, innovation, entrepreneurship, to human rights and social justice.
 
-First load the libraries.
+Being involved in the emerging issues of global data politics, these organisations are based or headquartered in different countries across the globe including the US, UK, Canada, Germany, The Netherlands, Belgium, and Denmark -- which represent the Global North -- and South Africa, India and Hong Kong, representing the Global South. The websites are being used by these organisations to participate in the emerging debates on data politics. Their participation in the debates are becoming more intense in the midst of the ongoing process of massive 'digitisation' and 'datafication' in societies. We have selected 1 or 2 pages from each website and are using these as "seed pages" i.e. starting points for the crawler. In this way, we are directing the crawler to the pages we think will be most "productive" in terms of containing hyperlinks and text that are of interest to the study.
+
+### 2.2 Data collection
+
+The first step involves the collection of hyperlink data using [vosonSML](https://github.com/vosonlab/vosonSML). To do so, we read a `.csv` file which includes the URLs of 20 organisations actively involved in data sovereignty debates and we create a dataframe containing those pages as seeds. 
 
 ```{r}
 library(magrittr)             #only need to load this if we use %>% as pipe, otherwise can use |>
@@ -50,16 +53,7 @@ library(dplyr)
 library(knitr)
 library(stringr)
 
-```
-
-We create a dataframe containing the pages to be crawled.  We are reading a csv file with pages for 20 organisations. These organisations are a sample of non-state or non-government entities (for-profit and non-for-profit) which actively engage in 'data sovereignty' debates as part of their concern in contemporary data politics. These organisations include NGO, research think tank, companies, industry associations, and movements or initiatives from communities. These different group of organisations deal with various issues and values when promoting their agenda ranging from security, privacy, innovation, entrepreneurship, to human rights and social justice.
-
-Being involved in the emerging issues of global data politics, these organisations are based or headquartered in different countries across the globe include the US, UK, Canada, Germany, The Netherlands, Belgium, and Denmark which represent the Global North, and South Africa, India and Hong Kong representing the Global South. The websites are being used by these organisations to participate in the emerging debates on data politics. Their participation in the debates are becoming more intense in the midst of the ongoing process of massive 'digitisation' and 'datafication' in societies. We have chosen 1 or 2 pages from each website and are using these as "seed pages" where the crawler will start: in this way we are directing the crawler to the pages we think will be most "productive" in terms of containing hyperlinks and text that are of interest to the study.
-
-```{r}
-
-#For more information on collecting hyperlink networks using vosonSML, see:
-#https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml/
+#For more information on collecting hyperlink networks using vosonSML, see: #https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml/.
 
 # The dataframe needs to have the folllowing fields, for hyperlink collection via vosonSML:
 # page: the seed pages
@@ -79,14 +73,12 @@ pages <- read.csv("seed_sites_20.csv")
 kable(head(pages))
 
 #remove pages that caused error with crawler
-#Rob to check this again..error might no longer be present with new version of vosonSML
 pages <- pages %>% filter(!grepl("ispa.org.za", pages$page))
-
 ```
 
-Note that for the crawler all we need is a dataframe with three columns: page, type, max_depth (see code above for an explantion of these terms and also see the [VOSON Lab blog post on crawling using vosonSML](https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml/)), but of course it might be useful to include other meta data in this file that is used in analysis later.
+Note that for the crawler all we need is a data frame with three columns: page (URLs), type (`int`), max_depth (1). See code commented above for an explanation of these terms and also see the [VOSON Lab blog post on crawling using vosonSML](https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml/)) for detail steps. It might be useful to include other meta data in this file that is used in analysis later, for example the field `Country` as presented in the table above. 
 
-Now run the crawl. 
+Now, we run the crawl and save an `.rds` file with the data:
 
 ```{r, eval=FALSE}
 #Remember to set `verbose=TRUE` to see the crawler working
@@ -100,7 +92,7 @@ saveRDS(crawlDF, "crawlDF_20_sites_depth1.rds")
 
 ## 3. Creating hyperlink networks
 
-Let's now create networks from the crawl data.
+Let's now create networks from the crawl data. First, we read in and inspect the dataframe structure. This data contains 2,826 rows and 9 columns.
 
 ```{r}
 crawlDF <- readRDS("crawlDF_20_sites_depth1.rds")
@@ -109,7 +101,8 @@ crawlDF <- readRDS("crawlDF_20_sites_depth1.rds")
 glimpse(crawlDF)
 ```
 
-First we create the activity network: with hyperlink activity networks, the nodes are web pages. For the purpose of visualisation we will simplify the network by removing loops.
+### 3.1 Activity network
+First, we create the activity network using `vosonSML`. In hyperlink activity networks, the nodes are web pages and edges are hyperlinks. For the purpose of visualisation, we will simplify the network by removing loops and multiple edges (weighted edges), using `igraph`.
 
 ```{r}
 # create activity network: nodes are pages hyperlinks were collected from
@@ -126,7 +119,7 @@ plot(g_activity, layout=layout_with_fr(g_activity), vertex.label="", vertex.size
 dev.off()
 ```
 
-![Figure 1: Hyperlink activity network - Nodes are web pages.](activity_network.png)
+![Figure 1: Hyperlink activity network - Nodes are web pages and edges are hyperlinks between pages.](activity_network.png)
 
 We can see from the visualisation that the hyperlink activity network consists of a number of connected components (sets of nodes that are connected either directly or indirectly).  We can look further at these clusters or components.
 
@@ -138,7 +131,8 @@ summary(cc$csize)
 
 The above indicates we have `r length(cc$csize)` weakly-connected components, and these range in size from `r min(cc$csize)` nodes to `r max(cc$csize)` nodes.  It is not unexpected that the hyperlink activity network is quite disconnected since two seed pages $i$ and $j$ will only be directly connected if they link to each other and they will be indirectly connected if they link to the same third page. 
 
-We now create the actor network: with hyperlink actor networks, the nodes in the actor network are web domains (in this document we use "site" and "domain" interchangeably). For the purpose of visualisation we will simplify the network by removing loops and multiple edges.  Multiple edges can arise because multiple pages within a domain can link to the same or multiple pages within another domain.  We will also create an edge weight ("weight") to store this information on multiple links between domains.
+### 3.2 Actor network
+Now, we will create the actor network using `vosonSML`. With hyperlink actor networks, the nodes are web domains (in this document we use "site" and "domain" interchangeably) and edges are hyperlinks between them. Again, for the purpose of visualisation, we will simplify the network by removing loops and multiple edges (weighted edges).  Multiple edges can arise because multiple pages within a domain can link to the same or multiple pages within another domain.  We will also create an edge weight field ("weight") to store this information on multiple links between domains.
 
 ```{r}
 # create actor network: nodes are site domains of pages hyperlinks were collected from
@@ -160,7 +154,7 @@ plot(g_actor, layout=layout_with_fr(g_actor), vertex.label="", vertex.size=3, ed
 dev.off()
 ```
 
-![Figure 2: Hyperlink actor network - Nodes are web domains.](actor_network.png)
+![Figure 2: Hyperlink actor network - Nodes are web domains and edges are hyperlinks.](actor_network.png)
 ```{r}
 cc <- components(g_actor)
 str(cc)
@@ -170,7 +164,7 @@ The actor network has `r vcount(g_actor)` nodes and `r ecount(g_actor)` edges.  
 
 ## 4. Processing nodes in the hyperlink actor network
 
-For the rest of this exercise we will use the actor network.  We will now look at three approaches for processing hyperlink network data: pagegrouping, pruning, and preserving.
+For the rest of this exercise, we will use the actor network.  We will now look at three approaches for processing hyperlink network data: pagegrouping, pruning, and preserving.
 
 ### 4.1 Pagegrouping
 
@@ -180,9 +174,9 @@ There are two approaches we can used to undertake pagerouping: (1) operating on 
 
 #### 4.1.1 Merging the "www" subdomain into a canonical domain
 
-First we are going to consolidate nodes into a single canonical domain.  This will involve stripping "www" from www.x.y if only www.x.y exists and if both www.x.y and x.y exist then the former will be merged into the latter.  Note that the following code also works if the canonical domain contains three or more parts e.g. x.y.z.  Also note that the following step will only modify the www subdomain (e.g. www.x.y): other subbdomains (e.g. othersub.x.y) are handled below.
+First, we are going to consolidate nodes into a single canonical domain.  This will involve stripping "www" from www.x.y if only www.x.y exists and if both www.x.y and x.y exist then the former will be merged into the latter.  Note that the following code also works if the canonical domain contains three or more parts e.g. x.y.z.  Also note that the following step will only modify the www subdomain (e.g. www.x.y): other subbdomains (e.g. othersub.x.y) are handled below.
 
-Let's focus on an example present in this dataset.
+Let's focus on an example present in this dataset:
 
 ```{r}
 g <- g_actor             #easier to write code
@@ -191,7 +185,7 @@ V(g)$name[grep("mydata.org", V(g)$name)]
 
 ```
 
-So this first step will involve merging www.mydata.org into mydata.org.
+This first step will involve merging www.mydata.org into mydata.org.
 
 ```{r, eval=TRUE}
 g <- g_actor             #easier to write code
@@ -278,21 +272,17 @@ Now have only a single canonical version of the mydata.org domain, but there are
 V(g)$name[grep("mydata.org", V(g)$name)]
 ```
 
-In this next step we will merge all remaining subdomains into the canonical domain.
-
-However, there might be examples of subdomains that we want "preserved" (not merged into the canonical domain); they should be specified in advance.
-
-A good example is websites created using Wordpress.
+In this next step, we will merge all remaining subdomains into the canonical domain. However, there might be examples of subdomains that we want "preserved" (not merged into the canonical domain); they should be specified in advance. A good example is websites created using Wordpress.
 
 ```{r}
 V(g)$name[grep("wordpress.com", V(g)$name)]
 ```
 
-If we don't "preserve" these wordpress websites (which are run by different organisations or groups) then they will all be merged into a single node wordpress.com.
+If we don't "preserve" these Wordpress websites (which are run by different organisations or groups) then, they will all be merged into a single node Wordpress.com.
 
 We will implement two types of preserving: (1) preserve specific subdomains, (2) preserve all subdomains via a wildcard match.
 
-In the example below we will preserve specific wordpress subdomains (and the rest will be merged into the canonincal domain wordpress.com) and we will preserve all subdomains for mydata.org.
+In the example below we will preserve specific Wordpress subdomains (and the rest will be merged into the canonical domain wordpress.com) and we will preserve all subdomains for mydata.org.
 
 A final point to note is that the "wildcard" approach to preserving subddomains (what we are doing for mydata.org) will only work if mydata.org exists in the network. From the following, we can see that mydata.org exists, but fraunhofer.de does not exist.
 
@@ -621,7 +611,7 @@ Whether a site is relevant to the research is something only the researcher will
 
 ```{r, eval=FALSE}
 #write the sites to csv file, for manual coding
-#also write seed stauts, since this will be used to determine whether a site is relevant
+#also write seed status, since this will be used to determine whether a site is relevant
 write.csv(data.frame(site=V(g_seedsImp)$name, seed=V(g_seedsImp)$seed), "seeds_plus_important.csv")
 ```
 
@@ -646,7 +636,7 @@ The result is a graph presenting a connection or disconnection among organisatio
 
 ### 4.3 Preserving
 
-We have already mentioned preserving of subdomains above (to prevent all subdomains being merged into a single node when pagregrouping is undertaken).  Another example of preserving is when we want to preserve sub-directories.  By default, `vosonSML` does not preserve sub-directories and so `www.example.com/subdir1` and `www.example.com/subdir2` would, by default, be merged to the node `www.example.com`.  Preserving these sub-diretories would involve working with the activity network object returned by `vosonSML`:
+We have already mentioned preserving of subdomains above (to prevent all subdomains being merged into a single node when pagregrouping is undertaken).  Another example of preserving is when we want to preserve sub-directories.  By default, `vosonSML` does not preserve sub-directories and so `www.example.com/subdir1` and `www.example.com/subdir2` would, by default, be merged to the node `www.example.com`.  Preserving these sub-directories would involve working with the activity network object returned by `vosonSML`:
 
 ```{r}
 head(net_activity$edges)
