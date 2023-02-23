@@ -32,7 +32,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 1. Introduction
 
-The VOSON software web app -- first made publicly available in 2006 -- was a tool designed to enable researchers to study Web 1.0 websites as online social networks [@Ackland2010; @AcklandONeil2011; @Lusher2011; @Ackland2013]. The canonical VOSON hyperlink collection was [reintroduced in 2021 in vosonSML)](https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml/) and it was made available in [VOSONDash version 0.6.1](https://github.com/vosonlab/VOSONDash) in February 2023. This post provides the methodological steps and code for collecting hyperlink data using `vosonSML` and pre-processing hyperlink network data via R, including the specific approaches that were previously available via VOSON software web app (pruning, preserving and pagegrouping). 
+The VOSON software web app -- first made publicly available in 2006 -- was a tool designed to enable researchers to study Web 1.0 websites as online social networks [@Ackland2010; @AcklandONeil2011; @Lusher2011; @Ackland2013]. Hyperlink collection was [reintroduced in VOSON R tools (vosonSML) in 2021)](https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml/) and it was made available in [VOSONDash version 0.6.1](https://github.com/vosonlab/VOSONDash) in February 2023. This post provides the methodological steps and code for collecting hyperlink data using `vosonSML` and pre-processing hyperlink network data via R, including the specific approaches that were previously available via VOSON software web app (pruning, preserving and pagegrouping). 
 
 ## 2. Collecting hyperlink data via web crawling
 
@@ -76,7 +76,7 @@ kable(head(pages))
 pages <- pages %>% filter(!grepl("ispa.org.za", pages$page))
 ```
 
-Note that for the crawler all we need is a data frame with three columns: page (URLs), type (`int`), max_depth (1). See code commented above for an explanation of these terms and also see the [VOSON Lab blog post on crawling using vosonSML](https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml/)) for detail steps. It might be useful to include other meta data in this file that is used in analysis later, for example the field `Country` as presented in the table above. 
+Note that for the crawler all we need is a data frame with three columns: page (URLs), type (`int`), max_depth (1). See code commented above for an explanation of these terms and also see the [VOSON Lab blog post on crawling using vosonSML](https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml/)) for detailed steps. It might be useful to include other meta data in this file that is used in analysis later, for example the field `Country` as presented in the table above. 
 
 Now, we run the crawl and save an `.rds` file with the data:
 
@@ -102,7 +102,7 @@ glimpse(crawlDF)
 ```
 
 ### 3.1 Activity network
-First, we create the activity network using `vosonSML`. In hyperlink activity networks, the nodes are web pages and edges are hyperlinks. For the purpose of visualisation, we will simplify the network by removing loops and multiple edges (weighted edges), using `igraph`.
+First, we create the activity network using `vosonSML`. In hyperlink activity networks, the nodes are web pages and edges are hyperlinks. For the purpose of visualisation, we will simplify the network by removing loops and multiple or parallel edges, using `igraph`.
 
 ```{r}
 # create activity network: nodes are pages hyperlinks were collected from
@@ -133,7 +133,7 @@ summary(cc$csize)
 The above indicates we have `r length(cc$csize)` weakly-connected components, and these range in size from `r min(cc$csize)` nodes to `r max(cc$csize)` nodes.  It is not unexpected that the hyperlink activity network is quite disconnected since two seed pages $i$ and $j$ will only be directly connected if they link to each other and they will be indirectly connected if they link to the same third page. 
 
 ### 3.2 Actor network
-Now, we will create the actor network using `vosonSML`. With hyperlink actor networks, the nodes are web domains (in this document we use "site" and "domain" interchangeably) and edges are hyperlinks between them. Again, for the purpose of visualisation, we will simplify the network by removing loops and multiple edges (weighted edges).  Multiple edges can arise because multiple pages within a domain can link to the same or multiple pages within another domain.  We will also create an edge weight field ("weight") to store this information on multiple links between domains.
+Now, we will create the actor network using `vosonSML`. With hyperlink actor networks, the nodes are web domains (in this document we use "site" and "domain" interchangeably) and edges are hyperlinks between them. Again, for the purpose of visualisation, we will simplify the network by removing loops and multiple (parallel) edges.  Multiple edges between sites can arise because multiple pages within a domain can link to the same or multiple pages within another domain.  We will also create an edge weight field ("weight") to store this information on multiple links between domains.
 
 ```{r}
 # create actor network: nodes are site domains of pages hyperlinks were collected from
