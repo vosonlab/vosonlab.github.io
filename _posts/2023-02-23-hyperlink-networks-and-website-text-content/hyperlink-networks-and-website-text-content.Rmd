@@ -1,0 +1,132 @@
+---
+title: "Hyperlink networks and website text content"
+description: |
+  A short description of the post.
+author:
+  - name: Robert Ackland
+    url:
+      https://orcid.org/0000-0002-0008-1766: {}
+  - name: Sidiq Madya
+    url: {}
+  - name: Francisca Borquez
+    url: {}
+date: 2023-02-23
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Introduction
+
+This is the second of two posts about collecting and analysing WWW hyperlink networks and text data. The first post [REF] focused on how to collect hyperlink data using the web crawler in vosonSML, and how to process the hyperlink data so as to produce hyperlink networks that can be used for research.  The present post is focused on how to collect and process website text content, and we also briefly introduce one approach for jointly analysing hyperlink network and website text content: socio-semantic network analysis.
+
+## 2. Collecting website text content
+
+The `vosonSML` web crawler uses the `rvest` R package to crawl web pages but only the hyperlinks are extracted from these web pages: website text content is not retained.
+
+So our plan is to use `rvest` directly (not via `vosonSML`) to crawl the relevant web pages and this time, we will extract and work with the text content (not the hyperlinks). 
+
+To find what pages we need to crawl, our starting point is the "seeds plus important websites" network that we created in the last post. We saved this to a `graphml` file.
+
+```{r}
+library(igraph)
+library(dplyr)
+library(knitr)
+
+g <- read.graph("g_seedsImp2.graphml", format="graphml")
+g
+
+```
+We went to collect text content for the `r vcount(g)` sites in this network.  But it is important to remember that we are only interested in website text content that relates to our research topic (data sovereignty) and so we want to target the web pages on these sites that are are most likely to be related to our research topic.
+
+So what we will do is use the raw web crawl data returned by `vosonSML` (see other post) to identify exactly what pages we need to collect website text content from.
+
+```{r}
+#read in the raw crawl data returned by vosonSML
+crawlDF <- readRDS("crawlDF_20_sites_depth1.rds")
+
+#find the pages that correspond to the sites in the "seeds plus important" network
+textPages <- NULL
+for (i in 1:vcount(g)){
+  #cat("site:", V(g)$name[i], ", seed:",V(g)$seed[i],"\n")
+  ind <- grep(paste0(V(g)$name[i],"$"), crawlDF$parse$domain)
+  #cat("\tnumber of pages:", length(ind), "\n")
+  textPages <- rbind(textPages, data.frame(domain=V(g)$name[i], 
+                                           page=crawlDF$url[ind], seed=V(g)$seed[i]))
+}
+ 
+#it is possible that pages are not-unique (e.g. two seed pages can link to the same third page)
+#remove duplicate pages
+textPages <- textPages %>% distinct(page, .keep_all = TRUE)
+
+head(textPages)
+nrow(textPages) 
+
+```
+
+The above shows that if were were to collect text from all pages for the `r vcount(g)` websites in the "seeds plus important" network that have been identified (via the vosonSML web crawl), then we would need to collect `r nrow(textPages)` web pages.  
+
+The following shows the number of pages identified for each of the seed sites.
+
+```{r}
+#number of pages identified for seed sites
+kable(textPages %>% filter(seed==TRUE) %>% group_by(domain) %>% summarise(n = n()))
+```
+
+The following shows the number of pages identified for each of the non-seed important sites.
+
+```{r}
+#number of pages identified for non-seed important sites
+kable(textPages %>% filter(seed==FALSE) %>% group_by(domain) %>% summarise(n = n()))
+```
+
+It is apparent that there are many more web pages identified for seed sites, compared with non-seed sites.  This makes sense, because only the seed sites have been crawled by vosonSML: so the crawler has identified these web pages by crawling the seed pages.  In contrast, only a handful of pages have been identified for each non-seed important websites: these are pages that were linked to by the seed sites.  
+
+It should be noted out that only one unique page has been identified for the seed site `womeninlocalization.org`.  However this is due to the fact that in the previous post [REFERENCE] we used pagegrouping to merge `womeninlocalization.org` and `womeninlocalization.com` together into a site labelled `womeninlocalization.org`.  The following shows that the crawler in fact found over 60 pages for `womeninlocalization.com`.
+
+```{r}
+ind <- grep(paste0("womeninlocalization.org","$"), crawlDF$parse$domain)
+length(ind)
+crawlDF$url[ind]
+ind <- grep(paste0("womeninlocalization.com","$"), crawlDF$parse$domain)
+length(ind)
+head(crawlDF$url[ind])
+```
+
+For the purposes of this exercise we do not want to be collecting text content from `r nrow(textPages)` web pages: this would be a significant undertaking to collect and process these data.  Another issue is that many of the web pages identified for the seed sites will not contain content relevant to our research topic of data sovereignty.  This is because the web crawler is quite a blunt object: it is simply finding hyperlinks to pages within the seed site, and not taking account of whether these pages are relevant or not to our research topic.
+
+So our strategy (in order to keep the exercise simple and also maximise the likelihood of collecting relevant text data) is as follows:
+
+1. For the seed sites, we will collect text content only from the web pages we originally identified for the crawling
+2. For the non-seed important sites, we will collect text content from the web pages identified by the crawler.  By construction, these are pages that are linked to by two or or more seed sites (this is how we constructed the "seeds plus important" network in the previous post [REF]), and so we can expect that the text content on these pages is relevant to our study.
+
+```{r}
+pages <- read.csv("seed_sites_20.csv")
+kable(head(pages))
+
+#just keep the columns we will work with
+#note that why "domain" is specified in this csv file, we will extract this
+#programmatically from the URL
+pagesForText <- pages %>% select(page)
+
+#function from https://stackoverflow.com/questions/19020749/function-to-extract-domain-name-from-url-in-r
+domain <- function(x) strsplit(gsub("http://|https://|www\\.", "", x), "/")[[c(1, 1)]]
+#following could be done more elegantly, but it works...
+dd <- sapply(pagesForText$page, domain)
+pagesForText$domain <- as.character(dd)
+
+#So we now have the web pages (for text collection) for the seed sites
+#add in the web pages for non-seed important sites
+
+#ROB IS UP TO HERE
+
+
+
+```
+
