@@ -26,7 +26,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 This is the second of two posts about collecting and analysing WWW hyperlink networks and text data. The first post [REF] focused on how to collect hyperlink data using the web crawler in vosonSML, and how to process the hyperlink data so as to produce hyperlink networks that can be used for research.  The present post is focused on how to collect and process website text content, and we also briefly introduce one approach for jointly analysing hyperlink network and website text content: socio-semantic network analysis.
 
-## 2. Collecting website text content
+## 2. Identifying the web pages from which to collect text content
 
 The `vosonSML` web crawler uses the `rvest` R package to crawl web pages but only the hyperlinks are extracted from these web pages: website text content is not retained.
 
@@ -38,12 +38,13 @@ To find what pages we need to crawl, our starting point is the "seeds plus impor
 library(igraph)
 library(dplyr)
 library(knitr)
+library(rvest)
 
 g <- read.graph("g_seedsImp2.graphml", format="graphml")
 g
 
 ```
-We went to collect text content for the `r vcount(g)` sites in this network.  But it is important to remember that we are only interested in website text content that relates to our research topic (data sovereignty) and so we want to target the web pages on these sites that are are most likely to be related to our research topic.
+We want to collect text content for the `r vcount(g)` sites in this network.  But it is important to remember that we are only interested in website text content that relates to our research topic (data sovereignty) and so we want to target the web pages on these sites that are are most likely to be related to our research topic.
 
 So what we will do is use the raw web crawl data returned by `vosonSML` (see other post) to identify exactly what pages we need to collect website text content from.
 
@@ -121,11 +122,125 @@ domain <- function(x) strsplit(gsub("http://|https://|www\\.", "", x), "/")[[c(1
 dd <- sapply(pagesForText$page, domain)
 pagesForText$domain <- as.character(dd)
 
-#So we now have the web pages (for text collection) for the seed sites
-#add in the web pages for non-seed important sites
+#modify domain to account for fact we use (in seeds+important network) 
+#womeninlocalization.org not womeninlocalization.com
 
-#ROB IS UP TO HERE
+pagesForText$domain[which(pagesForText$domain=="womeninlocalization.com")] <- "womeninlocalization.org"
 
+#not sure if we need this
+pagesForText$seed <- TRUE
+
+#check that we've got all the seed pages
+#just a sanity check...
+seedDom <- V(g)$name[V(g)$seed==TRUE]
+#all OK
+length(which(is.na(match(seedDom, unique(pagesForText$domain)))))
+
+```
+
+So we have the web pages (for text collection) for the seed sites.  Now we will add in the web pages for non-seed important sites.
+
+```{r}
+#dataframe with pages for non-seed sites
+dd <- textPages %>% filter(seed==FALSE) %>% relocate(page, domain, seed)
+
+#append to dataframe for seed sites
+pagesForText <- rbind(pagesForText, dd)
+
+nrow(pagesForText)
+
+```
+
+So we have `r nrow(pagesForText)` pages which we will use `rvest` to collect text content from.  The following shows that there are some duplicated web pages for non-seed sites - the "http" and "https" version of the same page.  We may adjust for this later on.
+
+```{r}
+kable(pagesForText %>% filter(grepl("gida-global.org|worldbank.org", pagesForText$page)))
+```
+
+## 3. Collecting the website text content
+
+Here we make use of the [`rvest` R package ("Easily Harvest (Scrape) Web Pages")](https://cran.r-project.org/package=rvest), which provides "wrappers around the 'xml2' and 'httr' packages to make it easy to download, then manipulate, HTML and XML."
+
+### 3.1 Example web page
+
+Using `rvest` can be quite a complicated, requiring an understanding of how web pages are structured. Here we use `rvest` in a very simple way: we only use it to extract website text that is contained in HTML paragraph tags.
+
+Before using `rvest` to collect text content for all our web pages, it is useful to first look at its use for an example web page: [Bot Populi](https://botpopuli.net/about-us/) which is an "alternative media platform dedicated to looking at all things digital from a social justice and Global South perspective."
+
+![Figure 1: Bot Populi "about us" web page](bot-populi.png)
+
+If we look at the source code for this web page, we see the use of the HTML paragraph tags.
+
+![Figure 2: Bot Populi "about us" web page - excerpt of source code ](bot-populi_source_code_excerpt.png){width=150%}
+
+Now we will use `rvest` to download the web page and extract text content from the HTML paragraph tags.
+
+```{r, eval=TRUE}
+testurl <- pagesForText$page[7]
+testurl
+
+#fetch the webpage
+testpage <- read_html(testurl)
+
+#extract the paragraphs
+p_text <- html_nodes(testpage, 'p') %>% html_text()
+head(p_text)
+
+```
+
+In this exercise we will just work with the paragraph text, but it should be noted that useful text content might be stored in other HTML tags such as titles (header tags "h1", "h2" etc.) and anchor tags.
+missing other text content e.g. in titles 
+
+### 3.2 Collecting paragraph text from all the web pages
+
+In the code below we use the `rvest` `read_html()` function to collect the web pages for all our seed and non-seed sites, and we store the objects returned by `read_html()` in a list, and save this list object to an `rds` file for later use. 
+
+Before we collect the html data, we are going to remove some web pages that caused problems (`rvest` failed while collecting the html). For this exercise, we don't try to figure out why these URLs are causing problems for `rvest` and we do not try to improve the code to make it more robust (e.g. via error handling). 
+
+```{r}
+#remove problematic URLs
+
+url_problem <- c(
+  "https://docs.wto.org/dol2fe/Pages/SS/directdoc.aspx?filename=q:/WT/GC/W798.pdf&Open=True xxiv",
+"https://doi.org/10.1002/ajs4.141",  #Error in open.connection(x, "rb") : HTTP error 503.
+"https://www.id4africa-ambassadors.org",  #Error in open.connection(x, "rb") : HTTP error 404.
+"https://www.id4africa-ambassadors.org/iic"  #Error in open.connection(x, "rb") : HTTP error 404.
+)
+ 
+pagesForText <- pagesForText %>% filter(!page %in% url_problem)
+
+#now collect the html
+L_html <- list()
+
+for (i in 1:nrow(pagesForText)){
+  url_i <- pagesForText$page[i]
+  cat("working on:", url_i, "\n")  
+  L_html[[url_i]] <- read_html(url_i)
+  #if (i > 5)
+  #  break
+}
+
+#saving this list to rds doesn't work
+#Rob needs to check with Bryan about this
+#saveRDS(L_html, "L_html.rds")
+
+```
+
+Now we iterate over the webpages in the list, extracting and joining the paragraphs and putting them in the `pagesForText` dataframe that we will later use for text analysis.
+
+```{r}
+#L_html <- readRDS("L_html.rds")
+
+#this is not an efficient way of creating a dataframe, but OK here...
+textContent <- NULL
+for (i in names(L_html)){
+  
+  cat("working on:", i, "\n") 
+  
+  p_text <- html_nodes(L_html[[i]], 'p') %>% html_text()
+  print(head(p_text))
+  textContent <- rbind(textContent, data.frame(page=i, text=paste0(p_text, collapse=" ")))
+}
 
 
 ```
