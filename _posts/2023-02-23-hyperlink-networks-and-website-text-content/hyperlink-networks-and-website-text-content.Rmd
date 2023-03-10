@@ -8,8 +8,6 @@ author:
       https://orcid.org/0000-0002-0008-1766: {}
   - name: Sidiq Madya
     url: {}
-  - name: Francisca Borquez
-    url: {}
 date: 2023-02-23
 output:
   distill::distill_article:
@@ -173,23 +171,38 @@ If we look at the source code for this web page, we see the use of the HTML para
 
 ![Figure 2: Bot Populi "about us" web page - excerpt of source code ](bot-populi_source_code_excerpt.png){width=150%}
 
-Now we will use `rvest` to download the web page and extract text content from the HTML paragraph tags.
+Now we will use `rvest` to download the web page and extract text content from the HTML paragraph tags.  
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 testurl <- pagesForText$page[7]
 testurl
 
 #fetch the webpage
 testpage <- read_html(testurl)
 
+#As explained in following post:
+#https://stackoverflow.com/questions/57764585/how-to-save-and-read-output-of-read-html-as-an-rds-file
+#we need to use as.character() on the object returned by read_html()
+#if we want to save it to RDS file
+#we save the object returned by read_html() to file because below we are 
+#just extracting text from paragraph html tags, but in future might want to
+#extract other tags
+saveRDS(as.character(testpage), "testpage.rds")
+```
+
+```{r}
+testpage <- readRDS("testpage.rds")
+#note that use of read_html() in following is because we above used
+#as.character() to save the object to RDS file
+testpage <- read_html(testpage)
+
 #extract the paragraphs
 p_text <- html_nodes(testpage, 'p') %>% html_text()
-head(p_text)
+head(p_text, n=3)
 
 ```
 
 In this exercise we will just work with the paragraph text, but it should be noted that useful text content might be stored in other HTML tags such as titles (header tags "h1", "h2" etc.) and anchor tags.
-missing other text content e.g. in titles 
 
 ### 3.2 Collecting paragraph text from all the web pages
 
@@ -197,8 +210,10 @@ In the code below we use the `rvest` `read_html()` function to collect the web p
 
 Before we collect the html data, we are going to remove some web pages that caused problems (`rvest` failed while collecting the html). For this exercise, we don't try to figure out why these URLs are causing problems for `rvest` and we do not try to improve the code to make it more robust (e.g. via error handling). 
 
-```{r}
-#remove problematic URLs
+We also note that some of the URLs are for pdf files - these would normally be removed.
+
+```{r, eval=FALSE}
+#first remove problematic URLs
 
 url_problem <- c(
   "https://docs.wto.org/dol2fe/Pages/SS/directdoc.aspx?filename=q:/WT/GC/W798.pdf&Open=True xxiv",
@@ -209,7 +224,7 @@ url_problem <- c(
  
 pagesForText <- pagesForText %>% filter(!page %in% url_problem)
 
-#now collect the html
+#now collect the html and store in list
 L_html <- list()
 
 for (i in 1:nrow(pagesForText)){
@@ -220,28 +235,77 @@ for (i in 1:nrow(pagesForText)){
   #  break
 }
 
-#saving this list to rds doesn't work
-#Rob needs to check with Bryan about this
-#saveRDS(L_html, "L_html.rds")
+#See note above about needing to use as.character() on 
+#the object returned by read_html()
+for (i in names(L_html)){
+  L_html[[i]] <- as.character(L_html[[i]])   
+}
+saveRDS(L_html, "L_html.rds")
 
 ```
 
-Now we iterate over the webpages in the list, extracting and joining the paragraphs and putting them in the `pagesForText` dataframe that we will later use for text analysis.
+Now we iterate over the webpages in the list, extracting and joining the paragraphs and putting them in the `textContent` dataframe that we will later use for text analysis.
 
 ```{r}
-#L_html <- readRDS("L_html.rds")
+L_html <- readRDS("L_html.rds")
 
-#this is not an efficient way of creating a dataframe, but OK here...
+#this is not an efficient way of creating a dataframe, but will do here...
 textContent <- NULL
 for (i in names(L_html)){
   
-  cat("working on:", i, "\n") 
+  #cat("working on:", i, "\n") 
   
-  p_text <- html_nodes(L_html[[i]], 'p') %>% html_text()
-  print(head(p_text))
-  textContent <- rbind(textContent, data.frame(page=i, text=paste0(p_text, collapse=" ")))
+  #note that use of read_html() in following is because we above used
+  #as.character() to save the object returned by read_html() to RDS file
+  p_text <- html_nodes(read_html(L_html[[i]]), 'p') %>% html_text()
+  #print(head(p_text))
+  textContent <- rbind(textContent, 
+                       data.frame(page=i, text=paste0(p_text, collapse=" ")))
 }
+#saveRDS(textContent, "textContent.rds")
+
+```
+
+## 4. Word frequency analysis
+
+The final part of this blog post involves a basic analysis of the website text content: computing word frequencies. We will use the `tidytext` package.  In the following, we will only work with unigrams (we'll look at bigrams in a later post).
+
+```{r, eval=TRUE}
+library(tidytext)
+
+#creating copy of the dataframe containing text, so can reuse code
+df <- textContent
+
+#dplyr syntax
+df <- df %>% unnest_tokens(word, text)
+
+nrow(df)
+
+#df %>% count(word)
+
+#remove stopwords (not really necessary for this dataset)
+#df %>%
+#  anti_join(get_stopwords())
+
+#Word frequency bar chart
+library(ggplot2)
+
+png("word_frequency_barplot.png", width=800, height=800)
+df %>%
+    anti_join(stop_words) %>%
+    count(word, sort=TRUE) %>%
+    top_n(10) %>%
+    mutate(word = reorder(word, n)) %>%
+    ggplot(aes(word, n)) +
+    geom_col() +
+    xlab(NULL) +
+    coord_flip()
+dev.off()
+
+
+#plot(pressure)
 
 
 ```
 
+![Figure 1: Word frequency barplot.](word_frequency_barplot.png)
