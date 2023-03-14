@@ -270,6 +270,8 @@ for (i in names(L_html)){
 
 The final part of this blog post involves a basic analysis of the website text content: computing word frequencies. We will use the `tidytext` package.  In the following, we will only work with unigrams (we'll look at bigrams in a later post).
 
+We would also like to present our result in a wordcloud. To do this, we need two packages to install: First, 'wordcould' package to create visualisation and second, 'RColorBrewer' to add some colors on it.
+
 ```{r, eval=TRUE}
 library(tidytext)
 
@@ -305,7 +307,19 @@ dev.off()
 
 #plot(pressure)
 
+#wordcloud
+library(wordcloud)
+library(RColorBrewer)
+
+png("word_frequency_wordcloud.png", width=800, height=800)
+df %>% 
+  anti_join(stop_words) %>%
+  count(word) %>%
+  with(wordcloud(word, n, max.words = 100, colors = brewer.pal(8, "Dark2"), random.order = FALSE))
+dev.off()
 
 ```
+![Figure2: A word cloud based on frequecny of words.](word_frequency_wordcloud.png)
+The graph above visually presents a component of key words used by organisations in a wordcloud. Typical in the wordcloud, the words that are used more often appear bigger than words used less frequently. It shows that the term 'data' appear as the most frequent. The term 'data' that is central shouldn't come as a surprise since issues that are being focused here is related to data, more specifically 'data sovereignty'. Other key terms that are also popular include 'indigenous', 'research', and 'health'. These words can be seen as a representation of texts indicating that a variety of issues such as indigenousity, research and health is being discussed by organisations addressing 'data sovereignty' topic. Different organisations might concern with different issues while using the same term. For example, some organisations mention the term 'data sovereignty' when discussing about indigenous-related issues. Some others direct their discussion to adress 'research' or 'health' related issues. This wordcloud provides a visual representation of texts which is very useful for further analysis. We can derive some insghts from a pattern or trend of words displayed on the wordcloud for our analysis.
 
 ![Figure 1: Word frequency barplot.](word_frequency_barplot.png)
