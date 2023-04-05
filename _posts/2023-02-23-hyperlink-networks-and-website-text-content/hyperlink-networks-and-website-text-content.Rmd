@@ -9,6 +9,16 @@ author:
   - name: Sidiq Madya
     url: {}
 date: 2023-02-23
+categories:
+  - rstats
+  - rvest
+  - tidytext
+  - hyperlink networks
+  - vosonsml
+  - text analysis
+  - visualisation
+  - word cloud
+  - data sovereignty
 output:
   distill::distill_article:
     self_contained: false
@@ -22,7 +32,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 1. Introduction
 
-This is the second of two posts about collecting and analysing WWW hyperlink networks and text data. The first post [REF] focused on how to collect hyperlink data using the web crawler in vosonSML, and how to process the hyperlink data so as to produce hyperlink networks that can be used for research.  The present post is focused on how to collect and process website text content, and we also briefly introduce one approach for jointly analysing hyperlink network and website text content: socio-semantic network analysis.
+This is the second of two posts about collecting and analysing WWW hyperlink networks and text data. The [first post](https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing/) focused on how to collect hyperlink data using the web crawler in vosonSML, and how to process the hyperlink data so as to produce hyperlink networks that can be used for research.  The present post is focused on how to collect and process website text content, and we also provide some basic frequency analysis of words/terms extracted from the web pages.
 
 ## 2. Identifying the web pages from which to collect text content
 
@@ -30,7 +40,7 @@ The `vosonSML` web crawler uses the `rvest` R package to crawl web pages but onl
 
 So our plan is to use `rvest` directly (not via `vosonSML`) to crawl the relevant web pages and this time, we will extract and work with the text content (not the hyperlinks). 
 
-To find what pages we need to crawl, our starting point is the "seeds plus important websites" network that we created in the last post. We saved this to a `graphml` file.
+To find what pages we need to crawl, our starting point is the "seeds plus important websites" network that we created in the [previous post](https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing/). We saved this to a `graphml` file.
 
 ```{r}
 library(igraph)
@@ -44,7 +54,7 @@ g
 ```
 We want to collect text content for the `r vcount(g)` sites in this network.  But it is important to remember that we are only interested in website text content that relates to our research topic (data sovereignty) and so we want to target the web pages on these sites that are are most likely to be related to our research topic.
 
-So what we will do is use the raw web crawl data returned by `vosonSML` (see other post) to identify exactly what pages we need to collect website text content from.
+So what we will do is use the raw web crawl data returned by `vosonSML` (see the [previous post](https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing/)) to identify exactly what pages we need to collect website text content from.
 
 ```{r}
 #read in the raw crawl data returned by vosonSML
@@ -87,7 +97,7 @@ kable(textPages %>% filter(seed==FALSE) %>% group_by(domain) %>% summarise(n = n
 
 It is apparent that there are many more web pages identified for seed sites, compared with non-seed sites.  This makes sense, because only the seed sites have been crawled by vosonSML: so the crawler has identified these web pages by crawling the seed pages.  In contrast, only a handful of pages have been identified for each non-seed important websites: these are pages that were linked to by the seed sites.  
 
-It should be noted out that only one unique page has been identified for the seed site `womeninlocalization.org`.  However this is due to the fact that in the previous post [REFERENCE] we used pagegrouping to merge `womeninlocalization.org` and `womeninlocalization.com` together into a site labelled `womeninlocalization.org`.  The following shows that the crawler in fact found over 60 pages for `womeninlocalization.com`.
+It should be noted out that only one unique page has been identified for the seed site `womeninlocalization.org`.  However this is due to the fact that in the [previous post](https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing/) we used pagegrouping to merge `womeninlocalization.org` and `womeninlocalization.com` together into a site labelled `womeninlocalization.org`.  The following shows that the crawler in fact found over 60 pages for `womeninlocalization.com`.
 
 ```{r}
 ind <- grep(paste0("womeninlocalization.org","$"), crawlDF$parse$domain)
@@ -103,7 +113,7 @@ For the purposes of this exercise we do not want to be collecting text content f
 So our strategy (in order to keep the exercise simple and also maximise the likelihood of collecting relevant text data) is as follows:
 
 1. For the seed sites, we will collect text content only from the web pages we originally identified for the crawling
-2. For the non-seed important sites, we will collect text content from the web pages identified by the crawler.  By construction, these are pages that are linked to by two or or more seed sites (this is how we constructed the "seeds plus important" network in the previous post [REF]), and so we can expect that the text content on these pages is relevant to our study.
+2. For the non-seed important sites, we will collect text content from the web pages identified by the crawler.  By construction, these are pages that are linked to by two or or more seed sites (this is how we constructed the "seeds plus important" network in the [previous post](https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing/)), and so we can expect that the text content on these pages is relevant to our study.
 
 ```{r}
 pages <- read.csv("seed_sites_20.csv")
@@ -169,7 +179,7 @@ Before using `rvest` to collect text content for all our web pages, it is useful
 
 If we look at the source code for this web page, we see the use of the HTML paragraph tags.
 
-![Figure 2: Bot Populi "about us" web page - excerpt of source code ](bot-populi_source_code_excerpt.png){width=150%}
+![Figure 2: Bot Populi "about us" web page - excerpt of source code ](bot-populi_source_code_excerpt.png){width=100%}
 
 Now we will use `rvest` to download the web page and extract text content from the HTML paragraph tags.  
 
@@ -270,9 +280,11 @@ for (i in names(L_html)){
 
 The final part of this blog post involves a basic analysis of the website text content: computing word frequencies. We will use the `tidytext` package.  In the following, we will only work with unigrams (we'll look at bigrams in a later post).
 
-We would also like to present our result in a wordcloud. To do this, we need two packages to install: First, 'wordcould' package to create visualisation and second, 'RColorBrewer' to add some colors on it.
+### Word frequency barplot 
 
-```{r, eval=TRUE}
+First, we will present the word frequencies in a barplot.
+
+```{r}
 library(tidytext)
 
 #creating copy of the dataframe containing text, so can reuse code
@@ -291,6 +303,7 @@ nrow(df)
 
 #Word frequency bar chart
 library(ggplot2)
+library(crop)
 
 png("word_frequency_barplot.png", width=800, height=800)
 df %>%
@@ -301,25 +314,93 @@ df %>%
     ggplot(aes(word, n)) +
     geom_col() +
     xlab(NULL) +
-    coord_flip()
-dev.off()
+    coord_flip() +
+    theme_grey(base_size = 22)
+dev.off.crop("word_frequency_barplot.png")
+
+```
+
+![Figure 3: Word frequency barplot.](word_frequency_barplot.png)
+
+### Wordcloud
+
+Next, we will present the word frequencies in a wordcloud.
 
 
-#plot(pressure)
-
-#wordcloud
+```{r}
 library(wordcloud)
-library(RColorBrewer)
 
-png("word_frequency_wordcloud.png", width=800, height=800)
+png("wordcloud.png", width=800, height=800)
 df %>% 
   anti_join(stop_words) %>%
   count(word) %>%
-  with(wordcloud(word, n, max.words = 100, colors = brewer.pal(8, "Dark2"), random.order = FALSE))
-dev.off()
-
+  with(wordcloud(word, n, max.words = 200, random.order = FALSE, scale=c(5, 1)))
+dev.off.crop("wordcloud.png")
 ```
-![Figure2: A word cloud based on frequecny of words.](word_frequency_wordcloud.png)
-The graph above visually presents a component of key words used by organisations in a wordcloud. Typical in the wordcloud, the words that are used more often appear bigger than words used less frequently. It shows that the term 'data' appear as the most frequent. The term 'data' that is central shouldn't come as a surprise since issues that are being focused here is related to data, more specifically 'data sovereignty'. Other key terms that are also popular include 'indigenous', 'research', and 'health'. These words can be seen as a representation of texts indicating that a variety of issues such as indigenousity, research and health is being discussed by organisations addressing 'data sovereignty' topic. Different organisations might concern with different issues while using the same term. For example, some organisations mention the term 'data sovereignty' when discussing about indigenous-related issues. Some others direct their discussion to adress 'research' or 'health' related issues. This wordcloud provides a visual representation of texts which is very useful for further analysis. We can derive some insghts from a pattern or trend of words displayed on the wordcloud for our analysis.
+![Figure 4: Wordcloud.](wordcloud.png){width=80%}
 
-![Figure 1: Word frequency barplot.](word_frequency_barplot.png)
+The wordcloud is simply another way of visualising the word frequency counts: in the above wordcloud, the words that are used more often are larger and towards the centre of the figure. The wordcloud shows what we saw in the frequency barplot above: the term 'data' was the most frequently use term. This shouldn't come as a surprise since by construction, issues that are being focused on by the websites in our data set are related to data, more specifically 'data sovereignty'. 
+
+While the wordcloud looks OK, there are a couple of simple things we can do to improve it.  First, there are some numbers in the wordlcoud, so we will remove numbers from the terms extracted from the web pages.  Second, the dominant word is 'data' but this is not really that informative since all the websites are by construction going to have something to do with data, so we will add the word 'data' to a custom stopword list.
+
+```{r}
+#remove numbers from the tokens
+df <- df %>% filter(!grepl("[[:digit:]]", word))
+
+#create a custom stopword dataframe
+stop_words2 <- rbind(stop_words, data.frame(word="data", lexicon="custom"))
+
+png("wordcloud2.png", width=800, height=800)
+df %>% 
+  anti_join(stop_words2) %>%
+  count(word) %>%
+  with(wordcloud(word, n, max.words = 200, random.order = FALSE, scale=c(5, 1)))
+dev.off.crop("wordcloud2.png")
+```
+![Figure 5: Improved wordcloud.](word_frequency_wordcloud2.png){width=90%}
+
+The improved wordcloud (with 'data' removed) now more clearly reveals other key terms such as 'indigenous', 'research', and 'health'. These words can be seen as a representation of texts indicating that a variety of issues such as indigenousity, research and health are being discussed by organisations addressing the 'data sovereignty' topic. Different organisations might be concerned with different issues while using the same term. For example, some organisations mention the term 'data sovereignty' when discussing about indigenous-related issues. Some others direct their discussion to address 'research' or 'health' related issues. This wordcloud provides a visual representation of texts which is very useful as a first step in our text analysis.
+
+### Comparison cloud
+
+Finally, we will present a comparison cloud showing the words used by (or most associated with) the global north versus the those used by the global south.  To do this, we first need to manually create a global north/south classification.  We will do this by extracting the domains from the URLs, and then manually coding these domains as indicating that the organisation is from the global north or south.
+
+```{r}
+#we use the function defined above, for extracting the domain from a URL
+dd <- sapply(df$page, domain)
+df$domain <- as.character(dd)
+
+#now create a csv file containing the unique domains
+write.csv(unique(df$domain), "domains.csv")
+
+#we code up the domains according to whether the organisations are from global north or south
+#then read the coded csv file back into R
+coded <- read.csv("domains_coded.csv")
+#> head(coded)
+#  X                       x  type
+#1 1 womeninlocalization.com north
+#2 2               iwgia.org north
+#3 3   indigenousdatalab.org north
+#4 4           botpopuli.net south
+#5 5              cipesa.org south
+#6 6              mydata.org north
+
+#now get the north/south classification into the dataframe containing the tokens
+df$type <- coded$type[match(df$domain, coded$x)]
+
+#finally, we will create the comparison cloud
+library(reshape2)
+library(RColorBrewer)
+
+dark2 <- brewer.pal(8, "Dark2")
+
+png("comparison_cloud.png", width=800, height=800)
+df %>%
+    anti_join(stop_words2) %>%
+    group_by(type) %>%
+    count(word) %>%
+    acast(word ~ type, value.var = "n", fill = 0) %>%
+    comparison.cloud(color = dark2, title.size = 1,  scale = c(5,  1), random.order = FALSE, max.words = 200)
+dev.off.crop("comparison_cloud.png")
+```
+![Figure 6: Comparison cloud.](comparison_cloud.png){width=90%}
