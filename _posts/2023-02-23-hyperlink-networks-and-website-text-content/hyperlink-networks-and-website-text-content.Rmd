@@ -7,7 +7,8 @@ author:
     url:
       https://orcid.org/0000-0002-0008-1766: {}
   - name: Sidiq Madya
-    url: {}
+    url:
+      https://orcid.org/0000-0002-8444-3145 {}
 date: 2023-02-23
 categories:
   - rstats
@@ -404,3 +405,4 @@ df %>%
 dev.off.crop("comparison_cloud.png")
 ```
 ![Figure 6: Comparison cloud.](comparison_cloud.png){width=90%}
+We run a comparison cloud to know keywords differences used by organisations in Global North and South when discussing 'data sovereignty' topic on the web. It is assumed that North/South divide will lead to differences of issue of concern among organisations in both regions proxied by the use of vocabularies or words in their narratives. The graph shows that the terms such as 'indigenous', 'health', and 'ids' are more prominent in the North compared to their South counterpart. Whereas popular terms in the South mention the names of country or region such as 'India' and 'Africa', along with other terms include 'digital, 'internet', and 'policy'. It can be said that the topic about 'data sovereignty' promoted by organisations in the North is often discussed in its relation to issues about indigenousity, health, and ids or identities. In the Global South, it might be the case that organisations involved in 'data sovereignty' debates are simply coming from India and Africa so that they mention these words most frequently, or they just concern with data issues in India or Africa. Furthermore, other keywords such as 'digital', 'internet', 'policy' that appear frequently might indicate that 'data sovereignty' topic is discussed along with their concern of digital and internet policy issues in the South.
