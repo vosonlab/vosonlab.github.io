@@ -344,7 +344,7 @@ The wordcloud is simply another way of visualising the word frequency counts: in
 While the wordcloud looks OK, there are a couple of simple things we can do to improve it.  First, there are some numbers in the wordlcoud, so we will remove numbers from the terms extracted from the web pages.  Second, the dominant word is 'data' but this is not really that informative since all the websites are by construction going to have something to do with data, so we will add the word 'data' to a custom stopword list.
 
 ```{r}
-#remove numbers from the tokens
+#remove tokens that are numbers
 df <- df %>% filter(!grepl("[[:digit:]]", word))
 
 #create a custom stopword dataframe
