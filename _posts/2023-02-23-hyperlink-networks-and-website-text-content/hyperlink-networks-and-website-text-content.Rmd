@@ -1,15 +1,15 @@
 ---
 title: "Hyperlink networks and website text content"
 description: |
-  A short description of the post.
+  Conducting basic text analysis (frequency counts, word clouds, comparison clouds) of organisational website text content.
 author:
   - name: Robert Ackland
-    url:
-      https://orcid.org/0000-0002-0008-1766: {}
+    url: https://orcid.org/0000-0002-0008-1766
+    affiliation: VOSON Lab, School of Sociology, Australian National University
+    affiliation_url: http://vosonlab.net/
   - name: Sidiq Madya
-    url:
-      https://orcid.org/0000-0002-8444-3145 {}
-date: 2023-02-23
+    url: https://orcid.org/0000-0002-8444-3145
+date: 2023-04-13
 categories:
   - rstats
   - rvest
@@ -19,11 +19,16 @@ categories:
   - text analysis
   - visualisation
   - word cloud
+  - comparison cloud
   - data sovereignty
+preview: comparison_cloud.png
 output:
   distill::distill_article:
     self_contained: false
-draft: true
+#    number_sections: true   [doesn't work with distill]
+    toc: true
+    toc_depth: 3
+draft: false
 ---
 
 
@@ -33,7 +38,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 1. Introduction
 
-This is the second of two posts about collecting and analysing WWW hyperlink networks and text data. The [first post](https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing/) focused on how to collect hyperlink data using the web crawler in vosonSML, and how to process the hyperlink data so as to produce hyperlink networks that can be used for research.  The present post is focused on how to collect and process website text content, and we also provide some basic frequency analysis of words/terms extracted from the web pages.
+This is the second of a series of blog posts about collecting and analysing WWW hyperlink networks and text data. The [first post](https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing/) focused on how to collect hyperlink data using the web crawler in vosonSML, and how to process the hyperlink data so as to produce hyperlink networks that can be used for research.  The present post is focused on how to collect and process website text content, and we also provide some basic frequency analysis of words/terms extracted from the web pages.
 
 ## 2. Identifying the web pages from which to collect text content
 
@@ -364,7 +369,7 @@ The improved wordcloud (with 'data' removed) now more clearly reveals other key 
 
 ### Comparison cloud
 
-Finally, we will present a comparison cloud showing the words used by (or most associated with) the global north versus the those used by the global south.  To do this, we first need to manually create a global north/south classification.  We will do this by extracting the domains from the URLs, and then manually coding these domains as indicating that the organisation is from the global north or south.
+Finally, we will present a comparison cloud showing the words used by (or most associated with) the Global North versus the those used by the Global South.  To do this, we first need to manually create a Global North/South classification.  We will do this by extracting the domains from the URLs, and then manually coding these domains as indicating that the organisation is from the Global North or South.
 
 ```{r}
 #we use the function defined above, for extracting the domain from a URL
@@ -389,6 +394,9 @@ coded <- read.csv("domains_coded.csv")
 #now get the north/south classification into the dataframe containing the tokens
 df$type <- coded$type[match(df$domain, coded$x)]
 
+#capitalise the labels, for the plot
+df$type <- ifelse(df$type=="north", "North", "South")
+
 #finally, we will create the comparison cloud
 library(reshape2)
 library(RColorBrewer)
@@ -401,8 +409,11 @@ df %>%
     group_by(type) %>%
     count(word) %>%
     acast(word ~ type, value.var = "n", fill = 0) %>%
-    comparison.cloud(color = dark2, title.size = 1,  scale = c(5,  1), random.order = FALSE, max.words = 200)
+    comparison.cloud(color = dark2, title.size = 3,  scale = c(5,  1), random.order = FALSE, max.words = 200)
 dev.off.crop("comparison_cloud.png")
 ```
 ![Figure 6: Comparison cloud.](comparison_cloud.png){width=90%}
-We run a comparison cloud to know keywords differences used by organisations in Global North and South when discussing 'data sovereignty' topic on the web. It is assumed that North/South divide will lead to differences of issue of concern among organisations in both regions proxied by the use of vocabularies or words in their narratives. The graph shows that the terms such as 'indigenous', 'health', and 'ids' are more prominent in the North compared to their South counterpart. Whereas popular terms in the South mention the names of country or region such as 'India' and 'Africa', along with other terms include 'digital, 'internet', and 'policy'. It can be said that the topic about 'data sovereignty' promoted by organisations in the North is often discussed in its relation to issues about indigenousity, health, and ids or identities. In the Global South, it might be the case that organisations involved in 'data sovereignty' debates are simply coming from India and Africa so that they mention these words most frequently, or they just concern with data issues in India or Africa. Furthermore, other keywords such as 'digital', 'internet', 'policy' that appear frequently might indicate that 'data sovereignty' topic is discussed along with their concern of digital and internet policy issues in the South.
+
+The comparison cloud gives us insights into the differences in keywords used by organisations in Global North and South when discussing the topic 'data sovereignty' on the web. It is assumed that North/South divide will be reflected in differences of issue of concern among organisations in both regions proxied by the use of vocabularies or words in their narratives. The graph shows that the terms such as 'indigenous', 'health', and 'ids' are more prominent in the North compared to their South counterpart. Whereas popular terms in the South mention the names of country or region such as 'India' and 'Africa', along with other terms include 'digital, 'internet', and 'policy'. Our interpretation is that organisations in the North discuss 'data sovereignty' in relation to issues about indigenousity, health, and ids or identities. In the Global South, it might be the case that organisations involved in 'data sovereignty' debates are simply coming from India and Africa so that they mention these words most frequently, or they are mainly concerned with data issues in India or Africa. Furthermore, other keywords such as 'digital', 'internet', 'policy' appear frequently, and this suggests that the 'data sovereignty' topic is discussed by Global South organisations along with their concern of digital and internet policy issues in the South. 
+
+A limitation of comparison clouds (and word clouds more generally) is that the location of words in the comparison cloud does not reflect semantic connections between the words and for this reason it is sometimes difficult to understand the context and meaning of words appearing in word clouds. In a future blog post we will use other quantitative text analysis techniques in an attempt to gain more insight into the differences between organisations in the Global North and South, in terms of how they are using the web to promote issues or present narratives relating to data sovereignty. 

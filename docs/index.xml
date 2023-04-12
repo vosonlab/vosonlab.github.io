@@ -12,7 +12,27 @@
       <link>https://vosonlab.github.io/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Tue, 21 Feb 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 13 Apr 2023 00:00:00 +0000</lastBuildDate>
+    <item>
+      <title>Hyperlink networks and website text content</title>
+      <dc:creator>Robert Ackland</dc:creator>
+      <dc:creator>Sidiq Madya</dc:creator>
+      <link>https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content</link>
+      <description>Conducting basic text analysis (frequency counts, word clouds, comparison clouds) of organisational website text content.</description>
+      <category>rstats</category>
+      <category>rvest</category>
+      <category>tidytext</category>
+      <category>hyperlink networks</category>
+      <category>vosonsml</category>
+      <category>text analysis</category>
+      <category>visualisation</category>
+      <category>word cloud</category>
+      <category>comparison cloud</category>
+      <category>data sovereignty</category>
+      <guid>https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content</guid>
+      <pubDate>Thu, 13 Apr 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/comparison_cloud.png" medium="image" type="image/png" width="647" height="698"/>
+    </item>
     <item>
       <title>Hyperlink networks: data pre-processing techniques</title>
       <dc:creator>Robert Ackland</dc:creator>
@@ -24,7 +44,7 @@
       <category>hyperlink networks</category>
       <category>vosonsml</category>
       <guid>https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing</guid>
-      <pubDate>Tue, 21 Feb 2023 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 22 Feb 2023 00:00:00 +0000</pubDate>
       <media:content url="https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing/seeds_important2.png" medium="image" type="image/png" width="800" height="800"/>
     </item>
     <item>
