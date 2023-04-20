@@ -1,0 +1,341 @@
+---
+title: "Analysis of website text content using quanteda"
+description: |
+  A short description of the post.
+author:
+  - name: Robert Ackland
+    url: https://orcid.org/0000-0002-0008-1766
+  - name: Sidiq Madya
+    url: https://orcid.org/0000-0002-8444-3145
+  - name: Francisca Borquez  
+date: 2023-04-13
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+bibliography: refs.bib
+csl: apa-style.csl
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Introduction
+
+In the [previous post](https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/), we used `tidytext` and other packages to conduct text analysis (word frequency counts, word clouds, comparison clouds).  In the present post we will demonstrate how to use `quanteda` to undertake the similar text analysis we performed using `tidytext`. We will also use `quanteda` to introduce some more of the basics of text analysis (e.g. constructing a corpus and document-feature matrix) and we will introduce the use of dictionary-based coding. Tutorials on using `quanteda` can be found [here](https://tutorials.quanteda.io).
+
+## 2. Getting the text data ready for analysis
+
+First we load up the text dataframe that was created in the [previous post](https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/) in this series
+
+```{r}
+library(dplyr)
+library(knitr)
+
+textContent <- readRDS("textContent.rds")
+str(textContent)
+nrow(textContent)
+```
+
+There are 75 URLs which we used `rvest` to collect website text content from.  In the previous post we noted that a few of these pages are duplicates (http and https versions of the same page) and also there are some URLs that are links to PDF files (from which, `rvest` does not extract text data); we ignore these issues in the present exercise.
+
+Next, we extract the domain names from the URLs and use a manually-coded CSV file to categorise websites as to whether they are for organisations from the Global North or South (see the [previous post](https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/) for more on this).
+
+```{r}
+#function from https://stackoverflow.com/questions/19020749/function-to-extract-domain-name-from-url-in-r
+domain <- function(x) strsplit(gsub("http://|https://|www\\.", "", x), "/")[[c(1, 1)]]
+#following could be done more elegantly, but it works...
+dd <- sapply(textContent$page, domain)
+textContent$domain <- as.character(dd)
+
+#code websites as from Global North/South
+coded <- read.csv("domains_coded.csv")
+#> head(coded)
+#  X                       x  type
+#1 1 womeninlocalization.com north
+#2 2               iwgia.org north
+#3 3   indigenousdatalab.org north
+#4 4           botpopuli.net south
+#5 5              cipesa.org south
+#6 6              mydata.org north
+
+#now get the north/south classification into the dataframe containing the tokens
+textContent$type <- coded$type[match(textContent$domain, coded$x)]
+
+#capitalise the labels, for the plot
+textContent$type <- ifelse(textContent$type=="north", "North", "South")
+
+str(textContent)
+```
+
+Note that there are two domains/organisations for which we do not have a North/South code, but in these two cases there was no text data extracted from the web pages, so we will remove these two domains from our analysis.
+
+```{r}
+#two domains are for web pages where no text data was collected
+textContent %>% filter(is.na(type))
+
+#we will remove these rows from the dataframe
+textContent <- textContent %>% filter(!is.na(type))
+
+#note that there is still one other row in the dataframe where the text column is empty, 
+textContent %>% filter(text=="")
+
+#so we may as well remove this row here
+textContent <- textContent %>% filter(text!="")
+
+#number of web pages for which we have text content and the domain has been coded (Global North or South)
+textContent %>% count()
+
+#Number of unique domains
+textContent %>% distinct(domain) %>% count()
+
+#Number of domains from Global North and South
+textContent %>% distinct(domain, .keep_all = TRUE) %>% count(type)
+
+```
+
+The above shows that we have 72 web pages from which we have collected text data. These pages are from 32 unique domains which we have coded as organisations from the Global North (21 organisations) or South (11 organisations). 
+
+## 3. Introducing text analysis with `quanteda` - a toy example
+
+Before proceeding with our analysis of text from websites discussing data sovereignty, it is useful to take a step back and introduce some more of the fundamentals of quantitative text analysis.  This will also allow us to introduce the use of `quanteda`. 
+
+### 3.1 What is text analysis (content analysis)?
+
+In this post we use the terms content analysis and (quantitative) text analysis interchangeably. While we do not provide a thorough introduction to text analysis, there are many resources available such as: @Popping2017 who provides an overview of content analysis and some of the relevant software tools and @Welbers_etal2017 who introduce computational text analysis using the R statistical software. @Ackland2013 (Section 2.4) provides a brief introduction to text analysis using data from the web.
+
+> "Content analysis is a systematic reduction of a **flow of text** to a standard
+set of statistically manipulable symbols representing the presence, the
+intensity, or the frequency of some characteristics, which allows making
+replicable and valid inferences from **text** to their **context**. In most
+situations the **source of the text** is investigated, but this should not
+exclude the text itself, the **audience** or the **receivers** of the text. It
+involves measurement. Qualitative data are quantified for the purpose of
+affording statistical inference." @Popping2017[p.2]
+
+> "Content analysis is a technique which aims at describing, with optimum
+objectivity precision, and generalizability, what is said on a given subject
+in a given place at a given time....**Who** (says) **What** (to) **Whom** (in) **What Channel** (with) **What Effect**." @Laswell_etal1952[p.34]
+
+Content analysis can be used to **identify themes** and the **relationships between themes**.  The occurrence of themes, in combination with analysis of social structure (e.g. using network analysis), can be used to address research
+questions such as: What issues are being promoted by environmental activist organisations?, Who are the "agenda setters" with regards to issues in Australian politics?, How prominent is a theme in an online discussion (where prominence could be measured by the network position the person/people promoting the theme)?
+
+### 3.2 Steps in text analysis
+
+We can identify the following main steps in text analysis.
+
+**First** process the 'flow of text' into:
+
+- **Documents**: collections of words (spoken or written) with associated metadata such as date when the text was written, who authored the text etc.  In our data soverignty websites example, a documents is the text collected from a web page.
+- **Corpus**: collection of documents stored in one place.
+
+**Second**, pre-process the corpus:
+
+- **Tokenisation**: splitting the text into tokens (most often, these are words).  More generally, a token is a sequence of characters (usually delimited by space or punctuation) that make a semantic unit; could include words, multi-word expressions, named entities, stems or lemma.
+- **Normalisation**: Lowercasing, stemming (words with suffixes removed, using a set of rules), lemmatisation (involves identifying the intended meaning of a word in a sentence or in a document).
+- **Removing stopwords**: Common words such as "the" in the English language are rarely informative about the content of a text.
+
+The goal of pre-processing is to reduce the total number of **types**, where a type is a unique token. Note that the pre-processing stage may involve the use of a **dictionary** or **lexicon** - a controlled list of codes (tags) that is used to reduce the number of types (e.g. by identifying synonyms) and develop or identify themes, in the context of a particular research topic or question.
+
+**Third**, represent the corpus as a **document-term matrix (DTM) or document-feature matrix (DFM)**:
+
+- A DTM is a matrix in which the rows are documents, columns are terms, and cells indicate frequency of occurrence of term in document.
+- Known as a "bag-of-words" format
+- Allows text data to be analysed using matrix algebra...we have now moved from text to numbers
+
+NOTE TO ROB: FIX UP THE ABOVE, MAYBE WE JUST USE 'FEATURE' RATHER THAN 'TERM'
+
+### 3.3 Toy example: Constructing the corpus
+
+```{r}
+library(quanteda)
+#library(readtext)
+
+# create some documents
+toydocs  <- c("A corpus is a set of documents.", 
+              "This is the second document in the corpus.", 
+              "A document contains tokens or various types")
+
+# create some document variables
+typedf  <- data.frame(type = c('definition', 'example', 'definition'), 
+                      author = c("Adrian", "Rob", "Adrian"))
+
+# Create text corpus
+toycorpus <- corpus(toydocs, docvars = typedf)
+
+# Create tokens from corpus
+toytokens  <-  tokens(toycorpus, remove_punct = TRUE)
+
+toytokens
+docvars(toycorpus)
+```
+
+As you can see, the corpus has three documents, called text1, text2, text3. Each document has a range of tokens. Even in the toy example, there are variations in the tokens that we might want to minimise: the aim is to reduce the number of "types" (unique tokens).
+
+```{r}
+ndoc(toycorpus)
+ntoken(toytokens)
+ntype(toytokens)
+```
+
+### 3.4 Toy example: Text pre-processing
+
+Here are some typical text cleaning or pre-processing steps. Note the use of the pipe operator (`%>%`), which allows us to chain operations together.
+
+```{r tokenclean}
+# remove stopwords
+toytokens %>% tokens_remove(stopwords('en'))
+
+# other cleaning - lower case, remove punctuation, numbers, 
+toytokens %>% tokens_tolower()
+
+# stem the corpus to reduce the number of types
+toytokens %>% tokens_wordstem()
+
+# extend tokens to include multi-word
+toytokens %>% tokens_ngrams(n = 1:2)
+
+# chaining all of these together, and creating a new "cleaned" tokens object
+toytokens_clean  <- toytokens %>% tokens_tolower() %>% 
+  tokens_remove(stopwords('en')) %>% 
+  tokens_wordstem() %>%
+    tokens_ngrams(n = 1)
+```
+
+### 3.5 Toy example: Text pre-processing
+
+The final step for this toy example is to create a document-feature matrix and explore the most frequent features.
+
+```{r dfm}
+toydfm  <-  dfm(toytokens_clean)
+toydfm
+topfeatures(toydfm)
+```
+
+The top features in the document-feature matrix could become keywords for content analysis.
+
+## 4. Application to the `data sovereignty' website text content
+
+```{r}
+#create corpus (text stored in 'text' column so don't need to specify text_field argument)
+corpus1 <- corpus(textContent)
+#the other columns in the dataframe become the document variables
+head(docvars(corpus1))
+ndoc(corpus1)
+```
+
+The next step (as we've seen previously) is extract standard linguistic units or **tokens** from the documents.  As before, its usual practice to 'clean the corpus' by removing stopwords, numbers, and punctuation. However there may be reasons why the researcher does not want to do such cleaning: it depends on the research question.
+
+Remember: content analysis, as a counting-based method, is strongly affected by how you tokenise the corpus.
+
+```{r}
+tokens1  <- tokens(corpus1, remove_numbers = TRUE, remove_punct = TRUE, remove_separators = TRUE, remove_url = TRUE )
+print(tokens1)
+#number of tokens in the first document
+ntoken(tokens1)[1]
+#number of types in the first document
+ntype(tokens1)[1]
+
+#convert the tokens to lower case
+tokens1_lower  <- tokens_tolower(tokens1)
+#remove stopwords
+tokens1_clean  <- tokens_remove(tokens1_lower, c(stopwords('en')))
+
+#the dplyr way of doing the above
+#tokens1_clean  <- tokens1 %>% tokens_tolower() %>% tokens_remove(stopwords('en'))
+
+#number of tokens in the first document
+ntoken(tokens1_clean)[1]
+#number of types in the first document
+ntype(tokens1_clean)[1]
+
+# You could also stem the tokens to further reduce the number of types in the corpus
+# For the time being, we'll use data where stemming hasn't been applied
+#reddit_tokens_stem <- tokens_wordstem(reddit_tokens_clean)
+
+```
+
+The above shows that converting to lower case and removing stopwords significantly reduces the number of tokens and the number of unique tokens (types): for document 1 the number of tokens decreases from 80 to 50 and the number of types decreases from 53 to 37.
+
+In the following step we transform the tokens to ngrams (specifically, unigrams and bigrams), so as to find multi-word tokens appearing in the corpus.
+
+```{r}
+tokens1_ngram <- tokens_ngrams(tokens1_clean, n = 1:2)
+```
+
+## 4.1 Initial exploration of particular keywords, using keywords-in-context (kwic)
+
+Given the documents are now loaded as corpus, you could begin content analysis by exploring some keywords. These keywords would depend on your research topic. For our exercise, we use we use keywords-in-context (kwic) to explore how the term "data" is being used in the web pages we have collected. This may allow us to identify associated terms that might become additional keywords for investigation. That is, keywords-in-context might lead to the discovery of new themes or sub-themes.
+
+Keywords-in-context can be plotted in quanteda using the `textplot_xray` command. The xray or 'lexical dispersion' plot provides a sense of variations in the usage of keywords across documents. The following figure shows that in some documents (e.g. 8 and 9) the word 'data' appears very frequently, while it doesn't appear at all in document 1.
+
+```{r, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "quanteda xray plot - 1"}
+#explore keywords and plot their distribution within documents
+kwic1 <- kwic(tokens1_ngram, c('data'))
+head(kwic1)
+
+library(quanteda.textplots)
+library(ggplot2)
+textplot_xray(kwic1) + aes(color = keyword) + ggtitle(paste('Keywords in context:', 'data'))
+```
+
+The following xray plot shows the frequency of usage of the keywords 'data', 'personal', and 'localization' across the corpus.
+
+```{r, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "quanteda xray plot - 2"}
+kwic1 <- kwic(tokens1_ngram, c('data', 'personal', 'localization'))
+#head(kwic1)
+
+textplot_xray(kwic1) + aes(color = keyword) + ggtitle(paste('Keywords in context:', 'data, personal, localization'))
+```
+## 4.2 Frequency of terms and the document-feature matrix
+
+A basic aspect of content analysis is to assess the importance of terms or features by computing their frequency of usage. This allows the identification of "important" terms in the corpus and it also may be used to assess whether keywords selected for analysis using keywords-in-context are important in the corpus.  A further step (later in this exercise) is to assess how terms are related to one another (part of this would involve assessing how keywords studied using keywords-in-context are related other terms in the corpus.
+
+To answer these questions we first create a document-feature matrix.  Note the shift in terminology.  In setting up the corpus, we talk about **tokens**. Now that the cleaning, simplification and standardisation is done, we talk about **features** (in this post we use 'terms' and 'features' interchangeably).  Below we print the top-10 features (based on frequency) and we plot a word cloud of the 200 most frequently-used features.
+
+```{r, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "Word cloud"}
+dfm1  <-  dfm(tokens1_ngram)
+dfm1 %>% topfeatures(10) %>% kable()
+textplot_wordcloud(dfm1, min_size = 1, max_words = 200)
+```
+
+As we found in the [previous post](https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/) where we produced a word cloud produced `tidytext` and the `wordcloud` package, the word cloud is dominated by the presence of the word 'data'. In the previous post we used a customised stop word list to remove 'data' from the word cloud.  In the present post, we will control for the dominance of the word 'data' using another approach.  Specifically, we will make use of the term frequency-inverse document frequency (tf-idf) weighting scheme, which weight counts of features according to the how often they appear in that document vs. how many documents contain that feature. The tf-idf weighting scheme can often give a better sense of significance of a keyword in a document and a corpus.  In the following code, we also use the `tokens_select()` function in `quanteda` to remove tokens that have fewer than three characters in length (this will remove the pipe character "|", which is presently the second-ranked feature in terms of frequency of use).
+
+```{r, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "Word cloud - 2"}
+dfm1 <- tokens1_ngram %>% tokens_select(min_nchar = 3) %>% dfm()
+dfm1 %>% dfm_tfidf() %>% topfeatures(10) %>% kable()
+dfm1 %>% dfm_tfidf() %>% textplot_wordcloud(min_size = 1, max_words = 200)
+```
+
+## 4.3 Using dictionary-based coding
+
+Creating a dictionary is one way to code documents according to a specific set of questions or problems.  A dictionary can also be used to handle synonyms.
+
+```{r, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "Word cloud - 3"}
+dict1  <-  dictionary(list(identity = c('identity', 'identities', 'ids'),
+                                member = c('member', 'members')))
+
+tokens2  <-  tokens_lookup(tokens1_ngram,
+    dictionary = dict1,  exclusive = FALSE)
+
+dfm2 <- tokens2 %>% tokens_select(min_nchar = 3) %>% dfm()
+dfm2 %>% dfm_tfidf() %>% topfeatures(10) %>% kable()
+dfm2 %>% dfm_tfidf() %>% textplot_wordcloud(min_size = 1, max_words = 200)
+
+```
+
+With the use of the above dictionary, we find that 'health' becomes the third-top feature (when using the tf-idf weighting) and 'identity' moves to fourth.   While we do not examine this here, by setting `exclusive=FALSE` in `tokens_lookup()` we can reduce the corpus to **only** those terms in the dictionary. A dictionary might cover several themes, or you might have separate dictionaries for each theme.
+
+## 4.4 Comparison cloud
+
+As a final step in this blog post, we show how to produce a comparison cloud (comparing word use by organisations from the Global North and Global South) using `quanteda`.
+
+```{r, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "Comparison cloud"}
+dfm3 <- dfm2 %>% dfm_group(type) %>% dfm_trim(min_termfreq = 3)
+textplot_wordcloud(dfm3, comparison = TRUE, min_size = 1, max_words = 100, color = c("red", "blue"))
+```
+
+
+

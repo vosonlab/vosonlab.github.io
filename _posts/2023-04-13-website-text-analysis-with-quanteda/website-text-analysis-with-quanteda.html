@@ -1,0 +1,2282 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"/>
+  <meta name="generator" content="distill" />
+
+  <style type="text/css">
+  /* Hide doc at startup (prevent jankiness while JS renders/transforms) */
+  body {
+    visibility: hidden;
+  }
+  </style>
+
+ <!--radix_placeholder_import_source-->
+ <!--/radix_placeholder_import_source-->
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { color: #00769e; background-color: #f1f3f5; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span { color: #00769e; } /* Normal */
+code span.al { color: #ad0000; } /* Alert */
+code span.an { color: #5e5e5e; } /* Annotation */
+code span.at { color: #657422; } /* Attribute */
+code span.bn { color: #ad0000; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #00769e; } /* ControlFlow */
+code span.ch { color: #20794d; } /* Char */
+code span.cn { color: #8f5902; } /* Constant */
+code span.co { color: #5e5e5e; } /* Comment */
+code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+code span.dt { color: #ad0000; } /* DataType */
+code span.dv { color: #ad0000; } /* DecVal */
+code span.er { color: #ad0000; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #ad0000; } /* Float */
+code span.fu { color: #4758ab; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #5e5e5e; } /* Information */
+code span.kw { color: #00769e; } /* Keyword */
+code span.op { color: #5e5e5e; } /* Operator */
+code span.ot { color: #00769e; } /* Other */
+code span.pp { color: #ad0000; } /* Preprocessor */
+code span.sc { color: #5e5e5e; } /* SpecialChar */
+code span.ss { color: #20794d; } /* SpecialString */
+code span.st { color: #20794d; } /* String */
+code span.va { color: #111111; } /* Variable */
+code span.vs { color: #20794d; } /* VerbatimString */
+code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
+</style>
+
+<style>
+  div.csl-bib-body { }
+  div.csl-entry {
+    clear: both;
+    }
+  .hanging div.csl-entry {
+    margin-left:2em;
+    text-indent:-2em;
+  }
+  div.csl-left-margin {
+    min-width:2em;
+    float:left;
+  }
+  div.csl-right-inline {
+    margin-left:2em;
+    padding-left:1em;
+  }
+  div.csl-indent {
+    margin-left: 2em;
+  }
+</style>
+
+  <!--radix_placeholder_meta_tags-->
+  <title>Analysis of website text content using quanteda</title>
+
+  <meta property="description" itemprop="description" content="A short description of the post."/>
+
+
+  <!--  https://schema.org/Article -->
+  <meta property="article:published" itemprop="datePublished" content="2023-04-13"/>
+  <meta property="article:created" itemprop="dateCreated" content="2023-04-13"/>
+  <meta name="article:author" content="Robert Ackland"/>
+  <meta name="article:author" content="Sidiq Madya"/>
+  <meta name="article:author" content="Francisca Borquez"/>
+
+  <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
+  <meta property="og:title" content="Analysis of website text content using quanteda"/>
+  <meta property="og:type" content="article"/>
+  <meta property="og:description" content="A short description of the post."/>
+  <meta property="og:locale" content="en_US"/>
+
+  <!--  https://dev.twitter.com/cards/types/summary -->
+  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:title" content="Analysis of website text content using quanteda"/>
+  <meta property="twitter:description" content="A short description of the post."/>
+
+  <!--/radix_placeholder_meta_tags-->
+  
+  <meta name="citation_reference" content="citation_title=Web social science: Concepts, data and tools for social scientists in the digital age;citation_publisher=SAGE Publications;citation_author=R. Ackland"/>
+  <meta name="citation_reference" content="citation_title=Online tools for content analysis;citation_publisher=SAGE;citation_author=R. Popping"/>
+  <meta name="citation_reference" content="citation_title=Text analysis in r;citation_volume=11;citation_author=K. Welbers;citation_author=W. Van Attenveldt;citation_author=K. Benoit"/>
+  <meta name="citation_reference" content="citation_title=Comparative study of symbols: An introduction;citation_publisher=Stanford University Press;citation_author=H. D. Lasswell;citation_author=D. Lerner;citation_author=I. S. Pool"/>
+  <!--radix_placeholder_rmarkdown_metadata-->
+
+  <script type="text/json" id="radix-rmarkdown-metadata">
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","bibliography","csl"]}},"value":[{"type":"character","attributes":{},"value":["Analysis of website text content using quanteda"]},{"type":"character","attributes":{},"value":["A short description of the post.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Robert Ackland"]},{"type":"character","attributes":{},"value":["https://orcid.org/0000-0002-0008-1766"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Sidiq Madya"]},{"type":"character","attributes":{},"value":["https://orcid.org/0000-0002-8444-3145"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Francisca Borquez"]}]}]},{"type":"character","attributes":{},"value":["2023-04-13"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["refs.bib"]},{"type":"character","attributes":{},"value":["apa-style.csl"]}]}
+  </script>
+  <!--/radix_placeholder_rmarkdown_metadata-->
+  
+  <script type="text/json" id="radix-resource-manifest">
+  {"type":"character","attributes":{},"value":["advanced-text-analysis_files/anchor-4.2.2/anchor.min.js","advanced-text-analysis_files/bowser-1.9.3/bowser.min.js","advanced-text-analysis_files/distill-2.2.21/template.v2.js","advanced-text-analysis_files/figure-html5/unnamed-chunk-10-1.png","advanced-text-analysis_files/figure-html5/unnamed-chunk-11-1.png","advanced-text-analysis_files/figure-html5/unnamed-chunk-12-1.png","advanced-text-analysis_files/figure-html5/unnamed-chunk-13-1.png","advanced-text-analysis_files/figure-html5/unnamed-chunk-14-1.png","advanced-text-analysis_files/figure-html5/unnamed-chunk-9-1.png","advanced-text-analysis_files/header-attrs-2.19/header-attrs.js","advanced-text-analysis_files/jquery-3.6.0/jquery-3.6.0.js","advanced-text-analysis_files/jquery-3.6.0/jquery-3.6.0.min.js","advanced-text-analysis_files/jquery-3.6.0/jquery-3.6.0.min.map","advanced-text-analysis_files/popper-2.6.0/popper.min.js","advanced-text-analysis_files/tippy-6.2.7/tippy-bundle.umd.min.js","advanced-text-analysis_files/tippy-6.2.7/tippy-light-border.css","advanced-text-analysis_files/tippy-6.2.7/tippy.css","advanced-text-analysis_files/tippy-6.2.7/tippy.umd.min.js","advanced-text-analysis_files/webcomponents-2.0.0/webcomponents.js","apa-style.csl","domains_coded.csv","refs.bib"]}
+  </script>
+  <!--radix_placeholder_navigation_in_header-->
+  <!--/radix_placeholder_navigation_in_header-->
+  <!--radix_placeholder_distill-->
+
+  <style type="text/css">
+
+  body {
+    background-color: white;
+  }
+
+  .pandoc-table {
+    width: 100%;
+  }
+
+  .pandoc-table>caption {
+    margin-bottom: 10px;
+  }
+
+  .pandoc-table th:not([align]) {
+    text-align: left;
+  }
+
+  .pagedtable-footer {
+    font-size: 15px;
+  }
+
+  d-byline .byline {
+    grid-template-columns: 2fr 2fr;
+  }
+
+  d-byline .byline h3 {
+    margin-block-start: 1.5em;
+  }
+
+  d-byline .byline .authors-affiliations h3 {
+    margin-block-start: 0.5em;
+  }
+
+  .authors-affiliations .orcid-id {
+    width: 16px;
+    height:16px;
+    margin-left: 4px;
+    margin-right: 4px;
+    vertical-align: middle;
+    padding-bottom: 2px;
+  }
+
+  d-title .dt-tags {
+    margin-top: 1em;
+    grid-column: text;
+  }
+
+  .dt-tags .dt-tag {
+    text-decoration: none;
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0em 0.4em;
+    margin-right: 0.5em;
+    margin-bottom: 0.4em;
+    font-size: 70%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  d-article table.gt_table td,
+  d-article table.gt_table th {
+    border-bottom: none;
+    font-size: 100%;
+  }
+
+  .html-widget {
+    margin-bottom: 2.0em;
+  }
+
+  .l-screen-inset {
+    padding-right: 16px;
+  }
+
+  .l-screen .caption {
+    margin-left: 10px;
+  }
+
+  .shaded {
+    background: rgb(247, 247, 247);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .html-widget {
+    margin-bottom: 0;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .shaded .shaded-content {
+    background: white;
+  }
+
+  .text-output {
+    margin-top: 0;
+    line-height: 1.5em;
+  }
+
+  .hidden {
+    display: none !important;
+  }
+
+  d-article {
+    padding-top: 2.5rem;
+    padding-bottom: 30px;
+  }
+
+  d-appendix {
+    padding-top: 30px;
+  }
+
+  d-article>p>img {
+    width: 100%;
+  }
+
+  d-article h2 {
+    margin: 1rem 0 1.5rem 0;
+  }
+
+  d-article h3 {
+    margin-top: 1.5rem;
+  }
+
+  d-article iframe {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.0em;
+    width: 100%;
+  }
+
+  /* Tweak code blocks */
+
+  d-article div.sourceCode code,
+  d-article pre code {
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  }
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: auto;
+  }
+
+  d-article div.sourceCode {
+    background-color: white;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 10px;
+    font-size: 12px;
+    border-left: 2px solid rgba(0,0,0,0.1);
+  }
+
+  d-article pre {
+    font-size: 12px;
+    color: black;
+    background: none;
+    margin-top: 0;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  d-article pre a {
+    border-bottom: none;
+  }
+
+  d-article pre a:hover {
+    border-bottom: none;
+    text-decoration: underline;
+  }
+
+  d-article details {
+    grid-column: text;
+    margin-bottom: 0.8em;
+  }
+
+  @media(min-width: 768px) {
+
+  d-article pre,
+  d-article div.sourceCode,
+  d-article div.sourceCode pre {
+    overflow: visible !important;
+  }
+
+  d-article div.sourceCode pre {
+    padding-left: 18px;
+    font-size: 14px;
+  }
+
+  d-article pre {
+    font-size: 14px;
+  }
+
+  }
+
+  figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  /* CSS for d-contents */
+
+  .d-contents {
+    grid-column: text;
+    color: rgba(0,0,0,0.8);
+    font-size: 0.9em;
+    padding-bottom: 1em;
+    margin-bottom: 1em;
+    padding-bottom: 0.5em;
+    margin-bottom: 1em;
+    padding-left: 0.25em;
+    justify-self: start;
+  }
+
+  @media(min-width: 1000px) {
+    .d-contents.d-contents-float {
+      height: 0;
+      grid-column-start: 1;
+      grid-column-end: 4;
+      justify-self: center;
+      padding-right: 3em;
+      padding-left: 2em;
+    }
+  }
+
+  .d-contents nav h3 {
+    font-size: 18px;
+    margin-top: 0;
+    margin-bottom: 1em;
+  }
+
+  .d-contents li {
+    list-style-type: none
+  }
+
+  .d-contents nav > ul {
+    padding-left: 0;
+  }
+
+  .d-contents ul {
+    padding-left: 1em
+  }
+
+  .d-contents nav ul li {
+    margin-top: 0.6em;
+    margin-bottom: 0.2em;
+  }
+
+  .d-contents nav a {
+    font-size: 13px;
+    border-bottom: none;
+    text-decoration: none
+    color: rgba(0, 0, 0, 0.8);
+  }
+
+  .d-contents nav a:hover {
+    text-decoration: underline solid rgba(0, 0, 0, 0.6)
+  }
+
+  .d-contents nav > ul > li > a {
+    font-weight: 600;
+  }
+
+  .d-contents nav > ul > li > ul {
+    font-weight: inherit;
+  }
+
+  .d-contents nav > ul > li > ul > li {
+    margin-top: 0.2em;
+  }
+
+
+  .d-contents nav ul {
+    margin-top: 0;
+    margin-bottom: 0.25em;
+  }
+
+  .d-article-with-toc h2:nth-child(2) {
+    margin-top: 0;
+  }
+
+
+  /* Figure */
+
+  .figure {
+    position: relative;
+    margin-bottom: 2.5em;
+    margin-top: 1.5em;
+  }
+
+  .figure .caption {
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    line-height: 1.5em;
+  }
+
+  .figure img.external {
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 8px rgba(0, 0, 0, 0.1);
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .figure .caption a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  .figure .caption b,
+  .figure .caption strong, {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1.0);
+  }
+
+  /* Citations */
+
+  d-article .citation {
+    color: inherit;
+    cursor: inherit;
+  }
+
+  div.hanging-indent{
+    margin-left: 1em; text-indent: -1em;
+  }
+
+  /* Citation hover box */
+
+  .tippy-box[data-theme~=light-border] {
+    background-color: rgba(250, 250, 250, 0.95);
+  }
+
+  .tippy-content > p {
+    margin-bottom: 0;
+    padding: 2px;
+  }
+
+
+  /* Tweak 1000px media break to show more text */
+
+  @media(min-width: 1000px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 80px [middle-start] 50px [text-start kicker-end] 65px 65px 65px 65px 65px 65px 65px 65px [text-end gutter-start] 65px [middle-end] 65px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 16px;
+    }
+
+    .grid {
+      grid-column-gap: 16px;
+    }
+
+    d-article {
+      font-size: 1.06rem;
+      line-height: 1.7em;
+    }
+    figure .caption, .figure .caption, figure figcaption {
+      font-size: 13px;
+    }
+  }
+
+  @media(min-width: 1180px) {
+    .base-grid,
+    distill-header,
+    d-title,
+    d-abstract,
+    d-article,
+    d-appendix,
+    distill-appendix,
+    d-byline,
+    d-footnote-list,
+    d-citation-list,
+    distill-footer {
+      grid-template-columns: [screen-start] 1fr [page-start kicker-start] 60px [middle-start] 60px [text-start kicker-end] 60px 60px 60px 60px 60px 60px 60px 60px [text-end gutter-start] 60px [middle-end] 60px [page-end gutter-end] 1fr [screen-end];
+      grid-column-gap: 32px;
+    }
+
+    .grid {
+      grid-column-gap: 32px;
+    }
+  }
+
+
+  /* Get the citation styles for the appendix (not auto-injected on render since
+     we do our own rendering of the citation appendix) */
+
+  d-appendix .citation-appendix,
+  .d-appendix .citation-appendix {
+    font-size: 11px;
+    line-height: 15px;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+    padding-left: 18px;
+    border: 1px solid rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.02);
+    padding: 10px 18px;
+    border-radius: 3px;
+    color: rgba(150, 150, 150, 1);
+    overflow: hidden;
+    margin-top: -12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
+
+  /* Include appendix styles here so they can be overridden */
+
+  d-appendix {
+    contain: layout style;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-top: 60px;
+    margin-bottom: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    color: rgba(0,0,0,0.5);
+    padding-top: 60px;
+    padding-bottom: 48px;
+  }
+
+  d-appendix h3 {
+    grid-column: page-start / text-start;
+    font-size: 15px;
+    font-weight: 500;
+    margin-top: 1em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.65);
+  }
+
+  d-appendix h3 + * {
+    margin-top: 1em;
+  }
+
+  d-appendix ol {
+    padding: 0 0 0 15px;
+  }
+
+  @media (min-width: 768px) {
+    d-appendix ol {
+      padding: 0 0 0 30px;
+      margin-left: -30px;
+    }
+  }
+
+  d-appendix li {
+    margin-bottom: 1em;
+  }
+
+  d-appendix a {
+    color: rgba(0, 0, 0, 0.6);
+  }
+
+  d-appendix > * {
+    grid-column: text;
+  }
+
+  d-appendix > d-footnote-list,
+  d-appendix > d-citation-list,
+  d-appendix > distill-appendix {
+    grid-column: screen;
+  }
+
+  /* Include footnote styles here so they can be overridden */
+
+  d-footnote-list {
+    contain: layout style;
+  }
+
+  d-footnote-list > * {
+    grid-column: text;
+  }
+
+  d-footnote-list a.footnote-backlink {
+    color: rgba(0,0,0,0.3);
+    padding-left: 0.5em;
+  }
+
+
+
+  /* Anchor.js */
+
+  .anchorjs-link {
+    /*transition: all .25s linear; */
+    text-decoration: none;
+    border-bottom: none;
+  }
+  *:hover > .anchorjs-link {
+    margin-left: -1.125em !important;
+    text-decoration: none;
+    border-bottom: none;
+  }
+
+  /* Social footer */
+
+  .social_footer {
+    margin-top: 30px;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.67);
+  }
+
+  .disqus-comments {
+    margin-right: 30px;
+  }
+
+  .disqus-comment-count {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+  }
+
+  #disqus_thread {
+    margin-top: 30px;
+  }
+
+  .article-sharing a {
+    border-bottom: none;
+    margin-right: 8px;
+  }
+
+  .article-sharing a:hover {
+    border-bottom: none;
+  }
+
+  .sidebar-section.subscribe {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .subscribe p {
+    margin-bottom: 0.5em;
+  }
+
+
+  .article-footer .subscribe {
+    font-size: 15px;
+    margin-top: 45px;
+  }
+
+
+  .sidebar-section.custom {
+    font-size: 12px;
+    line-height: 1.6em;
+  }
+
+  .custom p {
+    margin-bottom: 0.5em;
+  }
+
+  /* Styles for listing layout (hide title) */
+  .layout-listing d-title, .layout-listing .d-title {
+    display: none;
+  }
+
+  /* Styles for posts lists (not auto-injected) */
+
+
+  .posts-with-sidebar {
+    padding-left: 45px;
+    padding-right: 45px;
+  }
+
+  .posts-list .description h2,
+  .posts-list .description p {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+
+  .posts-list .description h2 {
+    font-weight: 700;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .posts-list h2.post-tag {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding-bottom: 12px;
+  }
+  .posts-list {
+    margin-top: 60px;
+    margin-bottom: 24px;
+  }
+
+  .posts-list .post-preview {
+    text-decoration: none;
+    overflow: hidden;
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 24px 0;
+  }
+
+  .post-preview-last {
+    border-bottom: none !important;
+  }
+
+  .posts-list .posts-list-caption {
+    grid-column: screen;
+    font-weight: 400;
+  }
+
+  .posts-list .post-preview h2 {
+    margin: 0 0 6px 0;
+    line-height: 1.2em;
+    font-style: normal;
+    font-size: 24px;
+  }
+
+  .posts-list .post-preview p {
+    margin: 0 0 12px 0;
+    line-height: 1.4em;
+    font-size: 16px;
+  }
+
+  .posts-list .post-preview .thumbnail {
+    box-sizing: border-box;
+    margin-bottom: 24px;
+    position: relative;
+    max-width: 500px;
+  }
+  .posts-list .post-preview img {
+    width: 100%;
+    display: block;
+  }
+
+  .posts-list .metadata {
+    font-size: 12px;
+    line-height: 1.4em;
+    margin-bottom: 18px;
+  }
+
+  .posts-list .metadata > * {
+    display: inline-block;
+  }
+
+  .posts-list .metadata .publishedDate {
+    margin-right: 2em;
+  }
+
+  .posts-list .metadata .dt-authors {
+    display: block;
+    margin-top: 0.3em;
+    margin-right: 2em;
+  }
+
+  .posts-list .dt-tags {
+    display: block;
+    line-height: 1em;
+  }
+
+  .posts-list .dt-tags .dt-tag {
+    display: inline-block;
+    color: rgba(0,0,0,0.6);
+    padding: 0.3em 0.4em;
+    margin-right: 0.2em;
+    margin-bottom: 0.4em;
+    font-size: 60%;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 3px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .posts-list img {
+    opacity: 1;
+  }
+
+  .posts-list img[data-src] {
+    opacity: 0;
+  }
+
+  .posts-more {
+    clear: both;
+  }
+
+
+  .posts-sidebar {
+    font-size: 16px;
+  }
+
+  .posts-sidebar h3 {
+    font-size: 16px;
+    margin-top: 0;
+    margin-bottom: 0.5em;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+
+  .sidebar-section {
+    margin-bottom: 30px;
+  }
+
+  .categories ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .categories li {
+    color: rgba(0, 0, 0, 0.8);
+    margin-bottom: 0;
+  }
+
+  .categories li>a {
+    border-bottom: none;
+  }
+
+  .categories li>a:hover {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.4);
+  }
+
+  .categories .active {
+    font-weight: 600;
+  }
+
+  .categories .category-count {
+    color: rgba(0, 0, 0, 0.4);
+  }
+
+
+  @media(min-width: 768px) {
+    .posts-list .post-preview h2 {
+      font-size: 26px;
+    }
+    .posts-list .post-preview .thumbnail {
+      float: right;
+      width: 30%;
+      margin-bottom: 0;
+    }
+    .posts-list .post-preview .description {
+      float: left;
+      width: 45%;
+    }
+    .posts-list .post-preview .metadata {
+      float: left;
+      width: 20%;
+      margin-top: 8px;
+    }
+    .posts-list .post-preview p {
+      margin: 0 0 12px 0;
+      line-height: 1.5em;
+      font-size: 16px;
+    }
+    .posts-with-sidebar .posts-list {
+      float: left;
+      width: 75%;
+    }
+    .posts-with-sidebar .posts-sidebar {
+      float: right;
+      width: 20%;
+      margin-top: 60px;
+      padding-top: 24px;
+      padding-bottom: 24px;
+    }
+  }
+
+
+  /* Improve display for browsers without grid (IE/Edge <= 15) */
+
+  .downlevel {
+    line-height: 1.6em;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+  }
+
+  .downlevel .d-title {
+    padding-top: 6rem;
+    padding-bottom: 1.5rem;
+  }
+
+  .downlevel .d-title h1 {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.1em;
+    margin: 0 0 0.5rem;
+  }
+
+  .downlevel .d-title p {
+    font-weight: 300;
+    font-size: 1.2rem;
+    line-height: 1.55em;
+    margin-top: 0;
+  }
+
+  .downlevel .d-byline {
+    padding-top: 0.8em;
+    padding-bottom: 0.8em;
+    font-size: 0.8rem;
+    line-height: 1.8em;
+  }
+
+  .downlevel .section-separator {
+    border: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+
+  .downlevel .d-article {
+    font-size: 1.06rem;
+    line-height: 1.7em;
+    padding-top: 1rem;
+    padding-bottom: 2rem;
+  }
+
+
+  .downlevel .d-appendix {
+    padding-left: 0;
+    padding-right: 0;
+    max-width: none;
+    font-size: 0.8em;
+    line-height: 1.7em;
+    margin-bottom: 0;
+    color: rgba(0,0,0,0.5);
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+  .downlevel .footnotes ol {
+    padding-left: 13px;
+  }
+
+  .downlevel .base-grid,
+  .downlevel .distill-header,
+  .downlevel .d-title,
+  .downlevel .d-abstract,
+  .downlevel .d-article,
+  .downlevel .d-appendix,
+  .downlevel .distill-appendix,
+  .downlevel .d-byline,
+  .downlevel .d-footnote-list,
+  .downlevel .d-citation-list,
+  .downlevel .distill-footer,
+  .downlevel .appendix-bottom,
+  .downlevel .posts-container {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media(min-width: 768px) {
+    .downlevel .base-grid,
+    .downlevel .distill-header,
+    .downlevel .d-title,
+    .downlevel .d-abstract,
+    .downlevel .d-article,
+    .downlevel .d-appendix,
+    .downlevel .distill-appendix,
+    .downlevel .d-byline,
+    .downlevel .d-footnote-list,
+    .downlevel .d-citation-list,
+    .downlevel .distill-footer,
+    .downlevel .appendix-bottom,
+    .downlevel .posts-container {
+    padding-left: 150px;
+    padding-right: 150px;
+    max-width: 900px;
+  }
+  }
+
+  .downlevel pre code {
+    display: block;
+    border-left: 2px solid rgba(0, 0, 0, .1);
+    padding: 0 0 0 20px;
+    font-size: 14px;
+  }
+
+  .downlevel code, .downlevel pre {
+    color: black;
+    background: none;
+    font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    line-height: 1.5;
+
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+
+    -webkit-hyphens: none;
+    -moz-hyphens: none;
+    -ms-hyphens: none;
+    hyphens: none;
+  }
+
+  .downlevel .posts-list .post-preview {
+    color: inherit;
+  }
+
+
+
+  </style>
+
+  <script type="application/javascript">
+
+  function is_downlevel_browser() {
+    if (bowser.isUnsupportedBrowser({ msie: "12", msedge: "16"},
+                                   window.navigator.userAgent)) {
+      return true;
+    } else {
+      return window.load_distill_framework === undefined;
+    }
+  }
+
+  // show body when load is complete
+  function on_load_complete() {
+
+    // add anchors
+    if (window.anchors) {
+      window.anchors.options.placement = 'left';
+      window.anchors.add('d-article > h2, d-article > h3, d-article > h4, d-article > h5');
+    }
+
+
+    // set body to visible
+    document.body.style.visibility = 'visible';
+
+    // force redraw for leaflet widgets
+    if (window.HTMLWidgets) {
+      var maps = window.HTMLWidgets.findAll(".leaflet");
+      $.each(maps, function(i, el) {
+        var map = this.getMap();
+        map.invalidateSize();
+        map.eachLayer(function(layer) {
+          if (layer instanceof L.TileLayer)
+            layer.redraw();
+        });
+      });
+    }
+
+    // trigger 'shown' so htmlwidgets resize
+    $('d-article').trigger('shown');
+  }
+
+  function init_distill() {
+
+    init_common();
+
+    // create front matter
+    var front_matter = $('<d-front-matter></d-front-matter>');
+    $('#distill-front-matter').wrap(front_matter);
+
+    // create d-title
+    $('.d-title').changeElementType('d-title');
+
+    // create d-byline
+    var byline = $('<d-byline></d-byline>');
+    $('.d-byline').replaceWith(byline);
+
+    // create d-article
+    var article = $('<d-article></d-article>');
+    $('.d-article').wrap(article).children().unwrap();
+
+    // move posts container into article
+    $('.posts-container').appendTo($('d-article'));
+
+    // create d-appendix
+    $('.d-appendix').changeElementType('d-appendix');
+
+    // flag indicating that we have appendix items
+    var appendix = $('.appendix-bottom').children('h3').length > 0;
+
+    // replace footnotes with <d-footnote>
+    $('.footnote-ref').each(function(i, val) {
+      appendix = true;
+      var href = $(this).attr('href');
+      var id = href.replace('#', '');
+      var fn = $('#' + id);
+      var fn_p = $('#' + id + '>p');
+      fn_p.find('.footnote-back').remove();
+      var text = fn_p.html();
+      var dtfn = $('<d-footnote></d-footnote>');
+      dtfn.html(text);
+      $(this).replaceWith(dtfn);
+    });
+    // remove footnotes
+    $('.footnotes').remove();
+
+    // move refs into #references-listing
+    $('#references-listing').replaceWith($('#refs'));
+
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      var id = $(this).attr('id');
+      $('.d-contents a[href="#' + id + '"]').parent().remove();
+      appendix = true;
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('d-appendix'));
+    });
+
+    // show d-appendix if we have appendix content
+    $("d-appendix").css('display', appendix ? 'grid' : 'none');
+
+    // localize layout chunks to just output
+    $('.layout-chunk').each(function(i, val) {
+
+      // capture layout
+      var layout = $(this).attr('data-layout');
+
+      // apply layout to markdown level block elements
+      var elements = $(this).children().not('details, div.sourceCode, pre, script');
+      elements.each(function(i, el) {
+        var layout_div = $('<div class="' + layout + '"></div>');
+        if (layout_div.hasClass('shaded')) {
+          var shaded_content = $('<div class="shaded-content"></div>');
+          $(this).wrap(shaded_content);
+          $(this).parent().wrap(layout_div);
+        } else {
+          $(this).wrap(layout_div);
+        }
+      });
+
+
+      // unwrap the layout-chunk div
+      $(this).children().unwrap();
+    });
+
+    // remove code block used to force  highlighting css
+    $('.distill-force-highlighting-css').parent().remove();
+
+    // remove empty line numbers inserted by pandoc when using a
+    // custom syntax highlighting theme
+    $('code.sourceCode a:empty').remove();
+
+    // load distill framework
+    load_distill_framework();
+
+    // wait for window.distillRunlevel == 4 to do post processing
+    function distill_post_process() {
+
+      if (!window.distillRunlevel || window.distillRunlevel < 4)
+        return;
+
+      // hide author/affiliations entirely if we have no authors
+      var front_matter = JSON.parse($("#distill-front-matter").html());
+      var have_authors = front_matter.authors && front_matter.authors.length > 0;
+      if (!have_authors)
+        $('d-byline').addClass('hidden');
+
+      // article with toc class
+      $('.d-contents').parent().addClass('d-article-with-toc');
+
+      // strip links that point to #
+      $('.authors-affiliations').find('a[href="#"]').removeAttr('href');
+
+      // add orcid ids
+      $('.authors-affiliations').find('.author').each(function(i, el) {
+        var orcid_id = front_matter.authors[i].orcidID;
+        if (orcid_id) {
+          var a = $('<a></a>');
+          a.attr('href', 'https://orcid.org/' + orcid_id);
+          var img = $('<img></img>');
+          img.addClass('orcid-id');
+          img.attr('alt', 'ORCID ID');
+          img.attr('src','data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg==');
+          a.append(img);
+          $(this).append(a);
+        }
+      });
+
+      // hide elements of author/affiliations grid that have no value
+      function hide_byline_column(caption) {
+        $('d-byline').find('h3:contains("' + caption + '")').parent().css('visibility', 'hidden');
+      }
+
+      // affiliations
+      var have_affiliations = false;
+      for (var i = 0; i<front_matter.authors.length; ++i) {
+        var author = front_matter.authors[i];
+        if (author.affiliation !== "&nbsp;") {
+          have_affiliations = true;
+          break;
+        }
+      }
+      if (!have_affiliations)
+        $('d-byline').find('h3:contains("Affiliations")').css('visibility', 'hidden');
+
+      // published date
+      if (!front_matter.publishedDate)
+        hide_byline_column("Published");
+
+      // document object identifier
+      var doi = $('d-byline').find('h3:contains("DOI")');
+      var doi_p = doi.next().empty();
+      if (!front_matter.doi) {
+        // if we have a citation and valid citationText then link to that
+        if ($('#citation').length > 0 && front_matter.citationText) {
+          doi.html('Citation');
+          $('<a href="#citation"></a>')
+            .text(front_matter.citationText)
+            .appendTo(doi_p);
+        } else {
+          hide_byline_column("DOI");
+        }
+      } else {
+        $('<a></a>')
+           .attr('href', "https://doi.org/" + front_matter.doi)
+           .html(front_matter.doi)
+           .appendTo(doi_p);
+      }
+
+       // change plural form of authors/affiliations
+      if (front_matter.authors.length === 1) {
+        var grid = $('.authors-affiliations');
+        grid.children('h3:contains("Authors")').text('Author');
+        grid.children('h3:contains("Affiliations")').text('Affiliation');
+      }
+
+      // remove d-appendix and d-footnote-list local styles
+      $('d-appendix > style:first-child').remove();
+      $('d-footnote-list > style:first-child').remove();
+
+      // move appendix-bottom entries to the bottom
+      $('.appendix-bottom').appendTo('d-appendix').children().unwrap();
+      $('.appendix-bottom').remove();
+
+      // hoverable references
+      $('span.citation[data-cites]').each(function() {
+        const citeChild = $(this).children()[0]
+        // Do not process if @xyz has been used without escaping and without bibliography activated
+        // https://github.com/rstudio/distill/issues/466
+        if (citeChild === undefined) return true
+
+        if (citeChild.nodeName == "D-FOOTNOTE") {
+          var fn = citeChild
+          $(this).html(fn.shadowRoot.querySelector("sup"))
+          $(this).id = fn.id
+          fn.remove()
+        }
+        var refs = $(this).attr('data-cites').split(" ");
+        var refHtml = refs.map(function(ref) {
+          // Could use CSS.escape too here, we insure backward compatibility in navigator
+          return "<p>" + $('div[id="ref-' + ref + '"]').html() + "</p>";
+        }).join("\n");
+        window.tippy(this, {
+          allowHTML: true,
+          content: refHtml,
+          maxWidth: 500,
+          interactive: true,
+          interactiveBorder: 10,
+          theme: 'light-border',
+          placement: 'bottom-start'
+        });
+      });
+
+      // fix footnotes in tables (#411)
+      // replacing broken distill.pub feature
+      $('table d-footnote').each(function() {
+        // we replace internal showAtNode methode which is triggered when hovering a footnote
+        this.hoverBox.showAtNode = function(node) {
+          // ported from https://github.com/distillpub/template/pull/105/files
+          calcOffset = function(elem) {
+              let x = elem.offsetLeft;
+              let y = elem.offsetTop;
+              // Traverse upwards until an `absolute` element is found or `elem`
+              // becomes null.
+              while (elem = elem.offsetParent && elem.style.position != 'absolute') {
+                  x += elem.offsetLeft;
+                  y += elem.offsetTop;
+              }
+
+              return { left: x, top: y };
+          }
+          // https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetTop
+          const bbox = node.getBoundingClientRect();
+          const offset = calcOffset(node);
+          this.show([offset.left + bbox.width, offset.top + bbox.height]);
+        }
+      })
+
+      // clear polling timer
+      clearInterval(tid);
+
+      // show body now that everything is ready
+      on_load_complete();
+    }
+
+    var tid = setInterval(distill_post_process, 50);
+    distill_post_process();
+
+  }
+
+  function init_downlevel() {
+
+    init_common();
+
+     // insert hr after d-title
+    $('.d-title').after($('<hr class="section-separator"/>'));
+
+    // check if we have authors
+    var front_matter = JSON.parse($("#distill-front-matter").html());
+    var have_authors = front_matter.authors && front_matter.authors.length > 0;
+
+    // manage byline/border
+    if (!have_authors)
+      $('.d-byline').remove();
+    $('.d-byline').after($('<hr class="section-separator"/>'));
+    $('.d-byline a').remove();
+
+    // remove toc
+    $('.d-contents').remove();
+
+    // move appendix elements
+    $('h1.appendix, h2.appendix').each(function(i, val) {
+      $(this).changeElementType('h3');
+    });
+    $('h3.appendix').each(function(i, val) {
+      $(this).nextUntil($('h1, h2, h3')).addBack().appendTo($('.d-appendix'));
+    });
+
+
+    // inject headers into references and footnotes
+    var refs_header = $('<h3></h3>');
+    refs_header.text('References');
+    $('#refs').prepend(refs_header);
+
+    var footnotes_header = $('<h3></h3');
+    footnotes_header.text('Footnotes');
+    $('.footnotes').children('hr').first().replaceWith(footnotes_header);
+
+    // move appendix-bottom entries to the bottom
+    $('.appendix-bottom').appendTo('.d-appendix').children().unwrap();
+    $('.appendix-bottom').remove();
+
+    // remove appendix if it's empty
+    if ($('.d-appendix').children().length === 0)
+      $('.d-appendix').remove();
+
+    // prepend separator above appendix
+    $('.d-appendix').before($('<hr class="section-separator" style="clear: both"/>'));
+
+    // trim code
+    $('pre>code').each(function(i, val) {
+      $(this).html($.trim($(this).html()));
+    });
+
+    // move posts-container right before article
+    $('.posts-container').insertBefore($('.d-article'));
+
+    $('body').addClass('downlevel');
+
+    on_load_complete();
+  }
+
+
+  function init_common() {
+
+    // jquery plugin to change element types
+    (function($) {
+      $.fn.changeElementType = function(newType) {
+        var attrs = {};
+
+        $.each(this[0].attributes, function(idx, attr) {
+          attrs[attr.nodeName] = attr.nodeValue;
+        });
+
+        this.replaceWith(function() {
+          return $("<" + newType + "/>", attrs).append($(this).contents());
+        });
+      };
+    })(jQuery);
+
+    // prevent underline for linked images
+    $('a > img').parent().css({'border-bottom' : 'none'});
+
+    // mark non-body figures created by knitr chunks as 100% width
+    $('.layout-chunk').each(function(i, val) {
+      var figures = $(this).find('img, .html-widget');
+      // ignore leaflet img layers (#106)
+      figures = figures.filter(':not(img[class*="leaflet"])')
+      if ($(this).attr('data-layout') !== "l-body") {
+        figures.css('width', '100%');
+      } else {
+        figures.css('max-width', '100%');
+        figures.filter("[width]").each(function(i, val) {
+          var fig = $(this);
+          fig.css('width', fig.attr('width') + 'px');
+        });
+
+      }
+    });
+
+    // auto-append index.html to post-preview links in file: protocol
+    // and in rstudio ide preview
+    $('.post-preview').each(function(i, val) {
+      if (window.location.protocol === "file:")
+        $(this).attr('href', $(this).attr('href') + "index.html");
+    });
+
+    // get rid of index.html references in header
+    if (window.location.protocol !== "file:") {
+      $('.distill-site-header a[href]').each(function(i,val) {
+        $(this).attr('href', $(this).attr('href').replace(/^index[.]html/, "./"));
+      });
+    }
+
+    // add class to pandoc style tables
+    $('tr.header').parent('thead').parent('table').addClass('pandoc-table');
+    $('.kable-table').children('table').addClass('pandoc-table');
+
+    // add figcaption style to table captions
+    $('caption').parent('table').addClass("figcaption");
+
+    // initialize posts list
+    if (window.init_posts_list)
+      window.init_posts_list();
+
+    // implmement disqus comment link
+    $('.disqus-comment-count').click(function() {
+      window.headroom_prevent_pin = true;
+      $('#disqus_thread').toggleClass('hidden');
+      if (!$('#disqus_thread').hasClass('hidden')) {
+        var offset = $(this).offset();
+        $(window).resize();
+        $('html, body').animate({
+          scrollTop: offset.top - 35
+        });
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    if (is_downlevel_browser())
+      init_downlevel();
+    else
+      window.addEventListener('WebComponentsReady', init_distill);
+  });
+
+  </script>
+
+  <!--/radix_placeholder_distill-->
+  <script src="advanced-text-analysis_files/header-attrs-2.19/header-attrs.js"></script>
+  <script src="advanced-text-analysis_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+  <script src="advanced-text-analysis_files/popper-2.6.0/popper.min.js"></script>
+  <link href="advanced-text-analysis_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="advanced-text-analysis_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="advanced-text-analysis_files/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="advanced-text-analysis_files/anchor-4.2.2/anchor.min.js"></script>
+  <script src="advanced-text-analysis_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="advanced-text-analysis_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="advanced-text-analysis_files/distill-2.2.21/template.v2.js"></script>
+  <!--radix_placeholder_site_in_header-->
+  <!--/radix_placeholder_site_in_header-->
+
+
+</head>
+
+<body>
+
+<!--radix_placeholder_front_matter-->
+
+<script id="distill-front-matter" type="text/json">
+{"title":"Analysis of website text content using quanteda","description":"A short description of the post.","authors":[{"author":"Robert Ackland","authorURL":"https://orcid.org/0000-0002-0008-1766","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""},{"author":"Sidiq Madya","authorURL":"https://orcid.org/0000-0002-8444-3145","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""},{"author":"Francisca Borquez","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2023-04-13T00:00:00.000+10:00","citationText":"Ackland, et al., 2023"}
+</script>
+
+<!--/radix_placeholder_front_matter-->
+<!--radix_placeholder_navigation_before_body-->
+<!--/radix_placeholder_navigation_before_body-->
+<!--radix_placeholder_site_before_body-->
+<!--/radix_placeholder_site_before_body-->
+
+<div class="d-title">
+<h1>Analysis of website text content using quanteda</h1>
+<!--radix_placeholder_categories-->
+<!--/radix_placeholder_categories-->
+<p><p>A short description of the post.</p></p>
+</div>
+
+<div class="d-byline">
+  Robert Ackland <a href="https://orcid.org/0000-0002-0008-1766" class="uri">https://orcid.org/0000-0002-0008-1766</a> 
+  
+,   Sidiq Madya <a href="https://orcid.org/0000-0002-8444-3145" class="uri">https://orcid.org/0000-0002-8444-3145</a> 
+  
+,   Francisca Borquez  
+  
+<br/>2023-04-13
+</div>
+
+<div class="d-article">
+<h2 id="introduction">1. Introduction</h2>
+<p>In the <a href="https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/">previous post</a>, we used <code>tidytext</code> and other packages to conduct text analysis (word frequency counts, word clouds, comparison clouds). In the present post we will demonstrate how to use <code>quanteda</code> to undertake the similar text analysis we performed using <code>tidytext</code>. We will also use <code>quanteda</code> to introduce some more of the basics of text analysis (e.g. constructing a corpus and document-feature matrix) and we will introduce the use of dictionary-based coding. Tutorials on using <code>quanteda</code> can be found <a href="https://tutorials.quanteda.io">here</a>.</p>
+<h2 id="getting-the-text-data-ready-for-analysis">2. Getting the text data ready for analysis</h2>
+<p>First we load up the text dataframe that was created in the <a href="https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/">previous post</a> in this series</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://yihui.org/knitr/'>knitr</a></span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>textContent</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/readRDS.html'>readRDS</a></span><span class='op'>(</span><span class='st'>"textContent.rds"</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>textContent</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>&#39;data.frame&#39;:   75 obs. of  2 variables:
+ $ page: chr  &quot;https://womeninlocalization.com/partners/&quot; &quot;https://womeninlocalization.com/data-localization-laws-around-the-world/&quot; &quot;https://iwgia.org/en/network.html&quot; &quot;https://www.iwgia.org/en/indigenous-data-sovereignty/4699-iw-2022-indigenous-data-sovereignty.html?filter_tag[0]=37&quot; ...
+ $ text: chr  &quot;Women in Localization (W.L.) is certified as a 501 (c)(3) tax-exempt nonprofit. Its mission is to foster a glob&quot;| __truncated__ &quot; Data localization laws can be a challenge for some and nearly nothing for others. After all, everything depend&quot;| __truncated__ &quot;\r\n\r\n\t\tWritten on 11 March 2011. Posted in About IWGIA\r\n\t Since 1968, IWGIA has worked for protecting, &quot;| __truncated__ &quot;\r\n\r\n\t\tWritten on 01 April 2022. Posted in Indigenous Data Sovereignty\r\n\t Indigenous Peoples have alway&quot;| __truncated__ ...</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>nrow</a></span><span class='op'>(</span><span class='va'>textContent</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>[1] 75</code></pre>
+</div>
+<p>There are 75 URLs which we used <code>rvest</code> to collect website text content from. In the previous post we noted that a few of these pages are duplicates (http and https versions of the same page) and also there are some URLs that are links to PDF files (from which, <code>rvest</code> does not extract text data); we ignore these issues in the present exercise.</p>
+<p>Next, we extract the domain names from the URLs and use a manually-coded CSV file to categorise websites as to whether they are for organisations from the Global North or South (see the <a href="https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/">previous post</a> for more on this).</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#function from https://stackoverflow.com/questions/19020749/function-to-extract-domain-name-from-url-in-r</span></span>
+<span><span class='va'>domain</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/strsplit.html'>strsplit</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span><span class='op'>(</span><span class='st'>"http://|https://|www\\."</span>, <span class='st'>""</span>, <span class='va'>x</span><span class='op'>)</span>, <span class='st'>"/"</span><span class='op'>)</span><span class='op'>[[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>]</span><span class='op'>]</span></span>
+<span><span class='co'>#following could be done more elegantly, but it works...</span></span>
+<span><span class='va'>dd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>textContent</span><span class='op'>$</span><span class='va'>page</span>, <span class='va'>domain</span><span class='op'>)</span></span>
+<span><span class='va'>textContent</span><span class='op'>$</span><span class='va'>domain</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>dd</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'>#code websites as from Global North/South</span></span>
+<span><span class='va'>coded</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/utils/read.table.html'>read.csv</a></span><span class='op'>(</span><span class='st'>"domains_coded.csv"</span><span class='op'>)</span></span>
+<span><span class='co'>#&gt; head(coded)</span></span>
+<span><span class='co'>#  X                       x  type</span></span>
+<span><span class='co'>#1 1 womeninlocalization.com north</span></span>
+<span><span class='co'>#2 2               iwgia.org north</span></span>
+<span><span class='co'>#3 3   indigenousdatalab.org north</span></span>
+<span><span class='co'>#4 4           botpopuli.net south</span></span>
+<span><span class='co'>#5 5              cipesa.org south</span></span>
+<span><span class='co'>#6 6              mydata.org north</span></span>
+<span></span>
+<span><span class='co'>#now get the north/south classification into the dataframe containing the tokens</span></span>
+<span><span class='va'>textContent</span><span class='op'>$</span><span class='va'>type</span> <span class='op'>&lt;-</span> <span class='va'>coded</span><span class='op'>$</span><span class='va'>type</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/match.html'>match</a></span><span class='op'>(</span><span class='va'>textContent</span><span class='op'>$</span><span class='va'>domain</span>, <span class='va'>coded</span><span class='op'>$</span><span class='va'>x</span><span class='op'>)</span><span class='op'>]</span></span>
+<span></span>
+<span><span class='co'>#capitalise the labels, for the plot</span></span>
+<span><span class='va'>textContent</span><span class='op'>$</span><span class='va'>type</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>textContent</span><span class='op'>$</span><span class='va'>type</span><span class='op'>==</span><span class='st'>"north"</span>, <span class='st'>"North"</span>, <span class='st'>"South"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='va'>textContent</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>&#39;data.frame&#39;:   75 obs. of  4 variables:
+ $ page  : chr  &quot;https://womeninlocalization.com/partners/&quot; &quot;https://womeninlocalization.com/data-localization-laws-around-the-world/&quot; &quot;https://iwgia.org/en/network.html&quot; &quot;https://www.iwgia.org/en/indigenous-data-sovereignty/4699-iw-2022-indigenous-data-sovereignty.html?filter_tag[0]=37&quot; ...
+ $ text  : chr  &quot;Women in Localization (W.L.) is certified as a 501 (c)(3) tax-exempt nonprofit. Its mission is to foster a glob&quot;| __truncated__ &quot; Data localization laws can be a challenge for some and nearly nothing for others. After all, everything depend&quot;| __truncated__ &quot;\r\n\r\n\t\tWritten on 11 March 2011. Posted in About IWGIA\r\n\t Since 1968, IWGIA has worked for protecting, &quot;| __truncated__ &quot;\r\n\r\n\t\tWritten on 01 April 2022. Posted in Indigenous Data Sovereignty\r\n\t Indigenous Peoples have alway&quot;| __truncated__ ...
+ $ domain: chr  &quot;womeninlocalization.com&quot; &quot;womeninlocalization.com&quot; &quot;iwgia.org&quot; &quot;iwgia.org&quot; ...
+ $ type  : chr  &quot;North&quot; &quot;North&quot; &quot;North&quot; &quot;North&quot; ...</code></pre>
+</div>
+<p>Note that there are two domains/organisations for which we do not have a North/South code, but in these two cases there was no text data extracted from the web pages, so we will remove these two domains from our analysis.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#two domains are for web pages where no text data was collected</span></span>
+<span><span class='va'>textContent</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>type</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>                                               page text
+1 https://digitallibrary.un.org/record/218450?ln=en     
+2                             http://unstats.un.org     
+                 domain type
+1 digitallibrary.un.org &lt;NA&gt;
+2        unstats.un.org &lt;NA&gt;</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#we will remove these rows from the dataframe</span></span>
+<span><span class='va'>textContent</span> <span class='op'>&lt;-</span> <span class='va'>textContent</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='op'>!</span><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span><span class='op'>(</span><span class='va'>type</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'>#note that there is still one other row in the dataframe where the text column is empty, </span></span>
+<span><span class='va'>textContent</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>text</span><span class='op'>==</span><span class='st'>""</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>                                        page text  domain  type
+1 https://doi.org/10.1016/j.jnma.2021.03.008      doi.org North</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#so we may as well remove this row here</span></span>
+<span><span class='va'>textContent</span> <span class='op'>&lt;-</span> <span class='va'>textContent</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>text</span><span class='op'>!=</span><span class='st'>""</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'>#number of web pages for which we have text content and the domain has been coded (Global North or South)</span></span>
+<span><span class='va'>textContent</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>   n
+1 72</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#Number of unique domains</span></span>
+<span><span class='va'>textContent</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span><span class='op'>(</span><span class='va'>domain</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>   n
+1 32</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#Number of domains from Global North and South</span></span>
+<span><span class='va'>textContent</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/distinct.html'>distinct</a></span><span class='op'>(</span><span class='va'>domain</span>, .keep_all <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/count.html'>count</a></span><span class='op'>(</span><span class='va'>type</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>   type  n
+1 North 21
+2 South 11</code></pre>
+</div>
+<p>The above shows that we have 72 web pages from which we have collected text data. These pages are from 32 unique domains which we have coded as organisations from the Global North (21 organisations) or South (11 organisations).</p>
+<h2 id="introducing-text-analysis-with-quanteda---a-toy-example">3. Introducing text analysis with <code>quanteda</code> - a toy example</h2>
+<p>Before proceeding with our analysis of text from websites discussing data sovereignty, it is useful to take a step back and introduce some more of the fundamentals of quantitative text analysis. This will also allow us to introduce the use of <code>quanteda</code>.</p>
+<h3 id="what-is-text-analysis-content-analysis">3.1 What is text analysis (content analysis)?</h3>
+<p>In this post we use the terms content analysis and (quantitative) text analysis interchangeably. While we do not provide a thorough introduction to text analysis, there are many resources available such as: <span class="citation" data-cites="Popping2017">Popping (<a href="#ref-Popping2017" role="doc-biblioref">2017</a>)</span> who provides an overview of content analysis and some of the relevant software tools and <span class="citation" data-cites="Welbers_etal2017">Welbers et al. (<a href="#ref-Welbers_etal2017" role="doc-biblioref">2017</a>)</span> who introduce computational text analysis using the R statistical software. <span class="citation" data-cites="Ackland2013">Ackland (<a href="#ref-Ackland2013" role="doc-biblioref">2013</a>)</span> (Section 2.4) provides a brief introduction to text analysis using data from the web.</p>
+<blockquote>
+<p>“Content analysis is a systematic reduction of a <strong>flow of text</strong> to a standard
+set of statistically manipulable symbols representing the presence, the
+intensity, or the frequency of some characteristics, which allows making
+replicable and valid inferences from <strong>text</strong> to their <strong>context</strong>. In most
+situations the <strong>source of the text</strong> is investigated, but this should not
+exclude the text itself, the <strong>audience</strong> or the <strong>receivers</strong> of the text. It
+involves measurement. Qualitative data are quantified for the purpose of
+affording statistical inference.” <span class="citation" data-cites="Popping2017">Popping (<a href="#ref-Popping2017" role="doc-biblioref">2017, p. 2</a>)</span></p>
+</blockquote>
+<blockquote>
+<p>“Content analysis is a technique which aims at describing, with optimum
+objectivity precision, and generalizability, what is said on a given subject
+in a given place at a given time….<strong>Who</strong> (says) <strong>What</strong> (to) <strong>Whom</strong> (in) <strong>What Channel</strong> (with) <strong>What Effect</strong>.” <span class="citation" data-cites="Laswell_etal1952">Lasswell et al. (<a href="#ref-Laswell_etal1952" role="doc-biblioref">1952, p. 34</a>)</span></p>
+</blockquote>
+<p>Content analysis can be used to <strong>identify themes</strong> and the <strong>relationships between themes</strong>. The occurrence of themes, in combination with analysis of social structure (e.g. using network analysis), can be used to address research
+questions such as: What issues are being promoted by environmental activist organisations?, Who are the “agenda setters” with regards to issues in Australian politics?, How prominent is a theme in an online discussion (where prominence could be measured by the network position the person/people promoting the theme)?</p>
+<h3 id="steps-in-text-analysis">3.2 Steps in text analysis</h3>
+<p>We can identify the following main steps in text analysis.</p>
+<p><strong>First</strong> process the ‘flow of text’ into:</p>
+<ul>
+<li><strong>Documents</strong>: collections of words (spoken or written) with associated metadata such as date when the text was written, who authored the text etc. In our data soverignty websites example, a documents is the text collected from a web page.</li>
+<li><strong>Corpus</strong>: collection of documents stored in one place.</li>
+</ul>
+<p><strong>Second</strong>, pre-process the corpus:</p>
+<ul>
+<li><strong>Tokenisation</strong>: splitting the text into tokens (most often, these are words). More generally, a token is a sequence of characters (usually delimited by space or punctuation) that make a semantic unit; could include words, multi-word expressions, named entities, stems or lemma.</li>
+<li><strong>Normalisation</strong>: Lowercasing, stemming (words with suffixes removed, using a set of rules), lemmatisation (involves identifying the intended meaning of a word in a sentence or in a document).</li>
+<li><strong>Removing stopwords</strong>: Common words such as “the” in the English language are rarely informative about the content of a text.</li>
+</ul>
+<p>The goal of pre-processing is to reduce the total number of <strong>types</strong>, where a type is a unique token. Note that the pre-processing stage may involve the use of a <strong>dictionary</strong> or <strong>lexicon</strong> - a controlled list of codes (tags) that is used to reduce the number of types (e.g. by identifying synonyms) and develop or identify themes, in the context of a particular research topic or question.</p>
+<p><strong>Third</strong>, represent the corpus as a <strong>document-term matrix (DTM) or document-feature matrix (DFM)</strong>:</p>
+<ul>
+<li>A DTM is a matrix in which the rows are documents, columns are terms, and cells indicate frequency of occurrence of term in document.</li>
+<li>Known as a “bag-of-words” format</li>
+<li>Allows text data to be analysed using matrix algebra…we have now moved from text to numbers</li>
+</ul>
+<p>NOTE TO ROB: FIX UP THE ABOVE, MAYBE WE JUST USE ‘FEATURE’ RATHER THAN ‘TERM’</p>
+<h3 id="toy-example-constructing-the-corpus">3.3 Toy example: Constructing the corpus</h3>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://quanteda.io'>quanteda</a></span><span class='op'>)</span></span>
+<span><span class='co'>#library(readtext)</span></span>
+<span></span>
+<span><span class='co'># create some documents</span></span>
+<span><span class='va'>toydocs</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A corpus is a set of documents."</span>, </span>
+<span>              <span class='st'>"This is the second document in the corpus."</span>, </span>
+<span>              <span class='st'>"A document contains tokens or various types"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'># create some document variables</span></span>
+<span><span class='va'>typedf</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'definition'</span>, <span class='st'>'example'</span>, <span class='st'>'definition'</span><span class='op'>)</span>, </span>
+<span>                      author <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Adrian"</span>, <span class='st'>"Rob"</span>, <span class='st'>"Adrian"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'># Create text corpus</span></span>
+<span><span class='va'>toycorpus</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://quanteda.io/reference/corpus.html'>corpus</a></span><span class='op'>(</span><span class='va'>toydocs</span>, docvars <span class='op'>=</span> <span class='va'>typedf</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'># Create tokens from corpus</span></span>
+<span><span class='va'>toytokens</span>  <span class='op'>&lt;-</span>  <span class='fu'><a href='https://quanteda.io/reference/tokens.html'>tokens</a></span><span class='op'>(</span><span class='va'>toycorpus</span>, remove_punct <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>toytokens</span></span></code></pre>
+</div>
+<pre><code>Tokens consisting of 3 documents and 2 docvars.
+text1 :
+[1] &quot;A&quot;         &quot;corpus&quot;    &quot;is&quot;        &quot;a&quot;         &quot;set&quot;      
+[6] &quot;of&quot;        &quot;documents&quot;
+
+text2 :
+[1] &quot;This&quot;     &quot;is&quot;       &quot;the&quot;      &quot;second&quot;   &quot;document&quot; &quot;in&quot;      
+[7] &quot;the&quot;      &quot;corpus&quot;  
+
+text3 :
+[1] &quot;A&quot;        &quot;document&quot; &quot;contains&quot; &quot;tokens&quot;   &quot;or&quot;       &quot;various&quot; 
+[7] &quot;types&quot;   </code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://quanteda.io/reference/docvars.html'>docvars</a></span><span class='op'>(</span><span class='va'>toycorpus</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>        type author
+1 definition Adrian
+2    example    Rob
+3 definition Adrian</code></pre>
+</div>
+<p>As you can see, the corpus has three documents, called text1, text2, text3. Each document has a range of tokens. Even in the toy example, there are variations in the tokens that we might want to minimise: the aim is to reduce the number of “types” (unique tokens).</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://quanteda.io/reference/ndoc.html'>ndoc</a></span><span class='op'>(</span><span class='va'>toycorpus</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>[1] 3</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://quanteda.io/reference/ntoken.html'>ntoken</a></span><span class='op'>(</span><span class='va'>toytokens</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>text1 text2 text3 
+    7     8     7 </code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://quanteda.io/reference/ntoken.html'>ntype</a></span><span class='op'>(</span><span class='va'>toytokens</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>text1 text2 text3 
+    7     7     7 </code></pre>
+</div>
+<h3 id="toy-example-text-pre-processing">3.4 Toy example: Text pre-processing</h3>
+<p>Here are some typical text cleaning or pre-processing steps. Note the use of the pipe operator (<code>%&gt;%</code>), which allows us to chain operations together.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># remove stopwords</span></span>
+<span><span class='va'>toytokens</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/tokens_select.html'>tokens_remove</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/stopwords/man/stopwords.html'>stopwords</a></span><span class='op'>(</span><span class='st'>'en'</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>Tokens consisting of 3 documents and 2 docvars.
+text1 :
+[1] &quot;corpus&quot;    &quot;set&quot;       &quot;documents&quot;
+
+text2 :
+[1] &quot;second&quot;   &quot;document&quot; &quot;corpus&quot;  
+
+text3 :
+[1] &quot;document&quot; &quot;contains&quot; &quot;tokens&quot;   &quot;various&quot;  &quot;types&quot;   </code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># other cleaning - lower case, remove punctuation, numbers, </span></span>
+<span><span class='va'>toytokens</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/tokens_tolower.html'>tokens_tolower</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>Tokens consisting of 3 documents and 2 docvars.
+text1 :
+[1] &quot;a&quot;         &quot;corpus&quot;    &quot;is&quot;        &quot;a&quot;         &quot;set&quot;      
+[6] &quot;of&quot;        &quot;documents&quot;
+
+text2 :
+[1] &quot;this&quot;     &quot;is&quot;       &quot;the&quot;      &quot;second&quot;   &quot;document&quot; &quot;in&quot;      
+[7] &quot;the&quot;      &quot;corpus&quot;  
+
+text3 :
+[1] &quot;a&quot;        &quot;document&quot; &quot;contains&quot; &quot;tokens&quot;   &quot;or&quot;       &quot;various&quot; 
+[7] &quot;types&quot;   </code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># stem the corpus to reduce the number of types</span></span>
+<span><span class='va'>toytokens</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/tokens_wordstem.html'>tokens_wordstem</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>Tokens consisting of 3 documents and 2 docvars.
+text1 :
+[1] &quot;A&quot;        &quot;corpus&quot;   &quot;is&quot;       &quot;a&quot;        &quot;set&quot;      &quot;of&quot;      
+[7] &quot;document&quot;
+
+text2 :
+[1] &quot;This&quot;     &quot;is&quot;       &quot;the&quot;      &quot;second&quot;   &quot;document&quot; &quot;in&quot;      
+[7] &quot;the&quot;      &quot;corpus&quot;  
+
+text3 :
+[1] &quot;A&quot;        &quot;document&quot; &quot;contain&quot;  &quot;token&quot;    &quot;or&quot;       &quot;various&quot; 
+[7] &quot;type&quot;    </code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># extend tokens to include multi-word</span></span>
+<span><span class='va'>toytokens</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/tokens_ngrams.html'>tokens_ngrams</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>Tokens consisting of 3 documents and 2 docvars.
+text1 :
+ [1] &quot;A&quot;         &quot;corpus&quot;    &quot;is&quot;        &quot;a&quot;         &quot;set&quot;      
+ [6] &quot;of&quot;        &quot;documents&quot; &quot;A_corpus&quot;  &quot;corpus_is&quot; &quot;is_a&quot;     
+[11] &quot;a_set&quot;     &quot;set_of&quot;   
+[ ... and 1 more ]
+
+text2 :
+ [1] &quot;This&quot;            &quot;is&quot;              &quot;the&quot;            
+ [4] &quot;second&quot;          &quot;document&quot;        &quot;in&quot;             
+ [7] &quot;the&quot;             &quot;corpus&quot;          &quot;This_is&quot;        
+[10] &quot;is_the&quot;          &quot;the_second&quot;      &quot;second_document&quot;
+[ ... and 3 more ]
+
+text3 :
+ [1] &quot;A&quot;                 &quot;document&quot;          &quot;contains&quot;         
+ [4] &quot;tokens&quot;            &quot;or&quot;                &quot;various&quot;          
+ [7] &quot;types&quot;             &quot;A_document&quot;        &quot;document_contains&quot;
+[10] &quot;contains_tokens&quot;   &quot;tokens_or&quot;         &quot;or_various&quot;       
+[ ... and 1 more ]</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># chaining all of these together, and creating a new "cleaned" tokens object</span></span>
+<span><span class='va'>toytokens_clean</span>  <span class='op'>&lt;-</span> <span class='va'>toytokens</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/tokens_tolower.html'>tokens_tolower</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://quanteda.io/reference/tokens_select.html'>tokens_remove</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/stopwords/man/stopwords.html'>stopwords</a></span><span class='op'>(</span><span class='st'>'en'</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span>  <span class='fu'><a href='https://quanteda.io/reference/tokens_wordstem.html'>tokens_wordstem</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span></span>
+<span>    <span class='fu'><a href='https://quanteda.io/reference/tokens_ngrams.html'>tokens_ngrams</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<h3 id="toy-example-text-pre-processing-1">3.5 Toy example: Text pre-processing</h3>
+<p>The final step for this toy example is to create a document-feature matrix and explore the most frequent features.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>toydfm</span>  <span class='op'>&lt;-</span>  <span class='fu'><a href='https://quanteda.io/reference/dfm.html'>dfm</a></span><span class='op'>(</span><span class='va'>toytokens_clean</span><span class='op'>)</span></span>
+<span><span class='va'>toydfm</span></span></code></pre>
+</div>
+<pre><code>Document-feature matrix of: 3 documents, 8 features (54.17% sparse) and 2 docvars.
+       features
+docs    corpus set document second contain token various type
+  text1      1   1        1      0       0     0       0    0
+  text2      1   0        1      1       0     0       0    0
+  text3      0   0        1      0       1     1       1    1</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://quanteda.io/reference/topfeatures.html'>topfeatures</a></span><span class='op'>(</span><span class='va'>toydfm</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>document   corpus      set   second  contain    token  various 
+       3        2        1        1        1        1        1 
+    type 
+       1 </code></pre>
+</div>
+<p>The top features in the document-feature matrix could become keywords for content analysis.</p>
+<h2 id="application-to-the-data-sovereignty-website-text-content">4. Application to the `data sovereignty’ website text content</h2>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#create corpus (text stored in 'text' column so don't need to specify text_field argument)</span></span>
+<span><span class='va'>corpus1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://quanteda.io/reference/corpus.html'>corpus</a></span><span class='op'>(</span><span class='va'>textContent</span><span class='op'>)</span></span>
+<span><span class='co'>#the other columns in the dataframe become the document variables</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='fu'><a href='https://quanteda.io/reference/docvars.html'>docvars</a></span><span class='op'>(</span><span class='va'>corpus1</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>                                                                                                                 page
+1                                                                           https://womeninlocalization.com/partners/
+2                                            https://womeninlocalization.com/data-localization-laws-around-the-world/
+3                                                                                   https://iwgia.org/en/network.html
+4 https://www.iwgia.org/en/indigenous-data-sovereignty/4699-iw-2022-indigenous-data-sovereignty.html?filter_tag[0]=37
+5                                                                             https://indigenousdatalab.org/networks/
+6                                                                     https://indigenousdatalab.org/projects-working/
+                   domain  type
+1 womeninlocalization.com North
+2 womeninlocalization.com North
+3               iwgia.org North
+4               iwgia.org North
+5   indigenousdatalab.org North
+6   indigenousdatalab.org North</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://quanteda.io/reference/ndoc.html'>ndoc</a></span><span class='op'>(</span><span class='va'>corpus1</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>[1] 72</code></pre>
+</div>
+<p>The next step (as we’ve seen previously) is extract standard linguistic units or <strong>tokens</strong> from the documents. As before, its usual practice to ‘clean the corpus’ by removing stopwords, numbers, and punctuation. However there may be reasons why the researcher does not want to do such cleaning: it depends on the research question.</p>
+<p>Remember: content analysis, as a counting-based method, is strongly affected by how you tokenise the corpus.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tokens1</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://quanteda.io/reference/tokens.html'>tokens</a></span><span class='op'>(</span><span class='va'>corpus1</span>, remove_numbers <span class='op'>=</span> <span class='cn'>TRUE</span>, remove_punct <span class='op'>=</span> <span class='cn'>TRUE</span>, remove_separators <span class='op'>=</span> <span class='cn'>TRUE</span>, remove_url <span class='op'>=</span> <span class='cn'>TRUE</span> <span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>tokens1</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>Tokens consisting of 72 documents and 3 docvars.
+text1 :
+ [1] &quot;Women&quot;        &quot;in&quot;           &quot;Localization&quot; &quot;W.L&quot;         
+ [5] &quot;is&quot;           &quot;certified&quot;    &quot;as&quot;           &quot;a&quot;           
+ [9] &quot;c&quot;            &quot;tax-exempt&quot;   &quot;nonprofit&quot;    &quot;Its&quot;         
+[ ... and 68 more ]
+
+text2 :
+ [1] &quot;Data&quot;         &quot;localization&quot; &quot;laws&quot;         &quot;can&quot;         
+ [5] &quot;be&quot;           &quot;a&quot;            &quot;challenge&quot;    &quot;for&quot;         
+ [9] &quot;some&quot;         &quot;and&quot;          &quot;nearly&quot;       &quot;nothing&quot;     
+[ ... and 1,179 more ]
+
+text3 :
+ [1] &quot;Written&quot; &quot;on&quot;      &quot;March&quot;   &quot;Posted&quot;  &quot;in&quot;      &quot;About&quot;  
+ [7] &quot;IWGIA&quot;   &quot;Since&quot;   &quot;IWGIA&quot;   &quot;has&quot;     &quot;worked&quot;  &quot;for&quot;    
+[ ... and 2,959 more ]
+
+text4 :
+ [1] &quot;Written&quot;     &quot;on&quot;          &quot;April&quot;       &quot;Posted&quot;     
+ [5] &quot;in&quot;          &quot;Indigenous&quot;  &quot;Data&quot;        &quot;Sovereignty&quot;
+ [9] &quot;Indigenous&quot;  &quot;Peoples&quot;     &quot;have&quot;        &quot;always&quot;     
+[ ... and 3,944 more ]
+
+text5 :
+ [1] &quot;Collaboratory&quot; &quot;for&quot;           &quot;Indigenous&quot;    &quot;Data&quot;         
+ [5] &quot;Governance&quot;    &quot;Research&quot;      &quot;Policy&quot;        &quot;and&quot;          
+ [9] &quot;Practice&quot;      &quot;for&quot;           &quot;Indigenous&quot;    &quot;Data&quot;         
+[ ... and 102 more ]
+
+text6 :
+ [1] &quot;Collaboratory&quot; &quot;for&quot;           &quot;Indigenous&quot;    &quot;Data&quot;         
+ [5] &quot;Governance&quot;    &quot;Research&quot;      &quot;Policy&quot;        &quot;and&quot;          
+ [9] &quot;Practice&quot;      &quot;for&quot;           &quot;Indigenous&quot;    &quot;Data&quot;         
+[ ... and 1,536 more ]
+
+[ reached max_ndoc ... 66 more documents ]</code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#number of tokens in the first document</span></span>
+<span><span class='fu'><a href='https://quanteda.io/reference/ntoken.html'>ntoken</a></span><span class='op'>(</span><span class='va'>tokens1</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span></span></code></pre>
+</div>
+<pre><code>text1 
+   80 </code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#number of types in the first document</span></span>
+<span><span class='fu'><a href='https://quanteda.io/reference/ntoken.html'>ntype</a></span><span class='op'>(</span><span class='va'>tokens1</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span></span></code></pre>
+</div>
+<pre><code>text1 
+   53 </code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#convert the tokens to lower case</span></span>
+<span><span class='va'>tokens1_lower</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://quanteda.io/reference/tokens_tolower.html'>tokens_tolower</a></span><span class='op'>(</span><span class='va'>tokens1</span><span class='op'>)</span></span>
+<span><span class='co'>#remove stopwords</span></span>
+<span><span class='va'>tokens1_clean</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://quanteda.io/reference/tokens_select.html'>tokens_remove</a></span><span class='op'>(</span><span class='va'>tokens1_lower</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/pkg/stopwords/man/stopwords.html'>stopwords</a></span><span class='op'>(</span><span class='st'>'en'</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='co'>#the dplyr way of doing the above</span></span>
+<span><span class='co'>#tokens1_clean  &lt;- tokens1 %&gt;% tokens_tolower() %&gt;% tokens_remove(stopwords('en'))</span></span>
+<span></span>
+<span><span class='co'>#number of tokens in the first document</span></span>
+<span><span class='fu'><a href='https://quanteda.io/reference/ntoken.html'>ntoken</a></span><span class='op'>(</span><span class='va'>tokens1_clean</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span></span></code></pre>
+</div>
+<pre><code>text1 
+   50 </code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#number of types in the first document</span></span>
+<span><span class='fu'><a href='https://quanteda.io/reference/ntoken.html'>ntype</a></span><span class='op'>(</span><span class='va'>tokens1_clean</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span></span></code></pre>
+</div>
+<pre><code>text1 
+   37 </code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># You could also stem the tokens to further reduce the number of types in the corpus</span></span>
+<span><span class='co'># For the time being, we'll use data where stemming hasn't been applied</span></span>
+<span><span class='co'>#reddit_tokens_stem &lt;- tokens_wordstem(reddit_tokens_clean)</span></span></code></pre>
+</div>
+</div>
+<p>The above shows that converting to lower case and removing stopwords significantly reduces the number of tokens and the number of unique tokens (types): for document 1 the number of tokens decreases from 80 to 50 and the number of types decreases from 53 to 37.</p>
+<p>In the following step we transform the tokens to ngrams (specifically, unigrams and bigrams), so as to find multi-word tokens appearing in the corpus.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tokens1_ngram</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://quanteda.io/reference/tokens_ngrams.html'>tokens_ngrams</a></span><span class='op'>(</span><span class='va'>tokens1_clean</span>, n <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>)</span></span></code></pre>
+</div>
+</div>
+<h2 id="initial-exploration-of-particular-keywords-using-keywords-in-context-kwic">4.1 Initial exploration of particular keywords, using keywords-in-context (kwic)</h2>
+<p>Given the documents are now loaded as corpus, you could begin content analysis by exploring some keywords. These keywords would depend on your research topic. For our exercise, we use we use keywords-in-context (kwic) to explore how the term “data” is being used in the web pages we have collected. This may allow us to identify associated terms that might become additional keywords for investigation. That is, keywords-in-context might lead to the discovery of new themes or sub-themes.</p>
+<p>Keywords-in-context can be plotted in quanteda using the <code>textplot_xray</code> command. The xray or ‘lexical dispersion’ plot provides a sense of variations in the usage of keywords across documents. The following figure shows that in some documents (e.g. 8 and 9) the word ‘data’ appears very frequently, while it doesn’t appear at all in document 1.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#explore keywords and plot their distribution within documents</span></span>
+<span><span class='va'>kwic1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://quanteda.io/reference/kwic.html'>kwic</a></span><span class='op'>(</span><span class='va'>tokens1_ngram</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'data'</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>kwic1</span><span class='op'>)</span></span></code></pre>
+</div>
+<pre><code>Keyword-in-context with 6 matches.                                                                     
+  [text2, 1]                                                   | data
+ [text2, 14]          everything depends located sector making | data
+ [text2, 25]             see increasing number countries adopt | data
+ [text2, 33]              laws step better protection personal | data
+ [text2, 39]                care everyone using computer sends | data
+ [text2, 45] according australian government&#39;s guides personal | data
+                                                    
+ | localization laws can challenge nearly           
+ | localization due countries specific good         
+ | localization sovereignty laws step better        
+ | care everyone using computer sends               
+ | according australian government&#39;s guides personal
+ | covered laws include clearly together            </code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'>quanteda.textplots</span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/pkg/quanteda.textplots/man/textplot_xray.html'>textplot_xray</a></span><span class='op'>(</span><span class='va'>kwic1</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='va'>keyword</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>'Keywords in context:'</span>, <span class='st'>'data'</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-9"></span>
+<img src="advanced-text-analysis_files/figure-html5/unnamed-chunk-9-1.png" alt="quanteda xray plot - 1" width="672" />
+<p class="caption">
+Figure 1: quanteda xray plot - 1
+</p>
+</div>
+</div>
+<p>The following xray plot shows the frequency of usage of the keywords ‘data’, ‘personal’, and ‘localization’ across the corpus.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>kwic1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://quanteda.io/reference/kwic.html'>kwic</a></span><span class='op'>(</span><span class='va'>tokens1_ngram</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'data'</span>, <span class='st'>'personal'</span>, <span class='st'>'localization'</span><span class='op'>)</span><span class='op'>)</span></span>
+<span><span class='co'>#head(kwic1)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/pkg/quanteda.textplots/man/textplot_xray.html'>textplot_xray</a></span><span class='op'>(</span><span class='va'>kwic1</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='va'>keyword</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>'Keywords in context:'</span>, <span class='st'>'data, personal, localization'</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-10"></span>
+<img src="advanced-text-analysis_files/figure-html5/unnamed-chunk-10-1.png" alt="quanteda xray plot - 2" width="672" />
+<p class="caption">
+Figure 2: quanteda xray plot - 2
+</p>
+</div>
+</div>
+<h2 id="frequency-of-terms-and-the-document-feature-matrix">4.2 Frequency of terms and the document-feature matrix</h2>
+<p>A basic aspect of content analysis is to assess the importance of terms or features by computing their frequency of usage. This allows the identification of “important” terms in the corpus and it also may be used to assess whether keywords selected for analysis using keywords-in-context are important in the corpus. A further step (later in this exercise) is to assess how terms are related to one another (part of this would involve assessing how keywords studied using keywords-in-context are related other terms in the corpus.</p>
+<p>To answer these questions we first create a document-feature matrix. Note the shift in terminology. In setting up the corpus, we talk about <strong>tokens</strong>. Now that the cleaning, simplification and standardisation is done, we talk about <strong>features</strong> (in this post we use ‘terms’ and ‘features’ interchangeably). Below we print the top-10 features (based on frequency) and we plot a word cloud of the 200 most frequently-used features.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dfm1</span>  <span class='op'>&lt;-</span>  <span class='fu'><a href='https://quanteda.io/reference/dfm.html'>dfm</a></span><span class='op'>(</span><span class='va'>tokens1_ngram</span><span class='op'>)</span></span>
+<span><span class='va'>dfm1</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/topfeatures.html'>topfeatures</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">data</td>
+<td style="text-align: right;">2906</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">|</td>
+<td style="text-align: right;">984</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">indigenous</td>
+<td style="text-align: right;">807</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">health</td>
+<td style="text-align: right;">427</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">research</td>
+<td style="text-align: right;">378</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">can</td>
+<td style="text-align: right;">369</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sovereignty</td>
+<td style="text-align: right;">346</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">access</td>
+<td style="text-align: right;">346</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">services</td>
+<td style="text-align: right;">337</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ids</td>
+<td style="text-align: right;">336</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/pkg/quanteda.textplots/man/textplot_wordcloud.html'>textplot_wordcloud</a></span><span class='op'>(</span><span class='va'>dfm1</span>, min_size <span class='op'>=</span> <span class='fl'>1</span>, max_words <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span></span></code></pre>
+</div>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-11"></span>
+<img src="advanced-text-analysis_files/figure-html5/unnamed-chunk-11-1.png" alt="Word cloud" width="672" />
+<p class="caption">
+Figure 3: Word cloud
+</p>
+</div>
+</div>
+<p>As we found in the <a href="https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/">previous post</a> where we produced a word cloud produced <code>tidytext</code> and the <code>wordcloud</code> package, the word cloud is dominated by the presence of the word ‘data’. In the previous post we used a customised stop word list to remove ‘data’ from the word cloud. In the present post, we will control for the dominance of the word ‘data’ using another approach. Specifically, we will make use of the term frequency-inverse document frequency (tf-idf) weighting scheme, which weight counts of features according to the how often they appear in that document vs. how many documents contain that feature. The tf-idf weighting scheme can often give a better sense of significance of a keyword in a document and a corpus. In the following code, we also use the <code>tokens_select()</code> function in <code>quanteda</code> to remove tokens that have fewer than three characters in length (this will remove the pipe character “|”, which is presently the second-ranked feature in terms of frequency of use).</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dfm1</span> <span class='op'>&lt;-</span> <span class='va'>tokens1_ngram</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/tokens_select.html'>tokens_select</a></span><span class='op'>(</span>min_nchar <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/dfm.html'>dfm</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span><span class='va'>dfm1</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/dfm_tfidf.html'>dfm_tfidf</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/topfeatures.html'>topfeatures</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">data</td>
+<td style="text-align: right;">565.4340</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">indigenous</td>
+<td style="text-align: right;">466.9132</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ids</td>
+<td style="text-align: right;">463.7510</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">health</td>
+<td style="text-align: right;">247.0532</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">data_space</td>
+<td style="text-align: right;">210.8858</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">google_scholar</td>
+<td style="text-align: right;">197.6504</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">indigenous_data</td>
+<td style="text-align: right;">179.1825</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pubmed</td>
+<td style="text-align: right;">174.3059</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">fraunhofer</td>
+<td style="text-align: right;">168.0807</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">scholar</td>
+<td style="text-align: right;">161.9302</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dfm1</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/dfm_tfidf.html'>dfm_tfidf</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/quanteda.textplots/man/textplot_wordcloud.html'>textplot_wordcloud</a></span><span class='op'>(</span>min_size <span class='op'>=</span> <span class='fl'>1</span>, max_words <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span></span></code></pre>
+</div>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-12"></span>
+<img src="advanced-text-analysis_files/figure-html5/unnamed-chunk-12-1.png" alt="Word cloud - 2" width="672" />
+<p class="caption">
+Figure 4: Word cloud - 2
+</p>
+</div>
+</div>
+<h2 id="using-dictionary-based-coding">4.3 Using dictionary-based coding</h2>
+<p>Creating a dictionary is one way to code documents according to a specific set of questions or problems. A dictionary can also be used to handle synonyms.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dict1</span>  <span class='op'>&lt;-</span>  <span class='fu'><a href='https://quanteda.io/reference/dictionary.html'>dictionary</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>identity <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'identity'</span>, <span class='st'>'identities'</span>, <span class='st'>'ids'</span><span class='op'>)</span>,</span>
+<span>                                member <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'member'</span>, <span class='st'>'members'</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>tokens2</span>  <span class='op'>&lt;-</span>  <span class='fu'><a href='https://quanteda.io/reference/tokens_lookup.html'>tokens_lookup</a></span><span class='op'>(</span><span class='va'>tokens1_ngram</span>,</span>
+<span>    dictionary <span class='op'>=</span> <span class='va'>dict1</span>,  exclusive <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>dfm2</span> <span class='op'>&lt;-</span> <span class='va'>tokens2</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/tokens_select.html'>tokens_select</a></span><span class='op'>(</span>min_nchar <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/dfm.html'>dfm</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span><span class='va'>dfm2</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/dfm_tfidf.html'>dfm_tfidf</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/topfeatures.html'>topfeatures</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/knitr/man/kable.html'>kable</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
+</div>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">data</td>
+<td style="text-align: right;">565.4340</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">indigenous</td>
+<td style="text-align: right;">466.9132</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">health</td>
+<td style="text-align: right;">247.0532</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">identity</td>
+<td style="text-align: right;">245.0384</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">data_space</td>
+<td style="text-align: right;">210.8858</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">google_scholar</td>
+<td style="text-align: right;">197.6504</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">indigenous_data</td>
+<td style="text-align: right;">179.1825</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">pubmed</td>
+<td style="text-align: right;">174.3059</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">fraunhofer</td>
+<td style="text-align: right;">168.0807</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">scholar</td>
+<td style="text-align: right;">161.9302</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dfm2</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/dfm_tfidf.html'>dfm_tfidf</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/quanteda.textplots/man/textplot_wordcloud.html'>textplot_wordcloud</a></span><span class='op'>(</span>min_size <span class='op'>=</span> <span class='fl'>1</span>, max_words <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span></span></code></pre>
+</div>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-13"></span>
+<img src="advanced-text-analysis_files/figure-html5/unnamed-chunk-13-1.png" alt="Word cloud - 3" width="672" />
+<p class="caption">
+Figure 5: Word cloud - 3
+</p>
+</div>
+</div>
+<p>With the use of the above dictionary, we find that ‘health’ becomes the third-top feature (when using the tf-idf weighting) and ‘identity’ moves to fourth. While we do not examine this here, by setting <code>exclusive=FALSE</code> in <code>tokens_lookup()</code> we can reduce the corpus to <strong>only</strong> those terms in the dictionary. A dictionary might cover several themes, or you might have separate dictionaries for each theme.</p>
+<h2 id="comparison-cloud">4.4 Comparison cloud</h2>
+<p>As a final step in this blog post, we show how to produce a comparison cloud (comparing word use by organisations from the Global North and Global South) using <code>quanteda</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dfm3</span> <span class='op'>&lt;-</span> <span class='va'>dfm2</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/dfm_group.html'>dfm_group</a></span><span class='op'>(</span><span class='va'>type</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/dfm_trim.html'>dfm_trim</a></span><span class='op'>(</span>min_termfreq <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span></span>
+<span><span class='fu'><a href='https://rdrr.io/pkg/quanteda.textplots/man/textplot_wordcloud.html'>textplot_wordcloud</a></span><span class='op'>(</span><span class='va'>dfm3</span>, comparison <span class='op'>=</span> <span class='cn'>TRUE</span>, min_size <span class='op'>=</span> <span class='fl'>1</span>, max_words <span class='op'>=</span> <span class='fl'>100</span>, color <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"red"</span>, <span class='st'>"blue"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
+</div>
+<div class="figure"><span style="display:block;" id="fig:unnamed-chunk-14"></span>
+<img src="advanced-text-analysis_files/figure-html5/unnamed-chunk-14-1.png" alt="Comparison cloud" width="672" />
+<p class="caption">
+Figure 6: Comparison cloud
+</p>
+</div>
+</div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div id="refs" class="references csl-bib-body hanging-indent" data-line-spacing="2" role="doc-bibliography">
+<div id="ref-Ackland2013" class="csl-entry" role="doc-biblioentry">
+Ackland, R. (2013). <em>Web social science: Concepts, data and tools for social scientists in the digital age</em>. SAGE Publications.
+</div>
+<div id="ref-Laswell_etal1952" class="csl-entry" role="doc-biblioentry">
+Lasswell, H. D., Lerner, D. &amp; S. Pool, I. d. (1952). <em>Comparative study of symbols: An introduction</em>. Stanford University Press.
+</div>
+<div id="ref-Popping2017" class="csl-entry" role="doc-biblioentry">
+Popping, R. (2017). Online tools for content analysis. In R. M. L. N. Fielding &amp; G. Blank (Eds.), <em>The SAGE handbook of online research methods</em>. SAGE.
+</div>
+<div id="ref-Welbers_etal2017" class="csl-entry" role="doc-biblioentry">
+Welbers, K., Attenveldt, W. V. &amp; Benoit, K. (2017). Text analysis in r. <em>Communication Methods and Measures</em>, <em>11</em>, 245–265.
+</div>
+</div>
+<!--radix_placeholder_article_footer-->
+<!--/radix_placeholder_article_footer-->
+</div>
+
+<div class="d-appendix">
+</div>
+
+
+<!--radix_placeholder_site_after_body-->
+<!--/radix_placeholder_site_after_body-->
+<!--radix_placeholder_appendices-->
+<div class="appendix-bottom">
+<h3 id="references">References</h3>
+<div id="references-listing"></div>
+</div>
+<!--/radix_placeholder_appendices-->
+<!--radix_placeholder_navigation_after_body-->
+<!--/radix_placeholder_navigation_after_body-->
+
+</body>
+
+</html>
