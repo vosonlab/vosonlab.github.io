@@ -1,7 +1,7 @@
 ---
 title: "Analysis of website text content using quanteda"
 description: |
-  A short description of the post.
+  Introduction to basic text analysis using the quanteda package and sample code to pre-process,  analyse and visualise organisational website content.
 author:
   - name: Robert Ackland
     url: https://orcid.org/0000-0002-0008-1766
@@ -9,6 +9,15 @@ author:
     url: https://orcid.org/0000-0002-8444-3145
   - name: Francisca Borquez  
 date: 2023-04-13
+categories:
+  - rstats
+  - rvest
+  - quanteda
+  - text analysis
+  - visualisation
+  - word cloud
+  - comparison cloud
+  - data sovereignty
 output:
   distill::distill_article:
     self_contained: false
@@ -24,11 +33,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 1. Introduction
 
-In the [previous post](https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/), we used `tidytext` and other packages to conduct text analysis (word frequency counts, word clouds, comparison clouds).  In the present post we will demonstrate how to use `quanteda` to undertake the similar text analysis we performed using `tidytext`. We will also use `quanteda` to introduce some more of the basics of text analysis (e.g. constructing a corpus and document-feature matrix) and we will introduce the use of dictionary-based coding. Tutorials on using `quanteda` can be found [here](https://tutorials.quanteda.io).
+In our [previous post](https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/), we used `tidytext` and other packages to conduct text analysis on organisational websites' content, specifically word frequency counts, word clouds, comparison clouds.  In this post, we will demonstrate how to use `quanteda` to undertake similar text analysis. The post will also introduce some more of the basics of text analysis e.g. constructing a corpus and document-feature matrix and dictionary-based coding. [`quanteda`](http://quanteda.io/) is an R package for natural language processing and analysis. Tutorials on using `quanteda` can be found [here](https://tutorials.quanteda.io).
+
+The text content used in this example involves the same collection from the previous post using `rvest`, which includes organisational websites involved in the discussion of data sovereignty.
 
 ## 2. Getting the text data ready for analysis
 
-First we load up the text dataframe that was created in the [previous post](https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/) in this series
+In the first place, we load up the text dataframe that was created in the [previous post](https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/) in this series:
 
 ```{r}
 library(dplyr)
@@ -39,14 +50,14 @@ str(textContent)
 nrow(textContent)
 ```
 
-There are 75 URLs which we used `rvest` to collect website text content from.  In the previous post we noted that a few of these pages are duplicates (http and https versions of the same page) and also there are some URLs that are links to PDF files (from which, `rvest` does not extract text data); we ignore these issues in the present exercise.
+There are 75 URLs which we used `rvest` to collect website text content from. In the previous post we noted that a few of these pages are duplicates (http and https versions of the same page) and that there are some URLs that are links to PDF files (from which, `rvest` does not extract text data). Please note that, to simplify the process we are not pre-processing these issues this exercise.
 
-Next, we extract the domain names from the URLs and use a manually-coded CSV file to categorise websites as to whether they are for organisations from the Global North or South (see the [previous post](https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/) for more on this).
+The next step involves extracting the domain names from the URLs and use a manually-coded `.csv` file to categorise websites as to whether the represented organisations are based on the Global North or South (see the [previous post](https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/) for more on this).
 
 ```{r}
 #function from https://stackoverflow.com/questions/19020749/function-to-extract-domain-name-from-url-in-r
 domain <- function(x) strsplit(gsub("http://|https://|www\\.", "", x), "/")[[c(1, 1)]]
-#following could be done more elegantly, but it works...
+
 dd <- sapply(textContent$page, domain)
 textContent$domain <- as.character(dd)
 
@@ -70,7 +81,7 @@ textContent$type <- ifelse(textContent$type=="north", "North", "South")
 str(textContent)
 ```
 
-Note that there are two domains/organisations for which we do not have a North/South code, but in these two cases there was no text data extracted from the web pages, so we will remove these two domains from our analysis.
+Note that there are two domains/organisations for which we do not have a North/South code, but in these two cases there was no text data extracted from the web pages. There is an additional row in the dataframe where the text column is empty. So,  we will remove the three domains from our analysis.
 
 ```{r}
 #two domains are for web pages where no text data was collected
@@ -96,7 +107,7 @@ textContent %>% distinct(domain, .keep_all = TRUE) %>% count(type)
 
 ```
 
-The above shows that we have 72 web pages from which we have collected text data. These pages are from 32 unique domains which we have coded as organisations from the Global North (21 organisations) or South (11 organisations). 
+The above shows that we now have 72 web pages from which we have collected text data. These pages are from 32 unique domains which we have coded as organisations from the Global North (21) or Global South (11). 
 
 ## 3. Introducing text analysis with `quanteda` - a toy example
 
@@ -104,7 +115,7 @@ Before proceeding with our analysis of text from websites discussing data sovere
 
 ### 3.1 What is text analysis (content analysis)?
 
-In this post we use the terms content analysis and (quantitative) text analysis interchangeably. While we do not provide a thorough introduction to text analysis, there are many resources available such as: @Popping2017 who provides an overview of content analysis and some of the relevant software tools and @Welbers_etal2017 who introduce computational text analysis using the R statistical software. @Ackland2013 (Section 2.4) provides a brief introduction to text analysis using data from the web.
+In this post we use the terms content analysis and (quantitative) text analysis interchangeably. While we do not provide a thorough introduction to text analysis, there are many resources available such as: @Popping2017 who provides an overview of content analysis and some of the relevant software tools, and @Welbers_etal2017 who introduce computational text analysis using the R statistical software. @Ackland2013 (Section 2.4) provides a brief introduction to text analysis using data from the web.
 
 > "Content analysis is a systematic reduction of a **flow of text** to a standard
 set of statistically manipulable symbols representing the presence, the
@@ -119,16 +130,15 @@ affording statistical inference." @Popping2017[p.2]
 objectivity precision, and generalizability, what is said on a given subject
 in a given place at a given time....**Who** (says) **What** (to) **Whom** (in) **What Channel** (with) **What Effect**." @Laswell_etal1952[p.34]
 
-Content analysis can be used to **identify themes** and the **relationships between themes**.  The occurrence of themes, in combination with analysis of social structure (e.g. using network analysis), can be used to address research
-questions such as: What issues are being promoted by environmental activist organisations?, Who are the "agenda setters" with regards to issues in Australian politics?, How prominent is a theme in an online discussion (where prominence could be measured by the network position the person/people promoting the theme)?
+Content analysis can be used to identify **themes** and the **relationships between themes**. The occurrence of themes, in combination with analysis of social structure (e.g. using network analysis), can be used to address research questions such as: What issues are being promoted by environmental activist organisations?, Who are the "agenda setters" with regards to issues in Australian politics?, How prominent is a theme in an online discussion (where prominence could be measured by the network position the person/people promoting the theme)?
 
 ### 3.2 Steps in text analysis
 
 We can identify the following main steps in text analysis.
 
-**First** process the 'flow of text' into:
+**First**, process the 'flow of text' into:
 
-- **Documents**: collections of words (spoken or written) with associated metadata such as date when the text was written, who authored the text etc.  In our data soverignty websites example, a documents is the text collected from a web page.
+- **Documents**: collections of words (spoken or written) with associated metadata such as date when the text was written, who authored the text etc. In our data sovereignty websites example, a documents is the text collected from a web page.
 - **Corpus**: collection of documents stored in one place.
 
 **Second**, pre-process the corpus:
@@ -137,13 +147,13 @@ We can identify the following main steps in text analysis.
 - **Normalisation**: Lowercasing, stemming (words with suffixes removed, using a set of rules), lemmatisation (involves identifying the intended meaning of a word in a sentence or in a document).
 - **Removing stopwords**: Common words such as "the" in the English language are rarely informative about the content of a text.
 
-The goal of pre-processing is to reduce the total number of **types**, where a type is a unique token. Note that the pre-processing stage may involve the use of a **dictionary** or **lexicon** - a controlled list of codes (tags) that is used to reduce the number of types (e.g. by identifying synonyms) and develop or identify themes, in the context of a particular research topic or question.
+The goal of pre-processing is to reduce the total number of **types**, where a type is a unique token. Note that the pre-processing stage may involve the use of a **dictionary** or **lexicon** - a controlled list of codes (tags) to reduce the number of types (e.g. by identifying synonyms) and to develop or identify themes, in the context of a particular research topic or question.
 
 **Third**, represent the corpus as a **document-term matrix (DTM) or document-feature matrix (DFM)**:
 
-- A DTM is a matrix in which the rows are documents, columns are terms, and cells indicate frequency of occurrence of term in document.
+- A DTM is a matrix in which the rows are documents, columns are terms, and cells indicate frequency of occurrence of terms in document
 - Known as a "bag-of-words" format
-- Allows text data to be analysed using matrix algebra...we have now moved from text to numbers
+- Allows text data to be analysed using matrix algebra (we have now moved from text to numbers).
 
 NOTE TO ROB: FIX UP THE ABOVE, MAYBE WE JUST USE 'FEATURE' RATHER THAN 'TERM'
 
@@ -188,7 +198,7 @@ Here are some typical text cleaning or pre-processing steps. Note the use of the
 # remove stopwords
 toytokens %>% tokens_remove(stopwords('en'))
 
-# other cleaning - lower case, remove punctuation, numbers, 
+# other cleaning - lower case
 toytokens %>% tokens_tolower()
 
 # stem the corpus to reduce the number of types
@@ -226,9 +236,7 @@ head(docvars(corpus1))
 ndoc(corpus1)
 ```
 
-The next step (as we've seen previously) is extract standard linguistic units or **tokens** from the documents.  As before, its usual practice to 'clean the corpus' by removing stopwords, numbers, and punctuation. However there may be reasons why the researcher does not want to do such cleaning: it depends on the research question.
-
-Remember: content analysis, as a counting-based method, is strongly affected by how you tokenise the corpus.
+As noted, the next step involves extracting standard linguistic units or **tokens** from the documents (website content). As before, it is a usual practice to 'clean the corpus' by removing stopwords, numbers and punctuation. However, there may be reasons why the researcher does not want to do such cleaning: it depends on the research question. It is worth noting that content analysis -- as a counting-based method -- is strongly affected by how the corpus is tokenised.
 
 ```{r}
 tokens1  <- tokens(corpus1, remove_numbers = TRUE, remove_punct = TRUE, remove_separators = TRUE, remove_url = TRUE )
@@ -253,13 +261,12 @@ ntype(tokens1_clean)[1]
 
 # You could also stem the tokens to further reduce the number of types in the corpus
 # For the time being, we'll use data where stemming hasn't been applied
-#reddit_tokens_stem <- tokens_wordstem(reddit_tokens_clean)
 
 ```
 
 The above shows that converting to lower case and removing stopwords significantly reduces the number of tokens and the number of unique tokens (types): for document 1 the number of tokens decreases from 80 to 50 and the number of types decreases from 53 to 37.
 
-In the following step we transform the tokens to ngrams (specifically, unigrams and bigrams), so as to find multi-word tokens appearing in the corpus.
+In the following step, we transform the tokens to ngrams (specifically, unigrams (one-word concept) and bigrams (two-word concepts), so as to find multi-word tokens appearing in the corpus.
 
 ```{r}
 tokens1_ngram <- tokens_ngrams(tokens1_clean, n = 1:2)
@@ -267,9 +274,9 @@ tokens1_ngram <- tokens_ngrams(tokens1_clean, n = 1:2)
 
 ## 4.1 Initial exploration of particular keywords, using keywords-in-context (kwic)
 
-Given the documents are now loaded as corpus, you could begin content analysis by exploring some keywords. These keywords would depend on your research topic. For our exercise, we use we use keywords-in-context (kwic) to explore how the term "data" is being used in the web pages we have collected. This may allow us to identify associated terms that might become additional keywords for investigation. That is, keywords-in-context might lead to the discovery of new themes or sub-themes.
+Given the documents are now loaded as corpus, you could begin content analysis by exploring some keywords. These keywords would depend on your research topic. For our exercise, we use keywords-in-context (kwic) to explore how the term "data" is being used in the web pages we have collected. This may allow us to identify associated terms that might become additional keywords for investigation. That is, keywords-in-context might lead to the discovery of new themes or sub-themes.
 
-Keywords-in-context can be plotted in quanteda using the `textplot_xray` command. The xray or 'lexical dispersion' plot provides a sense of variations in the usage of keywords across documents. The following figure shows that in some documents (e.g. 8 and 9) the word 'data' appears very frequently, while it doesn't appear at all in document 1.
+Keywords-in-context can be plotted in `quanteda` using the `textplot_xray` command. The `xray` or 'lexical dispersion' plot provides a sense of variations in the usage of keywords across documents. The following figure shows that in some documents (e.g. 8 and 9) the word 'data' appears very frequently, while it doesn't appear at all in document 1.
 
 ```{r, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "quanteda xray plot - 1"}
 #explore keywords and plot their distribution within documents
@@ -281,7 +288,7 @@ library(ggplot2)
 textplot_xray(kwic1) + aes(color = keyword) + ggtitle(paste('Keywords in context:', 'data'))
 ```
 
-The following xray plot shows the frequency of usage of the keywords 'data', 'personal', and 'localization' across the corpus.
+The following `xray` plot shows the frequency of usage of the keywords 'data', 'personal', and 'localization' across the corpus.
 
 ```{r, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "quanteda xray plot - 2"}
 kwic1 <- kwic(tokens1_ngram, c('data', 'personal', 'localization'))
@@ -289,6 +296,7 @@ kwic1 <- kwic(tokens1_ngram, c('data', 'personal', 'localization'))
 
 textplot_xray(kwic1) + aes(color = keyword) + ggtitle(paste('Keywords in context:', 'data, personal, localization'))
 ```
+
 ## 4.2 Frequency of terms and the document-feature matrix
 
 A basic aspect of content analysis is to assess the importance of terms or features by computing their frequency of usage. This allows the identification of "important" terms in the corpus and it also may be used to assess whether keywords selected for analysis using keywords-in-context are important in the corpus.  A further step (later in this exercise) is to assess how terms are related to one another (part of this would involve assessing how keywords studied using keywords-in-context are related other terms in the corpus.
@@ -301,7 +309,7 @@ dfm1 %>% topfeatures(10) %>% kable()
 textplot_wordcloud(dfm1, min_size = 1, max_words = 200)
 ```
 
-As we found in the [previous post](https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/) where we produced a word cloud produced `tidytext` and the `wordcloud` package, the word cloud is dominated by the presence of the word 'data'. In the previous post we used a customised stop word list to remove 'data' from the word cloud.  In the present post, we will control for the dominance of the word 'data' using another approach.  Specifically, we will make use of the term frequency-inverse document frequency (tf-idf) weighting scheme, which weight counts of features according to the how often they appear in that document vs. how many documents contain that feature. The tf-idf weighting scheme can often give a better sense of significance of a keyword in a document and a corpus.  In the following code, we also use the `tokens_select()` function in `quanteda` to remove tokens that have fewer than three characters in length (this will remove the pipe character "|", which is presently the second-ranked feature in terms of frequency of use).
+As we found in the [previous post](https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/) where we produced a word cloud produced with the `tidytext` and `wordcloud` packages, the word cloud is dominated by the presence of the word 'data'. In the previous post, we used a customised stop word list to remove 'data' from the word cloud.  In the present post, we will control for the dominance of the word 'data' using another approach.  Specifically, we will make use of the term frequency-inverse document frequency (tf-idf) weighting scheme, which weight counts of features according to the how often they appear in that document vs. how many documents contain that feature. The tf-idf weighting scheme can often give a better sense of significance of a keyword in a document and a corpus.  In the following code, we also use the `tokens_select()` function in `quanteda` to remove tokens that have fewer than three characters in length (this will remove the pipe character "|", which is presently the second-ranked feature in terms of frequency of use).
 
 ```{r, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "Word cloud - 2"}
 dfm1 <- tokens1_ngram %>% tokens_select(min_nchar = 3) %>% dfm()
