@@ -8,7 +8,7 @@ author:
   - name: Sidiq Madya
     url: https://orcid.org/0000-0002-8444-3145
   - name: Francisca Borquez  
-date: 2023-04-13
+date: 2023-04-27
 categories:
   - rstats
   - rvest
@@ -103,7 +103,10 @@ textContent %>% count()
 textContent %>% distinct(domain) %>% count()
 
 #Number of domains from Global North and South
-textContent %>% distinct(domain, .keep_all = TRUE) %>% count(type)
+textContent %>% distinct(domain, .keep_all = TRUE) %>% count
+
+#save this dataframe for use in later blog posts
+saveRDS(textContent, "textContent2.rds")
 
 ```
 
