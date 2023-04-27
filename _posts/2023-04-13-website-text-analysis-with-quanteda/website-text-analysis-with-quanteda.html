@@ -111,7 +111,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_meta_tags-->
   <title>Analysis of website text content using quanteda</title>
 
-  <meta property="description" itemprop="description" content="A short description of the post."/>
+  <meta property="description" itemprop="description" content="Introduction to basic text analysis using the quanteda package and sample code to pre-process,  analyse and visualise organisational website content."/>
 
 
   <!--  https://schema.org/Article -->
@@ -124,13 +124,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--  https://developers.facebook.com/docs/sharing/webmasters#markup -->
   <meta property="og:title" content="Analysis of website text content using quanteda"/>
   <meta property="og:type" content="article"/>
-  <meta property="og:description" content="A short description of the post."/>
+  <meta property="og:description" content="Introduction to basic text analysis using the quanteda package and sample code to pre-process,  analyse and visualise organisational website content."/>
   <meta property="og:locale" content="en_US"/>
 
   <!--  https://dev.twitter.com/cards/types/summary -->
   <meta property="twitter:card" content="summary"/>
   <meta property="twitter:title" content="Analysis of website text content using quanteda"/>
-  <meta property="twitter:description" content="A short description of the post."/>
+  <meta property="twitter:description" content="Introduction to basic text analysis using the quanteda package and sample code to pre-process,  analyse and visualise organisational website content."/>
 
   <!--/radix_placeholder_meta_tags-->
   
@@ -141,12 +141,12 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--radix_placeholder_rmarkdown_metadata-->
 
   <script type="text/json" id="radix-rmarkdown-metadata">
-  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","output","draft","bibliography","csl"]}},"value":[{"type":"character","attributes":{},"value":["Analysis of website text content using quanteda"]},{"type":"character","attributes":{},"value":["A short description of the post.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Robert Ackland"]},{"type":"character","attributes":{},"value":["https://orcid.org/0000-0002-0008-1766"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Sidiq Madya"]},{"type":"character","attributes":{},"value":["https://orcid.org/0000-0002-8444-3145"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Francisca Borquez"]}]}]},{"type":"character","attributes":{},"value":["2023-04-13"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["refs.bib"]},{"type":"character","attributes":{},"value":["apa-style.csl"]}]}
+  {"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["title","description","author","date","categories","output","draft","bibliography","csl"]}},"value":[{"type":"character","attributes":{},"value":["Analysis of website text content using quanteda"]},{"type":"character","attributes":{},"value":["Introduction to basic text analysis using the quanteda package and sample code to pre-process,  analyse and visualise organisational website content.\n"]},{"type":"list","attributes":{},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Robert Ackland"]},{"type":"character","attributes":{},"value":["https://orcid.org/0000-0002-0008-1766"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name","url"]}},"value":[{"type":"character","attributes":{},"value":["Sidiq Madya"]},{"type":"character","attributes":{},"value":["https://orcid.org/0000-0002-8444-3145"]}]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["name"]}},"value":[{"type":"character","attributes":{},"value":["Francisca Borquez"]}]}]},{"type":"character","attributes":{},"value":["2023-04-13"]},{"type":"character","attributes":{},"value":["rstats","rvest","quanteda","text analysis","visualisation","word cloud","comparison cloud","data sovereignty"]},{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["distill::distill_article"]}},"value":[{"type":"list","attributes":{"names":{"type":"character","attributes":{},"value":["self_contained"]}},"value":[{"type":"logical","attributes":{},"value":[false]}]}]},{"type":"logical","attributes":{},"value":[true]},{"type":"character","attributes":{},"value":["refs.bib"]},{"type":"character","attributes":{},"value":["apa-style.csl"]}]}
   </script>
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["advanced-text-analysis_files/anchor-4.2.2/anchor.min.js","advanced-text-analysis_files/bowser-1.9.3/bowser.min.js","advanced-text-analysis_files/distill-2.2.21/template.v2.js","advanced-text-analysis_files/figure-html5/unnamed-chunk-10-1.png","advanced-text-analysis_files/figure-html5/unnamed-chunk-11-1.png","advanced-text-analysis_files/figure-html5/unnamed-chunk-12-1.png","advanced-text-analysis_files/figure-html5/unnamed-chunk-13-1.png","advanced-text-analysis_files/figure-html5/unnamed-chunk-14-1.png","advanced-text-analysis_files/figure-html5/unnamed-chunk-9-1.png","advanced-text-analysis_files/header-attrs-2.19/header-attrs.js","advanced-text-analysis_files/jquery-3.6.0/jquery-3.6.0.js","advanced-text-analysis_files/jquery-3.6.0/jquery-3.6.0.min.js","advanced-text-analysis_files/jquery-3.6.0/jquery-3.6.0.min.map","advanced-text-analysis_files/popper-2.6.0/popper.min.js","advanced-text-analysis_files/tippy-6.2.7/tippy-bundle.umd.min.js","advanced-text-analysis_files/tippy-6.2.7/tippy-light-border.css","advanced-text-analysis_files/tippy-6.2.7/tippy.css","advanced-text-analysis_files/tippy-6.2.7/tippy.umd.min.js","advanced-text-analysis_files/webcomponents-2.0.0/webcomponents.js","apa-style.csl","domains_coded.csv","refs.bib"]}
+  {"type":"character","attributes":{},"value":["apa-style.csl","domains_coded.csv","refs.bib","website-text-analysis-with-quanteda_files/anchor-4.2.2/anchor.min.js","website-text-analysis-with-quanteda_files/bowser-1.9.3/bowser.min.js","website-text-analysis-with-quanteda_files/distill-2.2.21/template.v2.js","website-text-analysis-with-quanteda_files/figure-html5/unnamed-chunk-10-1.png","website-text-analysis-with-quanteda_files/figure-html5/unnamed-chunk-11-1.png","website-text-analysis-with-quanteda_files/figure-html5/unnamed-chunk-12-1.png","website-text-analysis-with-quanteda_files/figure-html5/unnamed-chunk-13-1.png","website-text-analysis-with-quanteda_files/figure-html5/unnamed-chunk-14-1.png","website-text-analysis-with-quanteda_files/figure-html5/unnamed-chunk-9-1.png","website-text-analysis-with-quanteda_files/header-attrs-2.18/header-attrs.js","website-text-analysis-with-quanteda_files/jquery-3.6.0/jquery-3.6.0.js","website-text-analysis-with-quanteda_files/jquery-3.6.0/jquery-3.6.0.min.js","website-text-analysis-with-quanteda_files/jquery-3.6.0/jquery-3.6.0.min.map","website-text-analysis-with-quanteda_files/popper-2.6.0/popper.min.js","website-text-analysis-with-quanteda_files/tippy-6.2.7/tippy-bundle.umd.min.js","website-text-analysis-with-quanteda_files/tippy-6.2.7/tippy-light-border.css","website-text-analysis-with-quanteda_files/tippy-6.2.7/tippy.css","website-text-analysis-with-quanteda_files/tippy-6.2.7/tippy.umd.min.js","website-text-analysis-with-quanteda_files/webcomponents-2.0.0/webcomponents.js"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1503,16 +1503,16 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   </script>
 
   <!--/radix_placeholder_distill-->
-  <script src="advanced-text-analysis_files/header-attrs-2.19/header-attrs.js"></script>
-  <script src="advanced-text-analysis_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-  <script src="advanced-text-analysis_files/popper-2.6.0/popper.min.js"></script>
-  <link href="advanced-text-analysis_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
-  <link href="advanced-text-analysis_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
-  <script src="advanced-text-analysis_files/tippy-6.2.7/tippy.umd.min.js"></script>
-  <script src="advanced-text-analysis_files/anchor-4.2.2/anchor.min.js"></script>
-  <script src="advanced-text-analysis_files/bowser-1.9.3/bowser.min.js"></script>
-  <script src="advanced-text-analysis_files/webcomponents-2.0.0/webcomponents.js"></script>
-  <script src="advanced-text-analysis_files/distill-2.2.21/template.v2.js"></script>
+  <script src="website-text-analysis-with-quanteda_files/header-attrs-2.18/header-attrs.js"></script>
+  <script src="website-text-analysis-with-quanteda_files/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+  <script src="website-text-analysis-with-quanteda_files/popper-2.6.0/popper.min.js"></script>
+  <link href="website-text-analysis-with-quanteda_files/tippy-6.2.7/tippy.css" rel="stylesheet" />
+  <link href="website-text-analysis-with-quanteda_files/tippy-6.2.7/tippy-light-border.css" rel="stylesheet" />
+  <script src="website-text-analysis-with-quanteda_files/tippy-6.2.7/tippy.umd.min.js"></script>
+  <script src="website-text-analysis-with-quanteda_files/anchor-4.2.2/anchor.min.js"></script>
+  <script src="website-text-analysis-with-quanteda_files/bowser-1.9.3/bowser.min.js"></script>
+  <script src="website-text-analysis-with-quanteda_files/webcomponents-2.0.0/webcomponents.js"></script>
+  <script src="website-text-analysis-with-quanteda_files/distill-2.2.21/template.v2.js"></script>
   <!--radix_placeholder_site_in_header-->
   <!--/radix_placeholder_site_in_header-->
 
@@ -1524,7 +1524,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <!--radix_placeholder_front_matter-->
 
 <script id="distill-front-matter" type="text/json">
-{"title":"Analysis of website text content using quanteda","description":"A short description of the post.","authors":[{"author":"Robert Ackland","authorURL":"https://orcid.org/0000-0002-0008-1766","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""},{"author":"Sidiq Madya","authorURL":"https://orcid.org/0000-0002-8444-3145","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""},{"author":"Francisca Borquez","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2023-04-13T00:00:00.000+10:00","citationText":"Ackland, et al., 2023"}
+{"title":"Analysis of website text content using quanteda","description":"Introduction to basic text analysis using the quanteda package and sample code to pre-process,  analyse and visualise organisational website content.","authors":[{"author":"Robert Ackland","authorURL":"https://orcid.org/0000-0002-0008-1766","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""},{"author":"Sidiq Madya","authorURL":"https://orcid.org/0000-0002-8444-3145","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""},{"author":"Francisca Borquez","authorURL":"#","affiliation":"&nbsp;","affiliationURL":"#","orcidID":""}],"publishedDate":"2023-04-13T00:00:00.000+10:00","citationText":"Ackland, et al., 2023"}
 </script>
 
 <!--/radix_placeholder_front_matter-->
@@ -1536,8 +1536,18 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="d-title">
 <h1>Analysis of website text content using quanteda</h1>
 <!--radix_placeholder_categories-->
+<div class="dt-tags">
+<div class="dt-tag">rstats</div>
+<div class="dt-tag">rvest</div>
+<div class="dt-tag">quanteda</div>
+<div class="dt-tag">text analysis</div>
+<div class="dt-tag">visualisation</div>
+<div class="dt-tag">word cloud</div>
+<div class="dt-tag">comparison cloud</div>
+<div class="dt-tag">data sovereignty</div>
+</div>
 <!--/radix_placeholder_categories-->
-<p><p>A short description of the post.</p></p>
+<p><p>Introduction to basic text analysis using the quanteda package and sample code to pre-process, analyse and visualise organisational website content.</p></p>
 </div>
 
 <div class="d-byline">
@@ -1552,9 +1562,10 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-article">
 <h2 id="introduction">1. Introduction</h2>
-<p>In the <a href="https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/">previous post</a>, we used <code>tidytext</code> and other packages to conduct text analysis (word frequency counts, word clouds, comparison clouds). In the present post we will demonstrate how to use <code>quanteda</code> to undertake the similar text analysis we performed using <code>tidytext</code>. We will also use <code>quanteda</code> to introduce some more of the basics of text analysis (e.g. constructing a corpus and document-feature matrix) and we will introduce the use of dictionary-based coding. Tutorials on using <code>quanteda</code> can be found <a href="https://tutorials.quanteda.io">here</a>.</p>
+<p>In our <a href="https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/">previous post</a>, we used <code>tidytext</code> and other packages to conduct text analysis on organisational websites’ content, specifically word frequency counts, word clouds, comparison clouds. In this post, we will demonstrate how to use <code>quanteda</code> to undertake similar text analysis. The post will also introduce some more of the basics of text analysis e.g. constructing a corpus and document-feature matrix and dictionary-based coding. <a href="http://quanteda.io/"><code>quanteda</code></a> is an R package for natural language processing and analysis. Tutorials on using <code>quanteda</code> can be found <a href="https://tutorials.quanteda.io">here</a>.</p>
+<p>The text content used in this example involves the same collection from the previous post using <code>rvest</code>, which includes organisational websites involved in the discussion of data sovereignty.</p>
 <h2 id="getting-the-text-data-ready-for-analysis">2. Getting the text data ready for analysis</h2>
-<p>First we load up the text dataframe that was created in the <a href="https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/">previous post</a> in this series</p>
+<p>In the first place, we load up the text dataframe that was created in the <a href="https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/">previous post</a> in this series:</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
@@ -1571,13 +1582,13 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 <pre><code>[1] 75</code></pre>
 </div>
-<p>There are 75 URLs which we used <code>rvest</code> to collect website text content from. In the previous post we noted that a few of these pages are duplicates (http and https versions of the same page) and also there are some URLs that are links to PDF files (from which, <code>rvest</code> does not extract text data); we ignore these issues in the present exercise.</p>
-<p>Next, we extract the domain names from the URLs and use a manually-coded CSV file to categorise websites as to whether they are for organisations from the Global North or South (see the <a href="https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/">previous post</a> for more on this).</p>
+<p>There are 75 URLs which we used <code>rvest</code> to collect website text content from. In the previous post we noted that a few of these pages are duplicates (http and https versions of the same page) and that there are some URLs that are links to PDF files (from which, <code>rvest</code> does not extract text data). Please note that, to simplify the process we are not pre-processing these issues this exercise.</p>
+<p>The next step involves extracting the domain names from the URLs and use a manually-coded <code>.csv</code> file to categorise websites as to whether the represented organisations are based on the Global North or South (see the <a href="https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/">previous post</a> for more on this).</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#function from https://stackoverflow.com/questions/19020749/function-to-extract-domain-name-from-url-in-r</span></span>
 <span><span class='va'>domain</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='fu'><a href='https://rdrr.io/r/base/strsplit.html'>strsplit</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/grep.html'>gsub</a></span><span class='op'>(</span><span class='st'>"http://|https://|www\\."</span>, <span class='st'>""</span>, <span class='va'>x</span><span class='op'>)</span>, <span class='st'>"/"</span><span class='op'>)</span><span class='op'>[[</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>, <span class='fl'>1</span><span class='op'>)</span><span class='op'>]</span><span class='op'>]</span></span>
-<span><span class='co'>#following could be done more elegantly, but it works...</span></span>
+<span></span>
 <span><span class='va'>dd</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>sapply</a></span><span class='op'>(</span><span class='va'>textContent</span><span class='op'>$</span><span class='va'>page</span>, <span class='va'>domain</span><span class='op'>)</span></span>
 <span><span class='va'>textContent</span><span class='op'>$</span><span class='va'>domain</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>as.character</a></span><span class='op'>(</span><span class='va'>dd</span><span class='op'>)</span></span>
 <span></span>
@@ -1606,7 +1617,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
  $ domain: chr  &quot;womeninlocalization.com&quot; &quot;womeninlocalization.com&quot; &quot;iwgia.org&quot; &quot;iwgia.org&quot; ...
  $ type  : chr  &quot;North&quot; &quot;North&quot; &quot;North&quot; &quot;North&quot; ...</code></pre>
 </div>
-<p>Note that there are two domains/organisations for which we do not have a North/South code, but in these two cases there was no text data extracted from the web pages, so we will remove these two domains from our analysis.</p>
+<p>Note that there are two domains/organisations for which we do not have a North/South code, but in these two cases there was no text data extracted from the web pages. There is an additional row in the dataframe where the text column is empty. So, we will remove the three domains from our analysis.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#two domains are for web pages where no text data was collected</span></span>
@@ -1650,11 +1661,11 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 1 North 21
 2 South 11</code></pre>
 </div>
-<p>The above shows that we have 72 web pages from which we have collected text data. These pages are from 32 unique domains which we have coded as organisations from the Global North (21 organisations) or South (11 organisations).</p>
+<p>The above shows that we now have 72 web pages from which we have collected text data. These pages are from 32 unique domains which we have coded as organisations from the Global North (21) or Global South (11).</p>
 <h2 id="introducing-text-analysis-with-quanteda---a-toy-example">3. Introducing text analysis with <code>quanteda</code> - a toy example</h2>
 <p>Before proceeding with our analysis of text from websites discussing data sovereignty, it is useful to take a step back and introduce some more of the fundamentals of quantitative text analysis. This will also allow us to introduce the use of <code>quanteda</code>.</p>
 <h3 id="what-is-text-analysis-content-analysis">3.1 What is text analysis (content analysis)?</h3>
-<p>In this post we use the terms content analysis and (quantitative) text analysis interchangeably. While we do not provide a thorough introduction to text analysis, there are many resources available such as: <span class="citation" data-cites="Popping2017">Popping (<a href="#ref-Popping2017" role="doc-biblioref">2017</a>)</span> who provides an overview of content analysis and some of the relevant software tools and <span class="citation" data-cites="Welbers_etal2017">Welbers et al. (<a href="#ref-Welbers_etal2017" role="doc-biblioref">2017</a>)</span> who introduce computational text analysis using the R statistical software. <span class="citation" data-cites="Ackland2013">Ackland (<a href="#ref-Ackland2013" role="doc-biblioref">2013</a>)</span> (Section 2.4) provides a brief introduction to text analysis using data from the web.</p>
+<p>In this post we use the terms content analysis and (quantitative) text analysis interchangeably. While we do not provide a thorough introduction to text analysis, there are many resources available such as: <span class="citation" data-cites="Popping2017">Popping (<a href="#ref-Popping2017" role="doc-biblioref">2017</a>)</span> who provides an overview of content analysis and some of the relevant software tools, and <span class="citation" data-cites="Welbers_etal2017">Welbers et al. (<a href="#ref-Welbers_etal2017" role="doc-biblioref">2017</a>)</span> who introduce computational text analysis using the R statistical software. <span class="citation" data-cites="Ackland2013">Ackland (<a href="#ref-Ackland2013" role="doc-biblioref">2013</a>)</span> (Section 2.4) provides a brief introduction to text analysis using data from the web.</p>
 <blockquote>
 <p>“Content analysis is a systematic reduction of a <strong>flow of text</strong> to a standard
 set of statistically manipulable symbols representing the presence, the
@@ -1670,13 +1681,12 @@ affording statistical inference.” <span class="citation" data-cites="Popping20
 objectivity precision, and generalizability, what is said on a given subject
 in a given place at a given time….<strong>Who</strong> (says) <strong>What</strong> (to) <strong>Whom</strong> (in) <strong>What Channel</strong> (with) <strong>What Effect</strong>.” <span class="citation" data-cites="Laswell_etal1952">Lasswell et al. (<a href="#ref-Laswell_etal1952" role="doc-biblioref">1952, p. 34</a>)</span></p>
 </blockquote>
-<p>Content analysis can be used to <strong>identify themes</strong> and the <strong>relationships between themes</strong>. The occurrence of themes, in combination with analysis of social structure (e.g. using network analysis), can be used to address research
-questions such as: What issues are being promoted by environmental activist organisations?, Who are the “agenda setters” with regards to issues in Australian politics?, How prominent is a theme in an online discussion (where prominence could be measured by the network position the person/people promoting the theme)?</p>
+<p>Content analysis can be used to identify <strong>themes</strong> and the <strong>relationships between themes</strong>. The occurrence of themes, in combination with analysis of social structure (e.g. using network analysis), can be used to address research questions such as: What issues are being promoted by environmental activist organisations?, Who are the “agenda setters” with regards to issues in Australian politics?, How prominent is a theme in an online discussion (where prominence could be measured by the network position the person/people promoting the theme)?</p>
 <h3 id="steps-in-text-analysis">3.2 Steps in text analysis</h3>
 <p>We can identify the following main steps in text analysis.</p>
-<p><strong>First</strong> process the ‘flow of text’ into:</p>
+<p><strong>First</strong>, process the ‘flow of text’ into:</p>
 <ul>
-<li><strong>Documents</strong>: collections of words (spoken or written) with associated metadata such as date when the text was written, who authored the text etc. In our data soverignty websites example, a documents is the text collected from a web page.</li>
+<li><strong>Documents</strong>: collections of words (spoken or written) with associated metadata such as date when the text was written, who authored the text etc. In our data sovereignty websites example, a documents is the text collected from a web page.</li>
 <li><strong>Corpus</strong>: collection of documents stored in one place.</li>
 </ul>
 <p><strong>Second</strong>, pre-process the corpus:</p>
@@ -1685,12 +1695,12 @@ questions such as: What issues are being promoted by environmental activist orga
 <li><strong>Normalisation</strong>: Lowercasing, stemming (words with suffixes removed, using a set of rules), lemmatisation (involves identifying the intended meaning of a word in a sentence or in a document).</li>
 <li><strong>Removing stopwords</strong>: Common words such as “the” in the English language are rarely informative about the content of a text.</li>
 </ul>
-<p>The goal of pre-processing is to reduce the total number of <strong>types</strong>, where a type is a unique token. Note that the pre-processing stage may involve the use of a <strong>dictionary</strong> or <strong>lexicon</strong> - a controlled list of codes (tags) that is used to reduce the number of types (e.g. by identifying synonyms) and develop or identify themes, in the context of a particular research topic or question.</p>
+<p>The goal of pre-processing is to reduce the total number of <strong>types</strong>, where a type is a unique token. Note that the pre-processing stage may involve the use of a <strong>dictionary</strong> or <strong>lexicon</strong> - a controlled list of codes (tags) to reduce the number of types (e.g. by identifying synonyms) and to develop or identify themes, in the context of a particular research topic or question.</p>
 <p><strong>Third</strong>, represent the corpus as a <strong>document-term matrix (DTM) or document-feature matrix (DFM)</strong>:</p>
 <ul>
-<li>A DTM is a matrix in which the rows are documents, columns are terms, and cells indicate frequency of occurrence of term in document.</li>
+<li>A DTM is a matrix in which the rows are documents, columns are terms, and cells indicate frequency of occurrence of terms in document</li>
 <li>Known as a “bag-of-words” format</li>
-<li>Allows text data to be analysed using matrix algebra…we have now moved from text to numbers</li>
+<li>Allows text data to be analysed using matrix algebra (we have now moved from text to numbers).</li>
 </ul>
 <p>NOTE TO ROB: FIX UP THE ABOVE, MAYBE WE JUST USE ‘FEATURE’ RATHER THAN ‘TERM’</p>
 <h3 id="toy-example-constructing-the-corpus">3.3 Toy example: Constructing the corpus</h3>
@@ -1770,7 +1780,7 @@ text2 :
 text3 :
 [1] &quot;document&quot; &quot;contains&quot; &quot;tokens&quot;   &quot;various&quot;  &quot;types&quot;   </code></pre>
 <div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># other cleaning - lower case, remove punctuation, numbers, </span></span>
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># other cleaning - lower case</span></span>
 <span><span class='va'>toytokens</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/tokens_tolower.html'>tokens_tolower</a></span><span class='op'>(</span><span class='op'>)</span></span></code></pre>
 </div>
 <pre><code>Tokens consisting of 3 documents and 2 docvars.
@@ -1882,8 +1892,7 @@ docs    corpus set document second contain token various type
 </div>
 <pre><code>[1] 72</code></pre>
 </div>
-<p>The next step (as we’ve seen previously) is extract standard linguistic units or <strong>tokens</strong> from the documents. As before, its usual practice to ‘clean the corpus’ by removing stopwords, numbers, and punctuation. However there may be reasons why the researcher does not want to do such cleaning: it depends on the research question.</p>
-<p>Remember: content analysis, as a counting-based method, is strongly affected by how you tokenise the corpus.</p>
+<p>As noted, the next step involves extracting standard linguistic units or <strong>tokens</strong> from the documents (website content). As before, it is a usual practice to ‘clean the corpus’ by removing stopwords, numbers and punctuation. However, there may be reasons why the researcher does not want to do such cleaning: it depends on the research question. It is worth noting that content analysis – as a counting-based method – is strongly affected by how the corpus is tokenised.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tokens1</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://quanteda.io/reference/tokens.html'>tokens</a></span><span class='op'>(</span><span class='va'>corpus1</span>, remove_numbers <span class='op'>=</span> <span class='cn'>TRUE</span>, remove_punct <span class='op'>=</span> <span class='cn'>TRUE</span>, remove_separators <span class='op'>=</span> <span class='cn'>TRUE</span>, remove_url <span class='op'>=</span> <span class='cn'>TRUE</span> <span class='op'>)</span></span>
@@ -1960,20 +1969,19 @@ text6 :
    37 </code></pre>
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'># You could also stem the tokens to further reduce the number of types in the corpus</span></span>
-<span><span class='co'># For the time being, we'll use data where stemming hasn't been applied</span></span>
-<span><span class='co'>#reddit_tokens_stem &lt;- tokens_wordstem(reddit_tokens_clean)</span></span></code></pre>
+<span><span class='co'># For the time being, we'll use data where stemming hasn't been applied</span></span></code></pre>
 </div>
 </div>
 <p>The above shows that converting to lower case and removing stopwords significantly reduces the number of tokens and the number of unique tokens (types): for document 1 the number of tokens decreases from 80 to 50 and the number of types decreases from 53 to 37.</p>
-<p>In the following step we transform the tokens to ngrams (specifically, unigrams and bigrams), so as to find multi-word tokens appearing in the corpus.</p>
+<p>In the following step, we transform the tokens to ngrams (specifically, unigrams (one-word concept) and bigrams (two-word concepts), so as to find multi-word tokens appearing in the corpus.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>tokens1_ngram</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://quanteda.io/reference/tokens_ngrams.html'>tokens_ngrams</a></span><span class='op'>(</span><span class='va'>tokens1_clean</span>, n <span class='op'>=</span> <span class='fl'>1</span><span class='op'>:</span><span class='fl'>2</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
 <h2 id="initial-exploration-of-particular-keywords-using-keywords-in-context-kwic">4.1 Initial exploration of particular keywords, using keywords-in-context (kwic)</h2>
-<p>Given the documents are now loaded as corpus, you could begin content analysis by exploring some keywords. These keywords would depend on your research topic. For our exercise, we use we use keywords-in-context (kwic) to explore how the term “data” is being used in the web pages we have collected. This may allow us to identify associated terms that might become additional keywords for investigation. That is, keywords-in-context might lead to the discovery of new themes or sub-themes.</p>
-<p>Keywords-in-context can be plotted in quanteda using the <code>textplot_xray</code> command. The xray or ‘lexical dispersion’ plot provides a sense of variations in the usage of keywords across documents. The following figure shows that in some documents (e.g. 8 and 9) the word ‘data’ appears very frequently, while it doesn’t appear at all in document 1.</p>
+<p>Given the documents are now loaded as corpus, you could begin content analysis by exploring some keywords. These keywords would depend on your research topic. For our exercise, we use keywords-in-context (kwic) to explore how the term “data” is being used in the web pages we have collected. This may allow us to identify associated terms that might become additional keywords for investigation. That is, keywords-in-context might lead to the discovery of new themes or sub-themes.</p>
+<p>Keywords-in-context can be plotted in <code>quanteda</code> using the <code>textplot_xray</code> command. The <code>xray</code> or ‘lexical dispersion’ plot provides a sense of variations in the usage of keywords across documents. The following figure shows that in some documents (e.g. 8 and 9) the word ‘data’ appears very frequently, while it doesn’t appear at all in document 1.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='co'>#explore keywords and plot their distribution within documents</span></span>
@@ -2000,13 +2008,13 @@ text6 :
 <span><span class='fu'><a href='https://rdrr.io/pkg/quanteda.textplots/man/textplot_xray.html'>textplot_xray</a></span><span class='op'>(</span><span class='va'>kwic1</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='va'>keyword</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>'Keywords in context:'</span>, <span class='st'>'data'</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 <div class="figure"><span style="display:block;" id="fig:unnamed-chunk-9"></span>
-<img src="advanced-text-analysis_files/figure-html5/unnamed-chunk-9-1.png" alt="quanteda xray plot - 1" width="672" />
+<img src="website-text-analysis-with-quanteda_files/figure-html5/unnamed-chunk-9-1.png" alt="quanteda xray plot - 1" width="672" />
 <p class="caption">
 Figure 1: quanteda xray plot - 1
 </p>
 </div>
 </div>
-<p>The following xray plot shows the frequency of usage of the keywords ‘data’, ‘personal’, and ‘localization’ across the corpus.</p>
+<p>The following <code>xray</code> plot shows the frequency of usage of the keywords ‘data’, ‘personal’, and ‘localization’ across the corpus.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>kwic1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://quanteda.io/reference/kwic.html'>kwic</a></span><span class='op'>(</span><span class='va'>tokens1_ngram</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'data'</span>, <span class='st'>'personal'</span>, <span class='st'>'localization'</span><span class='op'>)</span><span class='op'>)</span></span>
@@ -2015,7 +2023,7 @@ Figure 1: quanteda xray plot - 1
 <span><span class='fu'><a href='https://rdrr.io/pkg/quanteda.textplots/man/textplot_xray.html'>textplot_xray</a></span><span class='op'>(</span><span class='va'>kwic1</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>color <span class='op'>=</span> <span class='va'>keyword</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>ggtitle</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste</a></span><span class='op'>(</span><span class='st'>'Keywords in context:'</span>, <span class='st'>'data, personal, localization'</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 <div class="figure"><span style="display:block;" id="fig:unnamed-chunk-10"></span>
-<img src="advanced-text-analysis_files/figure-html5/unnamed-chunk-10-1.png" alt="quanteda xray plot - 2" width="672" />
+<img src="website-text-analysis-with-quanteda_files/figure-html5/unnamed-chunk-10-1.png" alt="quanteda xray plot - 2" width="672" />
 <p class="caption">
 Figure 2: quanteda xray plot - 2
 </p>
@@ -2083,13 +2091,13 @@ Figure 2: quanteda xray plot - 2
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/pkg/quanteda.textplots/man/textplot_wordcloud.html'>textplot_wordcloud</a></span><span class='op'>(</span><span class='va'>dfm1</span>, min_size <span class='op'>=</span> <span class='fl'>1</span>, max_words <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span></span></code></pre>
 </div>
 <div class="figure"><span style="display:block;" id="fig:unnamed-chunk-11"></span>
-<img src="advanced-text-analysis_files/figure-html5/unnamed-chunk-11-1.png" alt="Word cloud" width="672" />
+<img src="website-text-analysis-with-quanteda_files/figure-html5/unnamed-chunk-11-1.png" alt="Word cloud" width="672" />
 <p class="caption">
 Figure 3: Word cloud
 </p>
 </div>
 </div>
-<p>As we found in the <a href="https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/">previous post</a> where we produced a word cloud produced <code>tidytext</code> and the <code>wordcloud</code> package, the word cloud is dominated by the presence of the word ‘data’. In the previous post we used a customised stop word list to remove ‘data’ from the word cloud. In the present post, we will control for the dominance of the word ‘data’ using another approach. Specifically, we will make use of the term frequency-inverse document frequency (tf-idf) weighting scheme, which weight counts of features according to the how often they appear in that document vs. how many documents contain that feature. The tf-idf weighting scheme can often give a better sense of significance of a keyword in a document and a corpus. In the following code, we also use the <code>tokens_select()</code> function in <code>quanteda</code> to remove tokens that have fewer than three characters in length (this will remove the pipe character “|”, which is presently the second-ranked feature in terms of frequency of use).</p>
+<p>As we found in the <a href="https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/">previous post</a> where we produced a word cloud produced with the <code>tidytext</code> and <code>wordcloud</code> packages, the word cloud is dominated by the presence of the word ‘data’. In the previous post, we used a customised stop word list to remove ‘data’ from the word cloud. In the present post, we will control for the dominance of the word ‘data’ using another approach. Specifically, we will make use of the term frequency-inverse document frequency (tf-idf) weighting scheme, which weight counts of features according to the how often they appear in that document vs. how many documents contain that feature. The tf-idf weighting scheme can often give a better sense of significance of a keyword in a document and a corpus. In the following code, we also use the <code>tokens_select()</code> function in <code>quanteda</code> to remove tokens that have fewer than three characters in length (this will remove the pipe character “|”, which is presently the second-ranked feature in terms of frequency of use).</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dfm1</span> <span class='op'>&lt;-</span> <span class='va'>tokens1_ngram</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/tokens_select.html'>tokens_select</a></span><span class='op'>(</span>min_nchar <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/dfm.html'>dfm</a></span><span class='op'>(</span><span class='op'>)</span></span>
@@ -2149,7 +2157,7 @@ Figure 3: Word cloud
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dfm1</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/dfm_tfidf.html'>dfm_tfidf</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/quanteda.textplots/man/textplot_wordcloud.html'>textplot_wordcloud</a></span><span class='op'>(</span>min_size <span class='op'>=</span> <span class='fl'>1</span>, max_words <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span></span></code></pre>
 </div>
 <div class="figure"><span style="display:block;" id="fig:unnamed-chunk-12"></span>
-<img src="advanced-text-analysis_files/figure-html5/unnamed-chunk-12-1.png" alt="Word cloud - 2" width="672" />
+<img src="website-text-analysis-with-quanteda_files/figure-html5/unnamed-chunk-12-1.png" alt="Word cloud - 2" width="672" />
 <p class="caption">
 Figure 4: Word cloud - 2
 </p>
@@ -2222,7 +2230,7 @@ Figure 4: Word cloud - 2
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>dfm2</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://quanteda.io/reference/dfm_tfidf.html'>dfm_tfidf</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> <span class='fu'><a href='https://rdrr.io/pkg/quanteda.textplots/man/textplot_wordcloud.html'>textplot_wordcloud</a></span><span class='op'>(</span>min_size <span class='op'>=</span> <span class='fl'>1</span>, max_words <span class='op'>=</span> <span class='fl'>200</span><span class='op'>)</span></span></code></pre>
 </div>
 <div class="figure"><span style="display:block;" id="fig:unnamed-chunk-13"></span>
-<img src="advanced-text-analysis_files/figure-html5/unnamed-chunk-13-1.png" alt="Word cloud - 3" width="672" />
+<img src="website-text-analysis-with-quanteda_files/figure-html5/unnamed-chunk-13-1.png" alt="Word cloud - 3" width="672" />
 <p class="caption">
 Figure 5: Word cloud - 3
 </p>
@@ -2237,7 +2245,7 @@ Figure 5: Word cloud - 3
 <span><span class='fu'><a href='https://rdrr.io/pkg/quanteda.textplots/man/textplot_wordcloud.html'>textplot_wordcloud</a></span><span class='op'>(</span><span class='va'>dfm3</span>, comparison <span class='op'>=</span> <span class='cn'>TRUE</span>, min_size <span class='op'>=</span> <span class='fl'>1</span>, max_words <span class='op'>=</span> <span class='fl'>100</span>, color <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"red"</span>, <span class='st'>"blue"</span><span class='op'>)</span><span class='op'>)</span></span></code></pre>
 </div>
 <div class="figure"><span style="display:block;" id="fig:unnamed-chunk-14"></span>
-<img src="advanced-text-analysis_files/figure-html5/unnamed-chunk-14-1.png" alt="Comparison cloud" width="672" />
+<img src="website-text-analysis-with-quanteda_files/figure-html5/unnamed-chunk-14-1.png" alt="Comparison cloud" width="672" />
 <p class="caption">
 Figure 6: Comparison cloud
 </p>
