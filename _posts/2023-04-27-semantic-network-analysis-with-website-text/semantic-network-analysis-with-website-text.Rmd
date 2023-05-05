@@ -73,14 +73,12 @@ It is apparent that many of the highly-frequent bigrams involve one or more stop
 We will remove the bigrams that involve one or more stopwords.
 
 ```{r}
-
 df2 <- df2 %>% anti_join(stop_words, join_by(node1 == word)) %>% 
   anti_join(stop_words, join_by(node2 == word))
 
 head(df2, 20)
 
 nrow(df2)
-
 ```
 
 This has significantly reduced the number of bigrams (by about two thirds), and perusal of the top-20 bigrams (in terms of frequency) indicates that they are informative.
