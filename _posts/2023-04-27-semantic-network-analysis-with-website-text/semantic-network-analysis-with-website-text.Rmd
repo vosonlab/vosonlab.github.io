@@ -83,6 +83,36 @@ nrow(df2)
 
 This has significantly reduced the number of bigrams (by about two thirds), and perusal of the top-20 bigrams (in terms of frequency) indicates that they are informative.
 
+Before processing the bigrams to create a semantic network, it is somewhat useful to check if the top phrases on the bigrams seem to be all relevant for analysis. For example, the phrase 'google scholar' above might be informative or might not. To do this, we can locate the text into the wider context by using `kwic` (keyword-in-context) syntax from `quanteda` package.
+
+```{r kwic}
+library(quanteda)
+
+#create corpus (text stored in 'text' column so don't need to specify text_field argument)
+corpus1 <- corpus(textContent)
+
+#remove numbers, punctuations, separators, and urls
+tokens1  <- tokens(corpus1, remove_numbers = TRUE, remove_punct = TRUE, remove_separators = TRUE, remove_url = TRUE )
+
+#convert the tokens to lower case
+tokens1_lower  <- tokens_tolower(tokens1)
+#remove stopwords
+tokens1_clean  <- tokens_remove(tokens1_lower, c(stopwords('en')))
+
+tokens1_ngram <- tokens_ngrams(tokens1_clean, n = 1:2)
+
+#explore keywords in context
+gs <- kwic(tokens1_ngram, pattern = phrase("google scholar"))
+head(gs, 10)
+
+```
+It seems that the terms 'google scholar' appear simply as of references or indexes of scholarly publications cited on the webpages. So we decided to remove that phrase from our data frame.
+
+```{r}
+#remove a row containing 'google scholar' from the data frame
+df2 <- df2[-5,]
+```
+
 However, the number of bigrams (`r nrow(df2)`) will make semantic network visualisation challenging, and regardless, it is often analytically more interesting to focus on those bigrams that are more commonly used (this is similar to word frequency analysis, where word clouds and comparison clouds are only constructed for the top 100 or 200 words, for example).
 
 The following shows that the vast majority of bigrams only appeared once or twice on the web pages in the study: we will remove these uncommonly-occurring bigrams and focus on those that occurred three or more times. 
