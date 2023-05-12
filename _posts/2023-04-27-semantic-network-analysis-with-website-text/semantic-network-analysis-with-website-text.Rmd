@@ -92,17 +92,19 @@ library(quanteda)
 corpus1 <- corpus(textContent)
 
 #remove numbers, punctuations, separators, and urls
-tokens1  <- tokens(corpus1, remove_numbers = TRUE, remove_punct = TRUE, remove_separators = TRUE, remove_url = TRUE )
+#tokens1  <- tokens(corpus1, remove_numbers = TRUE, remove_punct = TRUE, remove_separators = TRUE, remove_url = TRUE )
+tokens1  <- tokens(corpus1)
 
 #convert the tokens to lower case
-tokens1_lower  <- tokens_tolower(tokens1)
+#tokens1_lower  <- tokens_tolower(tokens1)
 #remove stopwords
-tokens1_clean  <- tokens_remove(tokens1_lower, c(stopwords('en')))
+#tokens1_clean  <- tokens_remove(tokens1_lower, c(stopwords('en')))
 
-tokens1_ngram <- tokens_ngrams(tokens1_clean, n = 1:2)
+#tokens1_ngram <- tokens_ngrams(tokens1_clean, n = 1:2)
 
 #explore keywords in context
-gs <- kwic(tokens1_ngram, pattern = phrase("google scholar"))
+gs <- kwic(tokens1, pattern = phrase("google scholar"))
+#gs <- kwic(corpus1, pattern = phrase("google scholar"))
 head(gs, 10)
 
 ```
@@ -110,7 +112,20 @@ It seems that the terms 'google scholar' appear simply as of references or index
 
 ```{r}
 #remove a row containing 'google scholar' from the data frame
-df2 <- df2[-5,]
+#df2 <- df2[-5,]
+
+#a more robust approach
+#base R
+df2a <- df2[-which(df2$node1=="google" & df2$node2=="scholar"),]
+nrow(df2a)
+#dplyr
+df2b <- df2 %>% filter(node1!="google" & node2!="scholar")
+nrow(df2b)
+# TO FIX: THE above two approaches should give the same dataframe, but they aren't...
+
+#For time being, let's just use one of them
+df2 <- df2a
+
 ```
 
 However, the number of bigrams (`r nrow(df2)`) will make semantic network visualisation challenging, and regardless, it is often analytically more interesting to focus on those bigrams that are more commonly used (this is similar to word frequency analysis, where word clouds and comparison clouds are only constructed for the top 100 or 200 words, for example).
@@ -133,25 +148,66 @@ We will now use `igraph` to construct a semantic network using the dataframe con
 ```{r}
 #igraph won't accepting a tibble, so convert to standard dataframe
 library(igraph)
-g_sem <- graph_from_data_frame(as.data.frame(df2), directed=FALSE)
-g_sem <- delete.vertices(g_sem, which(V(g_sem)$name=="NA"))       #remove NA node (problem with parsing)
+g <- graph_from_data_frame(as.data.frame(df2), directed=FALSE)
+g <- delete.vertices(g, which(V(g)$name=="NA"))       #remove NA node (problem with parsing)
 
-vcount(g_sem)
-ecount(g_sem)
-```
-
-
-```{r}
+vcount(g)
+ecount(g)
 
 #print to graphml, so we can visualise in Gephi
-write.graph(g_sem, "semantic_network_frames.graphml", format="graphml")
-
+write.graph(g, "semantic_network_frames.graphml", format="graphml")
 
 ```
+
+We could visualise this in `gephi` and examine and interpret different clusters (identified using e.g. modularity clustering, which is available in `gephi`), but instead let's do this in R.
+
+We will use the louvain cluster identification algorithm in `igraph` (same algorithm is used in `gephi`).
+
+```{r}
+set.seed(222)                     #set random seed (note: check if there is randomness in cluster generation)
+mod <- cluster_louvain(g)          #community identification using modularity (same algorithm as in Gephi)
+
+table(mod$membership)
+#sizes(mod)           #easier way of doing the same thing...
+
+```
+
+The above shows that there are 156 clusters identified, with the majority of these clusters only containing a small number of nodes.
+
+We will focus on the larger clusters, as these are more likely to be interpretable as frames.
+
+```{r}
+table(mod$membership)
+
+for (i in 1:nrow(sizes(mod))){
+
+  if ( sizes(mod)[i] > 30 ){                #arbitrary threshold
+   
+      gt <- induced.subgraph(g, which(mod$membership == i))
+      cat("i:", i, "size:", vcount(gt), "\n")
+      #print(vcount(gt))
+      
+      
+      plot(gt, layout=layout_with_fr(gt), edge.width=1.5, vertex.shape="none", 
+           vertex.label.color="black", main=paste0("cluster: ", i, "\n"))
+      #plot(gt, layout=layout_nicely(gt), edge.width=1.5, vertex.size=0, vertex.label.color="black")
+    
+  }
+  
+}
+
+```
+
+
+Next steps:
+
+- semantic networks (bigrams) for all actors: identify some "interesting" clusters and extract and visualise in this document.  Rob to do this (involves new R coding)
+- semantic networks (bigrams) for North and South separately, to see if differences between them in terms of framing
 
 
 ## 3. Semantic network using co-occurrence in sentence 
 
+- if the networks are significantly different to what we saw with bigrams, then go into detail about what we are finding, but if similar frames are identified, then we don't need to go into too much detail here.
 
 
 
