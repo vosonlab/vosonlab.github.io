@@ -54,7 +54,10 @@ library(tidytext)
 library(tidyverse)
 library(dplyr)
 
-df1 <- textContent %>% unnest_tokens(ngram, text, token = "ngrams", n = 2)
+#we will also remove bigrams that contain numbers
+df1 <- textContent %>% unnest_tokens(ngram, text, token = "ngrams", n = 2) %>%
+  filter(!grepl("[[:digit:]]", ngram))
+nrow(df1)
 
 #split the bigrams so we have a dataframe with: node1, node2, frequency
 #there are some warning messages to with apostrophe in word in bigram (separate doesn't know how to deal)
@@ -65,19 +68,22 @@ df2 <- df1 %>%
 head(df2, 20)
 
 nrow(df2)
-
 ```
+
+### 2.1 Removal of stopwords
 
 It is apparent that many of the highly-frequent bigrams involve one or more stopwords: these bigrams (edges) will dominate the semantic network, and will not provide much analytical insight and further, they will make the semantic network very highly connected and therefore less likely for clusters (which may be interpreted as frames) to emerge.
 
-We will remove the bigrams that involve one or more stopwords.
+We will remove the bigrams that involve one or more stopwords.  We will also retain only those bigrams where both words have more than three characters.
 
 ```{r}
 df2 <- df2 %>% anti_join(stop_words, join_by(node1 == word)) %>% 
   anti_join(stop_words, join_by(node2 == word))
 
 head(df2, 20)
+nrow(df2)
 
+df2 <- df2 %>% filter(nchar(node1)>2 & nchar(node2)>2)
 nrow(df2)
 ```
 
@@ -111,21 +117,18 @@ head(gs, 10)
 It seems that the terms 'google scholar' appear simply as of references or indexes of scholarly publications cited on the webpages. So we decided to remove that phrase from our data frame.
 
 ```{r}
-#remove a row containing 'google scholar' from the data frame
-#df2 <- df2[-5,]
-
-#a more robust approach
+#remove the row containing 'google scholar' from the data frame
 #base R
 df2a <- df2[-which(df2$node1=="google" & df2$node2=="scholar"),]
 nrow(df2a)
+
 #dplyr
-df2b <- df2 %>% filter(node1!="google" & node2!="scholar")
+#note: dplyr::filter also removes rows containing NA (none here)
+df2b <- df2 %>% filter(!(node1=="google" & node2=="scholar"))
 nrow(df2b)
-# TO FIX: THE above two approaches should give the same dataframe, but they aren't...
 
-#For time being, let's just use one of them
+#the filtered dataframes are identical
 df2 <- df2a
-
 ```
 
 However, the number of bigrams (`r nrow(df2)`) will make semantic network visualisation challenging, and regardless, it is often analytically more interesting to focus on those bigrams that are more commonly used (this is similar to word frequency analysis, where word clouds and comparison clouds are only constructed for the top 100 or 200 words, for example).
@@ -133,15 +136,14 @@ However, the number of bigrams (`r nrow(df2)`) will make semantic network visual
 The following shows that the vast majority of bigrams only appeared once or twice on the web pages in the study: we will remove these uncommonly-occurring bigrams and focus on those that occurred three or more times. 
 
 ```{r}
-
 table(df2$n)
 
 df2 <- df2 %>% filter(n>=3)
 
 nrow(df2)
-
 ```
 
+### 2.2 Constructing the semantic network using `igraph`
 
 We will now use `igraph` to construct a semantic network using the dataframe containing the bigrams and their frequency counts.
 
@@ -149,34 +151,156 @@ We will now use `igraph` to construct a semantic network using the dataframe con
 #igraph won't accepting a tibble, so convert to standard dataframe
 library(igraph)
 g <- graph_from_data_frame(as.data.frame(df2), directed=FALSE)
-g <- delete.vertices(g, which(V(g)$name=="NA"))       #remove NA node (problem with parsing)
+g <- delete.vertices(g, which(V(g)$name=="NA"))       #remove NA (parsing problem)
 
 vcount(g)
 ecount(g)
 
-#print to graphml, so we can visualise in Gephi
-write.graph(g, "semantic_network_frames.graphml", format="graphml")
+#rename edge attribute 'n' to 'weight' - used in community/cluster identification
+E(g)$weight <- E(g)$n
+g <- delete_edge_attr(g, "n")
 
 ```
 
-We could visualise this in `gephi` and examine and interpret different clusters (identified using e.g. modularity clustering, which is available in `gephi`), but instead let's do this in R.
-
-We will use the louvain cluster identification algorithm in `igraph` (same algorithm is used in `gephi`).
+We do have some instances of loops and multiple edges.  This is not surprising since, for example, "data sharing" and "sharing data" have different meanings but will result in a multiple edges connecting "data" and "sharing".  For this exercise, we could simply ignore the loops and multiple edges since they are unlikely to have a material impact on our analysis, but instead we will use the `igraph` `simplify` function to remove the loops and multiple edges.  Note that by default, the `simplify` function will sum the edge weights of multiple edges. 
 
 ```{r}
-set.seed(222)                     #set random seed (note: check if there is randomness in cluster generation)
-mod <- cluster_louvain(g)          #community identification using modularity (same algorithm as in Gephi)
+E(g)[which(is.loop(g, E(g)))]
+E(g)[which(is.multiple(g, E(g)))]
+ecount(g)
+
+g <- simplify(g)
+ecount(g)
+```
+
+Now we write the graphml file so we can visualise the semantic network in `Gephi`. 
+
+```{r}
+write.graph(g, "semantic_network_frames.graphml", format="graphml")
+```
+
+### 2.3 Visualising the semantic network using `Gephi`
+
+First, we visualise semantic network in `Gephi`.  Note that we have created a sub network of the giant component, which contains 937 nodes and 1370 edges.  We have used the modularity clustering algorithm and it identified 28 communities or clusters, and these are denoted by colours in the network visualisation.  The visualisation layout is the ForceAtlas 2 (with options: LinLog mode, Prevent Overlap, Scaling=6).   
+
+![Figure 1: Semantic network (Gephi).](gephi_giant_comp.png){width=100%}
+
+![Figure 2: Semantic network - zoomed in (Gephi).](gephi_giant_comp_zoomed.png){width=100%}
+
+Next we visualise two of the clusters from the semantic network (health and national security), with updated node layouts.
+
+![Figure 3: Semantic network - health cluster (Gephi).](gephi_health_cluster.png){width=100%}
+
+
+![Figure 4: Semantic network - national security cluster (Gephi).](gephi_national_security_cluster.png)
+
+### 2.4 Visualising the semantic network using `igraph`
+
+Next, we visualise the semantic network and selected clusters using `igraph`. We will attempt to follow a similar workflow to what used above with `Gephi`.
+
+First, we identify the giant component and then use the Louvain modularity cluster algorithm (which is the same algorithm as used in `Gephi`) to identify clusters in the giant component. 
+
+```{r}
+cc <- components(g)
+g2 <- induced_subgraph(g,which(cc$membership == which.max(cc$csize)))
+
+set.seed(222)                     #set random seed (there is randomness in cluster generation)
+mod <- cluster_louvain(g2)         #community identification using modularity (same algorithm as in Gephi)
 
 table(mod$membership)
 #sizes(mod)           #easier way of doing the same thing...
 
 ```
 
-The above shows that there are 156 clusters identified, with the majority of these clusters only containing a small number of nodes.
+Note that due to the fact that the modularity clustering algorithm produces slightly different clusters each time it is run (due to use of random number generation in the algorithm), the number of clusters identified (30) is different to what was found with `Gephi`.
+
+To visualise the network, we will use the `R` implementation of the ForceAtlas 2 algorithm (which we used in `Gephi`).
+
+**Rob note: do not bother to run this code with ForceAtlas2 alg...I didn't get good results with it, and I use different approach below**
+
+```{r, eval=FALSE}
+library(ForceAtlas2)
+
+layout1 <- layout.forceatlas2(g2, iterations=2000, plotstep=100)
+
+layout2 <- layout.forceatlas2(g2, iterations=500, plotstep=100, linlog=TRUE)
+
+layout3 <- layout.forceatlas2(g2, iterations=500, plotstep=100, linlog=TRUE, k=200)
+
+layout4 <- layout.forceatlas2(g2, iterations=500, plotstep=100, linlog=TRUE, gravity=2)
+
+#health cluster
+g2t <- induced.subgraph(g2, which(mod$membership == 4))
+#layout <- layout.forceatlas2(g2t, iterations=5000, plotstep=100, linlog=TRUE, k=3200)
+layout <- layout.forceatlas2(g2t, iterations=5000, plotstep=100)
+plot(g2t, layout=layout)
+plot(g2t, layout=layout, vertex.shape="none", vertex.label.cex=0.8,
+     vertex.label.color="black")
+
+```
+
+**Rob note: The following code loops through the identified clusters and produces a network map for each one...i think the visualisations are pretty good, we can use them.  @Sidiq: if you can please have a look at each of these and try to identify 2-3 clusters you would like to write something about.  You could start writing some interpretation of the clusters.  Then in a later iteration I will modify the code so we only produce maps for the selected (2-3) clusters.  Also note that the following code is not quite right as the figure titles are not getting changed for each figure...I want the titles to mention which cluster, this is something I need to work out how to do, in a later iteration.  Also, in the following I will get the edges to be weighted (thickness of line).  @Sidiq, you can see the number of the cluster being plotted...it is printed before the plot.**
+
+```{r, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "quanteda xray plot - 2"}
+
+#plot(g2t, vertex.shape="none", vertex.size=0.8)
+#write.graph(g2t, "g2t.graphml", format="graphml")
+
+norm_values <- function(x) {
+  # all values the same
+  if (var(x) == 0) { return(rep(0.1, length(x))) }
+
+  min_x <- min(x)
+  diff_x <- max(x) - min_x
+  s <- sapply(x, function(y) { (y - min_x) / diff_x })
+}
+
+for (i in 1:nrow(sizes(mod))){
+  
+  if ( sizes(mod)[i] > 30 ){                #arbitrary threshold
+    
+    #i <- 4
+    
+    g2t <- induced.subgraph(g2, which(mod$membership == i))
+    cat("cluster number:", i, "size:", vcount(g2t), "\n")
+    #print(vcount(gt))
+    
+    plot_parameters <- list(g2t, edge.arrow.size = 0.4)
+    plot_parameters['vertex.label.color'] <- "#000000"
+    plot_parameters['vertex.label.family'] <- "Arial"
+    plot_parameters[['vertex.label.cex']] <- (norm_values(degree(g2t))) + 0.6
+    plot_parameters['vertex.label.dist'] <- 0.6
+    plot_parameters['vertex.label.degree'] <- -(pi)/2
+    plot_parameters[['vertex.size']] <- 4
+      
+    #graph_layout <- layout_nicely(g2t, dim = 2)
+    graph_layout <- layout_with_graphopt(g2t)
+      
+    graph_layout <- igraph::norm_coords(graph_layout, ymin = -1, ymax = 1, xmin = -1, xmax = 1)
+    plot_parameters['rescale'] <- FALSE
+    plot_parameters[['layout']] <-  graph_layout * 1
+    par(mar = rep(0, 4))
+    #png("file.png", width=800, height=800)
+    do.call(plot.igraph, plot_parameters)
+    #dev.off()
+      
+      
+  }
+  
+}
+
+
+
+
+```
+
+**Rob note: the following will get removed by Rob, it is now superceded by the above...**
+
+The above shows that there are **156 clusters [FIX]** identified, with the majority of these clusters only containing a small number of nodes.
 
 We will focus on the larger clusters, as these are more likely to be interpretable as frames.
 
-```{r}
+```{r, eval=FALSE}
 table(mod$membership)
 
 for (i in 1:nrow(sizes(mod))){
