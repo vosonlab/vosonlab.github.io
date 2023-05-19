@@ -1,7 +1,7 @@
 ---
 title: "Semantic network analysis with website text"
 description: |
-  A short description of the post.
+  How to construct semantic networks, based on word co-occurrence, using text extracted from websites.
 author:
   - name: Robert Ackland
     url: https://orcid.org/0000-0002-0008-1766
@@ -9,10 +9,20 @@ author:
   - name: Sidiq Madya
     url: https://orcid.org/0000-0002-8444-3145
 date: 2023-04-27
+categories:
+  - rstats
+  - tidytext
+  - quanteda
+  - text analysis
+  - visualisation
+  - semantic networks
+  - frame analysis
+  - data sovereignty
 output:
   distill::distill_article:
     self_contained: false
 draft: true
+bibliography: biblio.yaml
 ---
 
 ```{r setup, include=FALSE}
@@ -20,16 +30,21 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## 1. Introduction
+In our previous posts: ([Hyperlink networks and website text content](https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/) and [Analysis of website text content using quanteda](ADD LINK ONCE PUBLISHED), we quantitatively processed and analysed text extracted from websites of organisations involved in data sovereignty. To complement previous analysis, in this post we will conduct a type of semantic network analysis to understand how concepts relate to each other, and to observe framing structures emerging from the corpus.
 
-In this blogpost we conduct a type of semantic network analysis, which Yang and Gonzalez-Bailon refer to as "salience and framing" - more on this, from Table 3.1 in Y-G.  See my lecture slides p. 25
+### 1.1 Semantic network analysis
 
-We will construct networks where the nodes are terms extracted from the "Data Sovereignty" website text [refer to previous posts] and a weighted edge between two terms indicates the number of times they co-occur in the website text. We will explore two types of co-occurrence: (1) bigrams (the terms co-occur because they are positioned directly next to each other in a sentence on a website), (2) co-occurrence within sentences (the terms co-occur because they are located in the same sentence, are but not necessarily positioned next to each other).
+Semantic network analysis extends the social network analysis (SNA) approach, to measuring relationships between semantic units. In semantic networks, nodes are semantic concepts (words, topics, themes) and ties are associations between concepts (e.g. co-occurrence). @Yang-GonzalezB2018 (see Table 13.1 in p.330) distinguish different types of semantic network analysis according to the level of analysis (individual, interpersonal, collective), and the type of semantic network (concept-to-concept, actor-to-actor). In this blogpost, we conduct a type of semantic network analysis referred to as "salience and framing" [@Yang-GonzalezB2018]. This approach aggregates semantic units across a collective of individuals, therefore focusing on the concepts and their relationships, rather than on opinions/concepts associated with individuals (discourse network analysis). 
 
-The aim is that by constructing semantic networks in this way, we might be able to identify clusters of terms that can be interpreted as frames [some basics on frames...see my lecture slides].
+We will then construct networks where the nodes are terms extracted from the "Data Sovereignty" website text and a weighted edge between two terms indicates the number of times they co-occur in the website text. We will explore two types of co-occurrence: 
+- Bigrams -- the terms co-occur because they are positioned directly next to each other in a sentence on a website
+- Co-occurrence within sentences -- the terms co-occur because they are located in the same sentence, are but not necessarily positioned next to each other.
+
+Finally, we will identify clusters of terms that can be interpreted as frames for all the webistes , as well as to observe if there are significant differences between frames used by Global North and Global South organisations. 
 
 ## 2. Semantic network using bigrams
 
-First, we read in the dataframe constructed in [post].
+First, we read in the dataframe constructed in this [post](https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/).
 
 ```{r}
 library(knitr)
@@ -47,7 +62,8 @@ head(substr(textContent$text,1,80))
 
 With framing semantic network analysis, we will only be making use of `text` and `type` columns. First we will attempt to identify potential frames that are present in the website text authored by all organisations in our dataset, and then we will see if there is any difference in the framing by Global North and Global South organisations.
 
-For this part of the exercise, we will use `tidytext`.
+For this part of the exercise, we will use `tidytext`, to identify bigrams, i.e. terms that co-occured because they are positioned directly next to each other in a sentence or in a page.
+
 
 ```{r}
 library(tidytext)
@@ -72,7 +88,7 @@ nrow(df2)
 
 ### 2.1 Removal of stopwords
 
-It is apparent that many of the highly-frequent bigrams involve one or more stopwords: these bigrams (edges) will dominate the semantic network, and will not provide much analytical insight and further, they will make the semantic network very highly connected and therefore less likely for clusters (which may be interpreted as frames) to emerge.
+The resulting data frame contains 23,842 rows. It is apparent that many of the highly-frequent bigrams involve one or more stopwords: these bigrams (edges) will dominate the semantic network, and will not provide much analytical insight and further, they will make the semantic network very highly connected and therefore less likely for clusters (which may be interpreted as frames) to emerge.
 
 We will remove the bigrams that involve one or more stopwords.  We will also retain only those bigrams where both words have more than three characters.
 
@@ -87,7 +103,7 @@ df2 <- df2 %>% filter(nchar(node1)>2 & nchar(node2)>2)
 nrow(df2)
 ```
 
-This has significantly reduced the number of bigrams (by about two thirds), and perusal of the top-20 bigrams (in terms of frequency) indicates that they are informative.
+This action has significantly reduced the number of bigrams (by about two thirds), and perusal of the top-20 bigrams (in terms of frequency) indicates that they are informative.
 
 Before processing the bigrams to create a semantic network, it is somewhat useful to check if the top phrases on the bigrams seem to be all relevant for analysis. For example, the phrase 'google scholar' above might be informative or might not. To do this, we can locate the text into the wider context by using `kwic` (keyword-in-context) syntax from `quanteda` package.
 
@@ -114,7 +130,8 @@ gs <- kwic(tokens1, pattern = phrase("google scholar"))
 head(gs, 10)
 
 ```
-It seems that the terms 'google scholar' appear simply as of references or indexes of scholarly publications cited on the webpages. So we decided to remove that phrase from our data frame.
+
+While prominent, the output shows that the bigram 'google scholar' appears simply as of references or indexes of scholarly publications cited on the webpages. So, we decided to remove that phrase from our data frame.
 
 ```{r}
 #remove the row containing 'google scholar' from the data frame
