@@ -200,16 +200,25 @@ write.graph(g, "semantic_network_frames.graphml", format="graphml")
 
 First, we visualise semantic network in `Gephi`.  Note that we have created a sub network of the giant component, which contains 937 nodes and 1370 edges.  We have used the modularity clustering algorithm and it identified 28 communities or clusters, and these are denoted by colours in the network visualisation.  The visualisation layout is the ForceAtlas 2 (with options: LinLog mode, Prevent Overlap, Scaling=6).   
 
-![Figure 1: Semantic network (Gephi).](gephi_giant_comp.png){width=100%}
+```{r, echo=FALSE, fig.cap="Semantic network (Gephi)"}
+knitr::include_graphics('gephi_giant_comp.png')
+```
 
-![Figure 2: Semantic network - zoomed in (Gephi).](gephi_giant_comp_zoomed.png){width=100%}
+```{r, echo=FALSE, fig.cap="Semantic network - zoomed in (Gephi)"}
+knitr::include_graphics('gephi_giant_comp_zoomed.png')
+```
+
 
 Next we visualise two of the clusters from the semantic network (health and national security), with updated node layouts.
 
-![Figure 3: Semantic network - health cluster (Gephi).](gephi_health_cluster.png){width=100%}
+```{r, echo=FALSE, fig.cap="Semantic network - health cluster (Gephi)"}
+knitr::include_graphics('gephi_health_cluster.png')
+```
 
+```{r, echo=FALSE, fig.cap="Semantic network - national security cluster (Gephi)"}
+knitr::include_graphics('gephi_national_security_cluster.png')
+```
 
-![Figure 4: Semantic network - national security cluster (Gephi).](gephi_national_security_cluster.png)
 
 ### 2.4 Visualising the semantic network using `igraph`
 
@@ -258,7 +267,7 @@ plot(g2t, layout=layout, vertex.shape="none", vertex.label.cex=0.8,
 
 **Rob note: The following code loops through the identified clusters and produces a network map for each one...i think the visualisations are pretty good, we can use them.  @Sidiq: if you can please have a look at each of these and try to identify 2-3 clusters you would like to write something about.  You could start writing some interpretation of the clusters.  Then in a later iteration I will modify the code so we only produce maps for the selected (2-3) clusters.  Also note that the following code is not quite right as the figure titles are not getting changed for each figure...I want the titles to mention which cluster, this is something I need to work out how to do, in a later iteration.  Also, in the following I will get the edges to be weighted (thickness of line).  @Sidiq, you can see the number of the cluster being plotted...it is printed before the plot.**
 
-```{r, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "quanteda xray plot - 2"}
+```{r, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = paste("Cluster", 1:nrow(sizes(mod)))}
 
 #plot(g2t, vertex.shape="none", vertex.size=0.8)
 #write.graph(g2t, "g2t.graphml", format="graphml")
