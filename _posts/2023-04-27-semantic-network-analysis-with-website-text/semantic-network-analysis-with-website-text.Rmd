@@ -37,7 +37,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ## 1. Introduction
-In our three previous posts in this series ([Hyperlink networks: data pre-processing techniques](https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing/), [Hyperlink networks and website text content](https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/) and [Analysis of website text content using quanteda](https://vosonlab.github.io/posts/2023-04-13-website-text-analysis-with-quanteda/), we processed and quantitatively analysed text extracted from websites of organisations involved in data sovereignty. In the present post we will conduct a type of semantic network analysis to understand how concepts relate to each other, and to observe framing structures emerging from the corpus.
+In our three previous posts in this series ([Hyperlink networks: data pre-processing techniques](https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing/), [Hyperlink networks and website text content](https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/) and [Analysis of website text content using quanteda](https://vosonlab.github.io/posts/2023-04-13-website-text-analysis-with-quanteda/)), we processed and quantitatively analysed text extracted from websites of organisations involved in data sovereignty. In the present post we will conduct a type of semantic network analysis to understand how concepts relate to each other, and to observe framing structures emerging from the corpus.
 
 ### 1.1 Semantic network analysis
 
