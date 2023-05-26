@@ -8,7 +8,7 @@ author:
   - name: Francisca Borquez  
   - name: Sidiq Madya
     url: https://orcid.org/0000-0002-8444-3145
-date: 2023-04-27
+date: 2023-05-26
 categories:
   - rstats
   - tidytext
@@ -21,6 +21,9 @@ categories:
 output:
   distill::distill_article:
     self_contained: false
+#    number_sections: true   [doesn't work with distill]
+    toc: true
+    toc_depth: 3
 draft: false
 bibliography: refs.bib
 csl: apa-style.csl
@@ -323,7 +326,7 @@ Next we look at three clusters more closely and attempt to discern whatt issue (
 
 Note that in what follows we are using a similar approach to that recommended by @Miller1997: we identify the issue (or issues) represented by a cluster, or interpret the cluster as a frame, by writing a simple statement that includes terms extracted from the cluster.  **It should be emphasised that for this illustrative example we have not conducted an in-depth examination of exactly how the identified terms are being used on the websites.  If we were to fully implement this approach in an actual research project, we would be conducting (for example) keyword-in-context to manually check that our interpretation of the issues/frames is valid.**
 
-### Cluster 2
+#### 2.4.1 Cluster 2 - Indigenous people
 
 ```{r, echo = FALSE, fig.width = 7, fig.height = 6, fig.cap = "Cluster 2"}
 plot_cluster(2)
@@ -331,7 +334,7 @@ plot_cluster(2)
 
 In this cluster, we identify a number of issues related to problems experienced by indigenous people and communities with regard to data sovereignty. These problems include the protection of status of minority populations, the fundamental right of indigenous people, their living conditions and the conditions of their environments such as the lands, forests and languages. The figure shows the connections between the term 'people' and other words such as 'displaced', 'million', 'living', which may indicate the presence of narratives describing vulnerable indigenous populations who are subject to displacement. The co-occurrence of 'rights' and 'human' suggests that the problem of indigenous rights is discussed within the broader context of human rights or at least both are inseparably connected. As a community of native, tribe, and nation, indigenous people are also described being surrounded with risks and they have to face another challenges such as gender inequality which imply that indigenous women are in a vulnerable position and in need of support. Based on this preliminary analysis, our interpretation is that data sovereignty notions are being discussed in the context of addressing these complex problems faced by indigenous people.
 
-### Cluster 3
+#### 2.4.2 Cluster 3 - national security
 
 ```{r, echo = FALSE, fig.width = 7, fig.height = 6, fig.cap = "Cluster 3"}
 plot_cluster(3)
@@ -339,7 +342,7 @@ plot_cluster(3)
 
 This cluster pertains to security issues. It appears that security issues were discussed in at least two main areas: the problem of the national security and the practice of intelligence agencies. When it comes to national security, we identify issues relating to technical/legal requirements to support the data sovereignty agenda, national borders, resources or funding, and the roles of universities. Issues around the practice of intelligence agencies include their surveillance activities, the role of officials and law enforcement in dealing with issues such as counterspionage, cybersecurity and cryptography. Semantic connections between the term 'intelligence' with 'artificial', 'signals', 'gathering' might express the emergence of AI as a new security issue. Meanwhile, the practices of intelligence agencies for gathering information or data which create a security threat to other states are indeed part of security concerns for nation states. Based on this figure, our interpretation is that data sovereignty has implications for the two interrelated issues of the practice of intelligence agencies and threats to national security.
 
-### Cluster 10
+#### 2.4.3 Cluster 10 - data policy and accessibility
 
 ```{r, echo = FALSE, fig.width = 7, fig.height = 6, fig.cap = "Cluster 10"}
 plot_cluster(10)

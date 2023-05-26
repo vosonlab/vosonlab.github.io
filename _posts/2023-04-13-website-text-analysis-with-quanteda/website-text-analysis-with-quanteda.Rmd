@@ -1,7 +1,7 @@
 ---
 title: "Analysis of website text content using quanteda"
 description: |
-  Introduction to basic text analysis using the quanteda package and sample code to pre-process,  analyse and visualise organisational website content.
+  Introduction to basic text analysis using the quanteda package, in the context of organisational website content.
 author:
   - name: Robert Ackland
     url: https://orcid.org/0000-0002-0008-1766
@@ -21,9 +21,13 @@ categories:
 output:
   distill::distill_article:
     self_contained: false
-draft: true
+#    number_sections: true   [doesn't work with distill]
+    toc: true
+    toc_depth: 3
+draft: false
 bibliography: refs.bib
 csl: apa-style.csl
+preview: xray_textplot_kwic.png
 ---
 
 
@@ -33,9 +37,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## 1. Introduction
 
-In our [previous post](https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/), we used `tidytext` and other packages to conduct text analysis on organisational websites' content, specifically word frequency counts, word clouds, comparison clouds.  In this post, we will demonstrate how to use `quanteda` to undertake similar text analysis. The post will also introduce some more of the basics of text analysis e.g. constructing a corpus and document-feature matrix and dictionary-based coding. [`quanteda`](http://quanteda.io/) is an R package for natural language processing and analysis. Tutorials on using `quanteda` can be found [here](https://tutorials.quanteda.io).
+In our previous post in this series ([Hyperlink networks and website text content](https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/)), we used `tidytext` and other packages to conduct text analysis on organisational websites' content, specifically word frequency counts, word clouds, comparison clouds.  In this post, we will demonstrate how to use `quanteda` to undertake similar text analysis. The post will also introduce some more of the basics of text analysis e.g. constructing a corpus and document-feature matrix and dictionary-based coding. [`quanteda`](http://quanteda.io/) is an R package for natural language processing and analysis, and tutorials on using `quanteda` can be found [here](https://tutorials.quanteda.io).
 
-The text content used in this example involves the same collection from the previous post using `rvest`, which includes organisational websites involved in the discussion of data sovereignty.
+The text content used in this example involves text content from organisational websites involved in the discussion of data sovereignty; these data were collected using `rvest` (see [Hyperlink networks: data pre-processing techniques](https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing/)).
 
 ## 2. Getting the text data ready for analysis
 
@@ -120,6 +124,8 @@ Before proceeding with our analysis of text from websites discussing data sovere
 
 In this post we use the terms content analysis and (quantitative) text analysis interchangeably. While we do not provide a thorough introduction to text analysis, there are many resources available such as: @Popping2017 who provides an overview of content analysis and some of the relevant software tools, and @Welbers_etal2017 who introduce computational text analysis using the R statistical software. @Ackland2013 (Section 2.4) provides a brief introduction to text analysis using data from the web.
 
+The following quotes are useful:
+
 > "Content analysis is a systematic reduction of a **flow of text** to a standard
 set of statistically manipulable symbols representing the presence, the
 intensity, or the frequency of some characteristics, which allows making
@@ -141,7 +147,8 @@ We can identify the following main steps in text analysis.
 
 **First**, process the 'flow of text' into:
 
-- **Documents**: collections of words (spoken or written) with associated metadata such as date when the text was written, who authored the text etc. In our data sovereignty websites example, a documents is the text collected from a web page.
+- **Documents**: collections of words (spoken or written) with associated metadata such as date when the text was written, who authored the text etc. In our data sovereignty websites example, a document is the text collected from a web page.
+
 - **Corpus**: collection of documents stored in one place.
 
 **Second**, pre-process the corpus:
@@ -158,7 +165,7 @@ The goal of pre-processing is to reduce the total number of **types**, where a t
 - Known as a "bag-of-words" format
 - Allows text data to be analysed using matrix algebra (we have now moved from text to numbers).
 
-NOTE TO ROB: FIX UP THE ABOVE, MAYBE WE JUST USE 'FEATURE' RATHER THAN 'TERM'
+Note that some authors distinguish "term" and "feature" but we use these interchangeably here.
 
 ### 3.3 Toy example: Constructing the corpus
 
@@ -229,7 +236,7 @@ topfeatures(toydfm)
 
 The top features in the document-feature matrix could become keywords for content analysis.
 
-## 4. Application to the `data sovereignty' website text content
+## 4. Application to text content from 'data sovereignty' websites
 
 ```{r}
 #create corpus (text stored in 'text' column so don't need to specify text_field argument)
@@ -275,7 +282,7 @@ In the following step, we transform the tokens to ngrams (specifically, unigrams
 tokens1_ngram <- tokens_ngrams(tokens1_clean, n = 1:2)
 ```
 
-## 4.1 Initial exploration of particular keywords, using keywords-in-context (kwic)
+### 4.1 Initial exploration of particular keywords, using keywords-in-context (kwic)
 
 Given the documents are now loaded as corpus, you could begin content analysis by exploring some keywords. These keywords would depend on your research topic. For our exercise, we use keywords-in-context (kwic) to explore how the term "data" is being used in the web pages we have collected. This may allow us to identify associated terms that might become additional keywords for investigation. That is, keywords-in-context might lead to the discovery of new themes or sub-themes.
 
@@ -298,13 +305,18 @@ kwic1 <- kwic(tokens1_ngram, c('data', 'personal', 'localization'))
 #head(kwic1)
 
 textplot_xray(kwic1) + aes(color = keyword) + ggtitle(paste('Keywords in context:', 'data, personal, localization'))
+
+#png("xray_textplot_kwic.png", width=800, height=800)
+#textplot_xray(kwic1) + aes(color = keyword) + ggtitle(paste('Keywords in context:', 'data, personal, localization'))
+#dev.off()
+
 ```
 
-## 4.2 Frequency of terms and the document-feature matrix
+### 4.2 Frequency of terms and the document-feature matrix
 
-A basic aspect of content analysis is to assess the importance of terms or features by computing their frequency of usage. This allows the identification of "important" terms in the corpus and it also may be used to assess whether keywords selected for analysis using keywords-in-context are important in the corpus.  A further step (later in this exercise) is to assess how terms are related to one another (part of this would involve assessing how keywords studied using keywords-in-context are related other terms in the corpus.
+A basic aspect of content analysis is to assess the importance of terms or features by computing their frequency of usage. This allows the identification of "important" terms in the corpus and it also may be used to assess whether keywords selected for analysis using keywords-in-context are important in the corpus.  A further step (later in this exercise) is to assess how terms are related to one another (part of this would involve assessing how keywords studied using keywords-in-context are related other terms in the corpus).
 
-To answer these questions we first create a document-feature matrix.  Note the shift in terminology.  In setting up the corpus, we talk about **tokens**. Now that the cleaning, simplification and standardisation is done, we talk about **features** (in this post we use 'terms' and 'features' interchangeably).  Below we print the top-10 features (based on frequency) and we plot a word cloud of the 200 most frequently-used features.
+To answer these questions we first create a document-feature matrix.  Note the shift in terminology.  In setting up the corpus, we talk about **tokens**. Now that the cleaning, simplification and standardisation is done, we talk about **features** (remember that in this blogpost we use 'terms' and 'features' interchangeably).  Below we print the top-10 features (based on frequency) and we plot a word cloud of the 200 most frequently-used features.
 
 ```{r, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "Word cloud"}
 dfm1  <-  dfm(tokens1_ngram)
@@ -320,7 +332,7 @@ dfm1 %>% dfm_tfidf() %>% topfeatures(10) %>% kable()
 dfm1 %>% dfm_tfidf() %>% textplot_wordcloud(min_size = 1, max_words = 200)
 ```
 
-## 4.3 Using dictionary-based coding
+### 4.3 Using dictionary-based coding
 
 Creating a dictionary is one way to code documents according to a specific set of questions or problems.  A dictionary can also be used to handle synonyms.
 
@@ -339,7 +351,7 @@ dfm2 %>% dfm_tfidf() %>% textplot_wordcloud(min_size = 1, max_words = 200)
 
 With the use of the above dictionary, we find that 'health' becomes the third-top feature (when using the tf-idf weighting) and 'identity' moves to fourth.   While we do not examine this here, by setting `exclusive=FALSE` in `tokens_lookup()` we can reduce the corpus to **only** those terms in the dictionary. A dictionary might cover several themes, or you might have separate dictionaries for each theme.
 
-## 4.4 Comparison cloud
+### 4.4 Comparison cloud
 
 As a final step in this blog post, we show how to produce a comparison cloud (comparing word use by organisations from the Global North and Global South) using `quanteda`.
 
@@ -347,7 +359,7 @@ As a final step in this blog post, we show how to produce a comparison cloud (co
 dfm3 <- dfm2 %>% dfm_group(type) %>% dfm_trim(min_termfreq = 3)
 textplot_wordcloud(dfm3, comparison = TRUE, min_size = 1, max_words = 100, color = c("red", "blue"))
 ```
-The word cloud above compares prominent words and phrases produced by the Global North and the Global South organisations. It appears that indigenous-related issues and health are the most prominent topic in the North. Using `quanteda` to perform unigram and bigram, it becomes possible to detect themes and a number of potential sub themes such as a topic of 'indigenousity' which is discussed in relation to the problem of 'indigenous data' and 'indigenous peoples' in the North. Other words such as 'health' and 'sevices' are also popular which give us an impression that another potential themes discussed could be related to the problem of health services. It can be said that indigenous data sovereignty and health services become two major concerns for organisations in the North when discussing data sovereignty issues.
+The word cloud above compares prominent words and phrases produced by the Global North and the Global South organisations. It appears that indigenous-related issues and health are the most prominent topic in the North. Using `quanteda` to perform unigram and bigram, it becomes possible to detect themes and a number of potential sub themes such as a topic of 'indigenousity' which is discussed in relation to the problem of 'indigenous data' and 'indigenous peoples' in the North. Other words such as 'health' and 'services' are also popular which give us an impression that another potential themes discussed could be related to the problem of health services. It can be said that indigenous data sovereignty and health services become two major concerns for organisations in the North when discussing data sovereignty issues.
 
 Meanwhile in the South, the word 'digital' and 'policy' along with names such as 'India', 'Africa' and 'countries' are interestingly dominant in the discussion. It may indicate that digital policy issues are central for organisations in the South compared at least to the North. Probably, India and African countries inform about the context of where such issues emerged. It is interesting to notice that other potentially meaningful phrases such as 'right', 'development' and 'cross-border data flows' are most frequently discussed in the South. A concept of the North/South divide might provide some clues to answer why organisations in different regions raise different concerns of issues when data sovereignty notions are debated on the web.
 
