@@ -4,6 +4,8 @@ description: |
   How to construct semantic networks, based on word co-occurrence, using text extracted from websites.
 author:
   - name: Robert Ackland
+    affiliation: VOSON Lab, School of Sociology, Australian National University
+    affiliation_url: http://vosonlab.net/
     url: https://orcid.org/0000-0002-0008-1766
   - name: Francisca Borquez  
   - name: Sidiq Madya
@@ -298,7 +300,7 @@ which(sizes(mod) > 30)
 
 For an overview, we will first plot the clusters in groups of 4.
 
-```{r, fig.width = 7, fig.height = 6, fig.cap = "Clusters 1, 2, 3, 4"}
+```{r clusters1, fig.width = 7, fig.height = 6, fig.cap = "Clusters 1, 2, 3, 4"}
 par(mfrow=c(2,2))
 plot_cluster(1)
 plot_cluster(2)
@@ -306,7 +308,7 @@ plot_cluster(3)
 plot_cluster(4)
 ```
 
-```{r, echo=FALSE, fig.width = 7, fig.height = 6, fig.cap = "Clusters 7, 8, 10, 11"}
+```{r clusters2, echo=FALSE, fig.width = 7, fig.height = 6, fig.cap = "Clusters 7, 8, 10, 11"}
 par(mfrow=c(2,2))
 plot_cluster(7)
 plot_cluster(8)
@@ -314,12 +316,11 @@ plot_cluster(10)
 plot_cluster(11)
 ```
 
-```{r, echo=FALSE, fig.width = 7, fig.height = 6, fig.cap = "Clusters 12, 15, 22"}
+```{r clusters3, echo=FALSE, fig.width = 7, fig.height = 6, fig.cap = "Clusters 12, 15, 22"}
 par(mfrow=c(2,2))
 plot_cluster(12)
 plot_cluster(15)
 plot_cluster(22)
-#dev.off()
 ```
 
 Next we look at three clusters more closely and attempt to discern whatt issue (or issues) these clusters pertain to. 
@@ -328,7 +329,7 @@ Note that in what follows we are using a similar approach to that recommended by
 
 #### 2.4.1 Cluster 2 - Indigenous people
 
-```{r, echo = FALSE, fig.width = 7, fig.height = 6, fig.cap = "Cluster 2"}
+```{r cluster2, echo = FALSE, fig.width = 7, fig.height = 6, fig.cap = "Cluster 2"}
 plot_cluster(2)
 ```
 
@@ -336,7 +337,7 @@ In this cluster, we identify a number of issues related to problems experienced 
 
 #### 2.4.2 Cluster 3 - national security
 
-```{r, echo = FALSE, fig.width = 7, fig.height = 6, fig.cap = "Cluster 3"}
+```{r cluster3, echo = FALSE, fig.width = 7, fig.height = 6, fig.cap = "Cluster 3"}
 plot_cluster(3)
 ```
 
@@ -344,7 +345,7 @@ This cluster pertains to security issues. It appears that security issues were d
 
 #### 2.4.3 Cluster 10 - data policy and accessibility
 
-```{r, echo = FALSE, fig.width = 7, fig.height = 6, fig.cap = "Cluster 10"}
+```{r cluster10, echo = FALSE, fig.width = 7, fig.height = 6, fig.cap = "Cluster 10"}
 plot_cluster(10)
 ```
 

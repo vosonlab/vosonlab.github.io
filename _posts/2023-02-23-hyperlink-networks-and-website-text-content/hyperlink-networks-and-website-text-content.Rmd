@@ -278,7 +278,9 @@ for (i in names(L_html)){
   textContent <- rbind(textContent, 
                        data.frame(page=i, text=paste0(p_text, collapse=" ")))
 }
-#saveRDS(textContent, "textContent.rds")
+
+#save the text content data frame for later use (in another blog post)
+saveRDS(textContent, "textContent.rds")
 
 ```
 

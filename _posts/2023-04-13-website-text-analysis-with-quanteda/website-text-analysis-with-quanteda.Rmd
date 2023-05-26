@@ -4,6 +4,8 @@ description: |
   Introduction to basic text analysis using the quanteda package, in the context of organisational website content.
 author:
   - name: Robert Ackland
+    affiliation: VOSON Lab, School of Sociology, Australian National University
+    affiliation_url: http://vosonlab.net/
     url: https://orcid.org/0000-0002-0008-1766
   - name: Sidiq Madya
     url: https://orcid.org/0000-0002-8444-3145
@@ -288,7 +290,7 @@ Given the documents are now loaded as corpus, you could begin content analysis b
 
 Keywords-in-context can be plotted in `quanteda` using the `textplot_xray` command. The `xray` or 'lexical dispersion' plot provides a sense of variations in the usage of keywords across documents. The following figure shows that in some documents (e.g. 8 and 9) the word 'data' appears very frequently, while it doesn't appear at all in document 1.
 
-```{r, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "quanteda xray plot - 1"}
+```{r kwic_xray, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "quanteda xray plot - 1"}
 #explore keywords and plot their distribution within documents
 kwic1 <- kwic(tokens1_ngram, c('data'))
 head(kwic1)
@@ -300,7 +302,7 @@ textplot_xray(kwic1) + aes(color = keyword) + ggtitle(paste('Keywords in context
 
 The following `xray` plot shows the frequency of usage of the keywords 'data', 'personal', and 'localization' across the corpus.
 
-```{r, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "quanteda xray plot - 2"}
+```{r kwic_xray2, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "quanteda xray plot - 2"}
 kwic1 <- kwic(tokens1_ngram, c('data', 'personal', 'localization'))
 #head(kwic1)
 
@@ -318,7 +320,7 @@ A basic aspect of content analysis is to assess the importance of terms or featu
 
 To answer these questions we first create a document-feature matrix.  Note the shift in terminology.  In setting up the corpus, we talk about **tokens**. Now that the cleaning, simplification and standardisation is done, we talk about **features** (remember that in this blogpost we use 'terms' and 'features' interchangeably).  Below we print the top-10 features (based on frequency) and we plot a word cloud of the 200 most frequently-used features.
 
-```{r, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "Word cloud"}
+```{r wordcloud, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "Word cloud"}
 dfm1  <-  dfm(tokens1_ngram)
 dfm1 %>% topfeatures(10) %>% kable()
 textplot_wordcloud(dfm1, min_size = 1, max_words = 200)
@@ -326,7 +328,7 @@ textplot_wordcloud(dfm1, min_size = 1, max_words = 200)
 
 As we found in the [previous post](https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/) where we produced a word cloud produced with the `tidytext` and `wordcloud` packages, the word cloud is dominated by the presence of the word 'data'. In the previous post, we used a customised stop word list to remove 'data' from the word cloud.  In the present post, we will control for the dominance of the word 'data' using another approach.  Specifically, we will make use of the term frequency-inverse document frequency (tf-idf) weighting scheme, which weight counts of features according to the how often they appear in that document vs. how many documents contain that feature. The tf-idf weighting scheme can often give a better sense of significance of a keyword in a document and a corpus.  In the following code, we also use the `tokens_select()` function in `quanteda` to remove tokens that have fewer than three characters in length (this will remove the pipe character "|", which is presently the second-ranked feature in terms of frequency of use).
 
-```{r, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "Word cloud - 2"}
+```{r wordcloud2, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "Word cloud - 2"}
 dfm1 <- tokens1_ngram %>% tokens_select(min_nchar = 3) %>% dfm()
 dfm1 %>% dfm_tfidf() %>% topfeatures(10) %>% kable()
 dfm1 %>% dfm_tfidf() %>% textplot_wordcloud(min_size = 1, max_words = 200)
@@ -336,7 +338,7 @@ dfm1 %>% dfm_tfidf() %>% textplot_wordcloud(min_size = 1, max_words = 200)
 
 Creating a dictionary is one way to code documents according to a specific set of questions or problems.  A dictionary can also be used to handle synonyms.
 
-```{r, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "Word cloud - 3"}
+```{r wordcloud3, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "Word cloud - 3"}
 dict1  <-  dictionary(list(identity = c('identity', 'identities', 'ids'),
                                 member = c('member', 'members')))
 
@@ -355,7 +357,7 @@ With the use of the above dictionary, we find that 'health' becomes the third-to
 
 As a final step in this blog post, we show how to produce a comparison cloud (comparing word use by organisations from the Global North and Global South) using `quanteda`.
 
-```{r, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "Comparison cloud"}
+```{r comparisoncloud, echo = TRUE, fig.width = 7, fig.height = 6, fig.cap = "Comparison cloud"}
 dfm3 <- dfm2 %>% dfm_group(type) %>% dfm_trim(min_termfreq = 3)
 textplot_wordcloud(dfm3, comparison = TRUE, min_size = 1, max_words = 100, color = c("red", "blue"))
 ```

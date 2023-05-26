@@ -30,6 +30,10 @@ After knitting a post the `index.Rmd` should also be knitted to re-build the sit
 
 Note: for time being we are committing everything in `_posts/` (but we are not committing data files). The `docs` directory which has the published static web site is updated automatically and does not need to be touched.
 
+Rob edit (26 May) - to get everything published for a particular post it seems we need to commit:
+docs/index.html docs/index.xml docs/posts/posts.json docs/search.json docs/sitemap.xml
+corresponding directory in docs/posts/
+
 ## Style
 
 Markdown.

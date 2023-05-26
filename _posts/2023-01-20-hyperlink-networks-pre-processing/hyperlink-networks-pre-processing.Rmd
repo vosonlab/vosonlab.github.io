@@ -4,10 +4,11 @@ description: |
   Steps for collecting hyperlink networks with vosonSML and processing hyperlink data using R tools.
 author:
   - name: Robert Ackland
-    url: {https://orcid.org/0000-0002-0008-1766}
+    url: https://orcid.org/0000-0002-0008-1766
     affiliation: VOSON Lab, School of Sociology, Australian National University
     affiliation_url: http://vosonlab.net/
   - name: Sidiq Madya
+    url: https://orcid.org/0000-0002-8444-3145
   - name: Francisca Borquez  
 date: 2023-02-22
 categories:
@@ -23,7 +24,7 @@ output:
     toc_depth: 3
 draft: false
 bibliography: refs.bib
-#csl: apa-style.csl
+csl: apa-style.csl
 ---
 
 ```{r setup, include=FALSE}
@@ -55,11 +56,14 @@ library(stringr)
 
 #For more information on collecting hyperlink networks using vosonSML, see: #https://vosonlab.github.io/posts/2021-03-15-hyperlink-networks-with-vosonsml/.
 
-# The dataframe needs to have the folllowing fields, for hyperlink collection via vosonSML:
+# The dataframe needs to have the folllowing fields, 
+#for hyperlink collection via vosonSML:
 # page: the seed pages
 # type: the type of crawl, with allowed values:
-#   int: collect all hyperlinks but only follow links that have same domain as seed page (internal)
-#   ext: collect all hyperlinks but only follow links that have different domain as seed page (external)
+#   int: collect all hyperlinks but only follow links that have same domain as 
+#        seed page (internal)
+#   ext: collect all hyperlinks but only follow links that have different domain
+#        as seed page (external)
 #   all: collect and follow all hyperlinks
 # max_depth: how many levels of hyperlinks to follow from seed page
 #For example:
@@ -73,6 +77,7 @@ pages <- read.csv("seed_sites_20.csv")
 kable(head(pages))
 
 #remove pages that caused error with crawler
+#note: this error may no longer be present in latest version of vosonSML
 pages <- pages %>% filter(!grepl("ispa.org.za", pages$page))
 ```
 
@@ -649,6 +654,9 @@ df2 <- read.csv("seeds_plus_important_coded.csv")
 V(g_seedsImp)$keep <- df2$keep[match(V(g_seedsImp)$name, df2$site)]
 g_seedsImp2 <- induced.subgraph(g_seedsImp, which(V(g_seedsImp)$keep==1))
 #save to graphml for later use
+#seed logical attribute wasn't writing to graphml correctly,
+#maybe because because presence of NAs (which are FALSE)
+V(g_seedsImp2)$seed[which(is.na(V(g_seedsImp2)$seed))] <- FALSE
 write.graph(g_seedsImp2, "g_seedsImp2.graphml", format="graphml")
 ```
 
@@ -672,5 +680,4 @@ head(net_activity$edges)
 ```
 
 It would be necessary to process the URLs in the `from` and `to` using similar techniques to those presented above e.g. converting URLs to the domain names, but preserving certain sub-directories.  Then the `vosonSML` `Create()` function can be used to create the igraph graph object.  We will not cover this in full here, but leave this for a future blog post.
-
 
