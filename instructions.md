@@ -28,7 +28,7 @@ In the `_posts` folder, there will be individual folders containing post materia
 
 After knitting a post the `index.Rmd` should also be knitted to re-build the site (to update meta data).
 
-Note: for time being we are committing everything in `_posts/`. The `docs` directory which has the published static web site is updated automatically and does not need to be touched.
+Note: for time being we are committing everything in `_posts/` (but we are not committing data files). The `docs` directory which has the published static web site is updated automatically and does not need to be touched.
 
 ## Style
 
