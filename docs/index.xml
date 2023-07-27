@@ -12,7 +12,7 @@
       <link>https://vosonlab.github.io/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>Thu, 20 Jul 2023 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 21 Jul 2023 00:00:00 +0000</lastBuildDate>
     <item>
       <title>Changes to APIs: Mapping the implications in data collection using the VOSON Lab suite of tools</title>
       <dc:creator>Robert Ackland</dc:creator>
@@ -20,80 +20,16 @@
       <dc:creator>Bryan Gertzel</dc:creator>
       <link>https://vosonlab.github.io/posts/2023-07-21-changes-to-apis-what-we-know-and-what-can-we-do-with-the-voson-lab-suite-of-tools</link>
       <description>Addressing what we know about the changes, what we can currently do with the VOSON Lab tools and future developments.</description>
+      <category>rstats</category>
+      <category>Twitter</category>
+      <category>Reddit</category>
+      <category>API</category>
+      <category>vosonSML</category>
+      <category>VOSONDash</category>
+      <category>voson.tcn</category>
       <guid>https://vosonlab.github.io/posts/2023-07-21-changes-to-apis-what-we-know-and-what-can-we-do-with-the-voson-lab-suite-of-tools</guid>
-      <pubDate>Thu, 20 Jul 2023 00:00:00 +0000</pubDate>
-    </item>
-    <item>
-      <title>Semantic network analysis with website text</title>
-      <dc:creator>Robert Ackland</dc:creator>
-      <dc:creator>Francisca Borquez</dc:creator>
-      <dc:creator>Sidiq Madya</dc:creator>
-      <link>https://vosonlab.github.io/posts/2023-04-27-semantic-network-analysis-with-website-text</link>
-      <description>How to construct semantic networks, based on word co-occurrence, using text extracted from websites.</description>
-      <category>rstats</category>
-      <category>tidytext</category>
-      <category>quanteda</category>
-      <category>text analysis</category>
-      <category>visualisation</category>
-      <category>semantic networks</category>
-      <category>frame analysis</category>
-      <category>data sovereignty</category>
-      <guid>https://vosonlab.github.io/posts/2023-04-27-semantic-network-analysis-with-website-text</guid>
-      <pubDate>Fri, 26 May 2023 00:00:00 +0000</pubDate>
-      <media:content url="https://vosonlab.github.io/posts/2023-04-27-semantic-network-analysis-with-website-text/gephi_giant_comp_zoomed.png" medium="image" type="image/png" width="1013" height="981"/>
-    </item>
-    <item>
-      <title>Analysis of website text content using quanteda</title>
-      <dc:creator>Robert Ackland</dc:creator>
-      <dc:creator>Sidiq Madya</dc:creator>
-      <dc:creator>Francisca Borquez</dc:creator>
-      <link>https://vosonlab.github.io/posts/2023-04-13-website-text-analysis-with-quanteda</link>
-      <description>Introduction to basic text analysis using the quanteda package, in the context of organisational website content.</description>
-      <category>rstats</category>
-      <category>rvest</category>
-      <category>quanteda</category>
-      <category>text analysis</category>
-      <category>visualisation</category>
-      <category>word cloud</category>
-      <category>comparison cloud</category>
-      <category>data sovereignty</category>
-      <guid>https://vosonlab.github.io/posts/2023-04-13-website-text-analysis-with-quanteda</guid>
-      <pubDate>Thu, 27 Apr 2023 00:00:00 +0000</pubDate>
-      <media:content url="https://vosonlab.github.io/posts/2023-04-13-website-text-analysis-with-quanteda/xray_textplot_kwic.png" medium="image" type="image/png" width="800" height="800"/>
-    </item>
-    <item>
-      <title>Hyperlink networks and website text content</title>
-      <dc:creator>Robert Ackland</dc:creator>
-      <dc:creator>Sidiq Madya</dc:creator>
-      <link>https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content</link>
-      <description>Conducting basic text analysis (frequency counts, word clouds, comparison clouds) of organisational website text content.</description>
-      <category>rstats</category>
-      <category>rvest</category>
-      <category>tidytext</category>
-      <category>hyperlink networks</category>
-      <category>vosonsml</category>
-      <category>text analysis</category>
-      <category>visualisation</category>
-      <category>word cloud</category>
-      <category>comparison cloud</category>
-      <category>data sovereignty</category>
-      <guid>https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content</guid>
-      <pubDate>Thu, 13 Apr 2023 00:00:00 +0000</pubDate>
-      <media:content url="https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/comparison_cloud.png" medium="image" type="image/png" width="668" height="698"/>
-    </item>
-    <item>
-      <title>Hyperlink networks: data pre-processing techniques</title>
-      <dc:creator>Robert Ackland</dc:creator>
-      <dc:creator>Sidiq Madya</dc:creator>
-      <dc:creator>Francisca Borquez</dc:creator>
-      <link>https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing</link>
-      <description>Steps for collecting hyperlink networks with vosonSML and processing hyperlink data using R tools.</description>
-      <category>rstats</category>
-      <category>hyperlink networks</category>
-      <category>vosonsml</category>
-      <guid>https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing</guid>
-      <pubDate>Wed, 22 Feb 2023 00:00:00 +0000</pubDate>
-      <media:content url="https://vosonlab.github.io/posts/2023-01-20-hyperlink-networks-pre-processing/seeds_important2.png" medium="image" type="image/png" width="800" height="800"/>
+      <pubDate>Fri, 21 Jul 2023 00:00:00 +0000</pubDate>
+      <media:content url="https://vosonlab.github.io/posts/2023-07-21-changes-to-apis-what-we-know-and-what-can-we-do-with-the-voson-lab-suite-of-tools/redddit.jpg" medium="image" type="image/jpeg"/>
     </item>
     <item>
       <title>Egocentric Networks from Twitter timelines</title>

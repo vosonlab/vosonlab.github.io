@@ -18,7 +18,7 @@ categories:
   - vosonSML
   - VOSONDash
   - voson.tcn
-preview: reddit.jpg 
+preview: redddit.jpg 
 output:
   distill::distill_article:
     self_contained: false
@@ -28,7 +28,7 @@ draft: false
 
 ## 1. Introduction
 
-Recently, social media companies have announced major changes to API access and data, specifically for Twitter and Reddit. In this post we cover what we have found so far and the implications in the use of the VOSON lab suit of tools: `vosonSML`, `VOSONDash` and voson.tcn, as at July 2023.
+Recently, social media companies have announced major changes to API access and data, specifically for Twitter and Reddit. In this post we cover what we have found so far, and the implications in the use of the VOSON lab suit of tools: `vosonSML`, `VOSONDash` and voson.tcn, as at July 2023.
 
 
 ## 2. Reddit
