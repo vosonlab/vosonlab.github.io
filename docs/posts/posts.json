@@ -1,5 +1,30 @@
 [
   {
+    "path": "posts/2023-07-21-changes-to-apis-what-we-know-and-what-can-we-do-with-the-voson-lab-suite-of-tools/",
+    "title": "Changes to APIs: Mapping the implications in data collection using the VOSON Lab suite of tools",
+    "description": "Addressing what we know about the changes, what we can currently do with the VOSON Lab tools and future developments.",
+    "author": [
+      {
+        "name": "Robert Ackland",
+        "url": "https://orcid.org/0000-0002-0008-1766"
+      },
+      {
+        "name": "Francisca Borquez V.",
+        "url": "https://orcid.org/0009-0009-7755-374X"
+      },
+      {
+        "name": "Bryan Gertzel",
+        "url": {}
+      }
+    ],
+    "date": "2023-07-21",
+    "categories": [],
+    "contents": "\n1. Introduction\nRecently, social media companies have announced major changes to API access and data, specifically for Twitter and Reddit. In this post we cover what we have found so far and the implications in the use of the VOSON lab suit of tools: vosonSML, VOSONDash and voson.tcn, as at July 2023.\n2. Reddit\n2.1 Changes to Reddit API\nReddit announced changes to its API effective on 30 June 2023. This publication summarises the changes to the API. Basically, Reddit is restricting API access to commercial entities that require large-scale data usage. Reddit data can still be accessed for free for academic purposes (non-profit), as long as it is below the published data-usage threshold.\nAs of July 1, 2023, Reddit enforced two different rate limits for the free access tier:\n100 queries per minute per OAuth client id (i.e. those using OAuth for authentication)\n10 queries per minute, for those who are not using OAuth for authentication.\n2.2 Can I collect Reddit data using the VOSON Lab tools?\nAs at July 2023, it is possible to access Reddit data using vosonSML (v. 0.37.7) and VOSONDash (0.5.11). The Reddit API end-point used does not require OAuth authentication for vosonSML, which means that there should not be problems with small collections.\n2.3 Future developments\nThere is currently a default wait time of 3-5 seconds between collection requests. Users can change this default behaviour by modifying the WaitTime parameter in the vosonSML Collect() function, as documented here.\nGiven Reddit’s statement that there is a maximum of 10 API requests per minute (when OAuth authentication is not used), then users should set the WaitTime parameter to a minimum of 6 seconds so as to avoid hitting the rate limit. However as above, we expect the current version of vosonSML will be fine for small Reddit collections, and therefore, VOSON Dashboard can be used for small collections, with the current default wait time. We will be updating the default wait time in a future version of vosonSML.\n3. Twitter\n3.1 Changes to Twitter API\nFor Twitter, changes to the API access have been significant. This post by rtweet developers summarises the changes of API access since February until June 2023. On 9 February 2023, Twitter cut off free access to both of its APIs (v2 and v1.1) and included a paid basic tier. Legacy Twitter API access tiers, such as Standard (v1.1), Essential (v2), Elevated (v2), and Premium were deprecated by June 2023. Any applications and projects that a user had not switched over to one of the new tiers were automatically placed in the default new Free access tier, which supports V1.1 Media Endpoints, V1.1 OAuth endpoints (Login with Twitter), V2 Manage Tweet endpoints\nand V2 users/me endpoint, for write only use cases.\n3.2 Can I collect Twitter data using the VOSON Lab tools?\nBased on the information above, if you have a developer account, with access to the v.1.1 API endpoint, you should be able to collect Twitter data with vosonSML using a paid tier (note: as of July 2023 we in the VOSON Lab have not tested collection using a paid tier).\nAlso, please note that vosonSML only accesses the Twitter v1.1 API via rtweet and does not support the newer v2 API. You can refer to the voson.tcn package if you are interested in using the v2 API to collect and analyse Twitter conversation networks.\nAs of July 2023, there is still a lot of uncertainty around Twitter data collection, and in particular, what will happen to the previous Twitter access for academics.\n3.3 Future developments\nWe are keeping a close eye on developments with Twitter, or X(!?), but we are also extending the frontiers of VOSON by looking into other data sources such as Mastodon.\n4. YouTube\nAs of July 2023, there have been no changes to the YouTube API and tne VOSON tools can collect YouTube comment networks.\n5. WWW hyperlink networks\nOur collection of WWW hyperlink networks is, of course, unaffected by any changes to social media platforms.\n\n\n\n",
+    "preview": {},
+    "last_modified": "2023-07-27T14:49:55+10:00",
+    "input_file": "changes-to-apis-what-we-know-and-what-can-we-do-with-the-voson-lab-suite-of-tools.knit.md"
+  },
+  {
     "path": "posts/2023-04-27-semantic-network-analysis-with-website-text/",
     "title": "Semantic network analysis with website text",
     "description": "How to construct semantic networks, based on word co-occurrence, using text extracted from websites.",
