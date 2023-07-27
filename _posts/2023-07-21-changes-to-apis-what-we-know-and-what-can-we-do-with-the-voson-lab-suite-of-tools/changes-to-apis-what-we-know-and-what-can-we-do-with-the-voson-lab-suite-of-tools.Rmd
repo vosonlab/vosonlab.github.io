@@ -10,10 +10,19 @@ author:
   - name: Bryan Gertzel
     
 date: 2023-07-21
+categories:
+  - rstats
+  - Twitter
+  - Reddit
+  - API 
+  - vosonSML
+  - VOSONDash
+  - voson.tcn
+preview: reddit.jpg 
 output:
   distill::distill_article:
     self_contained: false
-draft: false
+draft: true
 ---
 
 
