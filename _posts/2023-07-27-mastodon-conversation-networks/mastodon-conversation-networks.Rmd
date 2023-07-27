@@ -1,0 +1,266 @@
+---
+title: "Mastodon Conversation Networks"
+description: |
+  Demonstration of how to use rtoot to collect conversation threads and construct networks
+author:
+  - name: Bryan Gertzel
+    affiliation: VOSON Lab
+    affiliation_url: http://vosonlab.net/
+    url: https://orcid.org/0000-0002-6285-8649
+date: 2023-07-27
+categories:
+  - rstats
+  - networks
+  - rtoot
+output:
+  distill::distill_article:
+    self_contained: false
+    toc: true
+    toc_depth: 3
+draft: true
+bibliography: refs.bib
+csl: apa-style.csl
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+options(width = 80)
+data_path <- "E:/My Drive/VOSON-BLOG-DATA/2023-07-27-mastodon-conversation-networks/"
+collect_data <- FALSE
+
+library(dplyr)
+library(rtoot)
+library(httr)
+library(rvest)
+library(tidyr)
+```
+
+## Introduction
+
+Mastodon is a decentralised microblogging platform that uses an open-source network protocol called `ActivityPub` to communicate between server instances and user software clients. Unlike other social media platforms that are centralised and owned by a company, Mastodon servers are distributed, user owned and operated and called `instances`. The server instances collectively form a network known as the `federated universe` or [fediverse](https://docs.joinmastodon.org/#fediverse).
+
+Pitched as a free and open alternative to Twitter, Mastodon allows users to sign-up to an instance of their choosing, joining an autonomous local community with their own moderation and policies. Server instances are typically established around a [community or area of interest](https://joinmastodon.org/servers), for example, `historians.social` is an instance created for academic historians and `federated.press` a server centered around journalism. Users can interact with the community on their server, or more widely with users on other servers, `following` users, responding to and `boosting` messages (called `toots`) and through use of `hashtags`. Users can find global content through the `federated timeline`, which is a stream of messages eminating from server instances that their local server is federated with, or local server content through the `local timeline`. 
+
+Much like Twitter, Mastodon has a REST data API that has data endpoints and OAuth authentication to support the operation of 3rd-party applications. Unlike Twitter, authentication and data collection occur at the individual server instance level and can have varying support for public or private access to data depending on the server providers configuration and policies. Because of the open and transparent nature of the servers and networks, data collection can be performed on multiple sources, the fediverse presenting a significantly lower barrier to collecting public data than other restrictive and commercial social media platforms.
+
+## The rtoot package
+
+![rtoot](rtoot.png){ style='float:right;width:120px !important;height:139px !important;' } The [rtoot](https://github.com/schochastics/rtoot) R package developed by [@SCHOCHCHAN2023] allows R code to interact with Mastodon API enpoints and perform various functions. The package allows the creation of either a `public` or `private` bearer token used to authenticate requests to the instance server API. A public bearer token is suitable for reading public data, whereas a private token would be used to perform user scope operations such as posting toots. No user account or credentials are required to create a public scope token.
+
+```{r auth, include = FALSE}
+auth_setup(instance = "mastodon.social", type = "public", name = "mast_soc_public", path = "~/.rtoot_auth")
+rtoot_token <- readRDS("~/.rtoot_auth/mast_soc_public.rds")
+```
+
+```{r auth_, echo = TRUE, eval = FALSE}
+library(rtoot)
+
+# create a public access bearer token, name and save it for future use
+auth_setup(
+  instance = "mastodon.social",
+  type = "public",
+  name = "mast_soc_public",
+  path = "~/.rtoot_auth")
+
+# Token of type "public" for instance mastodon.social is valid
+# <mastodon bearer token> for instance: mastodon.social of type: public
+
+# read rtoot bearer token
+rtoot_token <- readRDS("~/.rtoot_auth/mast_soc_public.rds")
+
+# bearer token value
+rtoot_token$bearer
+# [1] "fLb..............................spY"
+
+token <- rtoot_token$bearer
+```
+
+## Collecting data
+
+The following example will look at collecting a conversation thread from the branching replies made to a public toot suitable for constructing networks. An example toot was chosen that was made by the [Ars Technica](https://mastodon.social/@arstechnica) blog site account concerning a story about the rebranding of Twitter with 'X'.
+
+```{r, echo=FALSE, out.width="70%", fig.cap="Ars Technica news story toot on mastodon.social."}
+knitr::include_graphics("arstechnica_toot.png")
+```
+
+To collect the relevant toots related to the thread (also known as a `context`) the server instance and toot identifier are required parameters. These can be extracted from the toot URL.
+
+```{r url, echo = TRUE}
+library(httr)
+
+# thread url
+toot_url <- "https://mastodon.social/@arstechnica/110781427821159121"
+
+# extract toot id and server instance from url
+toot_server = parse_url(toot_url)$hostname    # mastodon.social
+toot_id <- basename(parse_url(toot_url)$path) # 110781427821159121
+```
+
+The `rtoot` function `get_status` can be used to collect toots and `get_context` for threads. The original toot is not returned by `get_context` so this must be collected seperately.
+
+```{r get_data, include = FALSE}
+toot <- readRDS(paste0(data_path, "toot.rds"))
+thread <- readRDS(paste0(data_path, "thread.rds"))
+```
+
+```{r get_data_, echo = TRUE, eval = FALSE}
+# get thread
+toot <- get_status(toot_id, toot_server, token)
+thread <- get_context(toot_id, toot_server, token)
+```
+
+```{r get_data_1, echo = TRUE}
+# toot object
+toot
+
+# thread object
+names(thread)
+
+# number of toots above the original post
+nrow(thread$ancestors)
+
+# number of toots below the original post
+nrow(thread$descendants)
+
+# rate-limit
+attr(thread, "headers")
+```
+
+## Data wrangling
+
+The collected data can be combined into dataframes and cleaned up to make it easier to generate networks. In particular the API returns text content in HTML format that contains all of the relevant tags for displaying data in a web page. This is not useful for text data analysis so we can remove unecessary tags and replace others to improve the text using the `rvest` package `html_text2` function. 
+
+```{r data_wrangle, echo = TRUE}
+library(dplyr)
+library(rvest)
+library(reactable)
+
+# combine collected toot data
+toots <- toot |> bind_rows(thread$descendants, thread$ancestors)
+
+# extract user metadata from nested account column
+users <- toots |> 
+  select(account) |> 
+  unnest_wider(account) |> 
+  distinct(id, .keep_all = TRUE) |>
+  mutate(note = ifelse(nchar(note) < 1, "<span></span>", note)) |>
+  rowwise() |>
+  mutate(note = html_text2(read_html(note))) |>
+  ungroup()
+
+# user metadata
+names(users)
+```
+
+```{r data_wrangle_, echo = FALSE}
+reactable(
+  users |>
+    slice_head(n = 1) |>
+    select(-fields) |>
+    mutate(avatar = paste0("<img src='",  avatar_static, "'>")) |>
+    relocate(avatar),
+  columns = list(avatar = colDef(name = "avatar", html = TRUE)),
+  bordered = TRUE, striped = TRUE, resizable = TRUE,
+  wrap = TRUE, searchable = FALSE, compact = TRUE,
+  pagination = FALSE, height = 200)
+```
+
+```{r data_wrangle_1, echo = TRUE}
+nrow(users)
+
+# convert html content to formatted text
+toots <- toots |>
+  rowwise() |>
+  mutate(text = html_text2(read_html(content))) |>
+  ungroup()
+
+# toots metadata
+names(toots)
+```
+
+## Create networks
+
+The next step is creating edge lists for `activity`, `actor` and `community` networks.
+
+### Activity network
+
+```{r activity, echo = TRUE}
+# activity network edge list
+activity_edges <- toots |> select(from = id, to = in_reply_to_id) |> filter(!is.na(to))
+
+# activity network nodes and metadata
+activity_nodes <- toots |>
+  hoist(account, account_id = "id") |>
+  hoist(tags, tag = list("name"), tag_url = list("url")) |>
+  hoist(mentions, mention_id = list("id"), mention_name = list("username"))
+
+library(ggraph)
+library(tidygraph)
+library(stringr)
+
+# create a labels from toot ids
+activity_nodes$label <- paste0("..", str_sub(activity_nodes$id, -4, -1))
+
+# create the network graph
+g <- tbl_graph(nodes = activity_nodes, edges = activity_edges, directed = TRUE)
+```
+
+```{r net1, echo = FALSE, fig.cap = "Conversation thread activity network. Toot ID's as labels."}
+ggraph(g, layout = "kk") +
+  geom_edge_arc(strength = 0.0, arrow = grid::arrow(length = unit(0.15, "inches"))) +
+  geom_node_point() +
+  geom_node_text(aes(label = label))
+```
+
+### Actor network
+
+```{r actor, echo = TRUE}
+# actor network edge list
+actor_edges <- toots |>
+  hoist(account, account_id = "id", account_name = "username") |>
+  select(from = account_id, to = in_reply_to_account_id) |>
+  filter(!is.na(to))
+
+actor_nodes <- users
+
+# create a labels from usernames
+actor_nodes$label <- paste0("@..", str_sub(actor_nodes$username, -4, -1))
+
+# create the network graph
+g2 <- tbl_graph(nodes = actor_nodes, edges = actor_edges, directed = TRUE)
+```
+
+```{r net2, echo = FALSE, fig.cap = "Conversation thread actor network. User display names as labels."}
+ggraph(g2, layout = "fr") +
+  geom_edge_arc(strength = 0.2, arrow = grid::arrow(length = unit(0.15, "inches"))) +
+  geom_node_point() +
+  geom_node_text(aes(label = label))
+```
+
+### Community network
+
+```{r community, echo = TRUE}
+domain_nodes <- users |>
+  select(id, acct) |>
+  mutate(acct_instance = gsub("^.+@(.+)$", "\\1", acct)) |>
+  select(-acct)
+
+domain_edges <- actor_edges |>
+  left_join(domain_nodes |>
+              rename(from_instance = acct_instance), by = c("from" = "id")) |>
+  left_join(domain_nodes |>
+              rename(to_instance = acct_instance), by = c("to" = "id")) |>
+  select(from = from_instance, to = to_instance)
+
+domain_nodes <- domain_nodes |>
+  count(acct_instance) |> ungroup() |> rename(id = acct_instance)
+
+g3 <- tbl_graph(nodes = domain_nodes, edges = domain_edges, directed = TRUE)
+```
+
+```{r net3, echo = FALSE, fig.cap = "Conversation thread actor community network. Server instance names as labels."}
+ggraph(g3, layout = "fr") +
+  geom_edge_arc(strength = 0.2, arrow = grid::arrow(length = unit(0.15, "inches"))) +
+  geom_node_point(aes(size = n)) +
+  geom_node_text(aes(label = id))
+```
