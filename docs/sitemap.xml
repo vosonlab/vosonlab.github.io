@@ -2,7 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" version="1.0">
   <url>
     <loc>https://vosonlab.github.io/</loc>
-    <lastmod>2021-12-16T23:03:51+11:00</lastmod>
+    <lastmod>2023-08-16T09:47:21+10:00</lastmod>
+  </url>
+  <url>
+    <loc>https://vosonlab.github.io/posts/2023-07-27-mastodon-conversation-networks/</loc>
+    <lastmod>2023-08-16T09:49:05+10:00</lastmod>
   </url>
   <url>
     <loc>https://vosonlab.github.io/posts/2023-07-21-changes-to-apis-what-we-know-and-what-can-we-do-with-the-voson-lab-suite-of-tools/</loc>
