@@ -1,0 +1,156 @@
+---
+title: "Topic Modelling with Website Text"
+description: |
+  A short description of the post.
+author:
+  - name: Robert Ackland
+    url: https://orcid.org/0000-0002-0008-1766
+    affiliation: VOSON Lab, School of Sociology, Australian National University
+    affiliation_url: http://vosonlab.net/
+  - name: Sidiq Madya
+    url: https://orcid.org/0000-0002-8444-3145
+date: 2024-01-19
+  distill::distill_article:
+    self_contained: false
+#    number_sections: true   [doesn't work with distill]
+    toc: true
+    toc_depth: 3
+draft: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+
+First, we read in the dataframe constructed in this [post](https://vosonlab.github.io/posts/2023-02-23-hyperlink-networks-and-website-text-content/).
+
+```{r}
+library(knitr)
+textContent <- readRDS("textContent2.rds")
+```
+
+As a reminder, here is a summary of what is contained in this dataframe.
+
+```{r}
+colnames(textContent)
+kable(head(textContent[,c(1,3,4)]))
+#kable seems to have trouble with following...
+head(substr(textContent$text,1,80))
+```
+
+##Topic modelling
+
+## Construct the corpus from the website meta keyword data
+
+```{r}
+library(quanteda)
+library(quanteda.textplots)
+library(quanteda.textstats)
+library(readtext)
+library(dplyr)
+library(igraph)
+
+#new dataframe to aid code sharing
+df <- data.frame('name'=textContent$domain, 'type'=textContent$type, 'text'=textContent$text)
+
+corp1 <- corpus(df)
+
+dfm_stm  <- corp1 %>% tokens(remove_punct = TRUE, remove_numbers=TRUE, 
+                                        remove_separators =TRUE, remove_url = TRUE, 
+                                        remove_symbols = TRUE) %>%  
+    tokens_tolower() %>%
+    tokens_remove(stopwords('english')) %>%
+    dfm() #%>%
+    #dfm_trim(min_termfreq = 0.95, termfreq_type = "quantile", 
+    #         max_docfreq = 0.1, docfreq_type = "prop")
+
+
+#remove any empty documents
+dfm_stm  <-  dfm_stm[which(ntoken(dfm_stm) > 0), ]
+
+
+```
+
+## Searching for the optimal number of topics (K)
+
+The following approach can be used to search for the optimal number of topics (K). More details can be found in the [`stm` vignette](https://cran.r-project.org/web/packages/stm/vignettes/stmVignette.pdf). For the enviro activists dataset the results were not very conclusive (perhaps this is because the vocabulary is not very large, since these are meta keywords). So for this reason, we will not use the output from this attempt to find optimal K and instead will set K=10.
+
+But note that we are creating an object in the next block of code (`out`) which we will use when we estimate the topic model.
+
+```{r}
+library(stm)
+
+#to use the searchK function (to find optimal K) we need to convert the quanteda dfm to 
+#a format that is acceptable to stm
+out <- convert(dfm_stm, to = "stm")
+
+#Note: this is a list with three elements: documents, vocab and meta
+str(out)
+#List of 3
+# $ documents:List of 81
+#  ..$ text3  : int [1:2, 1:19] 98 1 296 1 297 2 364 1 365 1 ...
+#[snip]
+# $ vocab    : chr [1:964] "_x000d_" "abuse" "accion" "acción" ...
+# $ meta     :'data.frame':	81 obs. of  2 variables:
+#  ..$ name: chr [1:81] "http://www.nwrage.org/" "http://ngin.tripod.com/" "http://www.ifoam.org/" #"http://www.i-sis.org.uk/" ...
+#  ..$ type: chr [1:81] "Bio" "Bio" "Bio" "Bio" ...  
+  
+#the following code works, but the results were not easily interpretable and so we aren't using
+#these results but instead just use K=10
+documents <- out$documents
+vocab <- out$vocab
+meta <- out$meta
+K <- c(5, 10, 15)
+kresult <- searchK(documents, vocab, K, data = meta)
+
+plot(kresult)
+```
+
+
+## Estimate the topic model
+
+Let's proceed to estimate the topic model using K=10.
+
+First, let's use the "standard" approach (this is what we did in Week 10).
+
+```{r}
+
+tm_k10 <- stm(dfm_stm, K=10)
+plot(tm_k10, n=10)
+
+```
+
+In order to incorporate document metadata (north south classification) into the topic model, it seems that we need to work with the `out` object constructed above, rather than the DTM constructed using quanteda.
+
+```{r}
+
+#The following estimates the topic model, using `type` as a covariate 
+tm_k10 <- stm(documents = out$documents,
+         vocab = out$vocab, 
+         K = 10,
+         prevalence = ~type,
+         data = out$meta,
+         verbose = TRUE)
+
+plot(tm_k10, n=10)
+
+#We will look at the output from the above plot to determine the topics we wish to focus on
+
+#from help file: estimateEffect "Estimates a regression where documents are the units, the outcome is the proportion of each document about a topic in an STM model and the covariates are document-meta data." 
+
+#In the following, we will supply as a vector the topics we wish to estimate the regression for
+prep <- estimateEffect(c(2,6) ~ type, stmobj=tm_k10, metadata=out$meta)
+
+plot.estimateEffect(x = prep,
+                      covariate = "type",
+                      method = "pointestimate",
+                      model = tm_k10,
+                      labeltype = "frex",
+                      n = 5)
+
+```
+
+
+
