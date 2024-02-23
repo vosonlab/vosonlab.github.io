@@ -1,0 +1,299 @@
+---
+title: "Exploring signed networks in Mastodon"
+description: |
+  An approach to empirically observe online signed networks, using Mastodon instance log data.
+author:
+  - name: Francisca Borquez V.
+    url: https://orcid.org/0009-0009-7755-374X
+  - name: Bryan Gertzel
+     url: https://orcid.org/0000-0002-6285-8649
+  - name: Robert Ackland
+    url: https://orcid.org/0000-0002-0008-1766
+    affiliation: VOSON Lab
+    affiliation_url: http://vosonlab.net/
+date: 2024-02-23
+categories:
+  - rstats
+  - networks
+  - rtoot
+  - mastodon
+  - signed networks
+  - SNA
+output:
+  distill::distill_article:
+    self_contained: false
+    bibliography: refs.bib
+    csl: apa-style.csl
+draft: true
+---
+
+## Introduction -- Exploring Mastodon networks with R tools
+
+Our previous [post](https://vosonlab.github.io/posts/2023-07-27-mastodon-conversation-networks/) (INCLUDE CITATION) introduced Mastodon -- a decentralised microblogging platform -- as well as code and methodological steps to collect Mastodon data using the `rtoot` R package (INCLUDE CITATION) and construct networks for analysis. 
+
+We have now implemented Mastodon collection via its API, in `vosonSMl` and `vosonDash`, using the `rtoot` R package. Steps for collecting and generating different types of networks, following a similar framework as with the other data sources (Twitter, YouTube, Reddit, WWW) are available on the [GitHub page](https://github.com/vosonlab/vosonSML).
+
+
+## Exploring signed networks in Mastodon
+ 
+Mastodon is a decentralised microblogging platform that uses an open-source network protocol called `ActivityPub` to communicate between server instances and users. The instances collectively form a network of interoperable servers known as the federated universe or Fediverse. Users join autonomous local communities (with their own rules, administration and moderation), typically established around a community or area of interest and intended to group similar users based on e.g. geographic location, language, views, interests, etc. 
+
+The Mastodon federated governance of instances results in local rules and moderation, wherein users and other instances can be ‘friended’ but also silenced or suspended. As instances administrators apply moderating rules (e.g. by nominating foes), they protect their own users to be exposed to potentially harmful timelines, content and users. The following example provides an approach to empirically observe online signed networks, i.e. networks containing both positive (friendly) and negative (antagonistic) ties, using Mastodon instance log data.
+
+### Identifying seed server instances
+
+Mastodon provides an [instance search engine](https://mastodon.help/instances), which is based on a database that gets crawled and updated on a daily basis. Users can define search parameters, for example by setting languages, descriptions, number of users, etc.
+
+In this example, we are using 5 server instances relating to technology as starting points (seeds), we identified through the instance search engine. The seeds were qualitatively assessed and included in the sample if they:
+
+- were self-identified and 'actually' related to tech
+- were actively moderated and have terms of use in place
+- presented a list of moderated servers or instance blocks (foes)
+- had at least 1,000 users, who are involved and active
+
+	| Instance | Number of users |
+| ----------- | ----------- |
+| social.veraciousnetwork.com | 2,087 |
+| defcon.social | 1,122 |
+| vmst.io | 1,942 |
+| social.linux.pizza | 1,675 |
+| gamestoot.de | 1,798 |
+
+Table 1: seed server instances related to tech and number of active users.
+
+Data were collected in November 2023. We used the R package `rtoot` (REF) to programmatically access the list of ‘friends’ -- federated servers, with the `get_instance_peers` function -- and ‘foes’ -- moderated servers, with the `get_instance_blocks` function. 
+
+```{r, eval=FALSE}
+# Code authored by Bryan Gertzel, VOSON Lab
+# options
+options(scipen = 999)
+options(encoding = "UTF-8")
+
+library(tidyverse)
+library(rtoot)
+
+#--------------------
+#Collect the raw data
+#--------------------
+
+# read from csv. 'About' column contains server instances URLs. Trailing gets removed with second line.
+seeds <- read_csv(file = "seeds.csv") |> pull("About") |> str_remove_all("https://|/about|/explore")
+
+# get instance peer list (friends)
+get_peers <- function(x) {
+  tryCatch({
+    peers <- get_instance_peers(x, anonymous = TRUE)
+    tibble(peers.domain = peers) |> mutate(instance = x) |> relocate(instance)
+  },
+  error = function(e) {
+    message(paste(x, "-", "get_peers", e))
+    NULL
+  })
+}
+
+# get instance blocks list
+get_blocks <- function(x) {
+  tryCatch({
+    blocks <- get_instance_blocks(x, anonymous = TRUE)
+    blocks |> rename_with(~ paste0("blocks.", .x)) |> mutate(instance = x) |> relocate(instance)
+  },
+  error = function(e) {
+    message(paste(x, "-", "get_blocks", e))
+    NULL
+  })
+}
+
+# get friends and foes for seed instances in a dataframe
+data <- map_dfr(seeds, function(x) bind_rows(get_peers(x), get_blocks(x)))
+
+nrow(data)
+#[1] 223032
+
+#Save raw data
+saveRDS(data, "data_23Nov.rds")
+```
+
+The resulting dataframe contains 223,032 rows, including both peers and foes nominations. We then constructed a directed network, where nodes are server instances, and there are two types of tie: ‘friend’ i.e. where instance i regards instance j as a ‘peer’ and ‘foe’ i.e. where instance i blocks instance j. Type of tie -- friend or foe -- was included in the network as edge attribute. 
+
+```{r, Eval=FALSE}
+# Code authored by Rob Ackland, VOSON Lab
+#Construct the networks
+library(dplyr)
+library(igraph)
+
+data <- readRDS("data_23Nov.rds")
+
+# server relations (edge list)
+relations <- data |>
+  select(from = instance, to = peers.domain) |>
+  filter(!is.na(to)) |>
+  mutate(type = "friend") |>
+  bind_rows(
+    data |>
+      select(from = instance, to = blocks.domain) |>
+      filter(!is.na(to)) |>
+      mutate(type = "foe")
+  ) |>
+  distinct()
+
+g <- graph_from_data_frame(relations)
+
+vcount(g)
+#[1] 124258
+ecount(g)
+#[1] 223032
+
+# Option for signed networks -- weighted ties 
+#E(g)$weight <- ifelse(E(g)$type=="friend", 1, -1)
+
+#identifying seed servers
+V(g)$seed <- "no"
+V(g)$seed[which(degree(g, mode="out")>0)] <- "yes"      
+
+table(E(g)$type)
+
+#foe friend 
+#643 222389
+```
+
+The full network contains 124,258 nodes (server instances) and 223,032 ties, of which 222,389 are positive ('friend' or peer nominations) and 643 are negative ('foe' nominations).
+
+Then, the nodes were classified as 'friends' , 'foes', 'mixed' and 'neither', according to the type of ties they receive:
+
+| Type | Classification | Number of nodes | Colour |
+| ----------- | ----------- | ----------- |----------- |
+| Friend | if receive >=2 friend nominations and <2 foe nominations | 28,036  | Green | 
+| Foe | if receive <2 friend nominations and >=2 foe nominations | 41  | Red | 
+| Mixed | if receive >=2 friend nominations and >=2 foe nominations | 52 | Orange | 
+| Neither | Otherwise | 296,129  | White | 
+
+```{r, eval=FALSE}
+#-----------------------------
+#Classify nodes: 
+#if receive >=2 friend nominations and <2 foe nominations then "friend"
+#if receive <2  friend nominations and >=2 foe nominations then "foe"
+#if receive >=2 friend nominations and >=2 foe nominations then "mixed"
+#otherwise: "neither"
+#Note: this code takes several minutes to run
+
+e_ind <- incident_edges(g, V(g), mode="in")
+
+e_ind[1]
+
+f1 <- function(t){
+ 
+    x1 <- table(e_ind[[t]]$type)
+    isFriend <- 0
+    if ("friend" %in% names(x1))
+        if (x1[which(names(x1)=="friend")]>=2)
+            isFriend <- 1
+    isFoe <- 0
+    if ("foe" %in% names(x1))
+        if (x1[which(names(x1)=="foe")]>=2)
+            isFoe <- 1
+    
+    if (t%%100==0)
+        cat("finished:", t, "\n")
+
+    type <- ifelse(isFriend & !isFoe, "friend",
+                   ifelse(!isFriend & isFoe, "foe", 
+                          ifelse(isFriend & isFoe, "mixed", "neither")))
+}
+
+#This takes several minutes
+#L <- lapply(1000:2000, f1)                #testing
+L <- lapply(1:length(e_ind), f1)
+df <- do.call("rbind", L)
+
+V(g)$type <- df
+
+table(V(g)$type)
+#foe  friend   mixed neither 
+#41   28036      52   96129
+
+#save graphml
+write.graph(g, "g.graphml", format="graphml")  
+```
+
+Then, we constructed a subnetwork including 'foe' ties only. This subnetwork encompasses the seeds which have sent negative ties and the nodes that have received at least one 'foe' nomination. The resulting network has 497 nodes and 643 'foe' edges. Isolates were removed. 
+
+Nodes were colour coded based on the categorisation 
+
+```{r}
+
+#READ GRAPH
+
+g <- read.graph("g.graphml",format="graphml")
+
+#Construct network: (1) only foe ties and (2) remove isolates
+#So this network only contains seeds and nodes that have received at least one foe nomination
+
+g5 <- delete.edges(g, which(E(g)$type=="friend"))
+g5 <- induced.subgraph(g5, which(degree(g5)>0))
+
+#Colour nodes according to their status as seed/friend/foe/mixed
+#So we find that there are nodes in this network that are coloured green: they are 
+#classifiedas "friend" (more than 2 friendship nominations) but at least one seed has classified them as foe
+
+V(g5)$color <- "white"
+V(g5)$color[which(V(g5)$type=="friend")] <- "green"       #seed servers
+V(g5)$color[which(V(g5)$type=="foe")] <- "red"       #seed servers
+V(g5)$color[which(V(g5)$type=="mixed")] <- "orange"       #seed servers
+V(g5)$color[which(V(g5)$seed=="yes")] <- "blue"       #seed servers
+
+png("foe_ties_only.png", width=600, height=600)
+plot(g5, vertex.size=3, vertex.label="", edge.arrow.size=0.3)
+dev.off()
+
+
+write.graph(g5, "g5.graphml", format="graphml")    
+
+table(V(g5)$type)
+#foe  friend   mixed neither 
+#41     237      52     167
+
+#Let's just check that a node classified as mixed really is mixed
+mixed <- which(V(g5)$type=="mixed")
+#Example:
+V(g5)$name[mixed[1]]
+#[1] "iddqd.social"
+
+#Let's see the inbound ties to this node
+e_ind[[which(V(g)$name=="iddqd.social")]]
+#+ 6/223032 edges from 288ae3e (vertex names):
+#    [1] furry.engineer             ->iddqd.social social.veraciousnetwork.com->iddqd.social
+#[3] vmst.io                    ->iddqd.social defcon.social              ->iddqd.social
+#[5] social.linux.pizza         ->iddqd.social gametoots.de               ->iddqd.social
+
+#Let's see the type of tie
+e_ind[[which(V(g)$name=="iddqd.social")]]$type
+#[1] "friend" "foe"    "foe"    "foe"    "foe"    "friend"
+#So everthing looks correct: this node is "mixed" as there are two friendship nominations
+#and 4 foe nominations
+
+
+#other networks, just testing...
+
+g3 <- induced.subgraph(g, which(V(g)$seed=="yes" |  V(g)$type %in% c("friend", "foe", "mixed")))
+
+g3 <- induced.subgraph(g, which(V(g)$seed=="yes" |  V(g)$type %in% c("foe", "mixed")))
+plot(g3, layout=layout_with_lgl(g3), vertex.size=3, vertex.label="", edge.arrow.size=0.3)
+
+
+table(degree(g3))
+
+V(g3)$color <- "white"
+V(g3)$color[which(V(g3)$type=="friend")] <- "green"       #seed servers
+V(g3)$color[which(V(g3)$type=="foe")] <- "red"       #seed servers
+V(g3)$color[which(V(g3)$type=="mixed")] <- "orange"       #seed servers
+V(g3)$color[which(V(g3)$seed=="yes")] <- "blue"       #seed servers
+
+write.graph(g3, "g3.graphml", format="graphml")    
+
+table(degree(g, mode="in"))
+
+table(V(g5)$color)
+
+```
+
+
