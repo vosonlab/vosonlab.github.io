@@ -12,7 +12,24 @@
       <link>https://vosonlab.github.io/</link>
     </image>
     <generator>Distill</generator>
-    <lastBuildDate>2023-07-27</lastBuildDate>
+    <lastBuildDate>2024-02-23</lastBuildDate>
+    <item>
+      <title>Exploring signed networks in Mastodon</title>
+      <dc:creator>Francisca Borquez V.</dc:creator>
+      <dc:creator>Bryan Gertzel</dc:creator>
+      <dc:creator>Robert Ackland</dc:creator>
+      <link>https://vosonlab.github.io/posts/2024-02-23-exploring-signed-networks-in-mastodon</link>
+      <description>An approach to empirically observe online signed networks, using Mastodon instance log data.</description>
+      <category>rstats</category>
+      <category>networks</category>
+      <category>rtoot</category>
+      <category>mastodon</category>
+      <category>signed networks</category>
+      <category>SNA</category>
+      <guid>https://vosonlab.github.io/posts/2024-02-23-exploring-signed-networks-in-mastodon</guid>
+      <pubDate>2024-02-23</pubDate>
+      <media:content url="https://vosonlab.github.io/posts/2024-02-23-exploring-signed-networks-in-mastodon/friends-foes.png" medium="image" type="image/png" width="1280" height="788"/>
+    </item>
     <item>
       <title>Mastodon Conversation Networks</title>
       <dc:creator>Bryan Gertzel</dc:creator>
