@@ -3,7 +3,7 @@ title: "Exploring signed networks in Mastodon"
 description: |
   An approach to empirically observe online signed networks, using Mastodon instance log data.
 author:
-  - name: Francisca Borquez V.
+  - name: Francisca Borquez
     url: https://orcid.org/0009-0009-7755-374X
     affiliation: VOSON Lab
     affiliation_url: http://vosonlab.net/
@@ -296,7 +296,7 @@ Consistent with the literature [@EVERETT2014111; @STADTFELD2020129], the network
 In their exploration of online signed networks, [@leskovec2010signed] sustained that positive ties are expected to produce clusters while negative ties tend to span positive clusters, which can be observed in this example. In this network, green nodes (friends) – those servers that have received only 1 negative nomination and 2 or more positive nominations by other seed instance - tend to cluster around the seed servers, while unequivocal ‘foe’ servers (red) plus ‘mixed’ servers (orange)- which have received at least 2 negative and positive nominations - are localised in a central area of the network, spanning the clusters.
 
 
-## 4. Next Steps:
+## 4. Next Steps
 The next steps of this research will involve the use of `signnet` [@Schoch2023], an R package that provides methods to analyse signed networks, with special focus on structural balance using triads, and signed blockmodeling. 
 
 Another approach will involve to qualitatively assess seed servers' moderating rules, based on what constitutes an 'acceptable' reason to block an instance. Moderating rules will be then categorised in scales, from ‘strict’ to ‘permissible’, and such values can be included in the network as node attributes. Similarly, we will assess the capacity of the instance administrator(s) to ‘defend their space’ as a network strategy to define boundaries, i.e. by identifying other variables that could explain clustering, for example, frequency of activity (active versus passive moderation), date of creation (established communities versus new entrants), etc. 
