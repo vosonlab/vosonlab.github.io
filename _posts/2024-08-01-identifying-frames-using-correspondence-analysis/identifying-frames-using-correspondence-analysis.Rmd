@@ -1,0 +1,463 @@
+---
+title: "Identifying Frames Using Correspondence Analysis"
+description: |
+  A short description of the post.
+author:
+  - name: Robert Ackland
+    url: https://orcid.org/0000-0002-0008-1766
+    affiliation: VOSON Lab, School of Sociology, Australian National University
+    affiliation_url: http://vosonlab.net/
+  - name: Sidiq Madya
+    url: https://orcid.org/0000-0002-8444-3145
+date: 2024-08-01
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+Introduction to the environmental activist website network.
+
+## Word frequencies
+
+The following is a review of material from [previous blog post], this time using `quanteda`.
+
+```{r}
+library(igraph)
+library(dplyr)
+#library(stringr)
+library(knitr)
+
+g <- read_graph("enviroActivistWebsites_2006.graphml", format="graphml")
+
+#create a data frame containing the meta keywords
+df <- data.frame(Vertex=V(g)$name, Type=V(g)$vosonCA_Type,
+                 metaKeywords=V(g)$vosonTxt_metaKeywords, stringsAsFactors=FALSE)
+
+#only those websites with meta keywords
+df <- df %>% filter(metaKeywords!="")
+
+```
+
+The following is the top-10 words based on frequency.
+
+```{r}
+library(quanteda)
+
+corp1 <- corpus(df, text_field = 'metaKeywords')
+
+stopwords2 <- c(stopwords("english"),
+                c('environment','environmental','environmentalism','environmenta','environnement')
+)
+
+toks1 <- corp1 %>% tokens() %>% tokens_tolower() %>% tokens_remove(stopwords2)
+
+dfm1 <- dfm(toks1)
+
+docnames(dfm1) <- df$Vertex
+
+dfm1 %>%
+  topfeatures() %>%
+  kable()
+
+```
+
+We would like to use a dictionary to account for synonyms.
+
+Synonyms and additional stop words were identified by looking through the feature names.
+
+This is an iterative process, often involves seeing a stop word or an outlier on the CA plot and then coming back here and removing stopword or modifying the dictionary.
+
+### Problem with using quanteda dictionary
+
+Note that I got unexpected behaviour with the use of the dictionary to adjust for synonyms and plurals. The following block of code details the behaviour, I have put a question up on Stackoverflow.
+
+I am using quanteda 4.1.0 and getting some unexpected behaviour when using a dictionary to adjust for synonyms and plurals. The ordering of the entries in the dictionary is affecting the frequency count of features.
+
+In the example below, "banana" and its plural appears 3 times while "apple" and its plural appears twice. But I only get the correct frequency counts when the dictionary has "apple" listed before "banana". So it seems the alphabetical ordering of entries in the dictionary affects the behaviour of dfm_lookup()?
+
+```{r}
+library(quanteda.textstats)
+
+dfmat <- dfm(tokens(c("I like apples, but I don't like apple pie. Bananas are OK",
+                      "I like bananas, but I don't like banana fritter.")))
+
+textstat_frequency(dfmat) %>% filter(grepl("apple|banana", feature))
+#    feature frequency rank docfreq group
+# 7  bananas         2    3       2   all
+# 8   apples         1    8       1   all
+# 9    apple         1    8       1   all
+# 13  banana         1    8       1   all
+
+#With wildcards
+#This works - expected behaviour
+dict <- dictionary(list(apple = c("apple*"),
+                        banana = c("banana*")))
+dfmat <-  dfm_lookup(dfmat,
+                    dictionary = dict, exclusive = FALSE, capkeys = FALSE)
+
+textstat_frequency(dfmat) %>% filter(grepl("apple|banana", feature))
+#   feature frequency rank docfreq group
+# 3  banana         3    3       2   all
+# 4   apple         2    4       1   all
+
+
+#This doesn't work - unexpected behaviour
+dict <- dictionary(list(banana = c("banana*"),
+                        apple = c("apple*")))
+
+dfmat <-  dfm_lookup(dfmat,
+                    dictionary = dict, exclusive = FALSE, capkeys = FALSE)
+
+textstat_frequency(dfmat) %>% filter(grepl("apple|banana", feature))
+#   feature frequency rank docfreq group
+# 3   apple         3    3       2   all
+# 4  banana         2    4       1   all
+
+#Without wildcards - get the same (puzzling) behaviour
+#This works
+#dict <- dictionary(list(apple = c("apple","apples"),
+#                        banana = c("banana","bananas")))
+#This doesn't work
+#dict <- dictionary(list(banana = c("banana","bananas"),
+#                        apple = c("apple","apples")))
+
+```
+
+### Stopwords and synonyms
+
+We will trim the dfm, only retaining those features that have a frequency of 3 or higher.  Then we print out the features and identify synonyms. This is a data reduction strategy.
+
+
+```{r}
+library(quanteda.textstats)
+
+#dfm1 <- dfm1.bak
+
+dfm1 <- dfm_trim(dfm1, min_termfreq = 3)
+#featnames(dfm1)
+#  [1] "genetic"        "engineering"    "ge"             "modification"   "genetically"    "engineered"     "gmo"           
+#  [8] "contamination"  "food"           "foods"          "gm"             "watch"          "modified"       "information"   
+# [snip]
+nfeat(dfm1)
+
+
+#dfm <- dfm_remove(dfm, c('phpnuke','bio','de','indonesia','weapons'))
+#These stopwords are either to reduce the clutter in the CA plot (e.g. advocacy is not so interesting, all org are involved in this)
+#or because words were messing up CA because associated with too few organisations
+#also some words, wasn't clear what they meant or too general e.g. "free"
+#Removing some words that were part of org name e.g. GM Watch, remove "watch", "friends" (of the earth)
+dfm1 <- dfm_remove(dfm1, c('_x000d_','indonesia','home','advocacy','free','group','new','headlines','watch','bio','information','friends','activism','bank','council','front','network','world','download','fund','issues','news','groups'))
+
+nfeat(dfm1)
+
+dict1  <-  dictionary(list(GMO = c('genetically','engineered','gm','ge','gmo','genetics','organisms','modification','modified','engineering',
+                                   'gmofree','genetic','gmos','gmo-free'),
+                           toxic = c('toxic*', 'toxins'),
+                           pesticide = c('pesticide*'),
+                           food = c('food*'),
+                           farm = c('farm','farmers','farming'),
+                           nonprofit = c('non','profit'),
+                           biotech = c('biotech','biotechnology'),
+                           community = c('community','communities')
+                           ))
+
+
+# dfm1  <-  dfm_lookup(dfm1,
+#                     dictionary = dict1,  exclusive = FALSE, capkeys = FALSE)
+
+#Using this approach because of documented problem above with using dictionary with multiple entries
+for (i in names(dict1)){
+  
+  list1_t <- list()
+  list1_t[[i]] <- dict1[[i]]
+  dict1_t <- as.dictionary(list1_t)
+  #print(dict1_t)
+
+  dfm1  <-  dfm_lookup(dfm1,
+                       dictionary = dict1_t,  exclusive = FALSE, capkeys = FALSE)
+  
+}
+
+nfeat(dfm1)
+sort(featnames(dfm1))
+# View(textstat_frequency(dfm1))
+# dfm1 <- dfm1.bak
+
+textstat_frequency(dfm1) %>% filter(grepl("biotech|farm|food|pesticide|toxic|GMO", feature))
+
+#check that environmental (and variations) not present
+featnames(dfm1)[grep("environ", featnames(dfm1))]
+
+```
+
+Have reduced the number of features from X to Y. Let's see how the frequency counts look.
+
+```{r}
+
+dfm1 %>% topfeatures() %>% kable()
+
+```
+
+
+### Comparison cloud
+
+The comparison cloud shows how the website meta keyword usage varies across enrironmental activist organisation type. 
+
+```{r fig.width=7, fig.height=7}
+library(quanteda.textplots)
+
+dfm1_type <- dfm_group(dfm1, dfm1$Type)
+
+textplot_wordcloud(dfm1_type, comparison = TRUE, max_words = 150, min_size = 1, max_size = 5,
+                   color = c("red", "blue", "green"))
+#textplot_wordcloud(dfm1_type, comparison = TRUE, max_words = 150,
+#                   color = c("red", "blue", "green"))
+
+
+```
+
+## Corespondence analysis
+
+Comparison cloud: just frequency counts, does not indicate how words are connected.
+
+Now do CA.
+
+Two approaches: Not using types (Bio, Global, Toxic) as a tag, and using types as tag.  
+
+
+### Approach 1: Not using types as tag
+
+```{r}
+library("FactoMineR")
+library("factoextra")
+
+#Remove documents with no features (due to stopword removal)
+#The empty documents get removed from the CA anyway, so may as well do this here
+ndoc(dfm1)
+#[1] 81
+dfm1 <- dfm_subset(dfm1, ntoken(dfm1) > 0)
+ndoc(dfm1)
+#[1] 75
+
+df2 <- convert(dfm1, to='data.frame')
+
+#We can either set the URLs as the rownames or leave as sequential numbers.
+#Do latter, so can present websites more easily in plots.
+#rownames(df2) <- df2$doc_id
+df2 <- df2 %>% select(-doc_id)
+
+res.ca <- CA(df2, graph = FALSE)
+#summary(res.ca)
+```
+
+We have estimated the CA model, and there are various ways we can plot it. We will want to always plot the terms/features, but generally will not want or need to plot the websites (documents).
+
+The following plots both rows (websites/documents) and columns (terms/features).
+
+```{r fig.width=9, fig.height=9}
+#I think not necessary to specify axes, same as default
+fviz_ca_biplot(res.ca, axes = c(1, 2))
+```
+
+The following plots the top-10 contributors, on both rows and columns
+
+```{r fig.width=9, fig.height=9}
+fviz_ca_biplot(res.ca,  
+                select.row = list(contrib = 20),
+                select.col = list(contrib = 20), axes = c(1, 2))
+
+```
+
+The following plots just the columns
+
+```{r fig.width=9, fig.height=9}
+fviz_ca_col(res.ca, axes = c(1, 2))
+
+#plots both but only labels columns
+#fviz_ca_biplot(res.ca, label ="col")
+
+```
+
+
+
+#### Clustering
+
+We should be able to apply clustering to the coordinates from the CA. We could work directly with the CA coordinates above, but for time being will make use of a package that does both CA and clustering, `CAinterprTools`.
+
+It is possible to cluster on the columns, rows or both.
+
+The following is allowing the function to identify the optimal number of partitions.
+
+```{r fig.width=9, fig.height=9}
+library(CAinterprTools)
+
+#displays a dendrogram of column categories
+#res <- caCluster(df2, opt.part=FALSE, which="cols")
+
+#This does the partitioning/clustering
+res1 <- caCluster(df2, dim=2, opt.part=TRUE, which="cols")
+res2 <- caCluster(df2, dim=2, opt.part=TRUE, which="both")
+#res <- caCluster(df2, dim=2, opt.part=TRUE, which="cols", part=4)     #set how many partitions
+
+```
+
+Let's see how good the partitioning is.
+
+First, compare the allocation of words to clusters to what we got with the comparison cloud.
+
+```{r}
+L <- lapply(seq_along(res1), function(i) data.frame(cluster=i, x=names(res1[[i]])))
+dfX <- do.call("rbind", L)
+head(dfX)
+```
+
+Let's focus on some words that were prominent in the comparison cloud and see which clusters they appear in.
+
+```{r}
+
+dfX %>% filter(x %in% c('conservation', 'earth', 'farm', 'food', 'GMO', 'pollution', 'toxic'))
+
+```
+
+So 'pollution' and 'toxic' are in CA cluster 1 and they are in the Toxic part of the comparison cloud. 'conservationn' is in CA cluster 2 and it is a Global word in the comparison cloud. 'GMO/food/farm/earth' are in CA cluster 3 and all of them except 'earth' are in the Bio section of the comparison cloud.
+
+So the CA clustering of words corresponds closely to the comparison cloud.
+
+The following compares the cluster allocation of websites with the manual Type label.
+
+```{r}
+
+#with "both" clustering the columns are indicated with asterisk
+L <- lapply(seq_along(res2), function(i){
+  nn <- names(res2[[i]])
+  nn <- nn[!grepl("\\*",nn)]
+  data.frame(cluster=i, x=as.numeric(nn))
+}
+)
+dfX <- do.call("rbind", L)
+head(dfX)
+
+nrow(dfX)
+
+doc1 <- docvars(dfm1)
+doc1$id <- 1:nrow(doc1)
+
+dfX$Type <- doc1$Type[match(dfX$x, doc1$id)]
+
+table(dfX$cluster, dfX$Type)
+
+```
+
+The above indicates that Globals have been allocated to Cluster 1 and 3. Cluster 1 contains 10 Globals. Cluster 2 is primarily Bios, but with 5 Globals and 5 Toxics. Cluster 3 is primarily Globals, but there are also 5 Bios and 8 Toxics.
+
+### Approach 2: Using types as tag
+
+The following involves adding a tag "[Type]_x99" to each of the documents based on the website type.  
+
+The Type tags are then removed from the CA plot (just the columns).
+
+This appears to be what Miller (1997) does [need to check again].
+
+
+```{r, fig.width=9, fig.height=9}
+
+#Add a Type-specific feature to all documents
+#This seems quite a complicated process, probably easier way...
+df5 <- df %>% filter(Vertex %in% docnames(dfm1))
+df5$typeTag <- paste0(df5$Type,"_x99")
+corp2 <- corpus(df5, text_field = 'typeTag')
+toks2 <- corp2 %>% tokens()
+dfm_t <- dfm(toks2)
+docnames(dfm_t) <- df5$Vertex
+docvars(dfm_t) <- NULL
+  
+#remove docvars from dfm1 since get warning with cbind with dfm_t (warning if not same docvars)
+dfm2 <- dfm1
+docvars(dfm2) <- NULL
+dfm2 <- cbind(dfm2, dfm_t)
+
+df2 <- convert(dfm2, to='data.frame')
+
+#We can either set the URLs as the rownames or leave as sequential numbers.
+#Do latter, so can present websites more easily in plots.
+#rownames(df2) <- df2$doc_id
+df2 <- df2 %>% select(-doc_id)
+
+res.ca <- CA(df2, graph = FALSE)
+#summary(res.ca)
+
+#Now remove the 3 type Tag features from the plot
+feat_toplot <- featnames(dfm2)[!grepl("x99",featnames(dfm2))]
+fviz_ca_col(res.ca, select.col = list(name = feat_toplot), axes = c(1, 2))
+
+```
+
+When the Type tag is used, there appears to be greater spread of the terms.  Let's see what the impact is on clustering.
+
+#### Clustering
+
+Now we need to specify we want 3 clusters (for comparison with above) since the optimal partitioning identifies 6 clusters.
+
+```{r fig.width=9, fig.height=9}
+
+#This does the partitioning/clustering
+res1 <- caCluster(df2, dim=2, opt.part=TRUE, which="cols", part=3)
+res2 <- caCluster(df2, dim=2, opt.part=TRUE, which="both", part=3)
+#res <- caCluster(df2, dim=2, opt.part=TRUE, which="cols", part=4)     #set how many partitions
+
+```
+
+Let's see how good the partitioning is.
+
+First, compare the allocation of words to clusters to what we got with the comparison cloud.
+
+```{r}
+L <- lapply(seq_along(res1), function(i) data.frame(cluster=i, x=names(res1[[i]])))
+dfX <- do.call("rbind", L)
+head(dfX)
+```
+
+Let's focus on some words that were prominent in the comparison cloud and see which clusters they appear in.
+
+```{r}
+
+dfX %>% filter(x %in% c('conservation', 'earth', 'farm', 'food', 'GMO', 'pollution', 'toxic'))
+
+```
+
+This is identifical to what we got above: the CA clustering of words corresponds closely to the comparison cloud.
+
+The following compares the cluster allocation of websites with the manual Type label.
+
+```{r}
+
+#with "both" clustering the columns are indicated with asterisk
+L <- lapply(seq_along(res2), function(i){
+  nn <- names(res2[[i]])
+  nn <- nn[!grepl("\\*",nn)]
+  data.frame(cluster=i, x=as.numeric(nn))
+}
+)
+dfX <- do.call("rbind", L)
+head(dfX)
+
+nrow(dfX)
+
+doc1 <- docvars(dfm1)
+doc1$id <- 1:nrow(doc1)
+
+dfX$Type <- doc1$Type[match(dfX$x, doc1$id)]
+
+table(dfX$cluster, dfX$Type)
+
+```
+
+The above indicates the clustering of websites is much closer to the manual classification: this is understandable given we have included the Type tag as a feature. Globals are predominantly in Cluster 3, with only 2 Bios also in this cluster. Bios are predominantly in Cluster 2 with 4 Globals and 1 Toxic in this cluster. Toxics are predominantly in Cluster 1, with only 1 Global also in this cluster.
+
+
