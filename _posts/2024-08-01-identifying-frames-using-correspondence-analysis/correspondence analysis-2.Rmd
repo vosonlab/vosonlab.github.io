@@ -1,0 +1,189 @@
+---
+title: "Correspondence Analysis-2"
+description: |
+  A short description of the post.
+author:
+  - name: Robert Ackland
+    url: https://orcid.org/0000-0002-0008-1766
+    affiliation: VOSON Lab, School of Sociology, Australian National University
+    affiliation_url: http://vosonlab.net/
+  - name: Sidiq Madya
+    url: https://orcid.org/0000-0002-8444-3145
+date: "2024-10-09"
+output:
+  distill::distill_article:
+    self_contained: false
+draft: true
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+Loading data set
+
+```{r}
+library(igraph)
+library(dplyr)
+#library(stringr)
+library(knitr)
+
+g <- read_graph("enviroActivistWebsites_2006.graphml", format="graphml")
+
+#create a data frame containing the meta keywords
+df <- data.frame(Vertex=V(g)$name, Type=V(g)$vosonCA_Type,
+                 metaKeywords=V(g)$vosonTxt_metaKeywords, stringsAsFactors=FALSE)
+
+#only those websites with meta keywords
+df <- df %>% filter(metaKeywords!="")
+```
+
+## Setup dataset using R.Temis
+
+We are using R.temis package to perform a correspondence analysis. This package support several file format include csv and txt to load data. 
+
+```{r}
+#Column one must be text column
+df <- df %>% relocate(metaKeywords)
+#df <- df %>% select(metaKeywords, Vertex, Type)
+#colnames(df)[1] <- "text"
+#save to csv to be able to create corpus using R.temis tool
+#write.csv(df, "enviro.csv", row.names = F)
+```
+
+Importing corpus and creating document term matrix
+
+```{r}
+library(R.temis)
+cor <- import_corpus("enviro.csv", format= "csv", language = "en")
+cor
+View(meta(cor))
+#apply corpus as character
+View(sapply(cor, as.character))
+
+#create document term matrix
+dtm <- build_dtm(cor, remove_stopwords = TRUE)
+dtm
+```
+
+Now inspect dtm
+
+``` {r}
+inspect(dtm)
+inspect(cor[10])
+```
+Creating lexicon of terms or also known as dictionary and view them in a dataframe.
+
+```{r}
+dic <- dictionary(dtm, remove_stopwords = F)
+View(dic)
+
+#export dictionary to csv file format. This is commonly used for lemmatization
+write.csv(dic, file="dic2.csv")
+dic_updated <- read.csv("dic.csv", row.names = 1)
+```
+
+
+
+
+```{r}
+#combine lemmatized terms
+dtm <- combine_terms(dtm, dic_updated)
+
+
+##---Removing or merging terms after combine_terms(dtm) function otherwise will return error
+#remove first set of stopwords
+stopwords2 <- c(stopwords("english"),
+                c('environment','environmental','environmentalism','environmenta','environnement')
+)
+dtm <- dtm[, !colnames(dtm) %in% stopwords2]
+
+#Removing some words in dtm that were part of org name e.g. GM Watch, remove "watch", "friends" (of the earth)
+dtm <- dtm[, !colnames(dtm2) %in% c('_x000d_','indonesia','home','advocacy','free','group','new','headlines','watch','bio','information','friends','activism','bank','council','front','network','world','download','fund','issues','news','groups')]
+
+```
+
+# Data exploration
+
+To make a better sense with data (corpus), data exploration is conducted through several techniques such as creating the wordcloud showing prominent individual terms in dtm, identifying concordance of specific term, counting most frequent terms, and distribution of terms based on a specific variable. In this case, 'Type' of organisations (Global, Bio, Toxic) is used to map terms distribution.
+
+```{r}
+#wordcloud
+set.seed(1)
+word_cloud(dtm, color="blue", n=50, min.freq=3)
+
+#terms_graph(dtm)
+#concordance
+
+concordances(cor, dtm, "earth")
+#coocurence of a specific term
+cooc_terms(dtm, "earth")
+
+#freq terms
+frequent_terms(dtm)
+#frequency of a specific term
+term_freq(dtm, "earth", meta(cor)$Type)
+#distribution variables
+library(questionr)
+tab <- freq(meta(cor)$Type)
+tab
+```
+
+Exploring data by displaying lexical summary of the corpus. Lexical summary function present a table that display the number of terms, proportion of distinct terms per document or the entire corpus. setting unit = "global' to show data for the entire corpus, otherwise it display data per document by default.
+
+```{r}
+#lexical assessment
+lexical_summary(dtm, cor, "Type", unit = "global")
+```
+Here, there are 1953 terms in the corpus and 964 different words. It shows that Global type organisation has the largest number of terms (941) but the least percentage of the unique of terms (55.1%).
+
+# Identify specific terms by modalities of a qualitative variable
+
+Identifying specific terms by modality or also known calculating specific words makes it possible to statistically indicate which terms are over-employed or 'under-employed for each sub corpus. Again, we use Type of organisation as a variable to identify and calculate the specifics.
+
+```{r}
+#specific terms by modality or calculation of specifics
+#by default, R.temis only keeps “words” with a frequency greater than 2.
+specific_terms(dtm, meta(cor)$Type)
+```
+The term 'genetic' represents 3.3% of all accurences of words mentioned by Bio organisations and 95.2% of the word 'genetic' are cited by Bio organisations.
+
+This test can also be used to iteratively check terms that are manually identified in the initial stage of data categorization, such as labelling which organisations are fit into 'Global', 'Bio', or 'Toxic'.
+
+# Correpondence analysis
+
+Correspondece analysis allows to structure all or specific terms in the corpus according to chosen characteristics or variables. In this case based on meta keywords that are presence in organisation websites. Variable Type is chosen to map position of words based on the different types of organisations.
+
+Sparsity is set to 0.98 or equals 98% meaning that terms which are absent in more that 2% of the documents are omitted. Interpretation components for correspondence analysis are stored in an object which can be run with explore function later directed to R Shiny interface to plotting or mapping with correspondence analysis. 
+
+```{r}
+#CA on TLA
+ca <- corpus_ca(cor, dtm, variable = "Type",
+                    sparsity=0.98)
+
+#load necessary package
+#library(sass)
+#library(textshaping)
+#open in shiny
+explor(ca)
+```
+
+Features to interpret result with correspondence analysis such as eigenvector, contributions, coordinates are displayed in Shiny. In the plot, active or inactive elements can be set up in Shiny.
+
+# Correspondence clustering
+
+```{r}
+#clustering seems doesn't work in code chunk format
+#use r script format instead
+#ca_cluster <- corpus_clustering(ca, 3)
+```
+
+
+
+
+
+
+
