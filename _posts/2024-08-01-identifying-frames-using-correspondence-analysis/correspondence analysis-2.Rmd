@@ -52,7 +52,7 @@ df <- df %>% relocate(metaKeywords)
 #df <- df %>% select(metaKeywords, Vertex, Type)
 #colnames(df)[1] <- "text"
 #save to csv to be able to create corpus using R.temis tool
-#write.csv(df, "enviro.csv", row.names = F)
+write.csv(df, "enviro.csv", row.names = F)
 ```
 
 Make sure that that this .csv file is stored the working directory folder as we will import a corpus from this file. After a corpus created, turn it into document term metric format (dtm) using `build_dtm` function.
@@ -68,6 +68,8 @@ View(sapply(cor, as.character))
 #create document term matrix
 dtm <- build_dtm(cor, remove_stopwords = TRUE)
 dtm
+
+
 ```
 
 Now inspect dtm using `inspect` syntax to see some information about corpus or document including its basic statistical units such as the number of documents and cooccurrence (or not coocur) between the terms.
@@ -170,7 +172,10 @@ Interpretation components for correspondence analysis are stored in an object 'c
 
 ```{r}
 #CA on TLA
-ca <- corpus_ca(cor, dtm, variable = "Type",
+
+#ca <- corpus_ca(cor, dtm, variable = "Type",
+#                    sparsity=0.98)
+ca <- corpus_ca(cor, dtm,
                     sparsity=0.98)
 
 #load necessary package
@@ -178,6 +183,22 @@ ca <- corpus_ca(cor, dtm, variable = "Type",
 #library(textshaping)
 #open in shiny
 explor(ca)
+
+#user can select on dendogram the number of clusters
+corpus_clustering(ca, n = 0)
+
+#optimal number of clusters selected
+corpus_clustering(ca, n = -1)
+
+#doesn't work
+#corpus_clustering(ca, n = -1, cluster.CA="rows")
+
+#This is what is being run underneath
+FactoMineR::HCPC(ca, -1)
+
+#to cluster on columns
+FactoMineR::HCPC(ca, -1, cluster.CA="columns")
+
 ```
 
 Features to interpret result with correspondence analysis such as eigenvector, contributions, coordinates are displayed in Shiny. For plotting, select `Plot` tab on Shiny interface to display the graph. This is how the plot looks like using R.temis:
